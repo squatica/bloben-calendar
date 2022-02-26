@@ -1,0 +1,28 @@
+@import '~styles/colors';
+
+.SettingsMenu__wrapper {
+  height: 100%;
+  width: auto;
+  //max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+
+  @media (max-width: 750px) {
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+
+.SettingsMenu__button {
+  width: 80px;
+  padding: 4px;
+}
+
+.SettingsMenu__icon {
+  width: 20px;
+  height: 20px;
+  fill: $GRAY_700
+}

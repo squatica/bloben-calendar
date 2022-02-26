@@ -1,0 +1,14 @@
+@import '~styles/colors';
+
+.MiniCalendar__container {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //align-self: stretch;
+  padding: 0;
+  margin: 20px 0px 20px 0px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

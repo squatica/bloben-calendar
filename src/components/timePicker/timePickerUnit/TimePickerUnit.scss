@@ -1,0 +1,49 @@
+@import '~styles/colors';
+
+.TimePickerUnit {
+  color: $GRAY_600;
+  //@media (min-width: 750px) {
+    font-size: 1rem;
+    padding: 4px 8px 4px 8px;
+  //}
+  //@media (max-width: 750px) {
+  //  font-size: 1.8rem;
+  //  padding: 4px 8px 4px 8px;
+  //}
+
+  &:hover {
+    @extend .TimePickerUnit;
+    padding: 4px 8px 4px 8px;
+  }
+
+  &-dark {
+    @extend .TimePickerUnit;
+    color: $GRAY_400;
+  }
+  &-selected {
+    @extend .TimePickerUnit;
+
+    &-dark {
+      @extend .TimePickerUnit-selected;
+    }
+  }
+}
+//
+//
+//.time-picker__text-dark {
+//  @extend .time-picker__text;
+//  color: $GRAY_400 !important;
+//}
+//.time-picker__text--selected {
+//  @extend .time-picker__text;
+//  font-weight: bold;
+//  color: $PRIMARY_LIGHT !important;
+//}
+//.time-picker__text--selected-dark {
+//  @extend .time-picker__text--selected;
+//  color: $PRIMARY_DARK !important;
+//}
+//.time-picker__text--hidden {
+//  @extend .time-picker__text;
+//  color: transparent !important;
+//}

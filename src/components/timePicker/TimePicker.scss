@@ -1,0 +1,26 @@
+@import '~styles/colors';
+
+.TimePicker__wrapper {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  //@media (min-width: 750px) {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    //width: 100%;
+    margin-top: 0;
+
+  //}
+  //
+  //@media (max-width: 750px) {
+  //  display: flex;
+  //  flex-direction: column;
+  //  justify-content: center;
+  //  align-items: center;
+  //  width: 100%;
+  //  margin-top: 0;
+  //}
+}

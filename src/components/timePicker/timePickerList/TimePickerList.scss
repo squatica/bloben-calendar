@@ -1,0 +1,23 @@
+@import '~styles/colors';
+
+.TimePickerList__wrapper {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  //@media (min-width: 750px) {
+    height: 240px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 0;
+  //}
+}
+
+.TimePickerList__container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}

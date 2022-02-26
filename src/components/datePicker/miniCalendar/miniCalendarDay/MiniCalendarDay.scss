@@ -1,0 +1,58 @@
+@import '~styles/colors';
+
+.MiniCalendarDay__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+
+  &:hover {
+    @extend .MiniCalendarDay__button;
+  }
+
+  &-selected {
+    @extend .MiniCalendarDay__button;
+    background-color: $PRIMARY_LIGHT;
+    color: $primaryText;
+
+    &:hover {
+      @extend .MiniCalendarDay__button-selected;
+      background-color: $PRIMARY_LIGHT;
+    }
+
+    &-dark {
+      @extend .MiniCalendarDay__button-selected;
+      background-color: $PRIMARY_DARK !important;
+      color: $GRAY_800 !important;
+    }
+  }
+}
+
+.MiniCalendarDay__text {
+  font-size: 1.4rem;
+  color: $GRAY_400;
+
+  &-dark {
+    color: $GRAY_600;
+  }
+
+  &-normal {
+    @extend .MiniCalendarDay__text;
+    color: $GRAY_700;
+
+    &-dark {
+      @extend .MiniCalendarDay__text-normal;
+      color: $textDark;
+    }
+
+    &-selected {
+      @extend .MiniCalendarDay__text-normal;
+      color: $reverseText;
+    }
+  }
+
+  &-selected {
+    @extend .MiniCalendarDay__text;
+    color: $reverseText;
+  }
+}

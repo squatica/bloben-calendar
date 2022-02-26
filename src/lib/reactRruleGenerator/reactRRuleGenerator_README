@@ -1,0 +1,6 @@
+Used from https://github.com/fafruch/react-rrule-generator
+MIT License
+Copyright (c) 2018 Filip Duczyminski
+
+Changes to original:
+- replaced original components with Chakra UI components

@@ -1,0 +1,52 @@
+@import '~styles/colors.scss';
+
+.Logo__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Logo__text {
+  font-size: 2rem;
+  color: $text;
+  font-weight: 600;
+  margin: 0;
+  padding: 0 0 0 6px;
+
+  &-dark {
+    @extend .Logo__text;
+    color: $textDark;
+  }
+
+  &-primary {
+    @extend .Logo__text;
+    color: $PRIMARY_LIGHT;
+
+    &-dark {
+      @extend .Logo__text-primary;
+      color: $PRIMARY_DARK;
+    }
+  }
+}
+
+.Logo__image {
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  fill: $GRAY_900;
+
+  &-dark {
+    @extend .Logo__image;
+    fill: $GRAY_200;
+  }
+
+  &-primary {
+    @extend .Logo__image;
+    fill: $GRAY_900;
+
+    &-dark {
+      @extend .Logo__image;
+      fill: $PRIMARY_DARK;
+    }
+  }
+}

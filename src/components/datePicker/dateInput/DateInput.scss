@@ -1,0 +1,30 @@
+@import '~styles/colors';
+
+.DateInput__container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+}
+
+.DateInput {
+  width: auto;
+  text-align: center;
+  font-size: 1.6rem;
+  padding-left: 0;
+  padding-right: 0;
+  @media (max-width: 750px) {
+    font-size: 2.5rem;
+  }
+}
+
+.DateInput__container-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.DateInput__text {
+  font-size: 1.6rem;
+  color: $GRAY_600;
+  margin: 0 10px 0 10px;
+}

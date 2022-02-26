@@ -1,0 +1,103 @@
+@import '~styles/colors.scss';
+
+.svg-logo {
+  width: 24px;
+  height: 24px;
+  @media screen and (min-width: 300px) {
+    width: 35px;
+    height: 35px;
+  }
+  @media screen and (min-width: 350px) {
+    width: 40px;
+    height: 40px;
+  }
+  @media screen and (min-width: 400px) {
+    width: 45px;
+    height: 45px;
+  }
+  @media (min-width: 1600px) {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.LogoName__wrapper {
+  width: 100%;
+  //padding: 12px 24px 12px 24px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  @media (max-width: 750px) {
+    height: 34px;
+  }
+}
+.LogoName__row {
+  top: 0;
+  left: 0;
+  padding: 6px 0 6px 0;
+  //background: $GRAY_900;
+  display: flex;
+  //height: 55px;
+  //width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  @media (max-width: 750px) {
+    padding: 8px 16px 8px 16px;
+  }
+}
+.LogoName__icon {
+  display: flex;
+  margin-right: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 90%;
+  fill: $GRAY_900;
+}
+
+.LogoName__title {
+  color: $GRAY_100;
+  font-size: 2.2rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  @media (max-width: 750px) {
+    font-size: 1.6rem;
+  }
+}
+
+.LogoName__text {
+  color: $GRAY_100;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.LogoName__subtitle {
+  font-size: 3.4rem;
+  color: $GRAY_100;
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+  margin-left: 12px;
+  @media (max-width: 750px) {
+    margin-left: 10px;
+    font-size: 2.5rem;
+  }
+}
+.LogoName__image-wrapper {
+  //display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LogoName__image {
+  width: 90%;
+}
+
+.Logo__image {
+  height: 60%;
+  width: 90% !important;
+}

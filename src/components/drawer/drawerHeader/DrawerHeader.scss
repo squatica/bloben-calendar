@@ -1,0 +1,9 @@
+@import '~styles/colors.scss';
+
+.DrawerHeader__container {
+  display: flex;
+  height: 60px;
+  width: 100%;
+  flex-direction: row;
+  padding: 8px;
+}

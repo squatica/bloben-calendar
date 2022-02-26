@@ -1,0 +1,84 @@
+@import '~styles/colors';
+
+.DatePicker__wrapper {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  position: relative;
+  //justify-content: center;
+  align-items: center;
+  min-height: 320px;
+  justify-content: flex-end;
+  height: 100%;
+  padding-bottom: 48px;
+}
+
+.picker__button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-size: 2.6rem !important;
+  color: $gray !important;
+}
+.picker__button--selected {
+  @extend .picker__button;
+  color: $PRIMARY_LIGHT !important;
+}
+
+.picker__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-picker__wrapper {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-picker__container-month {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  //align-self: stretch;
+  padding: 0;
+  margin: 20px 0px 20px 0px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.date-picker__one-day-text {
+  color: $GRAY_400;
+}
+
+.date-picker__date-selected {
+  color: $text;
+  font-size: 1.4rem;
+  margin: 20px 0 20px 0;
+  padding: 0;
+}
+
+.date-picker__footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px 24px 16px 24px;
+}
+.date-picker__footer-button {
+  font-size: 1.4rem !important;
+  font-family: 'Montserrat' !important;
+  color: $GRAY_700 !important;
+}
+.date-picker__footer-button-primary {
+  @extend .date-picker__footer-button;
+  margin-left: 16px !important;
+  background: $PRIMARY_LIGHT !important;
+  color: $textDark !important;
+}

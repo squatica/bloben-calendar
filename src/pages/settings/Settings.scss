@@ -1,0 +1,50 @@
+@import '~styles/colors';
+
+.Settings__modal {
+  min-width: 700px;
+  padding-top: 24px !important;
+}
+
+.Settings__wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+  //align-items: center;
+  color: black;
+  background-color: white;
+  align-items: flex-start;
+  min-width: 400px;
+
+  @media (max-width: 750px) {
+    max-width: 0;
+    width: 100%;
+    padding: 16px;
+    }
+}
+
+.Settings__header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 80px;
+  margin-bottom: 48px;
+}
+
+.Settings__title {
+  font-size: 2.1rem;
+  padding-left: 24px;
+}
+
+.Settings__content__row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  max-width: 900px;
+  border-radius: 12px;
+  justify-content: center;
+}

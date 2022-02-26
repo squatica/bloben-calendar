@@ -1,0 +1,21 @@
+@import '~styles/colors.scss';
+
+.VersionFooter__container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 65px;
+  //width: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+}
+
+.VersionFooter__text {
+  font-size: 1rem;
+  color: $gray;
+  margin-bottom: 6px;
+}
+.VersionFooter__text-dark {
+  @extend .VersionFooter__text;
+  color: $GRAY_400;
+}

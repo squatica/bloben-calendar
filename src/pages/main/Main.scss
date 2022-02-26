@@ -1,0 +1,16 @@
+@import '~styles/colors';
+
+.Main__wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.Main__content__row {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100%;
+}

@@ -1,0 +1,32 @@
+@import '~styles/colors';
+
+.CardContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: solid 1px $GRAY_200;
+  border-radius: 12px;
+}
+
+.account__card {
+  display: flex;
+  max-width: 500px;
+  flex-direction: column;
+  border-radius: 8px;
+  height: 100%;
+  background-color: $GRAY_200;
+  @media (max-width: 750px) {
+    background-color: $SURFACE_LIGHT;
+    padding: 0px;
+    height: 100%;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  @media (min-width: 750px) {
+    padding: 48px;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+  }
+}

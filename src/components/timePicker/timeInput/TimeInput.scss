@@ -1,0 +1,39 @@
+@import '~styles/colors';
+
+.TimeInput__container {
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 750px) {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+.TimeInput {
+  width: auto;
+  text-align: center;
+  font-size: 1.6rem;
+  padding-left: 0;
+  padding-right: 0;
+  @media (max-width: 750px) {
+    font-size: 2.5rem;
+  }
+}
+
+.TimeInput__container-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TimeInput__text {
+  font-size: 1.6rem;
+  color: $GRAY_600;
+  margin: 0 10px 0 10px;
+  @media (max-width: 750px) {
+    font-size: 2rem;
+  }
+}

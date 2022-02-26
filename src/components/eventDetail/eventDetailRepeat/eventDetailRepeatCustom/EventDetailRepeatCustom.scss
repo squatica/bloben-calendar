@@ -1,0 +1,34 @@
+@import '~styles/colors';
+
+.EventDetailRepeatCustom__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.EventDetailRepeatCustom__container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 0 24px;
+}
+
+.EventDetailRepeatCustom__col {
+  display: flex;
+  width: 50%;
+
+  &-left {
+    @extend .EventDetailRepeatCustom__col;
+    justify-content: flex-start;
+  }
+
+  &-right {
+    @extend .EventDetailRepeatCustom__col;
+    justify-content: flex-end;
+  }
+}
+
+.EventDetailRepeatCustom__row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 14px 0 14px 0;
+}

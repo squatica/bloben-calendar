@@ -1,0 +1,59 @@
+@import '~styles/colors';
+
+$ICON_SIZE: 24px;
+
+.FormIcon__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  margin-right: 4px;
+  fill: $GRAY_800;
+  height: 50px;
+
+  @media (min-width: 750px) {
+    display: none;
+  }
+
+  @media (max-width: 750px) {
+    width: 50px;
+    //padding: 0 8px 0 8px;
+  }
+
+  &-desktop-visible {
+    @extend .FormIcon__container;
+    @media (min-width: 750px) {
+      display: flex;
+    }
+    @media (max-width: 750px) {
+      display: none;
+    }
+  }
+
+  &-all {
+    @extend .FormIcon__container;
+    @media (min-width: 750px) {
+      display: flex;
+    }
+  }
+}
+
+.FormIcon__icon {
+  width: $ICON_SIZE;
+  &-dark {
+    @extend .FormIcon__icon;
+    fill: $GRAY_500;
+  }
+}
+
+.FormIcon-hidden {
+  font-size: $ICON_SIZE;
+  fill: transparent;
+}
+
+.FormIcon__wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}

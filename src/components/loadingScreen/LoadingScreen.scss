@@ -1,0 +1,48 @@
+@import '~styles/colors.scss';
+
+.LoadingScreen__wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  flex-direction: column;
+  background: $SURFACE_LIGHT;
+
+  &-dark {
+    @extend .LoadingScreen__wrapper;
+    background-color: $SURFACE_DARK;
+  }
+}
+
+.LoadingScreen__container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.LoadingScreen__spinner {
+  color: $PRIMARY_LIGHT;
+
+  &-dark {
+    @extend .LoadingScreen__spinner;
+    color: $PRIMARY_DARK;
+  }
+}
+
+.LoadingScreen__text {
+  font-size: 2rem;
+  color: $text;
+  margin: 24px;
+
+  &-dark {
+    @extend .LoadingScreen__text;
+    color: $textDark;
+  }
+}

@@ -1,0 +1,148 @@
+@import '~styles/colors';
+
+.EventDetailDropdown {
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 400;
+  color: $GRAY_800;
+  min-height: 50px;
+  padding: 0;
+  justify-content: flex-start;
+
+  &-right {
+    @extend .EventDetailDropdown;
+    //justify-content: flex-end;
+    //padding-right: 16px;
+    &:hover {
+      @extend .EventDetailDropdown-right;
+    }
+  }
+
+  &:hover {
+    @extend .EventDetailDropdown;
+  }
+}
+
+.EventDetail__col {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+
+  &-left {
+    @extend .EventDetail__col;
+    padding-left: 8px;
+    justify-content: flex-start;
+  }
+
+  &-right {
+    @extend .EventDetail__col;
+    justify-content: flex-end;
+    padding-right: 16px;
+  }
+}
+
+.EventDetailCustomMenu__label {
+  font-size: 1.2rem;
+  color: $GRAY_700;
+  margin-bottom: 4px;
+  margin-left: 4px;
+
+  &-dark {
+    @extend .EventDetailCustomMenu__label;
+    color: $GRAY_400;
+  }
+}
+
+.EventDetailCustomMenu__text {
+  font-size: 1.2rem;
+
+  &-dark {
+    @extend .EventDetailCustomMenu__text;
+    color: $GRAY_800;
+  }
+}
+
+.EditEventCustomMenu__input {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background: $GRAY_300;
+  text-align: center;
+
+  &-dark {
+    @extend .EditEventCustomMenu__input;
+    color: $GRAY_800;
+    background: $GRAY_300;
+  }
+}
+
+.EventDetail__clean {
+  min-height: 50px;
+  padding: 0 8px 0 8px;
+}
+
+.EventDetail__button-row {
+  @media (min-width: 750px) {
+    width: auto;
+    background-color: $GRAY_100;
+  }
+
+  @media (max-width: 750px) {
+    justify-content: flex-start;
+    min-height: 45px;
+    width: 100%;
+  }
+
+  &:hover {
+    @extend .EventDetail__button-row;
+  }
+
+  &-right {
+    @extend .EventDetail__button-row;
+    justify-content: flex-end;
+
+    &-dark {
+      @extend .EventDetail__button-row-right;
+      background-color: $GRAY_800;
+      color: $GRAY_200;
+    }
+  }
+
+  &-disabled {
+    @extend .EventDetail__button-row;
+    background-color: transparent;
+    cursor: default;
+
+    &:hover {
+      @extend .EventDetail__button-row-disabled;
+      cursor: default;
+      background-color: transparent;
+    }
+  }
+
+  &-dark {
+    @extend .EventDetail__button-row;
+    background-color: $GRAY_800;
+    color: $GRAY_200;
+  }
+}
+
+.EventDetail__switch {
+  @media (min-width: 750px) {
+    left: 16px;
+  }
+}
+
+.EventDetail__card {
+  margin: 8px 16px 8px 62px;
+  width: auto;
+  padding: 2px;
+}
+
+.EventDetail__row {
+  display: flex;
+  flex-direction: row;
+}
