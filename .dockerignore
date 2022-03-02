@@ -1,0 +1,8 @@
+.env
+/node_modules/
+build
+logs
+.husky
+node_modules
+.github
+.git
