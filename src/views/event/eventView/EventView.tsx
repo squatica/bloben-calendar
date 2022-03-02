@@ -12,18 +12,19 @@ import {
 import { createToast, formatEventDate } from '../../../utils/common';
 
 import { Context } from 'context/store';
+import { EVENT_TYPE } from 'bloben-interface/enums';
 import { EvaIcons } from 'components/eva-icons';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { calendarByEvent } from '../../../utils/tsdavHelper';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
-import ChakraModal from '../../../components/chakraCustom/ChakraModal';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
 import EventDetailLocation from '../../../components/eventDetail/eventDetailLocation/EventDetailLocation';
 import EventDetailNotes from '../../../components/eventDetail/eventDetailNotes/EventDetailNotes';
 import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/EventDetailTitle';
 import FormIcon from '../../../components/formIcon/FormIcon';
 import HeaderModal from '../../../components/headerModal/HeaderModal';
+import Modal from 'components/modal/Modal';
 
 interface EventDatesProps {
   event: CalDavEvent;
@@ -53,6 +54,7 @@ interface EventViewProps {
   data: CalDavEvent;
   handleClose: any;
   openEditEventModal: any;
+  currentE: any;
 }
 
 const EventView = (props: EventViewProps) => {
@@ -63,7 +65,7 @@ const EventView = (props: EventViewProps) => {
     dispatchContext({ type, payload });
   };
 
-  const { handleClose, openEditEventModal } = props;
+  const { handleClose, openEditEventModal, currentE } = props;
 
   const { isDark, isMobile } = store;
 
@@ -119,12 +121,7 @@ const EventView = (props: EventViewProps) => {
   }, [JSON.stringify(props.data)]);
 
   return event && event.id ? (
-    <ChakraModal
-      handleClose={handleClose}
-      withCloseButton={false}
-      minWidth={400}
-      className={'Chakra__modal-padding-2'}
-    >
+    <Modal e={currentE} handleClose={handleClose}>
       <>
         <HeaderModal
           isMobile={isMobile}
@@ -132,8 +129,8 @@ const EventView = (props: EventViewProps) => {
           hasHeaderShadow={false}
           onClose={handleClose}
           goBack={handleClose}
-          handleEdit={!event.externalID ? handleEdit : null}
-          handleDelete={deleteEvent}
+          handleEdit={event.type === EVENT_TYPE.CALDAV ? handleEdit : null}
+          handleDelete={event.type === EVENT_TYPE.CALDAV ? deleteEvent : null}
         />
         <EventDetailTitle
           isNewEvent={false}
@@ -151,7 +148,7 @@ const EventView = (props: EventViewProps) => {
           <EventDetailNotes value={event.description} disabled />
         ) : null}
       </>
-    </ChakraModal>
+    </Modal>
   ) : null;
 };
 

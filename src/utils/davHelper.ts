@@ -4,7 +4,7 @@ import { DAVCalendarObject } from 'tsdav';
 import { DateTime } from 'luxon';
 import { cloneDeep, forEach } from 'lodash';
 import { v4 } from 'uuid';
-import ICalParser, { EventJSON } from 'ical-js-parser-commonjs';
+import ICalParser, { EventJSON } from 'ical-js-parser';
 import LuxonHelper from './LuxonHelper';
 import RRule from 'rrule';
 
