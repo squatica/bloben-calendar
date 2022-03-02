@@ -21,7 +21,7 @@ import { setCalendarDaysRange } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '@chakra-ui/react';
 import BottomSheetMobile from '../bottomSheetMobile/BottomSheetMobile';
-import CalDavAccountModal from '../calDavAccountModal/CalDavAccountModal';
+import CalDavAccountModal from '../accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import CalendarHeader from './CalendarHeader';
 import EditEvent, { createEvent } from '../../views/event/editEvent/EditEvent';
 import EventView from '../../views/event/eventView/EventView';
@@ -63,6 +63,8 @@ const Calendar = (props: CalendarProps) => {
   const [isEventViewOpen, setEventViewOpen] = useState<any>(null);
   const [isNewEventOpen, setIsNewEventOpen] = useState<any>(null);
   const [isBottomSheetOpen, openBottomSheet] = useState<any>(false);
+  const [currentE, setCurrentE] = useState<any>(null);
+  const [toastIsLoading, setToastIsLoading] = useState(false);
 
   const kalendState: any = useRef({});
 
@@ -80,21 +82,39 @@ const Calendar = (props: CalendarProps) => {
   }, []);
 
   const handleSyncWithRange = async () => {
-    const range: QueryRange = getSyncRange(
-      'Monday',
-      kalendState?.current?.selectedDate || DateTime.now().toUTC().toString()
-    );
-
-    if (!checkIfIsInRange(range)) {
-      const rangeEventsResponse = await EventsApi.getEvents(
-        range.rangeFrom,
-        range.rangeTo
+    try {
+      const range: QueryRange = getSyncRange(
+        'Monday',
+        kalendState?.current?.selectedDate || DateTime.now().toUTC().toString()
       );
 
-      setEvents(rangeEventsResponse?.data);
-      return;
+      if (!checkIfIsInRange(range)) {
+        setToastIsLoading(true);
+        if (!toastIsLoading) {
+          // toast({
+          //   duration: null,
+          //   status: 'info',
+          //   title: 'Loading',
+          //   position: TOAST_POSITION.TOP,
+          //   isClosable: false,
+          // });
+        }
+        const rangeEventsResponse = await EventsApi.getEvents(
+          kalendState?.current?.range.rangeFrom, // range.rangeFrom,
+          kalendState?.current?.range.rangeTo //range.rangeTo
+        );
+
+        toast.closeAll();
+        setToastIsLoading(false);
+
+        setEvents(rangeEventsResponse?.data);
+        return;
+      }
+      setEvents(reduxStore.getState().calDavEvents || []);
+    } catch (e) {
+      setToastIsLoading(false);
+      toast.closeAll();
     }
-    setEvents(reduxStore.getState().calDavEvents || []);
   };
 
   useEffect(() => {
@@ -111,9 +131,11 @@ const Calendar = (props: CalendarProps) => {
   };
   const handleCloseEditingEventModal = () => setEditingEventOpen(null);
 
-  const handleEventClick = (data: OnEventClickData) => {
+  const handleEventClick = (data: OnEventClickData, e: any) => {
     setEventViewOpen(data);
+    setCurrentE(e);
   };
+
   const closeEventView = () => {
     setEventViewOpen(null);
   };
@@ -205,6 +227,7 @@ const Calendar = (props: CalendarProps) => {
           data={isEventViewOpen}
           handleClose={closeEventView}
           openEditEventModal={openEditingEvent}
+          currentE={currentE}
         />
       ) : null}
       {store.isMobile ? (

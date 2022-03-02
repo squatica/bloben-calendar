@@ -6,7 +6,6 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   Spacer,
   Spinner,
@@ -34,6 +33,7 @@ interface CalendarHeaderProps {
   selectedView: any;
   handleRefresh: any;
 }
+
 const CalendarHeader = (props: CalendarHeaderProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -192,32 +192,28 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 fontSize={14}
               />
               <MenuList zIndex={9991}>
-                <MenuItem>
-                  <Button
-                    _focus={{ boxShadow: 'none' }}
-                    leftIcon={<SettingsIcon className={'SettingsMenu__icon'} />}
-                    variant={'ghost'}
-                    onClick={handleOpenSettings}
-                    isFullWidth={true}
-                    justifyContent={'flex-start'}
-                    fontSize={14}
-                  >
-                    Settings
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button
-                    _focus={{ boxShadow: 'none' }}
-                    leftIcon={<PersonIcon className={'SettingsMenu__icon'} />}
-                    variant={'ghost'}
-                    onClick={handleLogout}
-                    isFullWidth={true}
-                    justifyContent={'flex-start'}
-                    fontSize={14}
-                  >
-                    Logout
-                  </Button>
-                </MenuItem>
+                <Button
+                  _focus={{ boxShadow: 'none' }}
+                  leftIcon={<SettingsIcon className={'SettingsMenu__icon'} />}
+                  variant={'ghost'}
+                  onClick={handleOpenSettings}
+                  isFullWidth={true}
+                  justifyContent={'flex-start'}
+                  fontSize={14}
+                >
+                  Settings
+                </Button>
+                <Button
+                  _focus={{ boxShadow: 'none' }}
+                  leftIcon={<PersonIcon className={'SettingsMenu__icon'} />}
+                  variant={'ghost'}
+                  onClick={handleLogout}
+                  isFullWidth={true}
+                  justifyContent={'flex-start'}
+                  fontSize={14}
+                >
+                  Logout
+                </Button>
               </MenuList>
             </Menu>
           </Flex>
@@ -239,7 +235,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
         <Spacer />
         {isMobile ? (
           <>
-            <Flex flex="1" justifyContent={'flex-end'}>
+            <Flex flex="1" justifyContent={'flex-end '}>
               <Spacer />
               {isSyncing ? (
                 <Spinner color="red.500" />

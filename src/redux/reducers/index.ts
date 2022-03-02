@@ -9,6 +9,7 @@ import calDavEvents from './calDavEvents';
 import calendarDaysRange from './calendarDays';
 import settings, { initSettings } from './settings';
 import syncLog from './syncLog';
+import webcalCalendars from './webcalCalendars';
 
 export const initialReduxState: ReduxState = {
   calDavAccounts: [],
@@ -18,6 +19,7 @@ export const initialReduxState: ReduxState = {
   baseDateRange: initBaseDateRange(),
   cachedEvents: [],
   settings: initSettings(),
+  webcalCalendars: [],
   syncLog: {
     events: new Date().toISOString(),
   },
@@ -30,6 +32,7 @@ export const allReducers: Reducer = combineReducers({
   calendarDaysRange,
   baseDateRange,
   settings,
+  webcalCalendars,
   cachedEvents,
   syncLog,
 });

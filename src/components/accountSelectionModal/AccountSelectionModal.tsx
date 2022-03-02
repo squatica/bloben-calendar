@@ -24,6 +24,17 @@ const AccountSelectionModal = (props: AccountSelectionModalProps) => {
             <Heading size={'lg'}>Caldav</Heading>
           </Button>
         </Box>
+        <Box height="80px">
+          <Button
+            _focus={{ boxShadow: 'none' }}
+            height={'100%'}
+            width={'100%'}
+            justifyContent={'center'}
+            onClick={() => props.handleOpenNewAccountModal(ACCOUNT_TYPE.WEBCAL)}
+          >
+            <Heading size={'lg'}>Webcal</Heading>
+          </Button>
+        </Box>
       </SimpleGrid>
     </ChakraModal>
   );

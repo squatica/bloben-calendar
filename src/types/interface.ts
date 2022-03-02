@@ -1,6 +1,7 @@
-import { Alarm } from 'ical-js-parser-commonjs';
+import { Alarm } from 'ical-js-parser';
 import { CALDAV_OBJ_TYPE } from './enums';
 import { OnPageChangeData } from 'kalend';
+import { WebcalCalendar } from '../redux/reducers/webcalCalendars';
 
 export interface CalDavAccount {
   id: string;
@@ -69,6 +70,7 @@ export interface ReduxState {
   calendarDaysRange: OnPageChangeData;
   baseDateRange: OnPageChangeData;
   settings: AppSettings;
+  webcalCalendars: WebcalCalendar[];
   cachedEvents: any[];
   syncLog: SyncLog;
 }

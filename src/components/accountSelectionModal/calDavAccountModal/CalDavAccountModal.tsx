@@ -8,17 +8,20 @@ import {
   InputRightElement,
   useToast,
 } from '@chakra-ui/react';
-import { CalDavAccount } from '../../types/interface';
-import { TOAST_STATUS } from '../../types/enums';
-import { addToCaldavAccounts, setCaldavCalendars } from '../../redux/actions';
-import { createToast } from '../../utils/common';
+import { CalDavAccount } from '../../../types/interface';
+import { TOAST_STATUS } from '../../../types/enums';
+import {
+  addToCaldavAccounts,
+  setCaldavCalendars,
+} from '../../../redux/actions';
+import { createToast } from '../../../utils/common';
 import { useDispatch } from 'react-redux';
-import CalDavAccountApi from '../../api/CalDavAccountApi';
-import CalDavCalendarApi from '../../api/CalDavCalendarApi';
-import ChakraModal from '../chakraCustom/ChakraModal';
+import CalDavAccountApi from '../../../api/CalDavAccountApi';
+import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
+import ChakraModal from '../../chakraCustom/ChakraModal';
 import React, { useEffect, useReducer, useState } from 'react';
-import Separator from '../separator/Separator';
-import StateReducer from '../../utils/state-reducer';
+import Separator from '../../separator/Separator';
+import StateReducer from '../../../utils/state-reducer';
 import Utils from './CalDavAccountModal.utils';
 
 interface CalDavAccountModalProps {

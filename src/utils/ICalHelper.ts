@@ -1,4 +1,4 @@
-import ICalParser from 'ical-js-parser-commonjs';
+import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
 import { v4 } from 'uuid';

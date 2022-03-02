@@ -11,7 +11,7 @@ import React from 'react';
 interface ChakraModalProps {
   isOpen?: boolean;
   handleClose: any;
-  minWidth?: number;
+  minWidth?: number | string;
   withCloseButton?: boolean;
   title?: string;
   children: any;
@@ -20,6 +20,7 @@ interface ChakraModalProps {
   header?: any;
   className?: string;
   height?: string;
+  style?: any;
 }
 const ChakraModal = (props: ChakraModalProps) => {
   const {
@@ -33,13 +34,19 @@ const ChakraModal = (props: ChakraModalProps) => {
     footer,
     header,
     height,
+    style,
     className = 'Chakra__modal-padding-24',
   } = props;
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} isCentered autoFocus={false}>
       <ModalOverlay />
-      <ModalContent className={className} minWidth={minWidth} height={height}>
+      <ModalContent
+        style={style}
+        className={className}
+        minWidth={minWidth}
+        height={height}
+      >
         {title ? <ModalHeader>{title}</ModalHeader> : null}
         {header ? header : null}
         {withCloseButton ? (

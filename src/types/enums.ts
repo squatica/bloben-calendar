@@ -90,4 +90,5 @@ export enum DRAWER_PATH {
 
 export enum ACCOUNT_TYPE {
   CAL_DAV = 'CAL_DAV',
+  WEBCAL = 'WEBCAL',
 }
