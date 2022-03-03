@@ -66,14 +66,16 @@ const Modal = (props: ModalProps) => {
 
   return (
     <div className={'Modal__backdrop'} onClick={handleClose}>
-      <div
-        className={'Modal__container'}
-        onClick={preventDefault}
-        id="Modal__container"
-        style={style}
-      >
-        {props.children}
-      </div>
+      {layout.x && layout.y ? (
+        <div
+          className={'Modal__container'}
+          onClick={preventDefault}
+          id="Modal__container"
+          style={style}
+        >
+          {props.children}
+        </div>
+      ) : null}
     </div>
   );
 };

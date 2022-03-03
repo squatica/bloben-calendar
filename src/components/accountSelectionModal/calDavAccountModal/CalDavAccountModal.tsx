@@ -80,11 +80,9 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
         const accountResponse = await CalDavAccountApi.getCalDavAccount(
           response.data.data.id
         );
-
-        dispatch(addToCaldavAccounts(accountResponse.data));
-
         const calendarsResponse = await CalDavCalendarApi.getCalDavCalendars();
 
+        dispatch(addToCaldavAccounts(accountResponse.data));
         dispatch(setCaldavCalendars(calendarsResponse.data));
       } else {
         // if (response.status === 200) {
@@ -92,8 +90,9 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
         // }
       }
 
-      setIsLoading(false);
       handleClose();
+
+      setIsLoading(false);
     } catch (e) {
       // @ts-ignore
       toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
