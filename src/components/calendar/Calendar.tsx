@@ -4,6 +4,7 @@ import 'kalend/dist/styles/index.css';
 import {
   AppSettings,
   CalDavAccount,
+  CalDavCalendar,
   CalDavEvent,
   QueryRange,
   ReduxState,
@@ -48,6 +49,9 @@ const Calendar = (props: CalendarProps) => {
   );
   const calDavAccounts: CalDavAccount[] = useSelector(
     (state: ReduxState) => state.calDavAccounts
+  );
+  const calDavCalendars: CalDavCalendar[] = useSelector(
+    (state: ReduxState) => state.calDavCalendars
   );
   const kalendRef: any = useRef();
   const [selectedView, setSelectedView] = useState(settings.defaultView);
@@ -121,8 +125,9 @@ const Calendar = (props: CalendarProps) => {
     handleSyncWithRange();
   }, [JSON.stringify(calDavEvents)]); // TODO something better
 
-  const openNewEvent = (eventData: OnNewEventClickData) => {
+  const openNewEvent = (eventData: OnNewEventClickData, e: any) => {
     setIsNewEventOpen(eventData);
+    setCurrentE(e);
   };
   const handleCloseNewEventModal = () => setIsNewEventOpen(null);
 
@@ -165,6 +170,8 @@ const Calendar = (props: CalendarProps) => {
 
   const handleRefresh = async () => {
     await GeneralApi.getSync();
+
+    await handleSyncWithRange();
   };
 
   return (
@@ -200,13 +207,14 @@ const Calendar = (props: CalendarProps) => {
       />
       {/*</Carousel>*/}
       {isNewEventOpen ? (
-        calDavAccounts.length ? (
+        calDavAccounts.length && calDavCalendars.length ? (
           <EditEvent
             isNewEvent={true}
             event={undefined}
             newEventTime={isNewEventOpen}
             handleClose={handleCloseNewEventModal}
             wasInitRef={wasInitRef}
+            currentE={currentE}
           />
         ) : (
           <CalDavAccountModal handleClose={handleCloseNewEventModal} />
@@ -219,6 +227,7 @@ const Calendar = (props: CalendarProps) => {
           event={isEditingEventOpen}
           newEventTime={isNewEventOpen}
           handleClose={handleCloseEditingEventModal}
+          currentE={currentE}
         />
       ) : null}
 

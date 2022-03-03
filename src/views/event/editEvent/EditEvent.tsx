@@ -12,7 +12,6 @@ import {
 import { stateReducer } from 'utils/reducer/baseReducer';
 import EventDetail from '../eventDetail/EventDetail';
 
-import { Button, ModalFooter, useToast } from '@chakra-ui/react';
 import {
   CalDavCalendar,
   CalDavEvent,
@@ -20,15 +19,18 @@ import {
 } from '../../../types/interface';
 import { Context } from 'context/store';
 import { DatetimeParser } from 'utils/datetimeParser';
+import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { calculateNewEventTime } from '../event.utils';
 import { initialFormState, initialState } from './EditEvent.utils';
 import { reduxStore } from '../../../layers/ReduxProvider';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
-import ChakraModal from '../../../components/chakraCustom/ChakraModal';
 import ICalHelper from '../../../utils/ICalHelper';
 import LuxonHelper from '../../../utils/LuxonHelper';
+import Modal from 'components/modal/Modal';
+import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
+import Separator from 'components/separator/Separator';
 
 export const findItemCalendar = (item: any) => {
   const state = reduxStore.getState();
@@ -54,7 +56,7 @@ export const createEvent = async (
     calendar || findItemCalendar(originalEvent);
 
   const calendarChanged: boolean =
-    !isNewEvent && originalEvent?.calendarUrl !== eventCalendar.url;
+    !isNewEvent && originalEvent?.calendarID !== eventCalendar.id;
 
   // use issued id or create for new event
   const newEventID: string = originalEvent?.id || v4();
@@ -111,6 +113,7 @@ interface EditEventProps {
   defaultReminder?: any; // Remove?
   event?: CalDavEvent;
   wasInitRef?: any;
+  currentE: any;
 }
 
 export const RRULE_DATE_FORMAT = 'yyyyLLddHHmmss';
@@ -183,7 +186,7 @@ const EditEvent = (props: EditEventProps) => {
     dispatchForm({ type, payload });
   };
 
-  const { isNewEvent, newEventTime, handleClose, event } = props;
+  const { isNewEvent, newEventTime, handleClose, event, currentE } = props;
 
   const { isStartDateValid } = eventState;
 
@@ -411,64 +414,48 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   return (
-    <ChakraModal
-      handleClose={handleClose}
-      withCloseButton={false}
-      minWidth={600}
-      footer={
-        <ModalFooter>
-          <Button
-            _focus={{ boxShadow: 'none' }}
-            variant="ghost"
-            mr={3}
-            onClick={handleClose}
-          >
-            Close
-          </Button>
-          <Button
-            _focus={{ boxShadow: 'none' }}
-            colorScheme="blue"
-            onClick={saveEvent}
-          >
-            Save
-          </Button>
-        </ModalFooter>
-      }
-    >
-      {calendar?.url && startAt && endAt ? (
-        <EventDetail
-          isNewEvent={isNewEvent}
-          calendar={calendar}
-          summary={summary}
-          location={location}
-          description={description}
-          startDate={startAt}
-          rRule={rRule}
-          endDate={endAt}
-          isRepeated={isRepeated}
-          handleChange={handleChange}
-          allDay={allDay}
-          setForm={setForm}
-          handleChangeDateFrom={handleChangeDateFrom}
-          handleChangeDateTill={handleChangeDateTill}
-          isStartDateValid={isStartDateValid}
-          alarms={alarms}
-          addAlarm={addAlarmEvent}
-          removeAlarm={removeAlarmEvent}
-          timezoneStart={timezoneStart}
-          setStartTimezone={setStartTimezone}
-          selectCalendar={selectCalendar}
-          attendees={attendees}
-          addAttendee={addAttendee}
-          removeAttendee={removeAttendee}
-          // makeOptional={makeOptional}
-          organizer={organizer}
-          form={form}
-        />
-      ) : (
-        <div />
-      )}
-    </ChakraModal>
+    <Modal e={currentE} handleClose={handleClose}>
+      <>
+        {calendar?.url && startAt && endAt ? (
+          <EventDetail
+            isNewEvent={isNewEvent}
+            calendar={calendar}
+            summary={summary}
+            location={location}
+            description={description}
+            startDate={startAt}
+            rRule={rRule}
+            endDate={endAt}
+            isRepeated={isRepeated}
+            handleChange={handleChange}
+            allDay={allDay}
+            setForm={setForm}
+            handleChangeDateFrom={handleChangeDateFrom}
+            handleChangeDateTill={handleChangeDateTill}
+            isStartDateValid={isStartDateValid}
+            alarms={alarms}
+            addAlarm={addAlarmEvent}
+            removeAlarm={removeAlarmEvent}
+            timezoneStart={timezoneStart}
+            setStartTimezone={setStartTimezone}
+            selectCalendar={selectCalendar}
+            attendees={attendees}
+            addAttendee={addAttendee}
+            removeAttendee={removeAttendee}
+            // makeOptional={makeOptional}
+            organizer={organizer}
+            form={form}
+          />
+        ) : (
+          <div />
+        )}
+        <Separator height={10} />
+        <Flex direction={'row'}>
+          <Spacer />
+          <PrimaryButton onClick={saveEvent}>Save</PrimaryButton>
+        </Flex>
+      </>
+    </Modal>
   );
 };
 

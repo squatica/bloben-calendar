@@ -3,11 +3,15 @@ import {
   deleteCachedEvent,
   deleteCaldavCalendar,
   insertCachedEvents,
+  setCaldavCalendars,
   setCaldavEvents,
+  setWebcalCalendars,
   updateCaldavCalendar,
 } from '../redux/actions';
 import { reduxStore } from '../layers/ReduxProvider';
+import CalDavCalendarApi from '../api/CalDavCalendarApi';
 import EventsApi from '../api/EventsApi';
+import WebcalCalendarApi from '../api/WebcalCalendarApi';
 
 const handleEvents = (msg: any) => {
   if (msg.action === 'DELETE') {
@@ -35,10 +39,22 @@ const handleCalendars = (msg: any) => {
   }
 };
 
-const handleSyncGeneral = async () => {
-  const calDavEventsResponse = await EventsApi.getCachedEvents();
+const handleSyncCalDavEvents = async () => {
+  const response = await EventsApi.getCachedEvents();
 
-  reduxStore.dispatch(setCaldavEvents(calDavEventsResponse.data));
+  reduxStore.dispatch(setCaldavEvents(response.data));
+};
+
+const handleSyncCalDavCalendars = async () => {
+  const response = await CalDavCalendarApi.getCalDavCalendars();
+
+  reduxStore.dispatch(setCaldavCalendars(response.data));
+};
+
+const handleSyncWebcalCalendars = async () => {
+  const response = await WebcalCalendarApi.getWebcalCalendars();
+
+  reduxStore.dispatch(setWebcalCalendars(response.data));
 };
 
 export const processSocketMsg = async (msg: any) => {
@@ -52,7 +68,15 @@ export const processSocketMsg = async (msg: any) => {
     handleCalendars(msgData);
   }
 
-  if (msgData.type === 'SYNC') {
-    await handleSyncGeneral();
+  if (msgData.type === 'CALDAV_EVENTS') {
+    await handleSyncCalDavEvents();
+  }
+
+  if (msgData.type === 'CALDAV_CALENDARS') {
+    await handleSyncCalDavCalendars();
+  }
+
+  if (msgData.type === 'WEBCAL_CALENDARS') {
+    await handleSyncWebcalCalendars();
   }
 };
