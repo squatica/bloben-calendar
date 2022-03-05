@@ -11,6 +11,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   Table,
   Tbody,
   Td,
@@ -38,7 +43,17 @@ const renderWebcalCalendars = (
       <Tbody key={item.url}>
         <Tr>
           <Td>{item.name}</Td>
-          <Td>{item.url.slice(0, 35)}</Td>
+          <Td>
+            <Popover>
+              <PopoverTrigger>
+                <Button>Show url</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverBody>{item.url}</PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </Td>
           <Td>
             <Menu>
               <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>

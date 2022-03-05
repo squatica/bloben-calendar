@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import CalDavAccountApi from '../api/CalDavAccountApi';
 import CalDavCalendarApi from '../api/CalDavCalendarApi';
 import EventsApi from '../api/EventsApi';
+import GeneralApi from '../api/GeneralApi';
 import WebcalCalendarApi from '../api/WebcalCalendarApi';
 
 const SyncLayer = (props: any) => {
@@ -26,6 +27,8 @@ const SyncLayer = (props: any) => {
     dispatch(setCaldavCalendars(calDavCalendarsResponse.data));
     dispatch(setCaldavEvents(calDavEventsResponse.data));
     dispatch(setWebcalCalendars(webcalCalendarsResponse.data));
+
+    await GeneralApi.getSync();
   };
 
   useEffect(() => {

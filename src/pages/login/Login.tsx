@@ -1,18 +1,21 @@
 import { AxiosResponse } from 'axios';
 import {
+  Button,
   Center,
   Container,
   FormControl,
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
   useToast,
 } from '@chakra-ui/react';
 import { Context } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
-import { useContext, useState } from 'react';
 import PrimaryButton from '../../components/chakraCustom/primaryButton/PrimaryButton';
+import React, { useContext, useState } from 'react';
 import Separator from 'components/separator/Separator';
 import UserApi from '../../api/UserApi';
 import VersionFooter from '../../components/versionFooter/VersionFooter';
@@ -28,6 +31,9 @@ const Login = () => {
   const [store, dispatch] = useContext(Context);
 
   const { isMobile } = store;
+
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -104,13 +110,25 @@ const Login = () => {
         <Separator height={20} />
         <FormControl id="password" size="2xl">
           <FormLabel size="2xl">Password</FormLabel>
-          <Input
-            size={'lg'}
-            type={'password'}
-            name={'password'}
-            value={password}
-            onChange={onChange}
-          />
+          <InputGroup size={'lg'}>
+            <Input
+              size={'lg'}
+              type={show ? 'text' : 'password'}
+              name={'password'}
+              value={password}
+              onChange={onChange}
+            />
+            <InputRightElement width="4.5rem">
+              <Button
+                _focus={{ boxShadow: 'none' }}
+                h="1.75rem"
+                size="sm"
+                onClick={handleClick}
+              >
+                {show ? 'Hide' : 'Show'}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
         <Separator height={20} />
         <FormControl id="serverUrl" size="2xl">
