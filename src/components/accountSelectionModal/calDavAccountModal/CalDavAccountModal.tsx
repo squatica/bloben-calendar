@@ -148,7 +148,12 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
               value={password}
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
+              <Button
+                _focus={{ boxShadow: 'none' }}
+                h="1.75rem"
+                size="sm"
+                onClick={handleClick}
+              >
                 {show ? 'Hide' : 'Show'}
               </Button>
             </InputRightElement>
