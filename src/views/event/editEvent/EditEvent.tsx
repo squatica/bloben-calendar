@@ -59,29 +59,29 @@ export const createEvent = async (
     !isNewEvent && originalEvent?.calendarID !== eventCalendar.id;
 
   // use issued id or create for new event
-  const newEventID: string = originalEvent?.id || v4();
+  const newEventExternalID: string = originalEvent?.externalID || v4();
 
   const iCalString: string = new ICalHelper({
     ...form,
-    id: newEventID,
+    externalID: newEventExternalID,
   }).parseTo();
   if (isNewEvent) {
     await CalDavEventsApi.createEvent({
       calendarID: eventCalendar.id,
       iCalString,
-      id: newEventID,
+      externalID: newEventExternalID,
     });
   } else {
     if (calendarChanged) {
       await CalDavEventsApi.updateEvent({
         calendarID: eventCalendar.id,
         iCalString,
-        id: newEventID,
-        internalID: originalEvent.internalID,
+        externalID: newEventExternalID,
+        id: originalEvent.id,
         url: originalEvent.url,
         etag: originalEvent.etag,
         prevEvent: {
-          internalID: originalEvent.internalID,
+          externalID: originalEvent.externalID,
           id: originalEvent.id,
           url: originalEvent.url,
           etag: originalEvent.etag,
@@ -91,8 +91,8 @@ export const createEvent = async (
       await CalDavEventsApi.updateEvent({
         calendarID: eventCalendar.id,
         iCalString,
-        id: newEventID,
-        internalID: originalEvent.internalID,
+        id: originalEvent.id,
+        externalID: originalEvent.externalID,
         url: originalEvent.url,
         etag: originalEvent.etag,
         prevEvent: null,

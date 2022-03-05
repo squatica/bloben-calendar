@@ -97,7 +97,7 @@ const EventView = (props: EventViewProps) => {
         calendarID: calendar.id,
         url: event.url,
         etag: event.etag,
-        internalID: event.internalID,
+        id: event.id,
       });
       if (response.status === 200 || response.status === 204) {
         setContext('syncSequence', store.syncSequence + 1);

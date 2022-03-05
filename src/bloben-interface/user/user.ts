@@ -35,7 +35,11 @@ export interface LoginRequest {
   username: string;
   password: string;
 }
-
+export interface LoginDemoRequest {
+  username: string;
+  password: string;
+  redirect: string;
+}
 export interface LoginResponse {
   message: string;
   isLogged: boolean;
@@ -61,7 +65,6 @@ export interface GetAccountResponse {
   username: string;
   userID: string;
   role: ROLE;
-  cryptoPassword: string;
 }
 
 export interface GetTwoFactorSecretResponse {
