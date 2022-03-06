@@ -4,7 +4,6 @@ WORKDIR /usr/app/tmp
 ENV NODE_ENV development
 
 COPY . ./
-RUN rm -r .husky
 RUN mkdir .husky
 RUN npm i
 
