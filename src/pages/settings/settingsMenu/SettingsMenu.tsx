@@ -6,6 +6,7 @@ import { SETTINGS_PATHS } from '../../../types/enums';
 import CalendarIcon from '../../../components/eva-icons/calendar';
 import PersonIcon from '../../../components/eva-icons/person';
 import React, { useContext } from 'react';
+import SettingsIcon from '../../../components/eva-icons/settings';
 
 interface SettingsButtonProps {
   onClick: any;
@@ -58,12 +59,21 @@ const SettingsMenu = (props: SettingsMenuProps) => {
         />
         <SettingsButton
           selected={selected}
+          path={SETTINGS_PATHS.CALENDARS}
+          onClick={() => {
+            setSelected(SETTINGS_PATHS.CALENDARS);
+          }}
+          text={'Calendars'}
+          icon={<CalendarIcon className={'SettingsMenu__icon'} />}
+        />
+        <SettingsButton
+          selected={selected}
           path={SETTINGS_PATHS.GENERAL}
           onClick={() => {
             setSelected(SETTINGS_PATHS.GENERAL);
           }}
           text={'General'}
-          icon={<CalendarIcon className={'SettingsMenu__icon'} />}
+          icon={<SettingsIcon className={'SettingsMenu__icon'} />}
         />
         {/*<SettingsButton*/}
         {/*  selected={selected}*/}

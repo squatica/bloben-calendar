@@ -7,7 +7,6 @@ import { SETTINGS_PATHS } from '../../types/enums';
 import ChakraModal from '../../components/chakraCustom/ChakraModal';
 import SettingsContent from './settingsContent/SettingsContent';
 import SettingsMenu from './settingsMenu/SettingsMenu';
-import VersionFooter from '../../components/versionFooter/VersionFooter';
 
 const Settings = () => {
   const [store, dispatchContext] = useContext(Context);
@@ -29,7 +28,6 @@ const Settings = () => {
           {selected === '' ? (
             <>
               <SettingsMenu setSelected={setSelected} selected={selected} />
-              <VersionFooter isDark={false} />
             </>
           ) : (
             <SettingsContent selected={selected} />
@@ -52,7 +50,6 @@ const Settings = () => {
             <SettingsMenu setSelected={setSelected} selected={selected} />
             <SettingsContent selected={selected} />
           </div>
-          <VersionFooter isDark={false} />
         </div>
       ) : (
         <div />
