@@ -8,17 +8,20 @@ import {
   InputRightElement,
   useToast,
 } from '@chakra-ui/react';
-import { CalDavAccount } from '../../types/interface';
-import { TOAST_STATUS } from '../../types/enums';
-import { addToCaldavAccounts, setCaldavCalendars } from '../../redux/actions';
-import { createToast } from '../../utils/common';
+import { CalDavAccount } from '../../../types/interface';
+import { TOAST_STATUS } from '../../../types/enums';
+import {
+  addToCaldavAccounts,
+  setCaldavCalendars,
+} from '../../../redux/actions';
+import { createToast } from '../../../utils/common';
 import { useDispatch } from 'react-redux';
-import CalDavAccountApi from '../../api/CalDavAccountApi';
-import CalDavCalendarApi from '../../api/CalDavCalendarApi';
-import ChakraModal from '../chakraCustom/ChakraModal';
+import CalDavAccountApi from '../../../api/CalDavAccountApi';
+import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
+import ChakraModal from '../../chakraCustom/ChakraModal';
 import React, { useEffect, useReducer, useState } from 'react';
-import Separator from '../separator/Separator';
-import StateReducer from '../../utils/state-reducer';
+import Separator from '../../separator/Separator';
+import StateReducer from '../../../utils/state-reducer';
 import Utils from './CalDavAccountModal.utils';
 
 interface CalDavAccountModalProps {
@@ -77,11 +80,9 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
         const accountResponse = await CalDavAccountApi.getCalDavAccount(
           response.data.data.id
         );
-
-        dispatch(addToCaldavAccounts(accountResponse.data));
-
         const calendarsResponse = await CalDavCalendarApi.getCalDavCalendars();
 
+        dispatch(addToCaldavAccounts(accountResponse.data));
         dispatch(setCaldavCalendars(calendarsResponse.data));
       } else {
         // if (response.status === 200) {
@@ -89,8 +90,9 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
         // }
       }
 
-      setIsLoading(false);
       handleClose();
+
+      setIsLoading(false);
     } catch (e) {
       // @ts-ignore
       toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
@@ -146,7 +148,12 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
               value={password}
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
+              <Button
+                _focus={{ boxShadow: 'none' }}
+                h="1.75rem"
+                size="sm"
+                onClick={handleClick}
+              >
                 {show ? 'Hide' : 'Show'}
               </Button>
             </InputRightElement>

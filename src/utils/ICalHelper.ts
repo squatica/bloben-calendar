@@ -1,4 +1,4 @@
-import ICalParser from 'ical-js-parser-commonjs';
+import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
 import { v4 } from 'uuid';
@@ -62,7 +62,7 @@ class ICalHelper {
 
   constructor(event: any) {
     const {
-      id,
+      externalID,
       createdAt,
       updatedAt,
       startAt,
@@ -85,7 +85,7 @@ class ICalHelper {
       value: LuxonHelper.toUtcString(endAt),
       timezone: timezoneStart,
     };
-    this.uid = id ? id : v4();
+    this.uid = externalID ? externalID : v4();
     this.organizer = organizer;
     this.attendee = attendees;
     this.created = LuxonHelper.toUtcString(createdAt);

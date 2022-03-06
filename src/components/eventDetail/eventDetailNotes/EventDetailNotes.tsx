@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
 import { Stack, Textarea } from '@chakra-ui/react';
+import { parseHtml } from '../../../utils/parserHtml';
 import { parseLinkInText } from '../../../utils/common';
 import FormIcon from '../../formIcon/FormIcon';
 
@@ -51,20 +52,24 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
   // const links: any = textParsed ? renderTextWithLinks(textParsed) : null;
 
   return (
-    <Stack direction={'row'} align={'center'}>
+    <Stack direction={'row'} align={'center'} width={'auto'} height={'100%'}>
       <FormIcon isDark={isDark} allVisible alignTop>
         <EvaIcons.Document className={'EventDetail-icon'} />
       </FormIcon>
-      <Textarea
-        size={'lg'}
-        placeholder="Notes"
-        name={'description'}
-        value={value}
-        variant={disabled ? 'unstyled' : 'outline'}
-        onChange={handleChange}
-        isDisabled={disabled}
-        height={50}
-      />
+      {disabled ? (
+        <p dangerouslySetInnerHTML={{ __html: parseHtml(value) }} />
+      ) : (
+        <Textarea
+          size={'lg'}
+          placeholder="Notes"
+          name={'description'}
+          value={value}
+          variant={disabled ? 'unstyled' : 'outline'}
+          onChange={handleChange}
+          isDisabled={disabled}
+          height={50}
+        />
+      )}
     </Stack>
     // <FormContainer>
     //   <FormRow>

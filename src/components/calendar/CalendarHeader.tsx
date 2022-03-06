@@ -6,7 +6,6 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   Spacer,
   Spinner,
@@ -21,7 +20,7 @@ import { useHistory } from 'react-router-dom';
 import ChevronLeft from '../eva-icons/chevron-left';
 import ChevronRight from '../eva-icons/chevron-right';
 import PersonIcon from '../eva-icons/person';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import RefreshIcon from '../eva-icons/refresh';
 import Separator from '../separator/Separator';
 import SettingsIcon from '../eva-icons/settings';
@@ -34,7 +33,9 @@ interface CalendarHeaderProps {
   selectedView: any;
   handleRefresh: any;
 }
+
 const CalendarHeader = (props: CalendarHeaderProps) => {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const [store, dispatchContext] = useContext(Context);
@@ -62,10 +63,13 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
   };
 
   const handleOpenSettings = () => {
+    setMenuIsOpen(false);
     setContext('settingsOpen', true);
   };
 
   const handleLogout = async () => {
+    setMenuIsOpen(false);
+
     await UserApi.logout();
 
     dispatch(replace(initialReduxState));
@@ -181,7 +185,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               />
             )}
             <Separator width={20} height={0} />
-            <Menu closeOnSelect={true}>
+            <Menu closeOnSelect={true} isOpen={menuIsOpen}>
               <MenuButton
                 as={IconButton}
                 _focus={{ boxShadow: 'none' }}
@@ -190,34 +194,31 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 isRound
                 icon={<SettingsIcon className={'HeaderModal__icon'} />}
                 fontSize={14}
+                onClick={() => setMenuIsOpen(true)}
               />
               <MenuList zIndex={9991}>
-                <MenuItem>
-                  <Button
-                    _focus={{ boxShadow: 'none' }}
-                    leftIcon={<SettingsIcon className={'SettingsMenu__icon'} />}
-                    variant={'ghost'}
-                    onClick={handleOpenSettings}
-                    isFullWidth={true}
-                    justifyContent={'flex-start'}
-                    fontSize={14}
-                  >
-                    Settings
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button
-                    _focus={{ boxShadow: 'none' }}
-                    leftIcon={<PersonIcon className={'SettingsMenu__icon'} />}
-                    variant={'ghost'}
-                    onClick={handleLogout}
-                    isFullWidth={true}
-                    justifyContent={'flex-start'}
-                    fontSize={14}
-                  >
-                    Logout
-                  </Button>
-                </MenuItem>
+                <Button
+                  _focus={{ boxShadow: 'none' }}
+                  leftIcon={<SettingsIcon className={'SettingsMenu__icon'} />}
+                  variant={'ghost'}
+                  onClick={handleOpenSettings}
+                  isFullWidth={true}
+                  justifyContent={'flex-start'}
+                  fontSize={14}
+                >
+                  Settings
+                </Button>
+                <Button
+                  _focus={{ boxShadow: 'none' }}
+                  leftIcon={<PersonIcon className={'SettingsMenu__icon'} />}
+                  variant={'ghost'}
+                  onClick={handleLogout}
+                  isFullWidth={true}
+                  justifyContent={'flex-start'}
+                  fontSize={14}
+                >
+                  Logout
+                </Button>
               </MenuList>
             </Menu>
           </Flex>
@@ -239,7 +240,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
         <Spacer />
         {isMobile ? (
           <>
-            <Flex flex="1" justifyContent={'flex-end'}>
+            <Flex flex="1" justifyContent={'flex-end '}>
               <Spacer />
               {isSyncing ? (
                 <Spinner color="red.500" />

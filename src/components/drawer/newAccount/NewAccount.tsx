@@ -1,7 +1,7 @@
 import { Context } from '../../../context/store';
 import { EvaIcons } from '../../eva-icons';
 import ButtonIcon from '../../button/buttonIcon/ButtonIcon';
-import CalDavAccountModal from '../../calDavAccountModal/CalDavAccountModal';
+import CalDavAccountModal from '../../accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import React, { useContext, useState } from 'react';
 
 const NewCalDavAccountButton = () => {
