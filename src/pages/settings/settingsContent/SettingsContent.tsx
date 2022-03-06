@@ -3,6 +3,7 @@ import { SETTINGS_PATHS } from '../../../types/enums';
 import AboutSettings from '../settingsParts/AboutSettings';
 import AccountSettings from '../settingsParts/AccountSettings';
 import AcknowledgmentSettings from '../settingsParts/AcknowledgmentSettings';
+import CalendarsSettings from '../settingsParts/CalendarsSettings';
 import GeneralSettings from '../settingsParts/GeneralSettings';
 import HelpSettings from '../settingsParts/HelpSettings';
 import React from 'react';
@@ -17,6 +18,7 @@ const SettingsContent = (props: SettingsContentProps) => {
     <div className={'SettingsContent__container'}>
       {selected === SETTINGS_PATHS.GENERAL ? <GeneralSettings /> : null}
       {selected === SETTINGS_PATHS.ACCOUNTS ? <AccountSettings /> : null}
+      {selected === SETTINGS_PATHS.CALENDARS ? <CalendarsSettings /> : null}
       {selected === SETTINGS_PATHS.RESET ? <ResetSettings /> : null}
       {selected === SETTINGS_PATHS.HELP ? <HelpSettings /> : null}
       {selected === SETTINGS_PATHS.ACKNOWLEDGMENTS ? (
