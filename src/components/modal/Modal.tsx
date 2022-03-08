@@ -44,7 +44,13 @@ const Modal = (props: ModalProps) => {
 
         if (element.offsetHeight + layout.y > window.innerHeight) {
           newY = layout.y - element.offsetHeight;
+
+          // fix overflowing to negative top value
+          if (newY < 0) {
+            newY = newY + newY * -1 + 24;
+          }
         }
+
         if (element.offsetWidth + layout.x > window.innerWidth) {
           newX = layout.x - element.offsetWidth;
         }
