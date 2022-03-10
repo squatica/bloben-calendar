@@ -415,7 +415,7 @@ const EditEvent = (props: EditEventProps) => {
 
   return (
     <Modal e={currentE} handleClose={handleClose}>
-      <>
+      <Flex direction={'column'}>
         {calendar?.url && startAt && endAt ? (
           <EventDetail
             isNewEvent={isNewEvent}
@@ -449,12 +449,12 @@ const EditEvent = (props: EditEventProps) => {
         ) : (
           <div />
         )}
-        <Separator height={10} />
+        <Separator height={16} />
         <Flex direction={'row'}>
           <Spacer />
           <PrimaryButton onClick={saveEvent}>Save</PrimaryButton>
         </Flex>
-      </>
+      </Flex>
     </Modal>
   );
 };

@@ -2,6 +2,7 @@ import { Link, Text } from '@chakra-ui/react';
 import React from 'react';
 import Separator from '../../../components/separator/Separator';
 import SettingsCard from '../settingsCard/SettingsCard';
+import VersionFooter from '../../../components/versionFooter/VersionFooter';
 
 const AboutSettings = () => {
   return (
@@ -22,7 +23,8 @@ const AboutSettings = () => {
             Documentation
           </Link>{' '}
         </Text>
-        <Separator />
+        <Separator height={24} />
+        <VersionFooter isDark={false} />
       </SettingsCard>
     </>
   );

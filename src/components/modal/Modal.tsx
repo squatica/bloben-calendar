@@ -24,7 +24,7 @@ const Modal = (props: ModalProps) => {
         left: layout.x,
         top: layout.y,
         maxWidth: '48%',
-        maxHeight: '48%',
+        maxHeight: '60%',
         minWidth: 300,
         height: 'auto',
         width: 'auto',
@@ -44,7 +44,13 @@ const Modal = (props: ModalProps) => {
 
         if (element.offsetHeight + layout.y > window.innerHeight) {
           newY = layout.y - element.offsetHeight;
+
+          // fix overflowing to negative top value
+          if (newY < 0) {
+            newY = newY + newY * -1 + 24;
+          }
         }
+
         if (element.offsetWidth + layout.x > window.innerWidth) {
           newX = layout.x - element.offsetWidth;
         }
