@@ -26,7 +26,7 @@ const HelpSettings = () => {
           <Link
             _focus={{ boxShadow: 'none' }}
             color={'primary.400'}
-            href={'mailto:hello@bloben.com'}
+            href={'mailto:hello@nibdo.com'}
           >
             hello@nibdo.com
           </Link>
