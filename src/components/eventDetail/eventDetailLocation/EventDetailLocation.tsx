@@ -30,6 +30,7 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
         variant={disabled ? 'unstyled' : 'outline'}
         onChange={handleChange}
         isDisabled={disabled}
+        autoComplete={'off'}
       />
     </Stack>
   );

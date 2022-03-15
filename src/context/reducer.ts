@@ -16,6 +16,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         debugging: action.payload,
       };
+    case 'emailConfig':
+      return {
+        ...state,
+        emailConfig: action.payload,
+      };
     case 'syncSequence':
       return {
         ...state,

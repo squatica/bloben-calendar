@@ -4,6 +4,7 @@ import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
 import { SETTINGS_PATHS } from '../../../types/enums';
 import CalendarIcon from '../../../components/eva-icons/calendar';
+import Email from '../../../components/eva-icons/email';
 import PersonIcon from '../../../components/eva-icons/person';
 import React, { useContext } from 'react';
 import SettingsIcon from '../../../components/eva-icons/settings';
@@ -74,6 +75,15 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           }}
           text={'General'}
           icon={<SettingsIcon className={'SettingsMenu__icon'} />}
+        />
+        <SettingsButton
+          selected={selected}
+          path={SETTINGS_PATHS.EMAIL_CONFIG}
+          onClick={() => {
+            setSelected(SETTINGS_PATHS.EMAIL_CONFIG);
+          }}
+          text={'Email config'}
+          icon={<Email className={'SettingsMenu__icon'} />}
         />
         {/*<SettingsButton*/}
         {/*  selected={selected}*/}

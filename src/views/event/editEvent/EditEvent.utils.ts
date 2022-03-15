@@ -22,6 +22,7 @@ export const initialFormState: any = {
   organizer: '',
   sequence: '0',
   rRule: '',
+  props: null,
 };
 
 export const initialState: any = {

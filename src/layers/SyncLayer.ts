@@ -1,18 +1,25 @@
+import { Context } from '../context/store';
 import {
   setCaldavAccounts,
   setCaldavCalendars,
   setCaldavEvents,
   setWebcalCalendars,
 } from '../redux/actions';
+import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import CalDavAccountApi from '../api/CalDavAccountApi';
 import CalDavCalendarApi from '../api/CalDavCalendarApi';
 import EventsApi from '../api/EventsApi';
 import GeneralApi from '../api/GeneralApi';
+import UserEmailConfigApi from '../api/UserEmailConfigApi';
 import WebcalCalendarApi from '../api/WebcalCalendarApi';
 
 const SyncLayer = (props: any) => {
+  const [, dispatchContext] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatchContext({ type, payload });
+  };
+
   const dispatch = useDispatch();
 
   const loadData = async () => {
@@ -28,7 +35,16 @@ const SyncLayer = (props: any) => {
     dispatch(setCaldavEvents(calDavEventsResponse.data));
     dispatch(setWebcalCalendars(webcalCalendarsResponse.data));
 
-    await GeneralApi.getSync();
+    try {
+      await GeneralApi.getSync();
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+    try {
+      const emailConfigResponse = await UserEmailConfigApi.get();
+
+      setContext('emailConfig', emailConfigResponse.data);
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   };
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import Axios from 'lib/Axios';
 
 export default {
   getCalDavCalendars: async (): Promise<AxiosResponse<GetCalDavCalendar[]>> => {
-    return Axios.get(`/v1/caldav-calendars`);
+    return Axios.get(`/v1/caldav-calendars?component=VEVENT`);
   },
   syncCalDavCalendars: async (): Promise<AxiosResponse<void>> => {
     return Axios.post(`/v1/caldav-calendars/sync`);

@@ -73,6 +73,7 @@ export interface ReduxState {
   webcalCalendars: WebcalCalendar[];
   cachedEvents: any[];
   syncLog: SyncLog;
+  user: User;
 }
 
 export interface Duration {
@@ -97,4 +98,9 @@ export interface SyncLog {
 export interface CalDavQueryResult {
   type: CALDAV_OBJ_TYPE;
   data: any[];
+}
+
+export interface User {
+  id: string;
+  username: string;
 }

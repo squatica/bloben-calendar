@@ -67,6 +67,7 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
           variant={disabled ? 'unstyled' : 'outline'}
           onChange={handleChange}
           isDisabled={disabled}
+          autoComplete={'off'}
           height={50}
         />
       )}

@@ -138,6 +138,7 @@ export interface EventResult {
   type: EVENT_TYPE;
   color: string;
   calendarID: string;
+  props: any;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
