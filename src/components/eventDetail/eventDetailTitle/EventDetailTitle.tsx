@@ -34,6 +34,7 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
         onChange={handleChange}
         readOnly={disabled}
         autoFocus={isNewEvent}
+        autoComplete={'off'}
       />
     </Stack>
     // <FormContainer>

@@ -1,6 +1,7 @@
 import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
+import { forEach } from 'lodash';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
 
@@ -59,6 +60,8 @@ class ICalHelper {
   summary?: string;
   transp?: string;
   rrule?: string;
+  props?: any;
+  [key: string]: any;
 
   constructor(event: any) {
     const {
@@ -74,7 +77,7 @@ class ICalHelper {
       timezoneStart,
       organizer,
       attendees,
-      sequence,
+      props,
     } = event;
 
     this.dtstart = {
@@ -86,8 +89,8 @@ class ICalHelper {
       timezone: timezoneStart,
     };
     this.uid = externalID ? externalID : v4();
-    this.organizer = organizer;
-    this.attendee = attendees;
+    this.organizer = organizer || props?.organizer;
+    this.attendee = attendees || props?.attendee;
     this.created = LuxonHelper.toUtcString(createdAt);
     this.dtstamp = DateTime.local().toUTC().toString();
     this.description = description;
@@ -99,16 +102,27 @@ class ICalHelper {
         : undefined;
     this.summary = summary;
     this.location = location;
-    this.sequence = sequence;
+    // this.sequence = sequence;
     this.status = 'CONFIRMED';
     this.transp = 'OPAQUE';
+
+    // include all other not supported properties
+    if (props) {
+      forEach(Object.entries(props), (propItem) => {
+        if (propItem[0] === 'sequence') {
+          this[propItem[0]] = String(Number(propItem[1]) + 1);
+        } else {
+          this[propItem[0]] = propItem[1];
+        }
+      });
+    }
   }
 
   private createCalendar = (method?: CalendarMethod) => {
     if (method) {
       return {
         begin: 'BEGIN:VCALENDAR',
-        prodid: 'Calendar 1.0',
+        prodid: 'Bloben 1.0',
         method: method,
         calscale: 'GREGORIAN',
         version: '2.0',

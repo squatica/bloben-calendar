@@ -12,10 +12,12 @@ import {
 import { stateReducer } from 'utils/reducer/baseReducer';
 import EventDetail from '../eventDetail/EventDetail';
 
+import { Attendee } from '../../../utils/AttendeeUtils';
 import {
   CalDavCalendar,
   CalDavEvent,
   ReduxState,
+  User,
 } from '../../../types/interface';
 import { Context } from 'context/store';
 import { DatetimeParser } from 'utils/datetimeParser';
@@ -65,6 +67,7 @@ export const createEvent = async (
     ...form,
     externalID: newEventExternalID,
   }).parseTo();
+
   if (isNewEvent) {
     await CalDavEventsApi.createEvent({
       calendarID: eventCalendar.id,
@@ -128,6 +131,7 @@ const isEventKnownProp = (prop: string) => {
     'location',
     'description',
     'rRule',
+    'props',
   ];
 
   return knownProps.includes(prop);
@@ -151,6 +155,7 @@ const EditEvent = (props: EditEventProps) => {
   const calDavCalendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
   );
+  const user: User = useSelector((state: ReduxState) => state.user);
 
   const [eventState] = useReducer(stateReducer, initialState);
 
@@ -221,6 +226,14 @@ const EditEvent = (props: EditEventProps) => {
           if (value) {
             setForm(key, value);
           }
+
+          if (key === 'props') {
+            // @ts-ignore
+            if (value.attendee) {
+              // @ts-ignore
+              setForm('attendees', value.attendee);
+            }
+          }
         }
       }
     }
@@ -270,6 +283,13 @@ const EditEvent = (props: EditEventProps) => {
     setForm('timezoneEnd', timezoneFromCalendar);
     setCalendar(thisCalendar);
 
+    if (store.emailConfig) {
+      setForm('organizer', {
+        cn: user.username,
+        mailto: store.emailConfig.smtpEmail,
+      });
+    }
+
     if (!newEventTime) {
       return;
     }
@@ -307,23 +327,27 @@ const EditEvent = (props: EditEventProps) => {
    * Attendees
    * @param item
    */
-  const addAttendee = (item: any) => {
+  const addAttendee = (item: Attendee) => {
     setForm('attendees', [...attendees, item]);
   };
-  const removeAttendee = (item: any) => {
+  const removeAttendee = (item: Attendee) => {
     const attendeeFiltered: any = [...attendees].filter(
       (attendee: any) => attendee.mailto !== item.mailto
     );
     setForm('attendees', attendeeFiltered);
   };
 
-  // const makeOptional = (item: Attendee) => {
-  //   makeOptionalAttendee(item, attendees, setForm);
-  // };
+  const updateAttendee = (item: Attendee) => {
+    const updatedAttendees = attendees.map((attendee: Attendee) => {
+      if (item.mailto === attendee.mailto) {
+        return item;
+      } else {
+        return attendee;
+      }
+    });
 
-  /**
-   Attendees end
-   */
+    setForm('attendees', updatedAttendees);
+  };
 
   const setStartTimezone = (value: string) => {
     setForm('timezoneStart', value);
@@ -442,6 +466,7 @@ const EditEvent = (props: EditEventProps) => {
             attendees={attendees}
             addAttendee={addAttendee}
             removeAttendee={removeAttendee}
+            updateAttendee={updateAttendee}
             // makeOptional={makeOptional}
             organizer={organizer}
             form={form}

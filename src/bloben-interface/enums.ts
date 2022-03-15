@@ -32,3 +32,14 @@ export enum EVENT_TYPE {
   CALDAV = 'CALDAV',
   WEBCAL = 'WEBCAL',
 }
+
+export enum LOG_FILE_TYPE {
+  COMBINED = 'combined',
+  ERROR = 'error',
+}
+
+export enum CALDAV_COMPONENTS {
+  VEVENT = 'VEVENT',
+  VTODO = 'VTODO',
+  VJOURNAL = 'VJOURNAL',
+}
