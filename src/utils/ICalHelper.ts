@@ -131,8 +131,8 @@ class ICalHelper {
     } else {
       return {
         begin: 'BEGIN:VCALENDAR',
-        prodid: 'Calendar 1.0',
-        // method: method,
+        prodid: 'Bloben 1.0',
+        // method: 'REQUEST',
         calscale: 'GREGORIAN',
         version: '2.0',
         end: 'END:VCALENDAR',

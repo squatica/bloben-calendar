@@ -142,7 +142,7 @@ const EventView = (props: EventViewProps) => {
         {calendar && calendar?.displayName ? (
           <EventDetailCalendar calendar={calendar} disabled />
         ) : null}
-        {event.props?.attendee.length ? (
+        {event.props?.attendee?.length ? (
           <EventDetailAttendee attendees={event.props.attendee} disabled />
         ) : null}
 
