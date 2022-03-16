@@ -90,7 +90,7 @@ class ICalHelper {
     };
     this.uid = externalID ? externalID : v4();
     this.organizer = organizer || props?.organizer;
-    this.attendee = attendees || props?.attendee;
+    this.attendee = attendees;
     this.created = LuxonHelper.toUtcString(createdAt);
     this.dtstamp = DateTime.local().toUTC().toString();
     this.description = description;
@@ -112,7 +112,9 @@ class ICalHelper {
         if (propItem[0] === 'sequence') {
           this[propItem[0]] = String(Number(propItem[1]) + 1);
         } else {
-          this[propItem[0]] = propItem[1];
+          if (propItem[0] !== 'attendee') {
+            this[propItem[0]] = propItem[1];
+          }
         }
       });
     }

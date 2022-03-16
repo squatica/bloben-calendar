@@ -48,7 +48,9 @@ const renderAttendees = (
               size={'xs'}
               _focus={{ boxShadow: 'none' }}
             >
-              {item.role.slice(0, item.role.indexOf('-'))}
+              {item?.ROLE
+                ? item?.ROLE?.slice(0, item?.ROLE?.indexOf('-'))
+                : item?.ROLE}
             </MenuButton>
             <MenuList>
               <Stack spacing={1}>
@@ -56,7 +58,7 @@ const renderAttendees = (
                   onClick={() => {
                     updateAttendee({
                       ...item,
-                      role: 'REQ-PARTICIPANT',
+                      ROLE: 'REQ-PARTICIPANT',
                     });
                   }}
                 >
@@ -66,7 +68,7 @@ const renderAttendees = (
                   onClick={() => {
                     updateAttendee({
                       ...item,
-                      role: 'OPT-PARTICIPANT',
+                      ROLE: 'OPT-PARTICIPANT',
                     });
                   }}
                 >

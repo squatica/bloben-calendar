@@ -285,7 +285,7 @@ const EditEvent = (props: EditEventProps) => {
 
     if (store.emailConfig) {
       setForm('organizer', {
-        cn: user.username,
+        CN: user.username,
         mailto: store.emailConfig.smtpEmail,
       });
     }

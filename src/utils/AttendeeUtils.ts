@@ -62,10 +62,10 @@ export const translatePartstatIcalToHuman = (
 };
 
 export interface Attendee {
-  cn: string;
-  role: AttendeeRole;
-  rsvp: Rsvp;
-  partstat: Partstat;
+  CN: string;
+  ROLE: AttendeeRole;
+  RSVP: Rsvp;
+  PARTSTAT: Partstat;
   mailto: string;
 }
 
@@ -78,23 +78,23 @@ export const createAttendee = (data: AttendeeData): Attendee => {
   const { name, email } = data;
 
   return {
-    cn: name ? name : email,
-    role: ROLE_REQ,
-    rsvp: RSVP_TRUE,
-    partstat: PARTSTAT_NEED_ACTION,
+    CN: name ? name : email,
+    ROLE: ROLE_REQ,
+    RSVP: RSVP_TRUE,
+    PARTSTAT: PARTSTAT_NEED_ACTION,
     mailto: email,
   };
 };
 
 export const createOrganizerAttendee = (
   mailto: string,
-  cn: string
+  CN: string
 ): Attendee => {
   return {
-    cn: cn ? cn : mailto,
-    role: ROLE_REQ,
-    rsvp: RSVP_TRUE,
-    partstat: PARTSTAT_ACCEPTED,
+    CN: CN ? CN : mailto,
+    ROLE: ROLE_REQ,
+    RSVP: RSVP_TRUE,
+    PARTSTAT: PARTSTAT_ACCEPTED,
     mailto,
   };
 };
@@ -107,10 +107,10 @@ export const makeOptionalAttendee = (
   const items: Attendee[] = [...attendees];
   const result: any = items.map((attendee: Attendee) => {
     if (attendee.mailto === item.mailto) {
-      if (attendee.role === ROLE_REQ) {
-        attendee.role = ROLE_OPT;
+      if (attendee.ROLE === ROLE_REQ) {
+        attendee.ROLE = ROLE_OPT;
       } else {
-        attendee.role = ROLE_REQ;
+        attendee.ROLE = ROLE_REQ;
       }
     }
 
