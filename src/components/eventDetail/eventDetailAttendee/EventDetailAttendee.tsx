@@ -38,7 +38,7 @@ const renderAttendees = (
         paddingLeft={2}
         style={{ width: '100%' }}
       >
-        <Text size={'lg'}>{item.mailto}</Text>
+        <Text>{item.mailto}</Text>
         <Spacer />
         {disabled ? null : (
           <Menu closeOnSelect>
@@ -151,13 +151,13 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
 
   return (
     <Flex direction={'column'}>
-      <Stack direction={'row'} align={'center'} alignItems={'flex-start'}>
+      <Stack direction={'row'} align={'center'}>
         <FormIcon isDark={isDark} allVisible>
           <EvaIcons.Person className={'EventDetail-icon'} />
         </FormIcon>
         {!disabled ? (
           <Input
-            size={'lg'}
+            // size={'lg'}
             type="text"
             placeholder="Add attendee"
             name={'attendee'}

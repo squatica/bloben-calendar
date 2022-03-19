@@ -4,14 +4,14 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 6px 2px 6px 2px;
 }
 
 .MiniCalendarHeader__title {
   width: 100%;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 500;
   margin: 0;
 
@@ -19,4 +19,11 @@
     @extend .MiniCalendarHeader__title;
     color: $GRAY_200;
   }
+}
+
+.MiniCalendarHeader__subtitle {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
 }

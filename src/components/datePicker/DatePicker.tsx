@@ -53,6 +53,8 @@ const DatePickerView = (props: DatePickerViewProps) => {
           selectedDate={selectedDate}
           selectDate={selectDate}
           initDatesPicker={initDatesPicker}
+          sideMargin={sideMargin}
+          width={width}
         />
       ) : null}
       <MiniCalendar

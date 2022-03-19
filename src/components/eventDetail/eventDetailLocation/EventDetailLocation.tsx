@@ -22,7 +22,7 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
         <EvaIcons.Pin className={'EventDetail-icon'} />
       </FormIcon>
       <Input
-        size={'lg'}
+        // size={'lg'}
         type="text"
         placeholder="Location"
         name={'location'}
