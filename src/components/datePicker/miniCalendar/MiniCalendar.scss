@@ -7,8 +7,16 @@
   flex-wrap: wrap;
   //align-self: stretch;
   padding: 0;
-  margin: 20px 0px 20px 0px;
-  justify-content: center;
+  margin: 10px 0px 10px 0px;
+  //margin: 0;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
+}
+
+.MiniCalendarHeader__col {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
 }

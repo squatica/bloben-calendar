@@ -71,7 +71,7 @@ const EventDetail = (props: EventDetailProps) => {
   const setAllDay = (): void => setForm('allDay', !allDay);
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={1}>
       <EventDetailTitle
         isNewEvent={isNewEvent}
         value={summary}

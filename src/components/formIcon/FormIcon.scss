@@ -1,6 +1,6 @@
 @import '~styles/colors';
 
-$ICON_SIZE: 24px;
+$ICON_SIZE: 22px;
 
 .FormIcon__container {
   display: flex;
@@ -42,7 +42,7 @@ $ICON_SIZE: 24px;
   width: $ICON_SIZE;
   &-dark {
     @extend .FormIcon__icon;
-    fill: $GRAY_500;
+    fill: $GRAY_300;
   }
 }
 

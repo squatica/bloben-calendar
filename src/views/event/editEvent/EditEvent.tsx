@@ -20,7 +20,7 @@ import {
   User,
 } from '../../../types/interface';
 import { Context } from 'context/store';
-import { DatetimeParser } from 'utils/datetimeParser';
+import { DatetimeParser, parseToDateTime } from 'utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { calculateNewEventTime } from '../event.utils';
@@ -375,13 +375,19 @@ const EditEvent = (props: EditEventProps) => {
    * Validate startAt date before change
    * @param dateValue
    */
-  const handleChangeDateFrom = (dateValue: any) => {
+  const handleChangeDateFrom = (dateValue: DateTime | string) => {
     setForm('startAt', DatetimeParser(dateValue, timezoneStart));
 
     const isDateValid: boolean = validateDate('startAt', dateValue, endAt);
 
     if (!isDateValid) {
-      setForm('endAt', DatetimeParser(dateValue, timezoneStart));
+      setForm(
+        'endAt',
+        DatetimeParser(
+          parseToDateTime(dateValue, timezoneStart).plus({ hour: 1 }),
+          timezoneStart
+        )
+      );
     }
   };
   /**

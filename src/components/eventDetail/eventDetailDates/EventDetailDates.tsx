@@ -66,10 +66,14 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
         <FormIcon desktopVisible isDark={isDark}>
           <EvaIcons.Clock className={'EventDetail-icon'} />
         </FormIcon>
-        <Stack direction={'row'} align={'center'} spacing={12}>
+        <Stack direction={'row'} align={'center'} spacing={2}>
           <Stack direction={'row'} align={'center'} spacing={2}>
             <Menu isLazy>
-              <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+              <MenuButton
+                as={Button}
+                _focus={{ boxShadow: 'none' }}
+                style={{ width: 120 }}
+              >
                 {startDateFormatted}
               </MenuButton>
               <MenuList>
@@ -83,12 +87,16 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
               </MenuList>
             </Menu>
             <Menu isLazy>
-              <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+              <MenuButton
+                as={Button}
+                _focus={{ boxShadow: 'none' }}
+                style={{ width: 70 }}
+              >
                 {startTimeFormatted}
               </MenuButton>
-              <MenuList>
+              <MenuList style={{ width: 150 }}>
                 <TimePicker
-                  width={pickerWidth / 2}
+                  width={150}
                   timezone={timezoneStart}
                   selectTime={handleChangeDateFrom}
                   selectedDate={startDateString}
@@ -96,9 +104,14 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
               </MenuList>
             </Menu>
           </Stack>
+          <p>-</p>
           <Stack direction={'row'} align={'center'} spacing={2}>
             <Menu isLazy>
-              <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+              <MenuButton
+                as={Button}
+                _focus={{ boxShadow: 'none' }}
+                style={{ width: 120 }}
+              >
                 {endDateFormatted}
               </MenuButton>
               <MenuList>
@@ -112,12 +125,16 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
               </MenuList>
             </Menu>
             <Menu isLazy>
-              <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+              <MenuButton
+                as={Button}
+                _focus={{ boxShadow: 'none' }}
+                style={{ width: 70 }}
+              >
                 {endTimeFormatted}
               </MenuButton>
               <MenuList>
                 <TimePicker
-                  width={pickerWidth / 2}
+                  width={pickerWidth}
                   timezone={timezoneStart}
                   selectTime={handleChangeDateTill}
                   selectedDate={endDateString}

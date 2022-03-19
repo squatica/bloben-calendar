@@ -24,7 +24,7 @@ const Modal = (props: ModalProps) => {
       return {
         left: layout.x,
         top: layout.y,
-        maxWidth: '48%',
+        maxWidth: '50%',
         maxHeight: props.maxHeight || '60%',
         minWidth: 300,
         height: 'auto',

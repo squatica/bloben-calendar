@@ -38,9 +38,12 @@ interface DateInputProps {
   selectedDate: string;
   selectDate: any;
   initDatesPicker: any;
+  sideMargin: number;
+  width: number;
 }
 const DateInput = (props: DateInputProps) => {
-  const { selectedDate, selectDate, initDatesPicker } = props;
+  const { selectedDate, selectDate, initDatesPicker, sideMargin, width } =
+    props;
 
   const [store] = useContext(Context);
   const { isMobile } = store;
@@ -143,8 +146,14 @@ const DateInput = (props: DateInputProps) => {
     setDateValues();
   }, [selectedDate]);
 
+  const containerStyle: any = {
+    width: width - sideMargin * 2,
+    marginLeft: sideMargin,
+    marginRight: sideMargin,
+  };
+
   return (
-    <div className={'DateInput__container'}>
+    <div className={'DateInput__container'} style={containerStyle}>
       <Input
         ref={dayRef}
         value={day}
@@ -157,6 +166,7 @@ const DateInput = (props: DateInputProps) => {
         onKeyPress={onKeyPress}
         disabled={isMobile}
         width={20}
+        padding={0}
       />
       <div className={'DateInput__container-text'}>
         <p className={'DateInput__text'}>/</p>
@@ -173,6 +183,8 @@ const DateInput = (props: DateInputProps) => {
         onKeyPress={onKeyPress}
         disabled={isMobile}
         width={20}
+        padding={0}
+        margin={0}
       />
       <div className={'DateInput__container-text'}>
         <p className={'DateInput__text'}>/</p>
@@ -188,7 +200,8 @@ const DateInput = (props: DateInputProps) => {
         onFocus={onFocus}
         onKeyPress={onKeyPress}
         disabled={isMobile}
-        width={20}
+        width={52}
+        padding={0}
       />
     </div>
   );

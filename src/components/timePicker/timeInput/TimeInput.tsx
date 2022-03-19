@@ -137,7 +137,7 @@ const TimeInput = (props: TimeInputProps) => {
         onBlur={onBlur}
         onFocus={onFocus}
         onKeyPress={onKeyPress}
-        width={20}
+        width={16}
       />
       <div className={'TimeInput__container-text'}>
         <p className={'TimeInput__text'}>:</p>
@@ -152,7 +152,7 @@ const TimeInput = (props: TimeInputProps) => {
         onBlur={onBlur}
         onFocus={onFocus}
         onKeyPress={onKeyPress}
-        width={20}
+        width={16}
       />
     </div>
   );
