@@ -23,7 +23,7 @@ import { Context } from 'context/store';
 import { DatetimeParser, parseToDateTime } from 'utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
-import { calculateNewEventTime } from '../event.utils';
+
 import { initialFormState, initialState } from './EditEvent.utils';
 import { reduxStore } from '../../../layers/ReduxProvider';
 import { v4 } from 'uuid';
@@ -294,13 +294,15 @@ const EditEvent = (props: EditEventProps) => {
       return;
     }
 
-    const dateFromNewEvent: DateTime = newEventTime.day
-      ? calculateNewEventTime(newEventTime)
-      : DateTime.local().plus({ hours: 1 });
-    const dateTill: DateTime = dateFromNewEvent.plus({ hours: 1 });
+    // const dateFromNewEvent: DateTime = newEventTime.day
+    //   ? calculateNewEventTime(newEventTime)
+    //   : DateTime.local().plus({ hours: 1 });
+    // const dateTill: DateTime = dateFromNewEvent.plus({ hours: 1 });
 
-    setForm('startAt', DatetimeParser(dateFromNewEvent, getLocalTimezone()));
-    setForm('endAt', DatetimeParser(dateTill, getLocalTimezone()));
+    setForm('startAt', newEventTime.startAt);
+    setForm('endAt', newEventTime.endAt);
+    // setForm('startAt', DatetimeParser(dateFromNewEvent, getLocalTimezone()));
+    // setForm('endAt', DatetimeParser(dateTill, getLocalTimezone()));
   };
 
   useEffect(() => {
