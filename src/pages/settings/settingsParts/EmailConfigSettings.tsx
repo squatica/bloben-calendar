@@ -42,19 +42,19 @@ const EmailConfigSettings = () => {
   return (
     <>
       <Separator height={24} />
-      {!emailConfig.hasSystemConfig && !emailConfig.hasCustomConfig ? (
+      {!emailConfig?.hasSystemConfig && !emailConfig?.hasCustomConfig ? (
         <Heading size={'md'}>No email config</Heading>
       ) : null}
-      {emailConfig.hasSystemConfig && !emailConfig.hasCustomConfig ? (
+      {emailConfig?.hasSystemConfig && !emailConfig?.hasCustomConfig ? (
         <Heading size={'md'}>Using system config</Heading>
       ) : null}
-      {emailConfig.hasCustomConfig ? (
+      {emailConfig?.hasCustomConfig ? (
         <Heading size={'md'}>Using custom config</Heading>
       ) : null}
       <Separator height={24} />
       <Separator height={24} />
 
-      {!emailConfig.hasCustomConfig ? (
+      {!emailConfig?.hasCustomConfig ? (
         <ButtonBase onClick={() => openModal(true)}>
           Add custom config
         </ButtonBase>
@@ -64,7 +64,7 @@ const EmailConfigSettings = () => {
         <EmailConfigModal handleClose={() => openModal(false)} />
       ) : null}
 
-      {emailConfig.hasCustomConfig ? (
+      {emailConfig?.hasCustomConfig ? (
         <>
           <ButtonBase isLoading={isLoading} onClick={handleDelete}>
             Delete config
