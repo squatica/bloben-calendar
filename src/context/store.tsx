@@ -15,7 +15,7 @@ export interface StoreContext {
   syncSequence: number;
   isSyncing: boolean;
   apiVersion: string;
-  emailConfig: GetUserEmailConfigResponse | null;
+  emailConfig: GetUserEmailConfigResponse;
 }
 
 const initialContext: StoreContext = {
@@ -31,7 +31,10 @@ const initialContext: StoreContext = {
   syncSequence: 0,
   isSyncing: false,
   apiVersion: '',
-  emailConfig: null,
+  emailConfig: {
+    hasCustomConfig: false,
+    hasSystemConfig: false,
+  },
 };
 
 const StoreProvider = ({ children }: any) => {
