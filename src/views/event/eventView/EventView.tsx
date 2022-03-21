@@ -46,7 +46,7 @@ const EventDates = (props: EventDatesProps) => {
         <EvaIcons.Clock className={'EventDetail-icon'} />
       </FormIcon>
       <Text>{dates}</Text>
-      <Text>{time}</Text>
+      {event.allDay ? null : <Text>{time}</Text>}
     </Stack>
   );
 };

@@ -46,6 +46,7 @@ export interface CalDavEvent {
   description: string | null;
   color: string;
   alarms?: Alarm[];
+  allDay: boolean;
   recurenceID?: string;
   internalID?: string;
   url: string;
