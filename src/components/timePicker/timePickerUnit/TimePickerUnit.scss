@@ -1,19 +1,27 @@
 @import '~styles/colors';
 
 .TimePickerUnit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: $GRAY_600;
+  text-align: center;
   //@media (min-width: 750px) {
-    font-size: 1rem;
-    padding: 4px 8px 4px 8px;
+    font-size: 1.1rem;
+    padding: 4px 8px 4px 8px !important;
   //}
   //@media (max-width: 750px) {
   //  font-size: 1.8rem;
   //  padding: 4px 8px 4px 8px;
   //}
 
+  margin-top: 1px;
+  margin-bottom: 1px;
   &:hover {
     @extend .TimePickerUnit;
     padding: 4px 8px 4px 8px;
+    //background-color: $GRAY_200;
+    border-radius: 0;
   }
 
   &-dark {

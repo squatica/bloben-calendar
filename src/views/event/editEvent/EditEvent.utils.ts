@@ -10,9 +10,9 @@ export const initialFormState: any = {
   timezone: null,
   allDay: false,
   startAt: DateTime.local().toString(),
-  timezoneStart: null,
+  timezoneStartAt: null,
   endAt: DateTime.local().plus({ hours: 1 }).toString(),
-  timezoneEnd: null,
+  timezoneEndAt: null,
   isRepeated: false,
   alarms: [],
   attendees: [],
@@ -22,6 +22,7 @@ export const initialFormState: any = {
   organizer: '',
   sequence: '0',
   rRule: '',
+  props: null,
 };
 
 export const initialState: any = {

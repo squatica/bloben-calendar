@@ -1,6 +1,7 @@
 import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
+import { forEach } from 'lodash';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
 
@@ -59,6 +60,8 @@ class ICalHelper {
   summary?: string;
   transp?: string;
   rrule?: string;
+  props?: any;
+  [key: string]: any;
 
   constructor(event: any) {
     const {
@@ -71,22 +74,27 @@ class ICalHelper {
       description,
       location,
       rRule,
-      timezoneStart,
+      timezoneStartAt,
       organizer,
       attendees,
-      sequence,
+      props,
+      allDay,
     } = event;
 
     this.dtstart = {
-      value: LuxonHelper.toUtcString(startAt),
-      timezone: timezoneStart,
+      value: allDay
+        ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
+        : LuxonHelper.toUtcString(startAt),
+      timezone: allDay ? undefined : timezoneStartAt,
     };
     this.dtend = {
-      value: LuxonHelper.toUtcString(endAt),
-      timezone: timezoneStart,
+      value: allDay
+        ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
+        : LuxonHelper.toUtcString(endAt),
+      timezone: allDay ? undefined : timezoneStartAt,
     };
     this.uid = externalID ? externalID : v4();
-    this.organizer = organizer;
+    this.organizer = organizer || props?.organizer;
     this.attendee = attendees;
     this.created = LuxonHelper.toUtcString(createdAt);
     this.dtstamp = DateTime.local().toUTC().toString();
@@ -99,16 +107,29 @@ class ICalHelper {
         : undefined;
     this.summary = summary;
     this.location = location;
-    this.sequence = sequence;
+    // this.sequence = sequence;
     this.status = 'CONFIRMED';
     this.transp = 'OPAQUE';
+
+    // include all other not supported properties
+    if (props) {
+      forEach(Object.entries(props), (propItem) => {
+        if (propItem[0] === 'sequence') {
+          this[propItem[0]] = String(Number(propItem[1]) + 1);
+        } else {
+          if (propItem[0] !== 'attendee') {
+            this[propItem[0]] = propItem[1];
+          }
+        }
+      });
+    }
   }
 
   private createCalendar = (method?: CalendarMethod) => {
     if (method) {
       return {
         begin: 'BEGIN:VCALENDAR',
-        prodid: 'Calendar 1.0',
+        prodid: 'Bloben 1.0',
         method: method,
         calscale: 'GREGORIAN',
         version: '2.0',
@@ -117,8 +138,8 @@ class ICalHelper {
     } else {
       return {
         begin: 'BEGIN:VCALENDAR',
-        prodid: 'Calendar 1.0',
-        // method: method,
+        prodid: 'Bloben 1.0',
+        // method: 'REQUEST',
         calscale: 'GREGORIAN',
         version: '2.0',
         end: 'END:VCALENDAR',

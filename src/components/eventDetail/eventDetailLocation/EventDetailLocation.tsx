@@ -22,7 +22,7 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
         <EvaIcons.Pin className={'EventDetail-icon'} />
       </FormIcon>
       <Input
-        size={'lg'}
+        // size={'lg'}
         type="text"
         placeholder="Location"
         name={'location'}
@@ -30,6 +30,7 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
         variant={disabled ? 'unstyled' : 'outline'}
         onChange={handleChange}
         isDisabled={disabled}
+        autoComplete={'off'}
       />
     </Stack>
   );

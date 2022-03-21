@@ -18,9 +18,9 @@ export const checkOverlappingDatesForHeaderEvents = (
   event: any,
   day: DateTime
 ): boolean => {
-  const dateStart = parseToDateTime(event.startAt, event.timezoneStart);
-  const dateEnd = parseToDateTime(event.endAt, event.timezoneStart);
-  const dayTruncated: number = parseToDateTime(day, event.timezoneStart)
+  const dateStart = parseToDateTime(event.startAt, event.timezoneStartAt);
+  const dateEnd = parseToDateTime(event.endAt, event.timezoneStartAt);
+  const dayTruncated: number = parseToDateTime(day, event.timezoneStartAt)
     .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
     .toMillis();
 

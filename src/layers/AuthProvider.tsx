@@ -1,12 +1,14 @@
-import { AxiosResponse } from 'axios';
 import { Context } from '../context/store';
 import { Route } from 'react-router-dom';
+import { setUser } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 import GeneralApi from '../api/GeneralApi';
 import Login from 'pages/login/Login';
 import React, { useContext, useEffect } from 'react';
 import UserApi from '../api/UserApi';
 
 const AuthProvider = (props: any) => {
+  const reduxDispatch = useDispatch();
   const [store, dispatch] = useContext(Context);
   const { isLogged } = store;
 
@@ -34,11 +36,17 @@ const AuthProvider = (props: any) => {
     }
 
     try {
-      const response: AxiosResponse<any> = await UserApi.getSession();
+      const response = await UserApi.getSession();
 
       if (response.data.isLogged) {
         setContext('isLogged', true);
         setContext('isAppStarting', false);
+        reduxDispatch(
+          setUser({
+            id: response.data.userID,
+            username: response.data.username,
+          })
+        );
       } else {
         setContext('isAppStarting', false);
       }

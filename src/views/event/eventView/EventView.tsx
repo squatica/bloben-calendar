@@ -18,6 +18,7 @@ import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { calendarByEvent } from '../../../utils/tsdavHelper';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
+import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
 import EventDetailLocation from '../../../components/eventDetail/eventDetailLocation/EventDetailLocation';
 import EventDetailNotes from '../../../components/eventDetail/eventDetailNotes/EventDetailNotes';
@@ -45,7 +46,7 @@ const EventDates = (props: EventDatesProps) => {
         <EvaIcons.Clock className={'EventDetail-icon'} />
       </FormIcon>
       <Text>{dates}</Text>
-      <Text>{time}</Text>
+      {event.allDay ? null : <Text>{time}</Text>}
     </Stack>
   );
 };
@@ -121,7 +122,7 @@ const EventView = (props: EventViewProps) => {
   }, [JSON.stringify(props.data)]);
 
   return event && event.id ? (
-    <Modal e={currentE} handleClose={handleClose}>
+    <Modal e={currentE} handleClose={handleClose} maxHeight={'42%'}>
       <>
         <HeaderModal
           isMobile={isMobile}
@@ -141,6 +142,10 @@ const EventView = (props: EventViewProps) => {
         {calendar && calendar?.displayName ? (
           <EventDetailCalendar calendar={calendar} disabled />
         ) : null}
+        {event.props?.attendee?.length ? (
+          <EventDetailAttendee attendees={event.props.attendee} disabled />
+        ) : null}
+
         {event.location?.length > 0 ? (
           <EventDetailLocation value={event.location} disabled />
         ) : null}

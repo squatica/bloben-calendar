@@ -9,6 +9,7 @@ import calDavEvents from './calDavEvents';
 import calendarDaysRange from './calendarDays';
 import settings, { initSettings } from './settings';
 import syncLog from './syncLog';
+import user from './user';
 import webcalCalendars from './webcalCalendars';
 
 export const initialReduxState: ReduxState = {
@@ -23,6 +24,10 @@ export const initialReduxState: ReduxState = {
   syncLog: {
     events: new Date().toISOString(),
   },
+  user: {
+    username: '',
+    id: '',
+  },
 };
 
 export const allReducers: Reducer = combineReducers({
@@ -35,6 +40,7 @@ export const allReducers: Reducer = combineReducers({
   webcalCalendars,
   cachedEvents,
   syncLog,
+  user,
 });
 
 const rootReducer = (state: ReduxState | undefined, action: any) => {

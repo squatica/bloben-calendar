@@ -10,23 +10,23 @@ interface EventDatesProps {
 
 export const EventDates = (props: EventDatesProps) => {
   const { event, isSmall } = props;
-  const { startAt, endAt, timezoneStart } = event;
+  const { startAt, endAt, timezoneStartAt } = event;
 
   const isSameDay: boolean = LuxonHelper.isSameDay(startAt, endAt);
 
   const dateFromString: string = parseToDateTime(
     startAt,
-    timezoneStart
+    timezoneStartAt
   ).toFormat(`d LLL ${isSameDay ? 'yyyy' : ''}`);
   const dateToString: string = !isSameDay
-    ? ` - ${parseToDateTime(endAt, timezoneStart).toFormat('d LLL yyyy')}`
+    ? ` - ${parseToDateTime(endAt, timezoneStartAt).toFormat('d LLL yyyy')}`
     : '';
   const dates = `${dateFromString}${dateToString}`;
 
-  const timeFrom: string = parseToDateTime(startAt, timezoneStart).toFormat(
+  const timeFrom: string = parseToDateTime(startAt, timezoneStartAt).toFormat(
     'HH:mm'
   );
-  const timeTo: string = parseToDateTime(endAt, timezoneStart).toFormat(
+  const timeTo: string = parseToDateTime(endAt, timezoneStartAt).toFormat(
     'HH:mm'
   );
   const time = `${timeFrom}${timeTo}`;

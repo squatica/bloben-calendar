@@ -204,6 +204,7 @@ const Calendar = (props: CalendarProps) => {
         calendarIDsHidden={settings.hiddenCalendarIDs}
         onStateChange={onKalendStateChange}
         selectedView={selectedView}
+        isNewEventOpen={isNewEventOpen !== null}
       />
       {/*</Carousel>*/}
       {isNewEventOpen ? (

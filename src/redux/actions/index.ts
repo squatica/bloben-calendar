@@ -2,10 +2,18 @@ import {
   CalDavAccount,
   CalDavCalendar,
   CalDavEvent,
+  User,
 } from '../../types/interface';
 import { GetEventResponse } from '../../bloben-interface/event/event';
 import { OnPageChangeData } from 'kalend';
 import { WebcalCalendar } from '../reducers/webcalCalendars';
+
+export const setUser = (data: User) => {
+  return {
+    type: 'SET_USER',
+    payload: data,
+  };
+};
 
 export const setCaldavAccounts = (data: CalDavAccount[]) => {
   return {

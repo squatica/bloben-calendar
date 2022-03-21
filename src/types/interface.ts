@@ -46,6 +46,7 @@ export interface CalDavEvent {
   description: string | null;
   color: string;
   alarms?: Alarm[];
+  allDay: boolean;
   recurenceID?: string;
   internalID?: string;
   url: string;
@@ -73,6 +74,7 @@ export interface ReduxState {
   webcalCalendars: WebcalCalendar[];
   cachedEvents: any[];
   syncLog: SyncLog;
+  user: User;
 }
 
 export interface Duration {
@@ -97,4 +99,9 @@ export interface SyncLog {
 export interface CalDavQueryResult {
   type: CALDAV_OBJ_TYPE;
   data: any[];
+}
+
+export interface User {
+  id: string;
+  username: string;
 }

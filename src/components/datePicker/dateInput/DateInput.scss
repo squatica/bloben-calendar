@@ -3,7 +3,7 @@
 .DateInput__container {
   display: flex;
   flex-direction: row;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .DateInput {
@@ -24,7 +24,7 @@
 }
 
 .DateInput__text {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: $GRAY_600;
   margin: 0 10px 0 10px;
 }

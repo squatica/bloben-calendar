@@ -5,6 +5,7 @@ import './EventDetail.scss';
 
 import { CalDavCalendar } from '../../../types/interface';
 import { Stack } from '@chakra-ui/react';
+import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
 import EventDetailDates from '../../../components/eventDetail/eventDetailDates/EventDetailDates';
 import EventDetailLocation from '../../../components/eventDetail/eventDetailLocation/EventDetailLocation';
@@ -31,7 +32,7 @@ interface EventDetailProps {
   isNewEvent: boolean;
   handleChangeDateFrom: any;
   handleChangeDateTill: any;
-  timezoneStart: string;
+  timezoneStartAt: string;
   setStartTimezone: any;
   selectCalendar: any;
   organizer: any;
@@ -40,6 +41,7 @@ interface EventDetailProps {
   removeAttendee: any;
   makeOptional?: any;
   form?: any;
+  updateAttendee?: any;
 }
 const EventDetail = (props: EventDetailProps) => {
   const {
@@ -56,16 +58,18 @@ const EventDetail = (props: EventDetailProps) => {
     isNewEvent,
     handleChangeDateFrom,
     handleChangeDateTill,
-    timezoneStart,
+    timezoneStartAt,
     setStartTimezone,
     selectCalendar,
+    addAttendee,
+    removeAttendee,
+    attendees,
     form,
+    updateAttendee,
   } = props;
 
-  const setAllDay = (): void => setForm('allDay', !allDay);
-
   return (
-    <Stack spacing={2}>
+    <Stack spacing={1}>
       <EventDetailTitle
         isNewEvent={isNewEvent}
         value={summary}
@@ -77,19 +81,25 @@ const EventDetail = (props: EventDetailProps) => {
       />
       <EventDetailDates
         startDate={startDate}
-        timezoneStart={timezoneStart}
+        setForm={setForm}
+        timezoneStartAt={timezoneStartAt}
         endDate={endDate}
-        timezoneEnd={timezoneStart}
+        timezoneEndAt={timezoneStartAt}
         handleChangeDateFrom={handleChangeDateFrom}
         handleChangeDateTill={handleChangeDateTill}
         allDay={allDay}
-        setAllDay={setAllDay}
         setStartTimezone={setStartTimezone}
       />
       <EventDetailRepeat
         isRepeated={isRepeated}
         setForm={setForm}
         form={form}
+      />
+      <EventDetailAttendee
+        addAttendee={addAttendee}
+        removeAttendee={removeAttendee}
+        updateAttendee={updateAttendee}
+        attendees={attendees}
       />
       <EventDetailLocation handleChange={handleChange} value={location} />
       <EventDetailNotes handleChange={handleChange} value={description} />
