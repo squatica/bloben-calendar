@@ -4,6 +4,8 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightAddon,
   useToast,
 } from '@chakra-ui/react';
 import { CalDavAccount } from '../../../types/interface';
@@ -47,6 +49,16 @@ const WebcalModal = (props: WebcalModalProps) => {
   };
 
   const addWebcalCalendar = async () => {
+    if (syncFrequency < 30) {
+      toast(
+        createToast(
+          'Sync frequency has to be minimum 30 minutes',
+          TOAST_STATUS.ERROR
+        )
+      );
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response: any = await WebcalCalendarApi.createWebcalCalendar({
@@ -115,6 +127,20 @@ const WebcalModal = (props: WebcalModalProps) => {
             onChange={onChange}
             value={color}
           />
+          <Separator height={18} />
+          <FormLabel htmlFor="color">Sync frequency</FormLabel>
+          <InputGroup size={'lg'}>
+            <Input
+              size={'lg'}
+              id="syncFrequency"
+              name={'syncFrequency'}
+              onChange={onChange}
+              value={syncFrequency}
+              type={'number'}
+              min={30}
+            />
+            <InputRightAddon>minutes</InputRightAddon>
+          </InputGroup>
         </FormControl>
         <Separator height={25} />
         <Center>
