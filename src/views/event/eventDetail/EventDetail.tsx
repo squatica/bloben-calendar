@@ -32,7 +32,7 @@ interface EventDetailProps {
   isNewEvent: boolean;
   handleChangeDateFrom: any;
   handleChangeDateTill: any;
-  timezoneStart: string;
+  timezoneStartAt: string;
   setStartTimezone: any;
   selectCalendar: any;
   organizer: any;
@@ -58,7 +58,7 @@ const EventDetail = (props: EventDetailProps) => {
     isNewEvent,
     handleChangeDateFrom,
     handleChangeDateTill,
-    timezoneStart,
+    timezoneStartAt,
     setStartTimezone,
     selectCalendar,
     addAttendee,
@@ -67,8 +67,6 @@ const EventDetail = (props: EventDetailProps) => {
     form,
     updateAttendee,
   } = props;
-
-  const setAllDay = (): void => setForm('allDay', !allDay);
 
   return (
     <Stack spacing={1}>
@@ -83,13 +81,13 @@ const EventDetail = (props: EventDetailProps) => {
       />
       <EventDetailDates
         startDate={startDate}
-        timezoneStart={timezoneStart}
+        setForm={setForm}
+        timezoneStartAt={timezoneStartAt}
         endDate={endDate}
-        timezoneEnd={timezoneStart}
+        timezoneEndAt={timezoneStartAt}
         handleChangeDateFrom={handleChangeDateFrom}
         handleChangeDateTill={handleChangeDateTill}
         allDay={allDay}
-        setAllDay={setAllDay}
         setStartTimezone={setStartTimezone}
       />
       <EventDetailRepeat

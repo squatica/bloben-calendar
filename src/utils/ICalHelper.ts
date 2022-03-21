@@ -74,19 +74,24 @@ class ICalHelper {
       description,
       location,
       rRule,
-      timezoneStart,
+      timezoneStartAt,
       organizer,
       attendees,
       props,
+      allDay,
     } = event;
 
     this.dtstart = {
-      value: LuxonHelper.toUtcString(startAt),
-      timezone: timezoneStart,
+      value: allDay
+        ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
+        : LuxonHelper.toUtcString(startAt),
+      timezone: allDay ? undefined : timezoneStartAt,
     };
     this.dtend = {
-      value: LuxonHelper.toUtcString(endAt),
-      timezone: timezoneStart,
+      value: allDay
+        ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
+        : LuxonHelper.toUtcString(endAt),
+      timezone: allDay ? undefined : timezoneStartAt,
     };
     this.uid = externalID ? externalID : v4();
     this.organizer = organizer || props?.organizer;

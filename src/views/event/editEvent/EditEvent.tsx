@@ -129,6 +129,7 @@ const isEventKnownProp = (prop: string) => {
     'timezoneStartAt',
     'timezoneEndAt',
     'location',
+    'allDay',
     'description',
     'rRule',
     'props',
@@ -205,7 +206,7 @@ const EditEvent = (props: EditEventProps) => {
     endAt,
     isRepeated,
     alarms,
-    timezoneStart,
+    timezoneStartAt,
     attendees,
     organizer,
     rRule,
@@ -258,8 +259,8 @@ const EditEvent = (props: EditEventProps) => {
     if (isNewEvent) {
       const timezoneFromCalendar: string = getLocalTimezone();
 
-      setForm('timezoneStart', timezoneFromCalendar);
-      setForm('timezoneEnd', timezoneFromCalendar);
+      setForm('timezoneStartAt', timezoneFromCalendar);
+      setForm('timezoneEndAt', timezoneFromCalendar);
     }
     setCalendar(thisCalendar);
   };
@@ -279,8 +280,8 @@ const EditEvent = (props: EditEventProps) => {
     const timezoneFromCalendar: string = getLocalTimezone();
 
     setForm('color', '#2667FF');
-    setForm('timezoneStart', timezoneFromCalendar);
-    setForm('timezoneEnd', timezoneFromCalendar);
+    setForm('timezoneStartAt', timezoneFromCalendar);
+    setForm('timezoneEndAt', timezoneFromCalendar);
     setCalendar(thisCalendar);
 
     if (store.emailConfig) {
@@ -352,8 +353,8 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   const setStartTimezone = (value: string) => {
-    setForm('timezoneStart', value);
-    setForm('timezoneEnd', value);
+    setForm('timezoneStartAt', value);
+    setForm('timezoneEndAt', value);
   };
 
   /**
@@ -367,6 +368,10 @@ const EditEvent = (props: EditEventProps) => {
     startAtDate: any,
     endAtDate: any
   ): boolean => {
+    if (LuxonHelper.isSameDay(endAtDate, startAtDate) && allDay) {
+      return true;
+    }
+
     if (LuxonHelper.isBeforeAny(endAtDate, startAtDate)) {
       return false;
     }
@@ -378,7 +383,7 @@ const EditEvent = (props: EditEventProps) => {
    * @param dateValue
    */
   const handleChangeDateFrom = (dateValue: DateTime | string) => {
-    setForm('startAt', DatetimeParser(dateValue, timezoneStart));
+    setForm('startAt', DatetimeParser(dateValue, timezoneStartAt));
 
     const isDateValid: boolean = validateDate('startAt', dateValue, endAt);
 
@@ -386,8 +391,8 @@ const EditEvent = (props: EditEventProps) => {
       setForm(
         'endAt',
         DatetimeParser(
-          parseToDateTime(dateValue, timezoneStart).plus({ hour: 1 }),
-          timezoneStart
+          parseToDateTime(dateValue, timezoneStartAt).plus({ hour: 1 }),
+          timezoneStartAt
         )
       );
     }
@@ -400,7 +405,7 @@ const EditEvent = (props: EditEventProps) => {
     const isDateValid: boolean = validateDate('endAt', startAt, dateValue);
 
     if (isDateValid) {
-      setForm('endAt', DatetimeParser(dateValue, timezoneStart));
+      setForm('endAt', DatetimeParser(dateValue, timezoneStartAt));
     } else {
       toast(createToast('Invalid date', TOAST_STATUS.ERROR));
     }
@@ -411,7 +416,7 @@ const EditEvent = (props: EditEventProps) => {
     const name = target.name;
     const value: any = event.target.value;
 
-    if (name === 'timezoneStart' || name === 'timezoneEnd') {
+    if (name === 'timezoneStartAt' || name === 'timezoneEndAt') {
       setForm('startAt', DatetimeParser(startAt, value));
       setForm('endAt', DatetimeParser(endAt, value));
     }
@@ -468,7 +473,7 @@ const EditEvent = (props: EditEventProps) => {
             alarms={alarms}
             addAlarm={addAlarmEvent}
             removeAlarm={removeAlarmEvent}
-            timezoneStart={timezoneStart}
+            timezoneStartAt={timezoneStartAt}
             setStartTimezone={setStartTimezone}
             selectCalendar={selectCalendar}
             attendees={attendees}
