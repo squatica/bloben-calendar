@@ -1,8 +1,6 @@
 import { AppSettings, ReduxState } from '../../../types/interface';
 import {
-  Box,
   Button,
-  Checkbox,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,7 +10,6 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Stack,
 } from '@chakra-ui/react';
 import { CalendarView } from 'kalend';
 import { setSettings } from '../../../redux/actions';
@@ -48,6 +45,7 @@ const GeneralSettings = () => {
     dispatch(setSettings(newSettings));
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const checkDisabledViewBox = (value: any) => {
     const newSettings: any = { ...settings };
 
@@ -188,92 +186,92 @@ const GeneralSettings = () => {
           value={settings.timezone}
         />
       </SettingsRow>
-      <SettingsRow title={'Enabled views'}>
-        <Menu closeOnSelect={false}>
-          <MenuButton
-            as={Button}
-            style={menuStyle}
-            _focus={{ boxShadow: 'none' }}
-          >
-            Select
-          </MenuButton>
-          <MenuList>
-            <Stack spacing={1}>
-              <MenuItem
-                onClick={() => checkDisabledViewBox(CalendarView.AGENDA)}
-              >
-                <Box>
-                  <Checkbox
-                    colorScheme="teal"
-                    value={CalendarView.AGENDA}
-                    isChecked={
-                      !settings.disabledViews.includes(CalendarView.AGENDA)
-                    }
-                  >
-                    Agenda
-                  </Checkbox>
-                </Box>
-              </MenuItem>
-              <MenuItem onClick={() => checkDisabledViewBox(CalendarView.DAY)}>
-                <Box>
-                  <Checkbox
-                    colorScheme="teal"
-                    value={CalendarView.DAY}
-                    isChecked={
-                      !settings.disabledViews.includes(CalendarView.DAY)
-                    }
-                  >
-                    Day
-                  </Checkbox>
-                </Box>
-              </MenuItem>
-              <MenuItem
-                onClick={() => checkDisabledViewBox(CalendarView.THREE_DAYS)}
-              >
-                <Box>
-                  <Checkbox
-                    colorScheme="teal"
-                    value={CalendarView.DAY}
-                    isChecked={
-                      !settings.disabledViews.includes(CalendarView.THREE_DAYS)
-                    }
-                  >
-                    3 Days
-                  </Checkbox>
-                </Box>
-              </MenuItem>
-              <MenuItem onClick={() => checkDisabledViewBox(CalendarView.WEEK)}>
-                <Box>
-                  <Checkbox
-                    colorScheme="teal"
-                    value={CalendarView.DAY}
-                    isChecked={
-                      !settings.disabledViews.includes(CalendarView.WEEK)
-                    }
-                  >
-                    Week
-                  </Checkbox>
-                </Box>
-              </MenuItem>
-              <MenuItem
-                onClick={() => checkDisabledViewBox(CalendarView.MONTH)}
-              >
-                <Box>
-                  <Checkbox
-                    colorScheme="teal"
-                    value={CalendarView.DAY}
-                    isChecked={
-                      !settings.disabledViews.includes(CalendarView.MONTH)
-                    }
-                  >
-                    Month
-                  </Checkbox>
-                </Box>
-              </MenuItem>
-            </Stack>
-          </MenuList>
-        </Menu>
-      </SettingsRow>
+      {/*<SettingsRow title={'Enabled views'}>*/}
+      {/*  <Menu closeOnSelect={false}>*/}
+      {/*    <MenuButton*/}
+      {/*      as={Button}*/}
+      {/*      style={menuStyle}*/}
+      {/*      _focus={{ boxShadow: 'none' }}*/}
+      {/*    >*/}
+      {/*      Select*/}
+      {/*    </MenuButton>*/}
+      {/*    <MenuList>*/}
+      {/*      <Stack spacing={1}>*/}
+      {/*        <MenuItem*/}
+      {/*          onClick={() => checkDisabledViewBox(CalendarView.AGENDA)}*/}
+      {/*        >*/}
+      {/*          <Box>*/}
+      {/*            <Checkbox*/}
+      {/*              colorScheme="teal"*/}
+      {/*              value={CalendarView.AGENDA}*/}
+      {/*              isChecked={*/}
+      {/*                !settings.disabledViews.includes(CalendarView.AGENDA)*/}
+      {/*              }*/}
+      {/*            >*/}
+      {/*              Agenda*/}
+      {/*            </Checkbox>*/}
+      {/*          </Box>*/}
+      {/*        </MenuItem>*/}
+      {/*        <MenuItem onClick={() => checkDisabledViewBox(CalendarView.DAY)}>*/}
+      {/*          <Box>*/}
+      {/*            <Checkbox*/}
+      {/*              colorScheme="teal"*/}
+      {/*              value={CalendarView.DAY}*/}
+      {/*              isChecked={*/}
+      {/*                !settings.disabledViews.includes(CalendarView.DAY)*/}
+      {/*              }*/}
+      {/*            >*/}
+      {/*              Day*/}
+      {/*            </Checkbox>*/}
+      {/*          </Box>*/}
+      {/*        </MenuItem>*/}
+      {/*        <MenuItem*/}
+      {/*          onClick={() => checkDisabledViewBox(CalendarView.THREE_DAYS)}*/}
+      {/*        >*/}
+      {/*          <Box>*/}
+      {/*            <Checkbox*/}
+      {/*              colorScheme="teal"*/}
+      {/*              value={CalendarView.DAY}*/}
+      {/*              isChecked={*/}
+      {/*                !settings.disabledViews.includes(CalendarView.THREE_DAYS)*/}
+      {/*              }*/}
+      {/*            >*/}
+      {/*              3 Days*/}
+      {/*            </Checkbox>*/}
+      {/*          </Box>*/}
+      {/*        </MenuItem>*/}
+      {/*        <MenuItem onClick={() => checkDisabledViewBox(CalendarView.WEEK)}>*/}
+      {/*          <Box>*/}
+      {/*            <Checkbox*/}
+      {/*              colorScheme="teal"*/}
+      {/*              value={CalendarView.DAY}*/}
+      {/*              isChecked={*/}
+      {/*                !settings.disabledViews.includes(CalendarView.WEEK)*/}
+      {/*              }*/}
+      {/*            >*/}
+      {/*              Week*/}
+      {/*            </Checkbox>*/}
+      {/*          </Box>*/}
+      {/*        </MenuItem>*/}
+      {/*        <MenuItem*/}
+      {/*          onClick={() => checkDisabledViewBox(CalendarView.MONTH)}*/}
+      {/*        >*/}
+      {/*          <Box>*/}
+      {/*            <Checkbox*/}
+      {/*              colorScheme="teal"*/}
+      {/*              value={CalendarView.DAY}*/}
+      {/*              isChecked={*/}
+      {/*                !settings.disabledViews.includes(CalendarView.MONTH)*/}
+      {/*              }*/}
+      {/*            >*/}
+      {/*              Month*/}
+      {/*            </Checkbox>*/}
+      {/*          </Box>*/}
+      {/*        </MenuItem>*/}
+      {/*      </Stack>*/}
+      {/*    </MenuList>*/}
+      {/*  </Menu>*/}
+      {/*</SettingsRow>*/}
     </>
   );
 };
