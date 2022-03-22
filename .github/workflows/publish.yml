@@ -50,4 +50,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: bloben/calendar:${{ steps.tag_version.outputs.VERSION }}
+          tags: bloben/calendar:${{ steps.tag_version.outputs.VERSION }}, bloben/calendar:latest
