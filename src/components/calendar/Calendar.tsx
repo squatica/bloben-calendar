@@ -11,6 +11,7 @@ import {
 } from '../../types/interface';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
+import { EVENT_TYPE } from '../../bloben-interface/enums';
 import { TOAST_STATUS } from '../../types/enums';
 import {
   checkIfIsInRange,
@@ -198,6 +199,9 @@ const Calendar = (props: CalendarProps) => {
         initialView={selectedView}
         onEventDragFinish={onDraggingFinish}
         disabledViews={settings.disabledViews}
+        draggingDisabledConditions={{
+          type: EVENT_TYPE.WEBCAL,
+        }}
         // onSelectView={() => {}}
         onPageChange={onPageChange}
         disableMobileDropdown={true}

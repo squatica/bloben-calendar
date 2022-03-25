@@ -80,6 +80,7 @@ export enum TOAST_STATUS {
 }
 export enum TOAST_POSITION {
   TOP = 'top',
+  BOTTOM = 'bottom',
 }
 
 export enum CALDAV_OBJ_TYPE {

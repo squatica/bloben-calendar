@@ -208,6 +208,17 @@ export const formatEventDate = (event: any) => {
   };
 };
 
+export const checkHasNewVersion = (
+  latestVersion: string,
+  serverVersion: string
+) => {
+  return (
+    latestVersion.length > 1 &&
+    serverVersion.length > 1 &&
+    latestVersion !== serverVersion
+  );
+};
+
 export const getArrayStart = (array: any) => array[0];
 export const getArrayEnd = (array: any) => array[array.length - 1];
 
@@ -450,7 +461,7 @@ export const createToast = (text?: string, status?: TOAST_STATUS) => {
     return {
       title: 'Unknown error',
       status,
-      position: TOAST_POSITION.TOP,
+      position: TOAST_POSITION.BOTTOM,
       isClosable: true,
     };
   }
@@ -458,13 +469,13 @@ export const createToast = (text?: string, status?: TOAST_STATUS) => {
     return {
       title: text,
       status,
-      position: TOAST_POSITION.TOP,
+      position: TOAST_POSITION.BOTTOM,
       isClosable: true,
     };
   }
   return {
     title: text,
-    position: TOAST_POSITION.TOP,
+    position: TOAST_POSITION.BOTTOM,
     isClosable: true,
   };
 };
