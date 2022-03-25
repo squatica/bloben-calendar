@@ -209,13 +209,13 @@ export const formatEventDate = (event: any) => {
 };
 
 export const checkHasNewVersion = (
-  dockerVersion: string,
+  latestVersion: string,
   serverVersion: string
 ) => {
   return (
-    dockerVersion.length > 1 &&
+    latestVersion.length > 1 &&
     serverVersion.length > 1 &&
-    dockerVersion !== serverVersion
+    latestVersion !== serverVersion
   );
 };
 
@@ -461,7 +461,7 @@ export const createToast = (text?: string, status?: TOAST_STATUS) => {
     return {
       title: 'Unknown error',
       status,
-      position: TOAST_POSITION.TOP,
+      position: TOAST_POSITION.BOTTOM,
       isClosable: true,
     };
   }
@@ -469,13 +469,13 @@ export const createToast = (text?: string, status?: TOAST_STATUS) => {
     return {
       title: text,
       status,
-      position: TOAST_POSITION.TOP,
+      position: TOAST_POSITION.BOTTOM,
       isClosable: true,
     };
   }
   return {
     title: text,
-    position: TOAST_POSITION.TOP,
+    position: TOAST_POSITION.BOTTOM,
     isClosable: true,
   };
 };

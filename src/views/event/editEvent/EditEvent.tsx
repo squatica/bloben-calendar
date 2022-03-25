@@ -300,6 +300,10 @@ const EditEvent = (props: EditEventProps) => {
     //   : DateTime.local().plus({ hours: 1 });
     // const dateTill: DateTime = dateFromNewEvent.plus({ hours: 1 });
 
+    if (newEventTime.view === 'month') {
+      setForm('allDay', true);
+    }
+
     setForm('startAt', newEventTime.startAt);
     setForm('endAt', newEventTime.endAt);
     // setForm('startAt', DatetimeParser(dateFromNewEvent, getLocalTimezone()));
