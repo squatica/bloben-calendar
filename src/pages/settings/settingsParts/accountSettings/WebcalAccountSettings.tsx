@@ -29,12 +29,15 @@ import { TOAST_STATUS } from 'types/enums';
 import { WebcalCalendar } from '../../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../../utils/common';
 import { useSelector } from 'react-redux';
+
 import React, { useState } from 'react';
 import Separator from '../../../../components/separator/Separator';
 import WebcalCalendarApi from '../../../../api/WebcalCalendarApi';
+import WebcalModal from '../../../../components/accountSelectionModal/webcalModal/WebcalModal';
 
 const renderWebcalCalendars = (
   webcalCalendars: WebcalCalendar[],
+  handleEdit: any,
   handleHide: any,
   openPreDeleteModal: any
 ) => {
@@ -65,6 +68,7 @@ const renderWebcalCalendars = (
                 <MenuItem onClick={() => handleHide(item)}>
                   {item.isHidden ? 'Show' : 'Hide'}
                 </MenuItem>
+                <MenuItem onClick={() => handleEdit(item)}>Edit</MenuItem>
                 <MenuItem onClick={() => openPreDeleteModal(item)}>
                   Delete
                 </MenuItem>
@@ -84,6 +88,7 @@ const CalDavAccountSettings = () => {
   const [webcalInFocus, setWebcalInFocus] = useState<WebcalCalendar | null>(
     null
   );
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const webcalCalendars: WebcalCalendar[] = useSelector(
@@ -99,6 +104,7 @@ const CalDavAccountSettings = () => {
       return;
     }
     setWebcalInFocus(null);
+    setEditModalVisible(false);
     setDeleteModalVisible(false);
   };
 
@@ -108,8 +114,14 @@ const CalDavAccountSettings = () => {
     });
   };
 
+  const handleEdit = (item: WebcalCalendar) => {
+    setWebcalInFocus(item);
+    setEditModalVisible(true);
+  };
+
   const webcalCalendarsRendered = renderWebcalCalendars(
     webcalCalendars,
+    handleEdit,
     handleHide,
     openPreDeleteModal
   );
@@ -187,6 +199,12 @@ const CalDavAccountSettings = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+      {editModalVisible ? (
+        <WebcalModal
+          handleClose={onModalClose}
+          webcalCalendar={webcalInFocus || undefined}
+        />
+      ) : null}
     </>
   ) : null;
 };

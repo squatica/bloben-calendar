@@ -14,6 +14,12 @@ export default {
   ): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.post(`/v1/webcal/calendars`, data);
   },
+  updateWebcalCalendar: async (
+    id: string,
+    data: CreateWebcalCalendarRequest
+  ): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.put(`/v1/webcal/calendars/${id}`, data);
+  },
   getWebcalCalendars: async (): Promise<
     AxiosResponse<GetWebcalCalendarsResponse[]>
   > => {
