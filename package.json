@@ -46,7 +46,7 @@
   },
   "scripts": {
     "prepare": "npx husky install && npx husky add .husky/pre-commit \"npm run lint\"",
-    "start": "BROWSER=none react-scripts start",
+    "start": "REACT_APP_NODE_ENV=development BROWSER=none react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
