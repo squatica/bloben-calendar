@@ -1,4 +1,4 @@
-FROM node:16.14.0-stretch-slim
+FROM node:16.14.2-stretch-slim
 
 WORKDIR /usr/app/tmp
 ENV NODE_ENV development

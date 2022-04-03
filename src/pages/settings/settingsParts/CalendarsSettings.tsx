@@ -118,7 +118,11 @@ const renderCalDavAccountCalendars = (
     );
 
     return (
-      <Flex direction={'column'} key={calDavAccount.id}>
+      <Flex
+        direction={'column'}
+        key={calDavAccount.id}
+        style={{ marginBottom: 16 }}
+      >
         <Flex direction={'row'} alignItems={'center'}>
           <Heading size={'md'}>
             {getBaseUrl(
