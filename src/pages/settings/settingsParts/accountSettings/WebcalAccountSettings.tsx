@@ -28,8 +28,7 @@ import { ReduxState } from '../../../../types/interface';
 import { TOAST_STATUS } from 'types/enums';
 import { WebcalCalendar } from '../../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../../utils/common';
-import { setWebcalCalendars } from '../../../../redux/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import Separator from '../../../../components/separator/Separator';
 import WebcalCalendarApi from '../../../../api/WebcalCalendarApi';
@@ -87,8 +86,6 @@ const CalDavAccountSettings = () => {
   );
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  const dispatch = useDispatch();
-
   const webcalCalendars: WebcalCalendar[] = useSelector(
     (state: ReduxState) => state.webcalCalendars
   );
@@ -129,10 +126,6 @@ const CalDavAccountSettings = () => {
       );
 
       if (response.status === 200) {
-        const response = await WebcalCalendarApi.getWebcalCalendars();
-
-        dispatch(setWebcalCalendars(response.data));
-
         toast(createToast('Webcal calendar deleted'));
         setWebcalInFocus(null);
         setDeleteModalVisible(false);

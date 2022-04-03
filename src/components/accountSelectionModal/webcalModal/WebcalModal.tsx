@@ -11,8 +11,6 @@ import {
 import { CalDavAccount } from '../../../types/interface';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
-import { setWebcalCalendars } from '../../../redux/actions';
-import { useDispatch } from 'react-redux';
 import ChakraModal from '../../chakraCustom/ChakraModal';
 import React, { useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';
@@ -30,8 +28,6 @@ const WebcalModal = (props: WebcalModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { handleClose } = props;
-
-  const dispatch = useDispatch();
 
   const [state, dispatchState] = useReducer(StateReducer, Utils.state);
   const setLocalState = (stateName: string, data: any): void => {
@@ -70,10 +66,6 @@ const WebcalModal = (props: WebcalModalProps) => {
 
       if (response.data?.message) {
         toast(createToast(response.data.message));
-
-        const webcalResponse = await WebcalCalendarApi.getWebcalCalendars();
-
-        dispatch(setWebcalCalendars(webcalResponse.data));
       }
       setIsLoading(false);
       handleClose();
