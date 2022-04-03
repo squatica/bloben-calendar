@@ -36,13 +36,16 @@ import WebcalCalendarApi from '../../../../api/WebcalCalendarApi';
 
 const renderWebcalCalendars = (
   webcalCalendars: WebcalCalendar[],
+  handleHide: any,
   openPreDeleteModal: any
 ) => {
   return webcalCalendars.map((item) => {
     return (
       <Tbody key={item.url}>
         <Tr>
-          <Td>{item.name}</Td>
+          <Td>
+            {item.name} {item.isHidden ? '(hidden)' : ''}
+          </Td>
           <Td>
             <Popover>
               <PopoverTrigger>
@@ -60,6 +63,9 @@ const renderWebcalCalendars = (
                 Actions
               </MenuButton>
               <MenuList>
+                <MenuItem onClick={() => handleHide(item)}>
+                  {item.isHidden ? 'Show' : 'Hide'}
+                </MenuItem>
                 <MenuItem onClick={() => openPreDeleteModal(item)}>
                   Delete
                 </MenuItem>
@@ -99,8 +105,15 @@ const CalDavAccountSettings = () => {
     setDeleteModalVisible(false);
   };
 
+  const handleHide = async (item: WebcalCalendar) => {
+    await WebcalCalendarApi.patchCalendar(item.id, {
+      isHidden: !item.isHidden,
+    });
+  };
+
   const webcalCalendarsRendered = renderWebcalCalendars(
     webcalCalendars,
+    handleHide,
     openPreDeleteModal
   );
 
