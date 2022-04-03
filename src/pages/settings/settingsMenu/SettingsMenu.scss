@@ -2,12 +2,14 @@
 
 .SettingsMenu__wrapper {
   height: 100%;
-  //max-width: 200px;
+  min-width: 200px;
+  padding: 0 8px 0 8px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
+  overflow-y: auto;
+  overflow-x: hidden;
 
   @media (max-width: 750px) {
     width: 100%;

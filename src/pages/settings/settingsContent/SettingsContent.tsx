@@ -7,16 +7,37 @@ import CalendarsSettings from '../settingsParts/CalendarsSettings';
 import EmailConfigSettings from '../settingsParts/EmailConfigSettings';
 import GeneralSettings from '../settingsParts/GeneralSettings';
 import HelpSettings from '../settingsParts/HelpSettings';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ResetSettings from '../settingsParts/ResetSettings';
 
 interface SettingsContentProps {
   selected: string;
 }
 const SettingsContent = (props: SettingsContentProps) => {
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    const element = document.querySelector('.chakra-modal__body');
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      setHeight(rect.height - 8);
+    }
+  }, []);
+
+  useEffect(() => {
+    const element = document.querySelector('.chakra-modal__body');
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      setHeight(rect.height - 8);
+    }
+  }, [
+    document.querySelector('.chakra-modal__content')?.getBoundingClientRect()
+      .height,
+  ]);
+
   const { selected } = props;
   return (
-    <div className={'SettingsContent__container'}>
+    <div className={'SettingsContent__container'} style={{ maxHeight: height }}>
       {selected === SETTINGS_PATHS.GENERAL ? <GeneralSettings /> : null}
       {selected === SETTINGS_PATHS.ACCOUNTS ? <AccountSettings /> : null}
       {selected === SETTINGS_PATHS.CALENDARS ? <CalendarsSettings /> : null}

@@ -52,7 +52,9 @@ const ChakraModal = (props: ChakraModalProps) => {
         {withCloseButton ? (
           <ModalCloseButton _focus={{ boxShadow: 'none' }} />
         ) : null}
-        <ModalBody>{React.cloneElement(children, { data })}</ModalBody>
+        <ModalBody style={{ height: 'auto' }}>
+          {React.cloneElement(children, { data })}
+        </ModalBody>
         {footer ? footer : null}
       </ModalContent>
     </Modal>
