@@ -39,6 +39,7 @@ import Separator from '../../../components/separator/Separator';
 const renderAccountCalendars = (
   calDavCalendars: CalDavCalendar[],
   handleEdit: any,
+  handleHide: any,
   openPreDeleteModal: any
 ) => {
   return calDavCalendars.map((calDavCalendar) => {
@@ -50,7 +51,10 @@ const renderAccountCalendars = (
         alignItems={'center'}
       >
         <Flex width={150}>
-          <Text>{calDavCalendar.displayName}</Text>
+          <Text>
+            {calDavCalendar.displayName}{' '}
+            {calDavCalendar.isHidden ? '(hidden)' : ''}
+          </Text>
         </Flex>
         <Flex direction={'row'} justifyContent={'flex-start'}>
           {calDavCalendar.components.map((component: string) => (
@@ -72,6 +76,9 @@ const renderAccountCalendars = (
           </MenuButton>
           <MenuList>
             {/*<MenuItem onClick={() => handleEdit(calDavCalendar)}>Edit</MenuItem>*/}
+            <MenuItem onClick={() => handleHide(calDavCalendar)}>
+              {calDavCalendar.isHidden ? 'Show' : 'Hide'}
+            </MenuItem>
             <MenuItem onClick={() => openPreDeleteModal(calDavCalendar)}>
               Delete
             </MenuItem>
@@ -97,9 +104,16 @@ const renderCalDavAccountCalendars = (
       calDavCalendars
     );
 
+    const handleHide = async (item: CalDavCalendar) => {
+      await CalDavCalendarApi.patchCalendar(item.id, {
+        isHidden: !item.isHidden,
+      });
+    };
+
     const renderedCalendars = renderAccountCalendars(
       accountCalendars,
       handleEdit,
+      handleHide,
       openPreDeleteModal
     );
 
