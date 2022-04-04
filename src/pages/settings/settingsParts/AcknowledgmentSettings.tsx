@@ -53,7 +53,33 @@ const HelpSettings = () => {
                 'https://github.com/nibdo/bloben-calendar/blob/production/package.json'
               }
             >
-              Packages
+              Calendar packages
+            </Link>{' '}
+          </Text>
+          <Separator height={8} />
+          <Text fontSize="md">
+            <Link
+              _focus={{ boxShadow: 'none' }}
+              target={'_blank'}
+              color={'primary.400'}
+              href={
+                'https://github.com/nibdo/bloben-admin/blob/production/package.json'
+              }
+            >
+              Admin packages
+            </Link>{' '}
+          </Text>
+          <Separator height={8} />
+          <Text fontSize="md">
+            <Link
+              _focus={{ boxShadow: 'none' }}
+              target={'_blank'}
+              color={'primary.400'}
+              href={
+                'https://github.com/nibdo/bloben-api/blob/production/package.json'
+              }
+            >
+              Server packages
             </Link>{' '}
           </Text>
         </div>

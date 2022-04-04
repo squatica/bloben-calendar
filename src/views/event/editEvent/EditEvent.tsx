@@ -133,6 +133,7 @@ const isEventKnownProp = (prop: string) => {
     'description',
     'rRule',
     'props',
+    'color',
   ];
 
   return knownProps.includes(prop);
@@ -210,6 +211,7 @@ const EditEvent = (props: EditEventProps) => {
     attendees,
     organizer,
     rRule,
+    color,
   } = form;
 
   const loadEvent = async () => {
@@ -255,7 +257,6 @@ const EditEvent = (props: EditEventProps) => {
     if (!thisCalendar) {
       return;
     }
-    setForm('color', thisCalendar.color);
     if (isNewEvent) {
       const timezoneFromCalendar: string = getLocalTimezone();
 
@@ -279,7 +280,6 @@ const EditEvent = (props: EditEventProps) => {
     }
     const timezoneFromCalendar: string = getLocalTimezone();
 
-    setForm('color', '#2667FF');
     setForm('timezoneStartAt', timezoneFromCalendar);
     setForm('timezoneEndAt', timezoneFromCalendar);
     setCalendar(thisCalendar);
@@ -484,6 +484,7 @@ const EditEvent = (props: EditEventProps) => {
             addAttendee={addAttendee}
             removeAttendee={removeAttendee}
             updateAttendee={updateAttendee}
+            color={color || calendar.color}
             // makeOptional={makeOptional}
             organizer={organizer}
             form={form}
