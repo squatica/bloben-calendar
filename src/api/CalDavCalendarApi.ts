@@ -3,6 +3,7 @@ import { CommonResponse } from '../bloben-interface/interface';
 import {
   CreateCalDavCalendarRequest,
   PatchCalDavCalendarRequest,
+  UpdateCalDavCalendarRequest,
 } from '../bloben-interface/calDavCalendar/calDavCalendar';
 import { GetCalDavCalendar } from '../bloben-interface/calDavCalendar/calDavCalendar';
 import Axios from 'lib/Axios';
@@ -21,7 +22,7 @@ export default {
   },
   updateCalendar: async (
     id: string,
-    data: CreateCalDavCalendarRequest
+    data: UpdateCalDavCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.put(`/v1/caldav-calendars/${id}`, data);
   },

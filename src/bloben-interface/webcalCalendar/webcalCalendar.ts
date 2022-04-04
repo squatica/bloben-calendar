@@ -23,5 +23,4 @@ export interface GetWebcalCalendarsResponse {
 
 export interface PatchWebcalCalendarRequest {
   isHidden?: boolean;
-  color?: string;
 }

@@ -56,6 +56,7 @@ class ICalHelper {
   lastModified?: string;
   location?: string;
   sequence?: string;
+  color?: string;
   status?: string;
   summary?: string;
   transp?: string;
@@ -71,6 +72,7 @@ class ICalHelper {
       startAt,
       endAt,
       summary,
+      color,
       description,
       location,
       rRule,
@@ -110,6 +112,10 @@ class ICalHelper {
     // this.sequence = sequence;
     this.status = 'CONFIRMED';
     this.transp = 'OPAQUE';
+
+    if (color) {
+      this.color = color;
+    }
 
     // include all other not supported properties
     if (props) {
