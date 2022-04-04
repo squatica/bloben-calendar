@@ -2,7 +2,7 @@ name: Build
 
 on:
   pull_request:
-    branches: [ development, staging, production ]
+    branches: [ development, production ]
 
 jobs:
   build:
