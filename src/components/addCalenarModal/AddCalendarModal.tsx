@@ -11,11 +11,16 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   Stack,
   Tag,
   useToast,
 } from '@chakra-ui/react';
 import { CalDavAccount, CalDavCalendar } from '../../types/interface';
+import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
 import CalDavCalendarApi from '../../api/CalDavCalendarApi';
@@ -60,15 +65,29 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
     }
     setIsLoading(true);
     try {
-      const response: any = await CalDavCalendarApi.createCalendar({
-        name,
-        color,
-        components,
-        accountID: account.id,
-      });
+      if (!calendar) {
+        const response: any = await CalDavCalendarApi.createCalendar({
+          name,
+          color,
+          components,
+          accountID: account.id,
+        });
 
-      if (response.data?.message) {
-        toast(createToast(response.data.message));
+        if (response.data?.message) {
+          toast(createToast(response.data.message));
+        }
+      } else if (calendar) {
+        const response: any = await CalDavCalendarApi.updateCalendar(
+          calendar.id,
+          {
+            name,
+            color,
+          }
+        );
+
+        if (response.data?.message) {
+          toast(createToast(response.data.message));
+        }
       }
 
       setIsLoading(false);
@@ -116,6 +135,10 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
       setLocalState('components', calendar.components);
     }
   }, []);
+
+  const setColor = (color: any) => {
+    setLocalState('color', color);
+  };
 
   const closeFunc = () => {
     if (!isLoading) {
@@ -170,58 +193,64 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
             ))}
           </Flex>
           <Separator height={10} />
-          <Menu closeOnSelect={false}>
-            <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
-              Select components
-            </MenuButton>
-            <MenuList>
-              <Stack spacing={1}>
-                <MenuItem onClick={() => checkComponents('VEVENT')}>
-                  <Box>
-                    <Checkbox
-                      colorScheme="teal"
-                      value={'VEVENT'}
-                      isChecked={components.includes('VEVENT')}
-                    >
-                      VEVENT
-                    </Checkbox>
-                  </Box>
-                </MenuItem>
-                <MenuItem onClick={() => checkComponents('VTODO')}>
-                  <Box>
-                    <Checkbox
-                      colorScheme="teal"
-                      value={'VTODO'}
-                      isChecked={components.includes('VTODO')}
-                    >
-                      VTODO
-                    </Checkbox>
-                  </Box>
-                </MenuItem>
-                <MenuItem onClick={() => checkComponents('VJOURNAL')}>
-                  <Box>
-                    <Checkbox
-                      colorScheme="teal"
-                      value={'VJOURNAL'}
-                      isChecked={components.includes('VJOURNAL')}
-                    >
-                      VJOURNAL
-                    </Checkbox>
-                  </Box>
-                </MenuItem>
-              </Stack>
-            </MenuList>
-          </Menu>
-
+          {!calendar ? (
+            <Menu closeOnSelect={false}>
+              <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+                Select components
+              </MenuButton>
+              <MenuList>
+                <Stack spacing={1}>
+                  <MenuItem onClick={() => checkComponents('VEVENT')}>
+                    <Box>
+                      <Checkbox
+                        colorScheme="teal"
+                        value={'VEVENT'}
+                        isChecked={components.includes('VEVENT')}
+                      >
+                        VEVENT
+                      </Checkbox>
+                    </Box>
+                  </MenuItem>
+                  <MenuItem onClick={() => checkComponents('VTODO')}>
+                    <Box>
+                      <Checkbox
+                        colorScheme="teal"
+                        value={'VTODO'}
+                        isChecked={components.includes('VTODO')}
+                      >
+                        VTODO
+                      </Checkbox>
+                    </Box>
+                  </MenuItem>
+                  <MenuItem onClick={() => checkComponents('VJOURNAL')}>
+                    <Box>
+                      <Checkbox
+                        colorScheme="teal"
+                        value={'VJOURNAL'}
+                        isChecked={components.includes('VJOURNAL')}
+                      >
+                        VJOURNAL
+                      </Checkbox>
+                    </Box>
+                  </MenuItem>
+                </Stack>
+              </MenuList>
+            </Menu>
+          ) : null}
           <Separator height={18} />
           <FormLabel htmlFor="color">Color</FormLabel>
-          <Input
-            size={'lg'}
-            id="color"
-            name={'color'}
-            onChange={onChange}
-            value={color}
-          />
+          <Popover>
+            <PopoverTrigger>
+              <Button style={{ width: 100, background: color, color: 'white' }}>
+                {color}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverBody>
+                <HexColorPicker color={color} onChange={setColor} />
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </FormControl>
         <Separator height={25} />
         <Center>

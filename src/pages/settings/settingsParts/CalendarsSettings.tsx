@@ -37,8 +37,10 @@ import React, { useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 
 const renderAccountCalendars = (
+  account: CalDavAccount,
   calDavCalendars: CalDavCalendar[],
   handleEdit: any,
+  handleHide: any,
   openPreDeleteModal: any
 ) => {
   return calDavCalendars.map((calDavCalendar) => {
@@ -50,7 +52,10 @@ const renderAccountCalendars = (
         alignItems={'center'}
       >
         <Flex width={150}>
-          <Text>{calDavCalendar.displayName}</Text>
+          <Text>
+            {calDavCalendar.displayName}{' '}
+            {calDavCalendar.isHidden ? '(hidden)' : ''}
+          </Text>
         </Flex>
         <Flex direction={'row'} justifyContent={'flex-start'}>
           {calDavCalendar.components.map((component: string) => (
@@ -71,7 +76,12 @@ const renderAccountCalendars = (
             Actions
           </MenuButton>
           <MenuList>
-            {/*<MenuItem onClick={() => handleEdit(calDavCalendar)}>Edit</MenuItem>*/}
+            <MenuItem onClick={() => handleEdit(calDavCalendar, account)}>
+              Edit
+            </MenuItem>
+            <MenuItem onClick={() => handleHide(calDavCalendar)}>
+              {calDavCalendar.isHidden ? 'Show' : 'Hide'}
+            </MenuItem>
             <MenuItem onClick={() => openPreDeleteModal(calDavCalendar)}>
               Delete
             </MenuItem>
@@ -97,14 +107,26 @@ const renderCalDavAccountCalendars = (
       calDavCalendars
     );
 
+    const handleHide = async (item: CalDavCalendar) => {
+      await CalDavCalendarApi.patchCalendar(item.id, {
+        isHidden: !item.isHidden,
+      });
+    };
+
     const renderedCalendars = renderAccountCalendars(
+      calDavAccount,
       accountCalendars,
       handleEdit,
+      handleHide,
       openPreDeleteModal
     );
 
     return (
-      <Flex direction={'column'} key={calDavAccount.id}>
+      <Flex
+        direction={'column'}
+        key={calDavAccount.id}
+        style={{ marginBottom: 16 }}
+      >
         <Flex direction={'row'} alignItems={'center'}>
           <Heading size={'md'}>
             {getBaseUrl(
@@ -146,10 +168,11 @@ const CalendarsSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<CalDavAccount | null>(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] =
+    useState<CalDavAccount | null>(null);
 
-  const handleEdit = (item: CalDavCalendar) => {
-    setEditModalVisible(true);
+  const handleEdit = (item: CalDavCalendar, account: CalDavAccount) => {
+    setEditModalVisible(account);
     setCalendarInFocus(item);
   };
 
@@ -164,7 +187,7 @@ const CalendarsSettings = () => {
     }
     setCalendarInFocus(null);
     setDeleteModalVisible(false);
-    setEditModalVisible(false);
+    setEditModalVisible(null);
   };
 
   const renderedCalendars = renderCalDavAccountCalendars(
@@ -239,12 +262,13 @@ const CalendarsSettings = () => {
         </AlertDialogOverlay>
       </AlertDialog>
 
-      {/*{editModalVisible && calendarInFocus ? (*/}
-      {/*  <AddCalendarModal*/}
-      {/*    handleClose={() => setEditModalVisible(false)}*/}
-      {/*    calendar={calendarInFocus}*/}
-      {/*  />*/}
-      {/*) : null}*/}
+      {editModalVisible && calendarInFocus ? (
+        <AddCalendarModal
+          handleClose={() => setEditModalVisible(null)}
+          account={editModalVisible}
+          calendar={calendarInFocus}
+        />
+      ) : null}
     </>
   );
 };

@@ -42,6 +42,7 @@ interface EventDetailProps {
   makeOptional?: any;
   form?: any;
   updateAttendee?: any;
+  color?: string;
 }
 const EventDetail = (props: EventDetailProps) => {
   const {
@@ -66,6 +67,7 @@ const EventDetail = (props: EventDetailProps) => {
     attendees,
     form,
     updateAttendee,
+    color,
   } = props;
 
   return (
@@ -78,6 +80,8 @@ const EventDetail = (props: EventDetailProps) => {
       <EventDetailCalendar
         calendar={calendar}
         selectCalendar={selectCalendar}
+        color={color}
+        setForm={setForm}
       />
       <EventDetailDates
         startDate={startDate}

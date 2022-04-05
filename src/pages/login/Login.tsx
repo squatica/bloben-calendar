@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { Context } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
-import { createToast } from '../../utils/common';
+import { createToast, getHostname } from '../../utils/common';
 import PrimaryButton from '../../components/chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useState } from 'react';
 import Separator from 'components/separator/Separator';
@@ -25,7 +25,6 @@ const Login = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [serverUrl, setServerUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const [store, dispatch] = useContext(Context);
@@ -46,15 +45,12 @@ const Login = () => {
     if (e.target.name === 'password') {
       setPassword(e.target.value);
     }
-    if (e.target.name === 'serverUrl') {
-      setServerUrl(e.target.value);
-    }
   };
 
   const handleLogin = async (): Promise<void> => {
     setIsLoading(true);
 
-    const apiUrl = `${serverUrl}/api`;
+    const apiUrl = `${getHostname()}/api`;
 
     window.localStorage.setItem('apiUrl', apiUrl);
     window.env.apiUrl = apiUrl;
@@ -129,17 +125,6 @@ const Login = () => {
               </Button>
             </InputRightElement>
           </InputGroup>
-        </FormControl>
-        <Separator height={20} />
-        <FormControl id="serverUrl" size="2xl">
-          <FormLabel size="2xl">Server url</FormLabel>
-          <Input
-            size={'lg'}
-            type={'text'}
-            name={'serverUrl'}
-            value={serverUrl}
-            onChange={onChange}
-          />
         </FormControl>
         <Separator height={40} />
         <Center flexDirection={'column'}>

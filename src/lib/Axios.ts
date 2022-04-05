@@ -8,7 +8,7 @@ const headers: any = {
 };
 
 export const config: any = {
-  timeout: 5000,
+  timeout: 20000,
   headers,
   withCredentials: true,
 };

@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  ComponentStyleConfig,
+  extendTheme,
+} from '@chakra-ui/react';
 import AppRouter from './pages/Router';
 import AuthProvider from './layers/AuthProvider';
 import BrowserProvider from './layers/BrowserProvider';
@@ -11,7 +15,34 @@ import StorageProvider from 'layers/StorageProvider';
 import StoreProvider from './context/store';
 import ThemeWrapper from './components/themeWrapper/ThemeWrapper';
 
+const Input: ComponentStyleConfig = {
+  baseStyle: {
+    focusBorderColor: 'gray.700',
+  },
+  defaultProps: {
+    size: 'lg',
+    focusBorderColor: 'gray.700',
+  },
+};
+
+const Button: ComponentStyleConfig = {
+  baseStyle: {
+    fontWeight: 'semibold',
+    borderRadius: 'base',
+    _focus: { boxShadow: 'none' },
+  },
+  defaultProps: {
+    size: 'md',
+    variant: 'solid',
+    _focus: { boxShadow: 'none' },
+  },
+};
+
 const theme = extendTheme({
+  components: {
+    Button,
+    Input,
+  },
   colors: {
     primary: {
       200: '#EC407AB2',

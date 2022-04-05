@@ -6,15 +6,18 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   useToast,
 } from '@chakra-ui/react';
-import { CalDavAccount } from '../../../types/interface';
+import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../../types/enums';
+import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../utils/common';
-import { setWebcalCalendars } from '../../../redux/actions';
-import { useDispatch } from 'react-redux';
 import ChakraModal from '../../chakraCustom/ChakraModal';
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';
 import StateReducer from '../../../utils/state-reducer';
 import Utils from './WebcalModal.utils';
@@ -22,16 +25,14 @@ import WebcalCalendarApi from '../../../api/WebcalCalendarApi';
 
 interface WebcalModalProps {
   handleClose: any;
-  account?: CalDavAccount;
+  webcalCalendar?: WebcalCalendar;
 }
 const WebcalModal = (props: WebcalModalProps) => {
   const toast = useToast();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { handleClose } = props;
-
-  const dispatch = useDispatch();
+  const { handleClose, webcalCalendar } = props;
 
   const [state, dispatchState] = useReducer(StateReducer, Utils.state);
   const setLocalState = (stateName: string, data: any): void => {
@@ -48,6 +49,19 @@ const WebcalModal = (props: WebcalModalProps) => {
     setLocalState(e.target.name, value);
   };
 
+  const setColor = (color: any) => {
+    setLocalState('color', color);
+  };
+
+  useEffect(() => {
+    if (webcalCalendar) {
+      setLocalState('url', webcalCalendar.url);
+      setLocalState('color', webcalCalendar.color);
+      setLocalState('name', webcalCalendar.name);
+      setLocalState('syncFrequency', webcalCalendar.syncFrequency);
+    }
+  }, []);
+
   const addWebcalCalendar = async () => {
     if (syncFrequency < 30) {
       toast(
@@ -61,20 +75,33 @@ const WebcalModal = (props: WebcalModalProps) => {
 
     setIsLoading(true);
     try {
-      const response: any = await WebcalCalendarApi.createWebcalCalendar({
-        name,
-        color,
-        url,
-        syncFrequency,
-      });
+      if (webcalCalendar) {
+        const response: any = await WebcalCalendarApi.updateWebcalCalendar(
+          webcalCalendar.id,
+          {
+            name,
+            color,
+            url,
+            syncFrequency,
+          }
+        );
 
-      if (response.data?.message) {
-        toast(createToast(response.data.message));
+        if (response.data?.message) {
+          toast(createToast(response.data.message));
+        }
+      } else {
+        const response: any = await WebcalCalendarApi.createWebcalCalendar({
+          name,
+          color,
+          url,
+          syncFrequency,
+        });
 
-        const webcalResponse = await WebcalCalendarApi.getWebcalCalendars();
-
-        dispatch(setWebcalCalendars(webcalResponse.data));
+        if (response.data?.message) {
+          toast(createToast(response.data.message));
+        }
       }
+
       setIsLoading(false);
       handleClose();
     } catch (e) {
@@ -120,13 +147,18 @@ const WebcalModal = (props: WebcalModalProps) => {
           />
           <Separator height={18} />
           <FormLabel htmlFor="color">Color</FormLabel>
-          <Input
-            size={'lg'}
-            id="color"
-            name={'color'}
-            onChange={onChange}
-            value={color}
-          />
+          <Popover>
+            <PopoverTrigger>
+              <Button style={{ width: 100, background: color, color: 'white' }}>
+                {color}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverBody>
+                <HexColorPicker color={color} onChange={setColor} />
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
           <Separator height={18} />
           <FormLabel htmlFor="color">Sync frequency</FormLabel>
           <InputGroup size={'lg'}>

@@ -1,5 +1,5 @@
 import './Settings.scss';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Context } from '../../context/store';
 import { Flex } from '@chakra-ui/react';
@@ -20,11 +20,31 @@ const Settings = () => {
   );
 
   const handleClose = () => setContext('settingsOpen', false);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    const element = document.querySelector('.chakra-modal__body');
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      setHeight(rect.height - 8);
+    }
+  }, []);
+
+  useEffect(() => {
+    const element = document.querySelector('.chakra-modal__body');
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      setHeight(rect.height - 8);
+    }
+  }, [
+    document.querySelector('.chakra-modal__content')?.getBoundingClientRect()
+      .height,
+  ]);
 
   return isMobile ? (
     <Flex>
       {store.settingsOpen ? (
-        <div className={'Settings__wrapper'}>
+        <div className={'Settings__wrapper'} style={{ maxHeight: height }}>
           {selected === '' ? (
             <>
               <SettingsMenu setSelected={setSelected} selected={selected} />

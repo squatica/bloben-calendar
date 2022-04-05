@@ -1,8 +1,8 @@
-name: Development
+name: Staging
 
 on:
   push:
-    branches: [ development ]
+    branches: [ staging ]
 
 jobs:
   build:
@@ -46,4 +46,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: bloben/calendar:development
+          tags: bloben/calendar:staging

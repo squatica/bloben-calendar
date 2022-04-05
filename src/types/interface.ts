@@ -24,6 +24,7 @@ export interface QueryRangeMillis {
 export interface CalDavCalendar {
   calDavAccountID: string;
   color: string;
+  isHidden?: boolean;
   displayName: string;
   id: string;
   timezone: string;
