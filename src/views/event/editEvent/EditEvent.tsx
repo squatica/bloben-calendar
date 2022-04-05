@@ -440,6 +440,7 @@ const EditEvent = (props: EditEventProps) => {
     );
     setForm('calendarUrl', calendarObj.url);
     setCalendar(calendarObj);
+    setForm('color', null);
   };
 
   const saveEvent = async () => {

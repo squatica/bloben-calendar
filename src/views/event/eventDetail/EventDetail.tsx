@@ -7,7 +7,6 @@ import { CalDavCalendar } from '../../../types/interface';
 import { Stack } from '@chakra-ui/react';
 import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
-import EventDetailColor from '../../../components/eventDetail/eventDetailColor/EventDetailColor';
 import EventDetailDates from '../../../components/eventDetail/eventDetailDates/EventDetailDates';
 import EventDetailLocation from '../../../components/eventDetail/eventDetailLocation/EventDetailLocation';
 import EventDetailNotes from '../../../components/eventDetail/eventDetailNotes/EventDetailNotes';
@@ -81,6 +80,8 @@ const EventDetail = (props: EventDetailProps) => {
       <EventDetailCalendar
         calendar={calendar}
         selectCalendar={selectCalendar}
+        color={color}
+        setForm={setForm}
       />
       <EventDetailDates
         startDate={startDate}
@@ -93,7 +94,6 @@ const EventDetail = (props: EventDetailProps) => {
         allDay={allDay}
         setStartTimezone={setStartTimezone}
       />
-      <EventDetailColor color={color} setForm={setForm} />
       <EventDetailRepeat
         isRepeated={isRepeated}
         setForm={setForm}
