@@ -150,14 +150,19 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
   );
 
   return (
-    <Flex direction={'column'}>
+    <Flex
+      direction={'column'}
+      style={{
+        width: '90%',
+      }}
+    >
       <Stack direction={'row'} align={'center'}>
         <FormIcon isDark={isDark} allVisible>
           <EvaIcons.Person className={'EventDetail-icon'} />
         </FormIcon>
         {!disabled ? (
           <Input
-            // size={'lg'}
+            size={'md'}
             type="text"
             placeholder="Add attendee"
             name={'attendee'}
@@ -185,7 +190,9 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
               justifyContent={'flex-start'}
               onClick={() => setListVisible(!isListVisible)}
             >
-              {attendees.length} attendee(s)
+              <Text style={{ fontWeight: 'normal' }}>
+                {attendees.length} attendee(s)
+              </Text>
             </Button>
             {isListVisible ? renderedAttendees : null}
           </Stack>
@@ -208,7 +215,9 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
               justifyContent={'flex-start'}
               onClick={() => setListVisible(!isListVisible)}
             >
-              {attendees.length} attendee(s)
+              <Text style={{ fontWeight: 'normal' }}>
+                {attendees.length} attendee(s)
+              </Text>
             </Button>
             {isListVisible ? renderedAttendees : null}
           </Stack>

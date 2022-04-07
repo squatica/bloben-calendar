@@ -96,12 +96,15 @@ const EventDetailRepeat = (props: EventDetailRepeatProps) => {
       </FormIcon>
       <Menu>
         <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
-          {selectedValue}
+          <Text style={{ fontWeight: 'normal' }}>{selectedValue}</Text>
         </MenuButton>
         <MenuList>{renderedRepeatOptions}</MenuList>
       </Menu>
       {isCustomOpen ? (
-        <ChakraModal handleClose={() => openCustomMenu(false)}>
+        <ChakraModal
+          handleClose={() => openCustomMenu(false)}
+          style={{ zIndex: 99999 }}
+        >
           <RRuleCustom setForm={setForm} form={form} />
         </ChakraModal>
       ) : null}
