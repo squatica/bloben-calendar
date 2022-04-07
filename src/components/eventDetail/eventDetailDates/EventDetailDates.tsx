@@ -26,7 +26,7 @@ import TimePicker from '../../timePicker/TimePicker';
 const SIDE_MARGIN = 24;
 
 const formatDate = (date: string, timezone: string): string =>
-  parseToDateTime(date, timezone).toFormat('d LLL yyyy');
+  parseToDateTime(date, timezone).toFormat('d LLL yy');
 
 const formatTime = (date: string, timezone: string): string =>
   parseToDateTime(date, timezone).toFormat('HH:mm');
@@ -116,9 +116,11 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
               <MenuButton
                 as={Button}
                 _focus={{ boxShadow: 'none' }}
-                style={{ width: 120 }}
+                style={{ width: 90 }}
               >
-                {startDateFormatted}
+                <Text style={{ fontWeight: 'normal' }}>
+                  {startDateFormatted}
+                </Text>
               </MenuButton>
               <MenuList>
                 <DatePicker
@@ -135,9 +137,11 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                 <MenuButton
                   as={Button}
                   _focus={{ boxShadow: 'none' }}
-                  style={{ width: 70 }}
+                  style={{ width: 65 }}
                 >
-                  {startTimeFormatted}
+                  <Text style={{ fontWeight: 'normal' }}>
+                    {startTimeFormatted}
+                  </Text>
                 </MenuButton>
                 <MenuList style={{ width: 150 }}>
                   <TimePicker
@@ -156,9 +160,9 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
               <MenuButton
                 as={Button}
                 _focus={{ boxShadow: 'none' }}
-                style={{ width: 120 }}
+                style={{ width: 90 }}
               >
-                {endDateFormatted}
+                <Text style={{ fontWeight: 'normal' }}>{endDateFormatted}</Text>
               </MenuButton>
               <MenuList>
                 <DatePicker
@@ -177,7 +181,9 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                   _focus={{ boxShadow: 'none' }}
                   style={{ width: 70 }}
                 >
-                  {endTimeFormatted}
+                  <Text style={{ fontWeight: 'normal' }}>
+                    {endTimeFormatted}
+                  </Text>
                 </MenuButton>
                 <MenuList>
                   <TimePicker
@@ -194,7 +200,8 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
       </Stack>
       <Stack direction={'row'} align={'center'} style={{ width: '100%' }}>
         <FormIcon allVisible hidden isDark={isDark}>
-          <EvaIcons.Clock className={'EventDetail-icon'} />
+          <div />
+          {/*<EvaIcons.Clock className={'EventDetail-icon'} />*/}
         </FormIcon>
         <Stack
           direction={'row'}
@@ -207,7 +214,9 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
             onClick={handleSetAllDay}
             _focus={{ boxShadow: 'none' }}
           >
-            <Text style={{ paddingRight: 14 }}>All day</Text>
+            <Text style={{ paddingRight: 14, fontWeight: 'normal' }}>
+              All day
+            </Text>
             <Checkbox
               type={'checkbox'}
               size={'lg'}

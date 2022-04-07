@@ -17,12 +17,18 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
   const { isDark } = store;
 
   return (
-    <Stack direction={'row'} align={'center'}>
+    <Stack
+      direction={'row'}
+      align={'center'}
+      style={{
+        width: '90%',
+      }}
+    >
       <FormIcon isDark={isDark} allVisible>
         <EvaIcons.Pin className={'EventDetail-icon'} />
       </FormIcon>
       <Input
-        // size={'lg'}
+        size={'md'}
         type="text"
         placeholder="Location"
         name={'location'}

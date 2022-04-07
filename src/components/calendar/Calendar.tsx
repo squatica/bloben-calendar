@@ -209,6 +209,7 @@ const Calendar = (props: CalendarProps) => {
         onStateChange={onKalendStateChange}
         selectedView={selectedView}
         isNewEventOpen={isNewEventOpen !== null}
+        showTimeLine={true}
       />
       {/*</Carousel>*/}
       {isNewEventOpen ? (
