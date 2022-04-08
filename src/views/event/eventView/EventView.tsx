@@ -124,15 +124,17 @@ const EventView = (props: EventViewProps) => {
   return event && event.id ? (
     <Modal e={currentE} handleClose={handleClose} maxHeight={'42%'}>
       <>
-        <HeaderModal
-          isMobile={isMobile}
-          isDark={isDark}
-          hasHeaderShadow={false}
-          onClose={handleClose}
-          goBack={handleClose}
-          handleEdit={event.type === EVENT_TYPE.CALDAV ? handleEdit : null}
-          handleDelete={event.type === EVENT_TYPE.CALDAV ? deleteEvent : null}
-        />
+        {event.type === EVENT_TYPE.CALDAV ? (
+          <HeaderModal
+            isMobile={isMobile}
+            isDark={isDark}
+            hasHeaderShadow={false}
+            onClose={handleClose}
+            goBack={handleClose}
+            handleEdit={event.type === EVENT_TYPE.CALDAV ? handleEdit : null}
+            handleDelete={event.type === EVENT_TYPE.CALDAV ? deleteEvent : null}
+          />
+        ) : null}
         <EventDetailTitle
           isNewEvent={false}
           value={event.summary}

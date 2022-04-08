@@ -31,6 +31,11 @@ const ReduxProvider = (props: ReduxProviderProps) => {
         });
       })
       .catch((e: any) => {
+        alert(
+          'Error: Local storage not available. \n\nIf you are using incognito' +
+            ' mode in Firefox browser, required localstorage is not working.' +
+            ' Please try another browser or use regular Firefox window.'
+        );
         debug('Local storage error', e);
       });
   }, []);

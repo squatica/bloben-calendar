@@ -6,9 +6,11 @@ interface ModalProps {
   children: any;
   handleClose: any;
   maxHeight?: string;
+  width?: number;
+  noOverflow?: boolean;
 }
 const Modal = (props: ModalProps) => {
-  const { e, handleClose } = props;
+  const { e, handleClose, noOverflow } = props;
   const [isVisible, setVisible] = useState(false);
   const [layout, setLayout] = useState<any>({ x: null, y: null });
 
@@ -28,9 +30,9 @@ const Modal = (props: ModalProps) => {
         maxHeight: props.maxHeight || '60%',
         minWidth: 300,
         height: 'auto',
-        width: 'auto',
+        width: props.width ? props.width : 'auto',
         overflowX: 'hidden',
-        overflowY: 'auto',
+        overflowY: noOverflow ? 'hidden' : 'auto',
       };
     }
   };
