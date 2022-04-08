@@ -54,7 +54,7 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
       </FormIcon>
       <Menu isLazy>
         <MenuButton
-          size={'xs'}
+          size={'md'}
           style={{
             background: props.color || calendar.customColor || calendar.color,
           }}
@@ -86,11 +86,11 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
         )}
       </Menu>
       {disabled ? (
-        <Text>{calendar.displayName}</Text>
+        <Text style={{ fontWeight: 'normal' }}>{calendar.displayName}</Text>
       ) : (
         <Menu>
           <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
-            {calendar.displayName}
+            <Text style={{ fontWeight: 'normal' }}>{calendar.displayName}</Text>
           </MenuButton>
           <MenuList>{renderedCalendar}</MenuList>
         </Menu>

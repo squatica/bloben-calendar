@@ -19,12 +19,12 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
   const { isDark } = store;
 
   return (
-    <Stack direction={'row'} align={'center'}>
+    <Stack direction={'row'} align={'center'} style={{ width: '90%' }}>
       <FormIcon isDark={isDark} hidden allVisible>
         <EvaIcons.Note color={'transparent'} fill={'transparent'} />
       </FormIcon>
       <Input
-        size={'lg'}
+        size={'md'}
         type="text"
         placeholder="Event title"
         name={'summary'}
@@ -35,6 +35,7 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
         readOnly={disabled}
         autoFocus={isNewEvent}
         autoComplete={'off'}
+        style={{ width: '95%' }}
       />
     </Stack>
     // <FormContainer>

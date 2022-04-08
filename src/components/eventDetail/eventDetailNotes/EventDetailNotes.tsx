@@ -19,7 +19,13 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
   const { isDark } = store;
 
   return (
-    <Stack direction={'row'} align={'center'}>
+    <Stack
+      direction={'row'}
+      align={'center'}
+      style={{
+        width: '90%',
+      }}
+    >
       <FormIcon isDark={isDark} allVisible alignTop>
         <EvaIcons.Document className={'EventDetail-icon'} />
       </FormIcon>
@@ -27,7 +33,7 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
         <p dangerouslySetInnerHTML={{ __html: parseHtml(value) }} />
       ) : (
         <Textarea
-          // size={'lg'}
+          size={'md'}
           placeholder="Notes"
           name={'description'}
           value={value}
@@ -39,6 +45,7 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
           rows={1}
           maxRows={5}
           as={ResizeTextarea}
+          focusBorderColor={'gray.700'}
         />
       )}
     </Stack>

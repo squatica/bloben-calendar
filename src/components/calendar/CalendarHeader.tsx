@@ -89,7 +89,6 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     <Flex
       direction={'column'}
       paddingTop={3}
-      paddingBottom={2}
       paddingLeft={8}
       paddingRight={isMobile ? 6 : 14}
     >
@@ -255,7 +254,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
       ) : null}
       <Flex
         direction={'row'}
-        paddingTop={isMobile ? 0 : 5}
+        paddingTop={isMobile ? 0 : 3}
         paddingBottom={3}
         paddingLeft={isMobile ? 0 : 8}
         flex={1}
