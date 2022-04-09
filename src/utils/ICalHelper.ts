@@ -1,7 +1,8 @@
-import ICalParser from 'ical-js-parser';
+import ICalParser from 'ical-js-parser-dev';
 
 import { DateTime } from 'luxon';
-import { forEach } from 'lodash';
+import { forEach, map } from 'lodash';
+import { formatAppAlarm } from './common';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
 
@@ -81,6 +82,7 @@ class ICalHelper {
       attendees,
       props,
       allDay,
+      alarms,
     } = event;
 
     this.dtstart = {
@@ -96,8 +98,11 @@ class ICalHelper {
       timezone: allDay ? undefined : timezoneStartAt,
     };
     this.uid = externalID ? externalID : v4();
-    this.organizer = organizer || props?.organizer;
-    this.attendee = attendees;
+    if (attendees.length) {
+      this.organizer = organizer || props?.organizer;
+      this.attendee = attendees;
+    }
+
     this.created = LuxonHelper.toUtcString(createdAt);
     this.dtstamp = DateTime.local().toUTC().toString();
     this.description = description;
@@ -123,11 +128,18 @@ class ICalHelper {
         if (propItem[0] === 'sequence') {
           this[propItem[0]] = String(Number(propItem[1]) + 1);
         } else {
-          if (propItem[0] !== 'attendee') {
+          if (propItem[0] === 'alarms' && alarms?.length === 0) {
+            this.alarms = propItem[1];
+          } else if (propItem[0] !== 'attendee') {
             this[propItem[0]] = propItem[1];
           }
         }
       });
+    }
+
+    // format alarms
+    if (alarms.length) {
+      this.alarms = map(alarms, formatAppAlarm);
     }
   }
 
@@ -157,7 +169,6 @@ class ICalHelper {
     const template = {
       calendar: this.createCalendar(method),
       events: [getKnownProps(this)],
-      todos: [],
     };
 
     return ICalParser.toString(template);

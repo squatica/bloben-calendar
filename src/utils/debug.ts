@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
 export const debug = (msg: string, data?: any) => {
-  console.log(`DEBUG MSG: ${msg}`, data);
+  if (process.env.REACT_APP_NODE_ENV === 'development') {
+    console.log(`DEBUG MSG: ${msg}`, data);
+  }
 };
