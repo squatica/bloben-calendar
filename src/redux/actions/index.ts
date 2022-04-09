@@ -4,6 +4,7 @@ import {
   CalDavEvent,
   User,
 } from '../../types/interface';
+import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
 import { GetEventResponse } from '../../bloben-interface/event/event';
 import { OnPageChangeData } from 'kalend';
 import { WebcalCalendar } from '../reducers/webcalCalendars';
@@ -155,6 +156,13 @@ export const setWebcalCalendars = (data: WebcalCalendar[]) => {
 export const addToWebcalCalendars = (data: WebcalCalendar) => {
   return {
     type: 'ADD_TO_WEBCAL_CALENDARS',
+    payload: data,
+  };
+};
+
+export const setCalendarSettings = (data: CalendarSettingsResponse) => {
+  return {
+    type: 'SET_CALENDAR_SETTINGS',
     payload: data,
   };
 };

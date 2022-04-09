@@ -1,14 +1,19 @@
-import { ALARM_TYPE } from '../enums';
+import { CALENDAR_VIEW } from 'kalend-layout';
 
-export interface GetCalendarSettingsResponse {
-  defaultCalendar: string;
-  defaultAlarmType: ALARM_TYPE;
-  defaultTimezone: string;
-  autoUpdateTimezone: boolean;
+export interface PatchCalendarSettingsRequest {
+  timeFormat?: number;
+  startOfWeek?: string;
+  defaultView?: string;
+  hourHeight?: number;
+  defaultCalendarID?: string;
+  timezone?: string;
 }
 
-export interface UpdateCalendarSettingsRequest {
-  defaultAlarmType?: ALARM_TYPE;
-  defaultTimezone?: string;
-  autoUpdateTimezone?: boolean;
+export interface CalendarSettingsResponse {
+  timeFormat: number;
+  startOfWeek: string;
+  defaultView: CALENDAR_VIEW;
+  hourHeight: number;
+  defaultCalendarID: string;
+  timezone: string;
 }

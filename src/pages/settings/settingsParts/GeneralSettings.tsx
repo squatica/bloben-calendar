@@ -1,4 +1,3 @@
-import { AppSettings, ReduxState } from '../../../types/interface';
 import {
   Button,
   Menu,
@@ -11,9 +10,15 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from '@chakra-ui/react';
+import {
+  CalendarSettingsResponse,
+  PatchCalendarSettingsRequest,
+} from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { CalendarView } from 'kalend';
-import { setSettings } from '../../../redux/actions';
+import { ReduxState } from '../../../types/interface';
+import { setCalendarSettings, setSettings } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
 import React from 'react';
 import SettingsRow from '../settingsRow/SettingsRow';
@@ -26,23 +31,32 @@ const menuStyle: any = {
 
 const GeneralSettings = () => {
   const dispatch = useDispatch();
-  const settings: AppSettings = useSelector(
-    (state: ReduxState) => state.settings
+  const settings: CalendarSettingsResponse = useSelector(
+    (state: ReduxState) => state.calendarSettings
   );
 
-  const handleUpdate = (key: string, value: any) => {
-    const newSettings: any = { ...settings };
+  const requestUpdate = async (data: PatchCalendarSettingsRequest) => {
+    await CalendarSettingsApi.patch(data);
 
-    newSettings[key] = value;
-    dispatch(setSettings(newSettings));
+    const response = await CalendarSettingsApi.get();
+
+    dispatch(setCalendarSettings(response.data));
   };
 
-  const handleTimezoneUpdate = (item: any) => {
-    const newSettings: any = { ...settings };
+  const handleUpdate = async (key: string, value: any) => {
+    const newSettings: any = {};
+
+    newSettings[key] = value;
+
+    await requestUpdate(newSettings);
+  };
+
+  const handleTimezoneUpdate = async (item: any) => {
+    const newSettings: any = {};
 
     newSettings.timezone = item.value;
 
-    dispatch(setSettings(newSettings));
+    await requestUpdate(newSettings);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -163,7 +177,7 @@ const GeneralSettings = () => {
         <NumberInput
           style={menuStyle}
           defaultValue={settings.hourHeight}
-          max={80}
+          max={120}
           min={20}
           step={5}
           width={40}
