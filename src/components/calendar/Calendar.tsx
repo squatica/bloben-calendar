@@ -2,13 +2,13 @@ import '../button/buttonBase/ButtonBase.scss';
 import './Calendar.scss';
 import 'kalend/dist/styles/index.css';
 import {
-  AppSettings,
   CalDavAccount,
   CalDavCalendar,
   CalDavEvent,
   QueryRange,
   ReduxState,
 } from '../../types/interface';
+import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../bloben-interface/enums';
@@ -42,8 +42,8 @@ interface CalendarProps {
 }
 const Calendar = (props: CalendarProps) => {
   const toast = useToast();
-  const settings: AppSettings = useSelector(
-    (state: ReduxState) => state.settings
+  const settings: CalendarSettingsResponse = useSelector(
+    (state: ReduxState) => state.calendarSettings
   );
   const calDavEvents: CalDavEvent[] = useSelector(
     (state: ReduxState) => state.calDavEvents
@@ -187,30 +187,33 @@ const Calendar = (props: CalendarProps) => {
         handleRefresh={handleRefresh}
       />
       {/*<Carousel onPageChange={handleCarouselSwipe}>*/}
-      <Kalend
-        kalendRef={kalendRef}
-        onEventClick={handleEventClick}
-        onNewEventClick={openNewEvent}
-        events={events}
-        initialDate={new Date().toISOString()}
-        hourHeight={settings.hourHeight}
-        timeFormat={settings.timeFormat}
-        weekDayStart={settings.startOfWeek}
-        initialView={selectedView}
-        onEventDragFinish={onDraggingFinish}
-        disabledViews={settings.disabledViews}
-        draggingDisabledConditions={{
-          type: EVENT_TYPE.WEBCAL,
-        }}
-        // onSelectView={() => {}}
-        onPageChange={onPageChange}
-        disableMobileDropdown={true}
-        calendarIDsHidden={settings.hiddenCalendarIDs}
-        onStateChange={onKalendStateChange}
-        selectedView={selectedView}
-        isNewEventOpen={isNewEventOpen !== null}
-        showTimeLine={true}
-      />
+      {settings.defaultView ? (
+        <Kalend
+          kalendRef={kalendRef}
+          onEventClick={handleEventClick}
+          onNewEventClick={openNewEvent}
+          events={events}
+          initialDate={new Date().toISOString()}
+          hourHeight={settings.hourHeight}
+          timeFormat={settings.timeFormat.toString()}
+          weekDayStart={settings.startOfWeek}
+          initialView={settings.defaultView}
+          onEventDragFinish={onDraggingFinish}
+          // disabledViews={settings.disabledViews}
+          draggingDisabledConditions={{
+            type: EVENT_TYPE.WEBCAL,
+          }}
+          // onSelectView={() => {}}
+          onPageChange={onPageChange}
+          disableMobileDropdown={true}
+          // calendarIDsHidden={settings.hiddenCalendarIDs}
+          onStateChange={onKalendStateChange}
+          selectedView={selectedView || settings.defaultView}
+          isNewEventOpen={isNewEventOpen !== null}
+          showTimeLine={true}
+          timezone={settings.timezone}
+        />
+      ) : null}
       {/*</Carousel>*/}
       {isNewEventOpen ? (
         calDavAccounts.length && calDavCalendars.length ? (
