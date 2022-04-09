@@ -20,7 +20,7 @@ import { setCalendarSettings, setSettings } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
-import React from 'react';
+import React, { useState } from 'react';
 import SettingsRow from '../settingsRow/SettingsRow';
 
 const menuStyle: any = {
@@ -34,6 +34,7 @@ const GeneralSettings = () => {
   const settings: CalendarSettingsResponse = useSelector(
     (state: ReduxState) => state.calendarSettings
   );
+  const [hourHeightValue, setHourHeightValue] = useState(settings.hourHeight);
 
   const requestUpdate = async (data: PatchCalendarSettingsRequest) => {
     await CalendarSettingsApi.patch(data);
@@ -184,8 +185,9 @@ const GeneralSettings = () => {
           keepWithinRange={true}
           clampValueOnBlur={false}
           onChange={(valueAsString: string, valueAsNumber: number) => {
-            handleUpdate('hourHeight', valueAsNumber);
+            setHourHeightValue(valueAsNumber);
           }}
+          onBlur={() => handleUpdate('hourHeight', hourHeightValue)}
         >
           <NumberInputField />
           <NumberInputStepper>
