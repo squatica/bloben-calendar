@@ -27,6 +27,7 @@ import { DatetimeParser, parseToDateTime } from 'utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 
+import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { initialFormState, initialState } from './EditEvent.utils';
 import { reduxStore } from '../../../layers/ReduxProvider';
 import { v4 } from 'uuid';
@@ -168,6 +169,9 @@ const EditEvent = (props: EditEventProps) => {
     (state: ReduxState) => state.calDavCalendars
   );
   const user: User = useSelector((state: ReduxState) => state.user);
+  const settings: CalendarSettingsResponse = useSelector(
+    (state: ReduxState) => state.calendarSettings
+  );
 
   const [eventState] = useReducer(stateReducer, initialState);
 
@@ -263,12 +267,19 @@ const EditEvent = (props: EditEventProps) => {
    * Set color event and default alarms for this calendar if event has none
    */
   const loadCalendar = async (calendarID: string | undefined) => {
-    const thisCalendar: CalDavCalendar | undefined =
-      calendarID || props.event
-        ? calDavCalendars.filter(
-            (item) => item.id === props.event?.calendarID
-          )[0]
-        : calDavCalendars[0];
+    let thisCalendar: CalDavCalendar | undefined;
+
+    if (props.event || calendarID) {
+      thisCalendar = calDavCalendars.find(
+        (item) =>
+          item.id === (calendarID ? calendarID : props.event?.calendarID)
+      );
+    } else {
+      const defaultCalendarID = settings.defaultCalendarID;
+      thisCalendar = defaultCalendarID
+        ? calDavCalendars.find((item) => item.id === defaultCalendarID)
+        : undefined;
+    }
 
     if (!thisCalendar) {
       return;
@@ -286,10 +297,19 @@ const EditEvent = (props: EditEventProps) => {
    * Set date time for new event
    */
   const initNewEventOnMount = async (): Promise<void> => {
-    setForm('calendarUrl', calDavCalendars[0].url);
+    const defaultCalendarID = settings.defaultCalendarID;
+    const defaultCalendar = defaultCalendarID
+      ? calDavCalendars.find((item) => item.id === defaultCalendarID)
+      : null;
+    setForm(
+      'calendarUrl',
+      defaultCalendar ? defaultCalendar.url : calDavCalendars[0].url
+    );
     // setDefaultReminder(defaultReminder, setForm);
 
-    const thisCalendar: CalDavCalendar | undefined = calDavCalendars[0];
+    const thisCalendar: CalDavCalendar | undefined = defaultCalendar
+      ? defaultCalendar
+      : calDavCalendars[0];
 
     if (!thisCalendar) {
       return;
