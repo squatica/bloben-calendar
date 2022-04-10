@@ -2,7 +2,6 @@ import './EventDetailAlarm.scss';
 
 import React, { useContext } from 'react';
 
-import { ALARM_TYPE } from '../../../bloben-interface/enums';
 import { AppAlarm } from '../../../utils/common';
 import {
   Button,
@@ -96,34 +95,6 @@ const renderAlarms = (
             </Stack>
           </MenuList>
         </Menu>
-        <Menu closeOnSelect>
-          <MenuButton
-            as={Button}
-            style={{ marginRight: 4 }}
-            size={'md'}
-            _focus={{ boxShadow: 'none' }}
-          >
-            {item.type}
-          </MenuButton>
-          <MenuList>
-            <Stack spacing={1}>
-              <MenuItem
-                onClick={() => {
-                  handleChange('type', ALARM_TYPE.PUSH);
-                }}
-              >
-                push
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleChange('type', ALARM_TYPE.EMAIL);
-                }}
-              >
-                email
-              </MenuItem>
-            </Stack>
-          </MenuList>
-        </Menu>
         <Spacer />
         <IconButton
           _focus={{ boxShadow: 'none' }}
@@ -165,7 +136,6 @@ const Alarms = (props: AlarmsProps) => {
     addAlarm({
       amount: 10,
       timeUnit: 'minutes',
-      type: ALARM_TYPE.PUSH,
     });
   };
 

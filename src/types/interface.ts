@@ -31,6 +31,7 @@ export interface CalDavCalendar {
   timezone: string;
   url: string;
   components: string[];
+  alarms: any[];
   // [key: string]: any;
 }
 

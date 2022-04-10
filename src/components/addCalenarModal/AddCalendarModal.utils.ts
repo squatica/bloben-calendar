@@ -3,6 +3,7 @@ export default {
     name: '',
     url: '',
     color: 'indigo',
+    alarms: [],
     components: ['VEVENT'],
     isLoading: false,
   },

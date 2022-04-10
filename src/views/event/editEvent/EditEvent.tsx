@@ -320,6 +320,17 @@ const EditEvent = (props: EditEventProps) => {
     setForm('timezoneEndAt', timezoneFromCalendar);
     setCalendar(thisCalendar);
 
+    if (thisCalendar.alarms) {
+      setForm(
+        'alarms',
+        map(thisCalendar.alarms, (alarm) => ({
+          id: v4(),
+          isBefore: true,
+          ...alarm,
+        }))
+      );
+    }
+
     if (
       (store?.emailConfig?.hasSystemConfig ||
         store?.emailConfig?.hasCustomConfig) &&

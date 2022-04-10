@@ -1,4 +1,4 @@
-import ICalParser from 'ical-js-parser-dev';
+import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
 import { forEach, map } from 'lodash';
@@ -98,7 +98,7 @@ class ICalHelper {
       timezone: allDay ? undefined : timezoneStartAt,
     };
     this.uid = externalID ? externalID : v4();
-    if (attendees.length) {
+    if (attendees?.length) {
       this.organizer = organizer || props?.organizer;
       this.attendee = attendees;
     }
@@ -138,7 +138,7 @@ class ICalHelper {
     }
 
     // format alarms
-    if (alarms.length) {
+    if (alarms?.length) {
       this.alarms = map(alarms, formatAppAlarm);
     }
   }

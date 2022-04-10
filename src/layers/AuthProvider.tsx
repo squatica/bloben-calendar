@@ -36,9 +36,9 @@ const AuthProvider = (props: any) => {
     }
 
     try {
-      const response = await UserApi.getSession();
+      const response = await UserApi.getAccount();
 
-      if (response.data.isLogged) {
+      if (response.data.userID) {
         setContext('isLogged', true);
         setContext('isAppStarting', false);
         reduxDispatch(

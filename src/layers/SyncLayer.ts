@@ -1,4 +1,5 @@
 import { Context } from '../context/store';
+import { getLocalTimezone } from '../utils/common';
 import {
   setCaldavAccounts,
   setCaldavCalendars,
@@ -33,6 +34,12 @@ const SyncLayer = (props: any) => {
     const webcalCalendarsResponse =
       await WebcalCalendarApi.getWebcalCalendars();
 
+    if (!calendarSettingsResponse.data.timezone) {
+      await CalendarSettingsApi.patch({
+        timezone: getLocalTimezone(),
+      });
+    }
+
     dispatch(setCalendarSettings(calendarSettingsResponse.data));
     dispatch(setCaldavAccounts(calDavAccountsResponse.data));
     dispatch(setCaldavCalendars(calDavCalendarsResponse.data));
@@ -44,7 +51,6 @@ const SyncLayer = (props: any) => {
       setContext('latestVersion', latestVersionResponse.data);
       // eslint-disable-next-line no-empty
     } catch (e) {}
-
     try {
       await GeneralApi.getSync();
       // eslint-disable-next-line no-empty
@@ -55,10 +61,14 @@ const SyncLayer = (props: any) => {
       setContext('emailConfig', emailConfigResponse.data);
       // eslint-disable-next-line no-empty
     } catch (e) {}
+
+    const serverSettingsResponse = await GeneralApi.getServerSettings();
+    setContext('serverSettings', serverSettingsResponse.data);
   };
 
   useEffect(() => {
     loadData();
+    Notification.requestPermission();
   }, []);
 
   return props.children;

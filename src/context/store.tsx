@@ -1,3 +1,4 @@
+import { GetServerSettings } from '../bloben-interface/serverSettings/serverSettings';
 import { GetUserEmailConfigResponse } from '../bloben-interface/userEmailConfig/userEmailConfig';
 import { GetVersion } from '../bloben-interface/version/version';
 import React, { createContext, useEffect, useReducer } from 'react';
@@ -18,6 +19,7 @@ export interface StoreContext {
   version: GetVersion;
   emailConfig: GetUserEmailConfigResponse;
   latestVersion: string;
+  serverSettings: GetServerSettings | null;
 }
 
 const initialContext: StoreContext = {
@@ -40,7 +42,9 @@ const initialContext: StoreContext = {
   emailConfig: {
     hasCustomConfig: false,
     hasSystemConfig: false,
+    mailto: null,
   },
+  serverSettings: null,
 };
 
 const StoreProvider = ({ children }: any) => {
