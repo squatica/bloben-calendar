@@ -1,11 +1,9 @@
-/* eslint-disable */
 import './EventDetailAlarm.scss';
 
-import { useSelector } from 'react-redux';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
-import { Context } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
+import { ALARM_TYPE } from '../../../bloben-interface/enums';
+import { AppAlarm } from '../../../utils/common';
 import {
   Button,
   Flex,
@@ -19,172 +17,10 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { GetCalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
-import { AppAlarm, parseCssDark } from '../../../utils/common';
+import { Context } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import FormIcon from '../../formIcon/FormIcon';
-import ChakraModal from '../../chakraCustom/ChakraModal';
-import { ALARM_TYPE } from '../../../bloben-interface/enums';
-import { Attendee } from '../../../utils/AttendeeUtils';
 import TrashIcon from '../../eva-icons/trash';
-
-const ALARMS_MAX_LENGTH = 4;
-
-const alarmSettings: any = [
-  {
-    label: 'on start',
-    value: {
-      alarmType: 'PUSH',
-      amount: 0,
-      timeUnit: 'minutes',
-    },
-  },
-  {
-    label: '10 minutes before',
-    value: {
-      alarmType: 'PUSH',
-      amount: 10,
-      timeUnit: 'minutes',
-    },
-  },
-  {
-    label: 'hour before',
-    value: {
-      alarmType: 'PUSH',
-      amount: 1,
-      timeUnit: 'hours',
-    },
-  },
-  {
-    label: 'day before',
-    value: {
-      alarmType: 'PUSH',
-      amount: 1,
-      timeUnit: 'days',
-    },
-  },
-  { label: 'custom', value: 'custom' },
-];
-
-interface CustomAlarmOptionsProps {
-  handleCloseCustomMenu: any;
-  addAlarm: any;
-  hasEmailAccount: any;
-}
-const CustomAlarmOptions = (props: CustomAlarmOptionsProps) => {
-  const { addAlarm, handleCloseCustomMenu, hasEmailAccount } = props;
-
-  // const calendarSettings: CalendarSettings = useSelector(
-  //   (state: any) => state.calendarSettings
-  // );
-
-  const defaultDropdownValue: any = {};
-
-  const [value, setValue] = useState('hours');
-  const [amount, setAmount] = useState(1);
-  const [type, setType] = useState();
-
-  const [store] = useContext(Context);
-
-  const { isDark } = store;
-
-  const handleChange = (event: any) => {
-    setAmount(event.target.value);
-  };
-
-  const handleValueSelect = (item: any) => {
-    setValue(item);
-  };
-
-  const saveNotification = (): void => {
-    addAlarm({
-      label: 'custom',
-      value: { amount, alarmType: type, timeUnit: value },
-    });
-    handleCloseCustomMenu();
-  };
-
-  const timeUnitOptions: string[] = ['minutes', 'hours', 'days', 'weeks'];
-
-  const viaOptions: string[] = hasEmailAccount ? ['push', 'email'] : ['push'];
-
-  return (
-    <div className={'alarm-settings-container'}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ width: '50%', justifyContent: 'flex-end' }}>
-          <h4 className={parseCssDark('repeat__subtitle', isDark)}>
-            Notification
-          </h4>
-        </div>
-        <div
-          style={{ display: 'flex', width: '50%', justifyContent: 'flex-end' }}
-        >
-          {/*<Button*/}
-          {/*  isDark={isDark}*/}
-          {/*  onClick={saveNotification}*/}
-          {/*  type={NORMAL_BUTTON}*/}
-          {/*  text={'Save'}*/}
-          {/*/>*/}
-        </div>
-      </div>
-      {/*<div className={'repeat__row'}>*/}
-      {/*  <EditEventRepeatValueInput*/}
-      {/*    style={{ width: 45 }}*/}
-      {/*    type={'number'}*/}
-      {/*    name={'amount'}*/}
-      {/*    value={amount}*/}
-      {/*    onChange={handleChange}*/}
-      {/*  />*/}
-      {/*  <Label text={'Time unit'} isDark={isDark} />*/}
-      {/*  <SegmentedButtons*/}
-      {/*    items={timeUnitOptions}*/}
-      {/*    onClick={handleValueSelect}*/}
-      {/*    isDark={isDark}*/}
-      {/*    selectedValue={value}*/}
-      {/*  />*/}
-      {/*</div>*/}
-      {/*<Label text={'Notify via'} isDark={isDark} />*/}
-      {/*<SegmentedButtons*/}
-      {/*  items={viaOptions}*/}
-      {/*  onClick={setType}*/}
-      {/*  isDark={isDark}*/}
-      {/*  selectedValue={type}*/}
-      {/*/>*/}
-    </div>
-  );
-};
-
-const AlarmSelectedValue = () => {
-  const [store] = useContext(Context);
-  const { isDark, isMobile } = store;
-
-  return (
-    <>
-      <FormIcon isDark={isDark}>
-        <EvaIcons.Bell />
-      </FormIcon>
-      <Text>Add alarm</Text>
-    </>
-  );
-};
-
-// TODO add custom notification text
-const parseAlarmText = (amount: number, timeUnit: string): string => {
-  switch (amount) {
-    case 0:
-      return 'on start';
-    case 1:
-      return `${timeUnit.slice(0, timeUnit.length - 1)} before`;
-    default:
-      return `${amount} ${timeUnit} before`;
-  }
-};
 
 const renderAlarms = (
   alarms: AppAlarm[],
@@ -315,43 +151,15 @@ interface AlarmsProps {
   hasEmailAccount?: any;
 }
 const Alarms = (props: AlarmsProps) => {
-  const {
-    selected,
-    alarms,
-    addAlarm,
-    removeAlarm,
-    updateAlarm,
-    disabled,
-    hasEmailAccount,
-  } = props;
-
-  const [modalOpen, openModal] = useState(false);
+  const { alarms, addAlarm, removeAlarm, updateAlarm } = props;
 
   const [store] = useContext(Context);
 
-  const { isDark, isMobile } = store;
+  const { isDark } = store;
   //
   // const calendarSettings: GetCalendarSettingsResponse = useSelector(
   //   (state: any) => state.calendarSettings
   // );
-
-  const calendarSettings: any = {};
-
-  const noNewAlarms: boolean = alarms && alarms.length === ALARMS_MAX_LENGTH;
-
-  const alarmSettingsDefault: any =
-    calendarSettings.defaultAlarmType !== 'PUSH'
-      ? alarmSettings.map((item: any) => {
-          if (item.value === 'custom') {
-            return item;
-          }
-          const itemDefault: any = item;
-
-          itemDefault.value.alarmType = calendarSettings.defaultAlarmType;
-
-          return itemDefault;
-        })
-      : alarmSettings;
 
   const handleAddAlarm = () => {
     addAlarm({
