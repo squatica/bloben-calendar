@@ -1,0 +1,27 @@
+@import '~styles/colors.scss';
+
+.alarm-settings-container{
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+.alarm-settings__row-add{
+  width: 100%;
+}
+
+.Alarm__card {
+  margin-top: 8px;
+  //margin-left: 62px;
+  //margin-right: 16px;
+  //margin-bottom: 8px;
+  width: auto;
+  padding: 2px;
+
+
+  &-transparent {
+    @extend .Alarm__card;
+    padding:0;
+    margin: 0;
+    background-color: transparent !important;
+  }
+}

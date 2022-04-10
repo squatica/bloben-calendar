@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 
 import {
+  AddAlarmData,
+  AppAlarm,
   addAlarm,
   createToast,
   getLocalTimezone,
   removeAlarm,
+  updateAlarm,
 } from 'utils/common';
 
 import { stateReducer } from 'utils/reducer/baseReducer';
@@ -30,6 +33,10 @@ import { reduxStore } from '../../../layers/ReduxProvider';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
 import ICalHelper from '../../../utils/ICalHelper';
+
+import { debug } from '../../../utils/debug';
+import { map } from 'lodash';
+import { parseIcalAlarmToAppAlarm } from '../../../utils/caldavAlarmHelper';
 import LuxonHelper from '../../../utils/LuxonHelper';
 import Modal from 'components/modal/Modal';
 import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
@@ -68,6 +75,8 @@ export const createEvent = async (
     ...form,
     externalID: newEventExternalID,
   }).parseTo();
+
+  debug(iCalString);
 
   if (isNewEvent) {
     await CalDavEventsApi.createEvent({
@@ -135,6 +144,7 @@ const isEventKnownProp = (prop: string) => {
     'rRule',
     'props',
     'color',
+    'alarms',
   ];
 
   return knownProps.includes(prop);
@@ -239,6 +249,12 @@ const EditEvent = (props: EditEventProps) => {
             if (value.attendee) {
               // @ts-ignore
               setForm('attendees', value.attendee);
+            } else {
+              // @ts-ignore
+              if (value.alarms && value.alarms.length) {
+                // @ts-ignore
+                setForm('alarms', map(value.alarms, parseIcalAlarmToAppAlarm));
+              }
             }
           }
         }
@@ -304,10 +320,14 @@ const EditEvent = (props: EditEventProps) => {
     setForm('timezoneEndAt', timezoneFromCalendar);
     setCalendar(thisCalendar);
 
-    if (store.emailConfig) {
+    if (
+      (store?.emailConfig?.hasSystemConfig ||
+        store?.emailConfig?.hasCustomConfig) &&
+      store.emailConfig?.mailto
+    ) {
       setForm('organizer', {
         CN: user.username,
-        mailto: store.emailConfig.smtpEmail,
+        mailto: store.emailConfig?.mailto,
       });
     }
 
@@ -315,19 +335,12 @@ const EditEvent = (props: EditEventProps) => {
       return;
     }
 
-    // const dateFromNewEvent: DateTime = newEventTime.day
-    //   ? calculateNewEventTime(newEventTime)
-    //   : DateTime.local().plus({ hours: 1 });
-    // const dateTill: DateTime = dateFromNewEvent.plus({ hours: 1 });
-
     if (newEventTime.view === 'month') {
       setForm('allDay', true);
     }
 
     setForm('startAt', newEventTime.startAt);
     setForm('endAt', newEventTime.endAt);
-    // setForm('startAt', DatetimeParser(dateFromNewEvent, getLocalTimezone()));
-    // setForm('endAt', DatetimeParser(dateTill, getLocalTimezone()));
   };
 
   useEffect(() => {
@@ -342,12 +355,15 @@ const EditEvent = (props: EditEventProps) => {
     loadCalendar(calendarID);
   }, [calendarID]);
 
-  const addAlarmEvent = (item: any) => {
+  const addAlarmEvent = (item: AddAlarmData) => {
     addAlarm(item, setForm, alarms);
   };
 
-  const removeAlarmEvent = (item: any) => {
+  const removeAlarmEvent = (item: AppAlarm) => {
     removeAlarm(item, setForm, alarms);
+  };
+  const updateAlarmEvent = (item: AppAlarm) => {
+    updateAlarm(item, setForm, alarms);
   };
 
   /**
@@ -502,6 +518,7 @@ const EditEvent = (props: EditEventProps) => {
               alarms={alarms}
               addAlarm={addAlarmEvent}
               removeAlarm={removeAlarmEvent}
+              updateAlarm={updateAlarmEvent}
               timezoneStartAt={timezoneStartAt}
               setStartTimezone={setStartTimezone}
               selectCalendar={selectCalendar}

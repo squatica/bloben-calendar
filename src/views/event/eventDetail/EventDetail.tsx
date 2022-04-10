@@ -1,10 +1,12 @@
 /* tslint:disable:no-magic-numbers */
-import React from 'react';
+import React, { useContext } from 'react';
 
 import './EventDetail.scss';
 
 import { CalDavCalendar } from '../../../types/interface';
+import { Context } from '../../../context/store';
 import { Stack } from '@chakra-ui/react';
+import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/EventDetailAlarm';
 import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
 import EventDetailDates from '../../../components/eventDetail/eventDetailDates/EventDetailDates';
@@ -29,6 +31,7 @@ interface EventDetailProps {
   alarms: any;
   addAlarm: any;
   removeAlarm: any;
+  updateAlarm: any;
   isNewEvent: boolean;
   handleChangeDateFrom: any;
   handleChangeDateTill: any;
@@ -45,6 +48,8 @@ interface EventDetailProps {
   color?: string;
 }
 const EventDetail = (props: EventDetailProps) => {
+  const [store] = useContext(Context);
+
   const {
     summary,
     handleChange,
@@ -68,6 +73,7 @@ const EventDetail = (props: EventDetailProps) => {
     form,
     updateAttendee,
     color,
+    alarms,
   } = props;
 
   return (
@@ -99,11 +105,20 @@ const EventDetail = (props: EventDetailProps) => {
         setForm={setForm}
         form={form}
       />
-      <EventDetailAttendee
-        addAttendee={addAttendee}
-        removeAttendee={removeAttendee}
-        updateAttendee={updateAttendee}
-        attendees={attendees}
+      {store?.emailConfig?.hasSystemConfig ||
+      store?.emailConfig?.hasCustomConfig ? (
+        <EventDetailAttendee
+          addAttendee={addAttendee}
+          removeAttendee={removeAttendee}
+          updateAttendee={updateAttendee}
+          attendees={attendees}
+        />
+      ) : null}
+      <EventDetailAlarm
+        alarms={alarms}
+        addAlarm={props.addAlarm}
+        removeAlarm={props.removeAlarm}
+        updateAlarm={props.updateAlarm}
       />
       <EventDetailLocation handleChange={handleChange} value={location} />
       <EventDetailNotes handleChange={handleChange} value={description} />

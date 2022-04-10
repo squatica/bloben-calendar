@@ -1,3 +1,4 @@
+import { ALARM_TYPE } from '../bloben-interface/enums';
 import { CalDavEventObj } from './davHelper';
 import { CalendarView } from 'kalend';
 import { DateTime } from 'luxon';
@@ -7,6 +8,8 @@ import { getMonthDays } from './calendarDays';
 import { parseToDateTime } from './datetimeParser';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
+
+import { parseToAlarmTrigger } from './caldavAlarmHelper';
 import _, { forEach } from 'lodash';
 
 export const STATUS_CODE_OK = 200;
@@ -345,18 +348,59 @@ export const parseStartAtDateForNotification = (date: any, timezone: any) => {
   return `starts in ${Math.floor(daysBetween)} days`;
 };
 
-export const addAlarm = (data: any, setState: any, alarms: any) => {
+export interface AddAlarmData {
+  amount: number;
+  timeUnit: string;
+  type: ALARM_TYPE;
+}
+
+export interface AppAlarm extends AddAlarmData {
+  id: string;
+  isBeforeEvent: boolean;
+}
+
+export const addAlarm = (data: AddAlarmData, setState: any, alarms: any) => {
   const newAlarm: any = {
     id: v4(),
-    ...data.value,
+    isBeforeEvent: true,
+    amount: data.amount,
+    timeUnit: data.timeUnit,
+    type: data.type,
   };
   setState('alarms', [...alarms, newAlarm]);
 };
-export const removeAlarm = (item: any, setState: any, alarms: any) => {
+export const removeAlarm = (
+  item: AppAlarm,
+  setState: any,
+  alarms: AppAlarm[]
+) => {
   const alarmsFiltered: any = [...alarms].filter(
-    (alarm: any) => alarm.id !== item.id
+    (alarm) => alarm.id !== item.id
   );
   setState('alarms', alarmsFiltered);
+};
+export const updateAlarm = (
+  item: AppAlarm,
+  setState: any,
+  alarms: AppAlarm[]
+) => {
+  const alarmsFiltered: any = [...alarms].map((alarm) => {
+    if (alarm.id === item.id) {
+      return item;
+    } else {
+      return alarm;
+    }
+  });
+
+  setState('alarms', alarmsFiltered);
+};
+
+export const formatAppAlarm = (item: AppAlarm) => {
+  return {
+    xBlobenAlarmType: item.type,
+    action: 'DISPLAY',
+    trigger: parseToAlarmTrigger(item),
+  };
 };
 
 export const parseRRuleFromString = (rRuleString: string): any => {
