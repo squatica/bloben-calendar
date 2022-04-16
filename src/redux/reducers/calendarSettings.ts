@@ -9,6 +9,7 @@ export const defaultCalendarSettings = {
   defaultCalendarID: '',
   timezone: getLocalTimezone(),
   defaultView: CALENDAR_VIEW.WEEK,
+  showWeekNumbers: false,
 };
 
 const calendarSettings = (

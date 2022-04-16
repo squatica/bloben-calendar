@@ -212,6 +212,7 @@ const Calendar = (props: CalendarProps) => {
           isNewEventOpen={isNewEventOpen !== null}
           showTimeLine={true}
           timezone={settings.timezone}
+          showWeekNumbers={settings.showWeekNumbers}
         />
       ) : null}
       {/*</Carousel>*/}
