@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Menu,
   MenuButton,
   MenuItem,
@@ -75,6 +76,14 @@ const GeneralSettings = () => {
     newSettings['disabledViews'] = disabledViews;
 
     dispatch(setSettings(newSettings));
+  };
+
+  const handleShowWeekNumbersChange = async () => {
+    const newSettings: any = {};
+
+    newSettings['showWeekNumbers'] = !settings.showWeekNumbers;
+
+    await requestUpdate(newSettings);
   };
 
   return (
@@ -201,6 +210,12 @@ const GeneralSettings = () => {
           onSelect={handleTimezoneUpdate}
           value={settings.timezone}
         />
+      </SettingsRow>
+      <SettingsRow title={'Show week numbers'}>
+        <Checkbox
+          isChecked={settings.showWeekNumbers}
+          onChange={() => handleShowWeekNumbersChange()}
+        ></Checkbox>
       </SettingsRow>
       {/*<SettingsRow title={'Enabled views'}>*/}
       {/*  <Menu closeOnSelect={false}>*/}
