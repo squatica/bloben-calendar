@@ -16,6 +16,7 @@ import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../utils/common';
+import { map } from 'lodash';
 import ChakraModal from '../../chakraCustom/ChakraModal';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';
@@ -41,7 +42,7 @@ const WebcalModal = (props: WebcalModalProps) => {
     dispatchState({ state, payload });
   };
 
-  const { name, url, syncFrequency, color }: any = state;
+  const { name, url, syncFrequency, color, alarms }: any = state;
 
   const onChange = (e: any): void => {
     const value = e.target.value;
@@ -59,6 +60,7 @@ const WebcalModal = (props: WebcalModalProps) => {
       setLocalState('color', webcalCalendar.color);
       setLocalState('name', webcalCalendar.name);
       setLocalState('syncFrequency', webcalCalendar.syncFrequency);
+      setLocalState('alarms', webcalCalendar.alarms);
     }
   }, []);
 
@@ -83,6 +85,10 @@ const WebcalModal = (props: WebcalModalProps) => {
             color,
             url,
             syncFrequency,
+            alarms: map(alarms, (alarm) => ({
+              amount: alarm.amount,
+              timeUnit: alarm.timeUnit,
+            })),
           }
         );
 
@@ -95,6 +101,10 @@ const WebcalModal = (props: WebcalModalProps) => {
           color,
           url,
           syncFrequency,
+          alarms: map(alarms, (alarm) => ({
+            amount: alarm.amount,
+            timeUnit: alarm.timeUnit,
+          })),
         });
 
         if (response.data?.message) {
@@ -116,6 +126,17 @@ const WebcalModal = (props: WebcalModalProps) => {
       handleClose();
     }
   };
+
+  // const addAlarmEvent = (item: AddAlarmData) => {
+  //   addAlarm(item, setLocalState, alarms);
+  // };
+  //
+  // const removeAlarmEvent = (item: AppAlarm) => {
+  //   removeAlarm(item, setLocalState, alarms);
+  // };
+  // const updateAlarmEvent = (item: AppAlarm) => {
+  //   updateAlarm(item, setLocalState, alarms);
+  // };
 
   return (
     <ChakraModal
@@ -174,6 +195,14 @@ const WebcalModal = (props: WebcalModalProps) => {
             <InputRightAddon>minutes</InputRightAddon>
           </InputGroup>
         </FormControl>
+        {/*DISABLED*/}
+        {/*<Separator height={25} />*/}
+        {/*<Alarms*/}
+        {/*  alarms={alarms}*/}
+        {/*  addAlarm={addAlarmEvent}*/}
+        {/*  removeAlarm={removeAlarmEvent}*/}
+        {/*  updateAlarm={updateAlarmEvent}*/}
+        {/*/>*/}
         <Separator height={25} />
         <Center>
           <Button

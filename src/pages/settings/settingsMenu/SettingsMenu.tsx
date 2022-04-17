@@ -97,7 +97,7 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           onClick={() => {
             setSelected(SETTINGS_PATHS.EMAIL_CONFIG);
           }}
-          text={'Email config'}
+          text={'Email'}
           icon={<Email className={'SettingsMenu__icon'} />}
         />
         {/*<SettingsButton*/}

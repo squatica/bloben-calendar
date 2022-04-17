@@ -19,7 +19,7 @@ export const initialFormState: any = {
   attendees: [],
   createdAt: null,
   updatedAt: null,
-  organizer: '',
+  organizer: null,
   sequence: '0',
   rRule: '',
   props: null,

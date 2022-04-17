@@ -26,13 +26,16 @@ import {
 } from '../../../types/interface';
 import { getAccountCalendars } from '../../../utils/tsdavHelper';
 import { getBaseUrl } from '../../../utils/parser';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddCalendarModal from '../../../components/addCalenarModal/AddCalendarModal';
 
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 
+import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { setCalendarSettings } from '../../../redux/actions';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
+import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import React, { useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 
@@ -41,7 +44,9 @@ const renderAccountCalendars = (
   calDavCalendars: CalDavCalendar[],
   handleEdit: any,
   handleHide: any,
-  openPreDeleteModal: any
+  openPreDeleteModal: any,
+  setDefaultCalendar: any,
+  defaultCalendarID: string | null
 ) => {
   return calDavCalendars.map((calDavCalendar) => {
     return (
@@ -55,6 +60,7 @@ const renderAccountCalendars = (
           <Text>
             {calDavCalendar.displayName}{' '}
             {calDavCalendar.isHidden ? '(hidden)' : ''}
+            {defaultCalendarID === calDavCalendar.id ? '(default)' : ''}
           </Text>
         </Flex>
         <Flex direction={'row'} justifyContent={'flex-start'}>
@@ -79,6 +85,11 @@ const renderAccountCalendars = (
             <MenuItem onClick={() => handleEdit(calDavCalendar, account)}>
               Edit
             </MenuItem>
+            {defaultCalendarID !== calDavCalendar.id ? (
+              <MenuItem onClick={() => setDefaultCalendar(calDavCalendar)}>
+                Make default
+              </MenuItem>
+            ) : null}
             <MenuItem onClick={() => handleHide(calDavCalendar)}>
               {calDavCalendar.isHidden ? 'Show' : 'Hide'}
             </MenuItem>
@@ -97,7 +108,9 @@ const renderCalDavAccountCalendars = (
   calDavCalendars: CalDavCalendar[],
   handleAddCalendar: any,
   handleEdit: any,
-  openPreDeleteModal: any
+  openPreDeleteModal: any,
+  setDefaultCalendar: any,
+  defaultCalendarID: string | null
 ) => {
   return calDavAccounts.map((calDavAccount) => {
     // find all account calendars
@@ -118,7 +131,9 @@ const renderCalDavAccountCalendars = (
       accountCalendars,
       handleEdit,
       handleHide,
-      openPreDeleteModal
+      openPreDeleteModal,
+      setDefaultCalendar,
+      defaultCalendarID
     );
 
     return (
@@ -153,12 +168,16 @@ const renderCalDavAccountCalendars = (
 
 const CalendarsSettings = () => {
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const calDavAccounts: CalDavAccount[] = useSelector(
     (state: ReduxState) => state.calDavAccounts
   );
   const calDavCalendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
+  );
+  const settings: CalendarSettingsResponse = useSelector(
+    (state: ReduxState) => state.calendarSettings
   );
 
   const [calendarInFocus, setCalendarInFocus] = useState<CalDavCalendar | null>(
@@ -190,12 +209,34 @@ const CalendarsSettings = () => {
     setEditModalVisible(null);
   };
 
+  const handleSetDefaultCalendar = async (calendar: CalDavCalendar) => {
+    try {
+      setIsLoading(true);
+
+      const response: any = await CalendarSettingsApi.patch({
+        defaultCalendarID: calendar.id,
+      });
+
+      toast(createToast(response?.data?.message));
+
+      const responseGet = await CalendarSettingsApi.get();
+
+      dispatch(setCalendarSettings(responseGet.data));
+      setIsLoading(false);
+    } catch (e: any) {
+      toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+      setIsLoading(false);
+    }
+  };
+
   const renderedCalendars = renderCalDavAccountCalendars(
     calDavAccounts,
     calDavCalendars,
     setIsModalOpen,
     handleEdit,
-    openPreDeleteModal
+    openPreDeleteModal,
+    handleSetDefaultCalendar,
+    settings.defaultCalendarID
   );
 
   const handleDeleteCalendar = async () => {

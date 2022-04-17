@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { GetServerSettings } from '../bloben-interface/serverSettings/serverSettings';
 import { GetVersion } from '../bloben-interface/version/version';
 import Axios from '../lib/Axios';
 
@@ -11,5 +12,8 @@ export default {
   },
   getLatestVersion: async (): Promise<any> => {
     return Axios.getRaw('https://bloben.com/version.txt');
+  },
+  getServerSettings: async (): Promise<AxiosResponse<GetServerSettings>> => {
+    return Axios.get('/v1/server-settings');
   },
 };

@@ -1,14 +1,17 @@
 import { Context } from '../context/store';
+import { getLocalTimezone } from '../utils/common';
 import {
   setCaldavAccounts,
   setCaldavCalendars,
   setCaldavEvents,
+  setCalendarSettings,
   setWebcalCalendars,
 } from '../redux/actions';
 import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import CalDavAccountApi from '../api/CalDavAccountApi';
 import CalDavCalendarApi from '../api/CalDavCalendarApi';
+import CalendarSettingsApi from '../api/CalendarSettingsApi';
 import EventsApi from '../api/EventsApi';
 import GeneralApi from '../api/GeneralApi';
 import UserEmailConfigApi from '../api/UserEmailConfigApi';
@@ -23,6 +26,7 @@ const SyncLayer = (props: any) => {
   const dispatch = useDispatch();
 
   const loadData = async () => {
+    const calendarSettingsResponse = await CalendarSettingsApi.get();
     const calDavAccountsResponse = await CalDavAccountApi.getCalDavAccounts();
     const calDavCalendarsResponse =
       await CalDavCalendarApi.getCalDavCalendars();
@@ -30,6 +34,13 @@ const SyncLayer = (props: any) => {
     const webcalCalendarsResponse =
       await WebcalCalendarApi.getWebcalCalendars();
 
+    if (!calendarSettingsResponse.data.timezone) {
+      await CalendarSettingsApi.patch({
+        timezone: getLocalTimezone(),
+      });
+    }
+
+    dispatch(setCalendarSettings(calendarSettingsResponse.data));
     dispatch(setCaldavAccounts(calDavAccountsResponse.data));
     dispatch(setCaldavCalendars(calDavCalendarsResponse.data));
     dispatch(setCaldavEvents(calDavEventsResponse.data));
@@ -40,7 +51,6 @@ const SyncLayer = (props: any) => {
       setContext('latestVersion', latestVersionResponse.data);
       // eslint-disable-next-line no-empty
     } catch (e) {}
-
     try {
       await GeneralApi.getSync();
       // eslint-disable-next-line no-empty
@@ -51,10 +61,14 @@ const SyncLayer = (props: any) => {
       setContext('emailConfig', emailConfigResponse.data);
       // eslint-disable-next-line no-empty
     } catch (e) {}
+
+    const serverSettingsResponse = await GeneralApi.getServerSettings();
+    setContext('serverSettings', serverSettingsResponse.data);
   };
 
   useEffect(() => {
     loadData();
+    Notification.requestPermission();
   }, []);
 
   return props.children;

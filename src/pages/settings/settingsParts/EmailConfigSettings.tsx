@@ -1,17 +1,17 @@
 import { Context } from '../../../context/store';
 
-import { Heading, useToast } from '@chakra-ui/react';
+import { Heading, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
+import { refreshUserData } from '../../../redux/functions/user';
 import ButtonBase from 'components/chakraCustom/buttonBase/ButtonBase';
 import EmailConfigModal from '../../../components/emailConfigModal/EmailConfigModal';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 import UserEmailConfigApi from '../../../api/UserEmailConfigApi';
 
 const EmailConfigSettings = () => {
   const [modalOpen, openModal] = useState<boolean>(false);
-
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [store, dispatchContext] = useContext(Context);
@@ -39,19 +39,23 @@ const EmailConfigSettings = () => {
     }
   };
 
+  useEffect(() => {
+    refreshUserData();
+  }, []);
+
   return (
     <>
+      <Heading size={'md'}>SMTP config for invites</Heading>
       <Separator height={24} />
       {!emailConfig?.hasSystemConfig && !emailConfig?.hasCustomConfig ? (
-        <Heading size={'md'}>No email config</Heading>
+        <Text size={'md'}>No email config</Text>
       ) : null}
       {emailConfig?.hasSystemConfig && !emailConfig?.hasCustomConfig ? (
-        <Heading size={'md'}>Using system config</Heading>
+        <Text size={'md'}>Using system config</Text>
       ) : null}
       {emailConfig?.hasCustomConfig ? (
-        <Heading size={'md'}>Using custom config</Heading>
+        <Text size={'md'}>Using custom config</Text>
       ) : null}
-      <Separator height={24} />
       <Separator height={24} />
 
       {!emailConfig?.hasCustomConfig ? (
@@ -71,6 +75,7 @@ const EmailConfigSettings = () => {
           </ButtonBase>
         </>
       ) : null}
+      <Separator height={24} />
     </>
   );
 };

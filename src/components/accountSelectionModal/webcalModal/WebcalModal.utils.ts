@@ -5,5 +5,6 @@ export default {
     color: 'indigo',
     syncFrequency: 30,
     isLoading: false,
+    alarms: [],
   },
 };

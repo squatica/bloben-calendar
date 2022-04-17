@@ -1,6 +1,6 @@
-import { AppSettings, ReduxState } from '../../../types/interface';
 import {
   Button,
+  Checkbox,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,11 +11,17 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from '@chakra-ui/react';
+import {
+  CalendarSettingsResponse,
+  PatchCalendarSettingsRequest,
+} from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { CalendarView } from 'kalend';
-import { setSettings } from '../../../redux/actions';
+import { ReduxState } from '../../../types/interface';
+import { setCalendarSettings, setSettings } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
-import React from 'react';
+import React, { useState } from 'react';
 import SettingsRow from '../settingsRow/SettingsRow';
 
 const menuStyle: any = {
@@ -26,23 +32,33 @@ const menuStyle: any = {
 
 const GeneralSettings = () => {
   const dispatch = useDispatch();
-  const settings: AppSettings = useSelector(
-    (state: ReduxState) => state.settings
+  const settings: CalendarSettingsResponse = useSelector(
+    (state: ReduxState) => state.calendarSettings
   );
+  const [hourHeightValue, setHourHeightValue] = useState(settings.hourHeight);
 
-  const handleUpdate = (key: string, value: any) => {
-    const newSettings: any = { ...settings };
+  const requestUpdate = async (data: PatchCalendarSettingsRequest) => {
+    await CalendarSettingsApi.patch(data);
 
-    newSettings[key] = value;
-    dispatch(setSettings(newSettings));
+    const response = await CalendarSettingsApi.get();
+
+    dispatch(setCalendarSettings(response.data));
   };
 
-  const handleTimezoneUpdate = (item: any) => {
-    const newSettings: any = { ...settings };
+  const handleUpdate = async (key: string, value: any) => {
+    const newSettings: any = {};
+
+    newSettings[key] = value;
+
+    await requestUpdate(newSettings);
+  };
+
+  const handleTimezoneUpdate = async (item: any) => {
+    const newSettings: any = {};
 
     newSettings.timezone = item.value;
 
-    dispatch(setSettings(newSettings));
+    await requestUpdate(newSettings);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -60,6 +76,14 @@ const GeneralSettings = () => {
     newSettings['disabledViews'] = disabledViews;
 
     dispatch(setSettings(newSettings));
+  };
+
+  const handleShowWeekNumbersChange = async () => {
+    const newSettings: any = {};
+
+    newSettings['showWeekNumbers'] = !settings.showWeekNumbers;
+
+    await requestUpdate(newSettings);
   };
 
   return (
@@ -163,15 +187,16 @@ const GeneralSettings = () => {
         <NumberInput
           style={menuStyle}
           defaultValue={settings.hourHeight}
-          max={80}
+          max={120}
           min={20}
           step={5}
           width={40}
           keepWithinRange={true}
           clampValueOnBlur={false}
           onChange={(valueAsString: string, valueAsNumber: number) => {
-            handleUpdate('hourHeight', valueAsNumber);
+            setHourHeightValue(valueAsNumber);
           }}
+          onBlur={() => handleUpdate('hourHeight', hourHeightValue)}
         >
           <NumberInputField />
           <NumberInputStepper>
@@ -185,6 +210,12 @@ const GeneralSettings = () => {
           onSelect={handleTimezoneUpdate}
           value={settings.timezone}
         />
+      </SettingsRow>
+      <SettingsRow title={'Show week numbers'}>
+        <Checkbox
+          isChecked={settings.showWeekNumbers}
+          onChange={() => handleShowWeekNumbersChange()}
+        ></Checkbox>
       </SettingsRow>
       {/*<SettingsRow title={'Enabled views'}>*/}
       {/*  <Menu closeOnSelect={false}>*/}

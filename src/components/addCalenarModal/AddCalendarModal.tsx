@@ -1,4 +1,12 @@
 import {
+  AddAlarmData,
+  AppAlarm,
+  addAlarm,
+  createToast,
+  removeAlarm,
+  updateAlarm,
+} from '../../utils/common';
+import {
   Box,
   Button,
   Center,
@@ -22,7 +30,8 @@ import {
 import { CalDavAccount, CalDavCalendar } from '../../types/interface';
 import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../types/enums';
-import { createToast } from '../../utils/common';
+import { map } from 'lodash';
+import Alarms from '../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import CalDavCalendarApi from '../../api/CalDavCalendarApi';
 import ChakraModal from '../chakraCustom/ChakraModal';
 import React, { useEffect, useReducer, useState } from 'react';
@@ -49,7 +58,7 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
     dispatchState({ state, payload });
   };
 
-  const { name, color, components }: any = state;
+  const { name, color, components, alarms }: any = state;
 
   const onChange = (e: any): void => {
     const value = e.target.value;
@@ -82,6 +91,10 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
           {
             name,
             color,
+            alarms: map(alarms, (alarm) => ({
+              amount: alarm.amount,
+              timeUnit: alarm.timeUnit,
+            })),
           }
         );
 
@@ -133,6 +146,7 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
       setLocalState('name', calendar.displayName);
       setLocalState('color', calendar.color);
       setLocalState('components', calendar.components);
+      setLocalState('alarms', calendar.alarms);
     }
   }, []);
 
@@ -158,6 +172,17 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
     }
 
     setLocalState('components', selectedComponents);
+  };
+
+  const addAlarmEvent = (item: AddAlarmData) => {
+    addAlarm(item, setLocalState, alarms);
+  };
+
+  const removeAlarmEvent = (item: AppAlarm) => {
+    removeAlarm(item, setLocalState, alarms);
+  };
+  const updateAlarmEvent = (item: AppAlarm) => {
+    updateAlarm(item, setLocalState, alarms);
   };
 
   return (
@@ -252,6 +277,13 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
             </PopoverContent>
           </Popover>
         </FormControl>
+        <Separator height={25} />
+        <Alarms
+          alarms={alarms}
+          addAlarm={addAlarmEvent}
+          removeAlarm={removeAlarmEvent}
+          updateAlarm={updateAlarmEvent}
+        />
         <Separator height={25} />
         <Center>
           <Button

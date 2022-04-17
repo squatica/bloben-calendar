@@ -57,6 +57,18 @@ const handleSyncWebcalCalendars = async () => {
   reduxStore.dispatch(setWebcalCalendars(response.data));
 };
 
+const handleNotifications = (data: { title: string; body: string }) => {
+  const notification = new Notification(data.title, {
+    body: data.body,
+    icon: './icon_144.png',
+    badge: './icon_144.png',
+  });
+  notification.onclick = function (event) {
+    event.preventDefault();
+    window.open('/calendar');
+  };
+};
+
 export const processSocketMsg = async (msg: any) => {
   const msgData: any = JSON.parse(msg);
 
@@ -78,5 +90,9 @@ export const processSocketMsg = async (msg: any) => {
 
   if (msgData.type === 'WEBCAL_CALENDARS') {
     await handleSyncWebcalCalendars();
+  }
+
+  if (msgData.type === 'NOTIFICATIONS') {
+    await handleNotifications(msgData);
   }
 };

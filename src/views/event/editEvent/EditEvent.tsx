@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 
 import {
+  AddAlarmData,
+  AppAlarm,
   addAlarm,
   createToast,
   getLocalTimezone,
   removeAlarm,
+  updateAlarm,
 } from 'utils/common';
 
 import { stateReducer } from 'utils/reducer/baseReducer';
@@ -24,11 +27,16 @@ import { DatetimeParser, parseToDateTime } from 'utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 
+import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { initialFormState, initialState } from './EditEvent.utils';
 import { reduxStore } from '../../../layers/ReduxProvider';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
 import ICalHelper from '../../../utils/ICalHelper';
+
+import { debug } from '../../../utils/debug';
+import { map } from 'lodash';
+import { parseIcalAlarmToAppAlarm } from '../../../utils/caldavAlarmHelper';
 import LuxonHelper from '../../../utils/LuxonHelper';
 import Modal from 'components/modal/Modal';
 import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
@@ -67,6 +75,8 @@ export const createEvent = async (
     ...form,
     externalID: newEventExternalID,
   }).parseTo();
+
+  debug(iCalString);
 
   if (isNewEvent) {
     await CalDavEventsApi.createEvent({
@@ -134,6 +144,7 @@ const isEventKnownProp = (prop: string) => {
     'rRule',
     'props',
     'color',
+    'alarms',
   ];
 
   return knownProps.includes(prop);
@@ -158,6 +169,9 @@ const EditEvent = (props: EditEventProps) => {
     (state: ReduxState) => state.calDavCalendars
   );
   const user: User = useSelector((state: ReduxState) => state.user);
+  const settings: CalendarSettingsResponse = useSelector(
+    (state: ReduxState) => state.calendarSettings
+  );
 
   const [eventState] = useReducer(stateReducer, initialState);
 
@@ -235,6 +249,12 @@ const EditEvent = (props: EditEventProps) => {
             if (value.attendee) {
               // @ts-ignore
               setForm('attendees', value.attendee);
+            } else {
+              // @ts-ignore
+              if (value.alarms && value.alarms.length) {
+                // @ts-ignore
+                setForm('alarms', map(value.alarms, parseIcalAlarmToAppAlarm));
+              }
             }
           }
         }
@@ -247,12 +267,19 @@ const EditEvent = (props: EditEventProps) => {
    * Set color event and default alarms for this calendar if event has none
    */
   const loadCalendar = async (calendarID: string | undefined) => {
-    const thisCalendar: CalDavCalendar | undefined =
-      calendarID || props.event
-        ? calDavCalendars.filter(
-            (item) => item.id === props.event?.calendarID
-          )[0]
-        : calDavCalendars[0];
+    let thisCalendar: CalDavCalendar | undefined;
+
+    if (props.event || calendarID) {
+      thisCalendar = calDavCalendars.find(
+        (item) =>
+          item.id === (calendarID ? calendarID : props.event?.calendarID)
+      );
+    } else {
+      const defaultCalendarID = settings.defaultCalendarID;
+      thisCalendar = defaultCalendarID
+        ? calDavCalendars.find((item) => item.id === defaultCalendarID)
+        : undefined;
+    }
 
     if (!thisCalendar) {
       return;
@@ -270,10 +297,19 @@ const EditEvent = (props: EditEventProps) => {
    * Set date time for new event
    */
   const initNewEventOnMount = async (): Promise<void> => {
-    setForm('calendarUrl', calDavCalendars[0].url);
+    const defaultCalendarID = settings.defaultCalendarID;
+    const defaultCalendar = defaultCalendarID
+      ? calDavCalendars.find((item) => item.id === defaultCalendarID)
+      : null;
+    setForm(
+      'calendarUrl',
+      defaultCalendar ? defaultCalendar.url : calDavCalendars[0].url
+    );
     // setDefaultReminder(defaultReminder, setForm);
 
-    const thisCalendar: CalDavCalendar | undefined = calDavCalendars[0];
+    const thisCalendar: CalDavCalendar | undefined = defaultCalendar
+      ? defaultCalendar
+      : calDavCalendars[0];
 
     if (!thisCalendar) {
       return;
@@ -284,10 +320,25 @@ const EditEvent = (props: EditEventProps) => {
     setForm('timezoneEndAt', timezoneFromCalendar);
     setCalendar(thisCalendar);
 
-    if (store.emailConfig) {
+    if (thisCalendar.alarms) {
+      setForm(
+        'alarms',
+        map(thisCalendar.alarms, (alarm) => ({
+          id: v4(),
+          isBefore: true,
+          ...alarm,
+        }))
+      );
+    }
+
+    if (
+      (store?.emailConfig?.hasSystemConfig ||
+        store?.emailConfig?.hasCustomConfig) &&
+      store.emailConfig?.mailto
+    ) {
       setForm('organizer', {
         CN: user.username,
-        mailto: store.emailConfig.smtpEmail,
+        mailto: store.emailConfig?.mailto,
       });
     }
 
@@ -295,19 +346,12 @@ const EditEvent = (props: EditEventProps) => {
       return;
     }
 
-    // const dateFromNewEvent: DateTime = newEventTime.day
-    //   ? calculateNewEventTime(newEventTime)
-    //   : DateTime.local().plus({ hours: 1 });
-    // const dateTill: DateTime = dateFromNewEvent.plus({ hours: 1 });
-
     if (newEventTime.view === 'month') {
       setForm('allDay', true);
     }
 
     setForm('startAt', newEventTime.startAt);
     setForm('endAt', newEventTime.endAt);
-    // setForm('startAt', DatetimeParser(dateFromNewEvent, getLocalTimezone()));
-    // setForm('endAt', DatetimeParser(dateTill, getLocalTimezone()));
   };
 
   useEffect(() => {
@@ -322,12 +366,15 @@ const EditEvent = (props: EditEventProps) => {
     loadCalendar(calendarID);
   }, [calendarID]);
 
-  const addAlarmEvent = (item: any) => {
+  const addAlarmEvent = (item: AddAlarmData) => {
     addAlarm(item, setForm, alarms);
   };
 
-  const removeAlarmEvent = (item: any) => {
+  const removeAlarmEvent = (item: AppAlarm) => {
     removeAlarm(item, setForm, alarms);
+  };
+  const updateAlarmEvent = (item: AppAlarm) => {
+    updateAlarm(item, setForm, alarms);
   };
 
   /**
@@ -482,6 +529,7 @@ const EditEvent = (props: EditEventProps) => {
               alarms={alarms}
               addAlarm={addAlarmEvent}
               removeAlarm={removeAlarmEvent}
+              updateAlarm={updateAlarmEvent}
               timezoneStartAt={timezoneStartAt}
               setStartTimezone={setStartTimezone}
               selectCalendar={selectCalendar}
