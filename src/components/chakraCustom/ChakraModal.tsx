@@ -21,12 +21,14 @@ interface ChakraModalProps {
   className?: string;
   height?: string;
   style?: any;
+  maxWidth?: number;
 }
 const ChakraModal = (props: ChakraModalProps) => {
   const {
     isOpen = true,
     handleClose,
     minWidth = 350,
+    maxWidth,
     withCloseButton = true,
     title,
     children,
@@ -46,6 +48,7 @@ const ChakraModal = (props: ChakraModalProps) => {
         className={className}
         minWidth={minWidth}
         height={height}
+        maxWidth={maxWidth}
       >
         {title ? <ModalHeader>{title}</ModalHeader> : null}
         {header ? header : null}

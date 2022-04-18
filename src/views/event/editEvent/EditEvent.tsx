@@ -37,8 +37,8 @@ import ICalHelper from '../../../utils/ICalHelper';
 import { debug } from '../../../utils/debug';
 import { map } from 'lodash';
 import { parseIcalAlarmToAppAlarm } from '../../../utils/caldavAlarmHelper';
+import ChakraModal from '../../../components/chakraCustom/ChakraModal';
 import LuxonHelper from '../../../utils/LuxonHelper';
-import Modal from 'components/modal/Modal';
 import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
 import Separator from 'components/separator/Separator';
 
@@ -207,7 +207,7 @@ const EditEvent = (props: EditEventProps) => {
     dispatchForm({ type, payload });
   };
 
-  const { isNewEvent, newEventTime, handleClose, event, currentE } = props;
+  const { isNewEvent, newEventTime, handleClose, event } = props;
 
   const { isStartDateValid } = eventState;
 
@@ -503,56 +503,58 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   return (
-    <Modal e={currentE} handleClose={handleClose} noOverflow width={450}>
-      <Flex
-        direction={'column'}
-        style={{ overflowY: 'auto', overflowX: 'hidden' }}
-      >
-        <Flex direction={'column'} style={{ paddingRight: 8 }}>
-          {calendar?.url && startAt && endAt ? (
-            <EventDetail
-              isNewEvent={isNewEvent}
-              calendar={calendar}
-              summary={summary}
-              location={location}
-              description={description}
-              startDate={startAt}
-              rRule={rRule}
-              endDate={endAt}
-              isRepeated={isRepeated}
-              handleChange={handleChange}
-              allDay={allDay}
-              setForm={setForm}
-              handleChangeDateFrom={handleChangeDateFrom}
-              handleChangeDateTill={handleChangeDateTill}
-              isStartDateValid={isStartDateValid}
-              alarms={alarms}
-              addAlarm={addAlarmEvent}
-              removeAlarm={removeAlarmEvent}
-              updateAlarm={updateAlarmEvent}
-              timezoneStartAt={timezoneStartAt}
-              setStartTimezone={setStartTimezone}
-              selectCalendar={selectCalendar}
-              attendees={attendees}
-              addAttendee={addAttendee}
-              removeAttendee={removeAttendee}
-              updateAttendee={updateAttendee}
-              color={color || calendar.color}
-              // makeOptional={makeOptional}
-              organizer={organizer}
-              form={form}
-            />
-          ) : (
-            <div />
-          )}
+    <ChakraModal handleClose={handleClose} minWidth={350} maxWidth={500}>
+      <>
+        <Flex
+          direction={'column'}
+          style={{ overflowY: 'auto', overflowX: 'hidden' }}
+        >
+          <Flex direction={'column'} style={{ paddingRight: 8 }}>
+            {calendar?.url && startAt && endAt ? (
+              <EventDetail
+                isNewEvent={isNewEvent}
+                calendar={calendar}
+                summary={summary}
+                location={location}
+                description={description}
+                startDate={startAt}
+                rRule={rRule}
+                endDate={endAt}
+                isRepeated={isRepeated}
+                handleChange={handleChange}
+                allDay={allDay}
+                setForm={setForm}
+                handleChangeDateFrom={handleChangeDateFrom}
+                handleChangeDateTill={handleChangeDateTill}
+                isStartDateValid={isStartDateValid}
+                alarms={alarms}
+                addAlarm={addAlarmEvent}
+                removeAlarm={removeAlarmEvent}
+                updateAlarm={updateAlarmEvent}
+                timezoneStartAt={timezoneStartAt}
+                setStartTimezone={setStartTimezone}
+                selectCalendar={selectCalendar}
+                attendees={attendees}
+                addAttendee={addAttendee}
+                removeAttendee={removeAttendee}
+                updateAttendee={updateAttendee}
+                color={color || calendar.color}
+                // makeOptional={makeOptional}
+                organizer={organizer}
+                form={form}
+              />
+            ) : (
+              <div />
+            )}
+          </Flex>
         </Flex>
-      </Flex>
-      <Separator height={16} />
-      <Flex direction={'row'} style={{ marginRight: 16, marginTop: 2 }}>
-        <Spacer />
-        <PrimaryButton onClick={saveEvent}>Save</PrimaryButton>
-      </Flex>
-    </Modal>
+        <Separator height={16} />
+        <Flex direction={'row'} style={{ marginRight: 16, marginTop: 2 }}>
+          <Spacer />
+          <PrimaryButton onClick={saveEvent}>Save</PrimaryButton>
+        </Flex>
+      </>
+    </ChakraModal>
   );
 };
 
