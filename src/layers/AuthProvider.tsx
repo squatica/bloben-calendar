@@ -50,7 +50,13 @@ const AuthProvider = (props: any) => {
       } else {
         setContext('isAppStarting', false);
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.response.status === 401) {
+        setContext('isLogged', false);
+        setContext('isAppStarting', false);
+        return;
+      }
+
       setContext('isLogged', true);
       setContext('isAppStarting', false);
     }

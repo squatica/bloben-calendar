@@ -37,8 +37,8 @@ import ICalHelper from '../../../utils/ICalHelper';
 import { debug } from '../../../utils/debug';
 import { map } from 'lodash';
 import { parseIcalAlarmToAppAlarm } from '../../../utils/caldavAlarmHelper';
-import ChakraModal from '../../../components/chakraCustom/ChakraModal';
 import LuxonHelper from '../../../utils/LuxonHelper';
+import ModalNew from '../../../components/modalNew/ModalNew';
 import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
 import Separator from 'components/separator/Separator';
 
@@ -177,6 +177,7 @@ const EditEvent = (props: EditEventProps) => {
 
   const [form, dispatchForm] = useReducer(stateReducer, initialFormState);
   const [calendar, setCalendar] = useState(null as any);
+  const [isSaving, setIsSaving] = useState(false);
 
   const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -487,23 +488,49 @@ const EditEvent = (props: EditEventProps) => {
     );
     setForm('calendarUrl', calendarObj.url);
     setCalendar(calendarObj);
+    setForm('alarms', calendarObj?.alarms || []);
     setForm('color', null);
   };
 
   const saveEvent = async () => {
+    setIsSaving(true);
     try {
       await createEvent(form, isNewEvent, calendar, handleClose, props.event);
 
       setContext('syncSequence', store.syncSequence + 1);
 
+      setIsSaving(false);
+
       toast(createToast(isNewEvent ? 'Event created' : 'Event updated'));
     } catch (e: any) {
       toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+      setIsSaving(false);
     }
   };
 
   return (
-    <ChakraModal handleClose={handleClose} minWidth={350} maxWidth={500}>
+    <ModalNew
+      handleClose={handleClose}
+      className={'EditEventModal'}
+      preventCloseOnBackdrop={true}
+      closeButton={true}
+      footer={
+        <Flex direction={'row'} style={{ marginTop: 2 }}>
+          <Spacer />
+          <PrimaryButton isSecondary onClick={handleClose}>
+            Cancel
+          </PrimaryButton>
+          <Separator width={6} />
+          <PrimaryButton
+            onClick={saveEvent}
+            disabled={isSaving}
+            isLoading={isSaving}
+          >
+            Save
+          </PrimaryButton>
+        </Flex>
+      }
+    >
       <>
         <Flex
           direction={'column'}
@@ -548,13 +575,8 @@ const EditEvent = (props: EditEventProps) => {
             )}
           </Flex>
         </Flex>
-        <Separator height={16} />
-        <Flex direction={'row'} style={{ marginRight: 16, marginTop: 2 }}>
-          <Spacer />
-          <PrimaryButton onClick={saveEvent}>Save</PrimaryButton>
-        </Flex>
       </>
-    </ChakraModal>
+    </ModalNew>
   );
 };
 

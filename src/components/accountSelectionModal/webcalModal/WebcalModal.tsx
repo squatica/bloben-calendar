@@ -17,7 +17,8 @@ import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../utils/common';
 import { map } from 'lodash';
-import ChakraModal from '../../chakraCustom/ChakraModal';
+import ModalNew from 'components/modalNew/ModalNew';
+import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';
 import StateReducer from '../../../utils/state-reducer';
@@ -139,11 +140,11 @@ const WebcalModal = (props: WebcalModalProps) => {
   // };
 
   return (
-    <ChakraModal
-      isOpen={true}
+    <ModalNew
       handleClose={closeFunc}
-      minWidth={350}
       title={'Add webcal calendar'}
+      closeButton={true}
+      preventCloseOnBackdrop={true}
     >
       <>
         <FormControl>
@@ -205,18 +206,13 @@ const WebcalModal = (props: WebcalModalProps) => {
         {/*/>*/}
         <Separator height={25} />
         <Center>
-          <Button
-            _focus={{ boxShadow: 'none' }}
-            colorScheme={'teal'}
-            isLoading={isLoading}
-            onClick={addWebcalCalendar}
-          >
+          <PrimaryButton isLoading={isLoading} onClick={addWebcalCalendar}>
             Confirm
-          </Button>
+          </PrimaryButton>
         </Center>
         <Separator height={15} />
       </>
-    </ChakraModal>
+    </ModalNew>
   );
 };
 

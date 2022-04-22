@@ -213,6 +213,7 @@ const Calendar = (props: CalendarProps) => {
           showTimeLine={true}
           timezone={settings.timezone}
           showWeekNumbers={settings.showWeekNumbers}
+          autoScroll={true}
         />
       ) : null}
       {/*</Carousel>*/}

@@ -12,7 +12,7 @@ import {
   UserEmailConfigData,
 } from '../../bloben-interface/userEmailConfig/userEmailConfig';
 import { createToast } from '../../utils/common';
-import ChakraModal from 'components/chakraCustom/ChakraModal';
+import ModalNew from 'components/modalNew/ModalNew';
 import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
@@ -83,11 +83,11 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
   };
 
   return (
-    <ChakraModal
-      isOpen={true}
+    <ModalNew
       handleClose={closeFunc}
-      minWidth={350}
       title={'Add custom email config'}
+      closeButton={true}
+      preventCloseOnBackdrop={true}
     >
       <>
         <FormControl>
@@ -154,7 +154,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
         </Center>
         <Separator height={15} />
       </>
-    </ChakraModal>
+    </ModalNew>
   );
 };
 

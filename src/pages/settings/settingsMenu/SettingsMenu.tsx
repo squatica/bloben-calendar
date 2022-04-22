@@ -6,7 +6,7 @@ import { SETTINGS_PATHS } from '../../../types/enums';
 import CalendarIcon from '../../../components/eva-icons/calendar';
 import Email from '../../../components/eva-icons/email';
 import PersonIcon from '../../../components/eva-icons/person';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import SettingsIcon from '../../../components/eva-icons/settings';
 
 interface SettingsButtonProps {
@@ -42,23 +42,8 @@ const SettingsMenu = (props: SettingsMenuProps) => {
   const [store] = useContext(Context);
   const { isMobile } = store;
 
-  const [height, setHeight] = useState(0);
-
-  useEffect(() => {
-    const element = document.querySelector('.chakra-modal__body');
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      setHeight(rect.height - 8);
-    }
-  }, []);
-
   return (
-    <div
-      style={{
-        maxHeight: height,
-      }}
-      className={'SettingsMenu__wrapper'}
-    >
+    <div className={'SettingsMenu__wrapper'}>
       <Stack
         direction="column"
         spacing={1}
