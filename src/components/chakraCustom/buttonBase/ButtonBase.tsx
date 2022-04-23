@@ -1,7 +1,7 @@
 import './ButtonBase.scss';
 import { Button } from '@chakra-ui/react';
 import { ButtonProps } from '@chakra-ui/button/dist/declarations/src/button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface ButtonBaseProps extends ButtonProps {
   hoverStyleCustom?: any;
@@ -11,29 +11,23 @@ const ButtonBase = (props: ButtonBaseProps) => {
   const { hoverStyleCustom, pressAnimate } = props;
 
   const [className, setClassName] = useState('');
+  const [isPressed, setIsPressed] = useState(false);
 
   const onPress = () => {
     if (!pressAnimate) {
       return;
     }
+    setIsPressed(true);
     setClassName('ButtonBase-down');
   };
 
   const onLeave = () => {
-    if (!pressAnimate) {
+    if (!pressAnimate || !isPressed) {
       return;
     }
+    setIsPressed(false);
     setClassName('ButtonBase-up');
   };
-
-  useEffect(() => {
-    if (!pressAnimate) {
-      return;
-    }
-    window.addEventListener('mouseup', onLeave);
-
-    return () => window.removeEventListener('mouseUp', onLeave);
-  }, []);
 
   const hoverStyle = hoverStyleCustom || {
     background: 'gray.700',
@@ -52,9 +46,11 @@ const ButtonBase = (props: ButtonBaseProps) => {
       onMouseDownCapture={onPress}
       onTouchStart={onPress}
       onMouseUp={onLeave}
+      onMouseOutCapture={onLeave}
       onTouchEnd={onLeave}
       onMouseUpCapture={onLeave}
       isLoading={props.isLoading}
+      onMouseDown={onPress}
     >
       {props.children}
     </Button>

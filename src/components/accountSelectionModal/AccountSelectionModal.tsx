@@ -1,6 +1,6 @@
 import { ACCOUNT_TYPE } from '../../types/enums';
 import { Box, Button, Heading, SimpleGrid } from '@chakra-ui/react';
-import ChakraModal from '../chakraCustom/ChakraModal';
+import ModalNew from '../modalNew/ModalNew';
 
 interface AccountSelectionModalProps {
   isOpen: boolean;
@@ -8,8 +8,8 @@ interface AccountSelectionModalProps {
   handleOpenNewAccountModal: (type: ACCOUNT_TYPE) => void;
 }
 const AccountSelectionModal = (props: AccountSelectionModalProps) => {
-  return (
-    <ChakraModal handleClose={props.handleClose} isOpen={props.isOpen}>
+  return props.isOpen ? (
+    <ModalNew handleClose={props.handleClose}>
       <SimpleGrid columns={2} spacing={10}>
         <Box height="80px">
           <Button
@@ -36,8 +36,8 @@ const AccountSelectionModal = (props: AccountSelectionModalProps) => {
           </Button>
         </Box>
       </SimpleGrid>
-    </ChakraModal>
-  );
+    </ModalNew>
+  ) : null;
 };
 
 export default AccountSelectionModal;

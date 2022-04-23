@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Button,
   Checkbox,
@@ -20,9 +21,9 @@ import { ReduxState } from '../../../types/interface';
 import { setCalendarSettings, setSettings } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
-import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
 import React, { useState } from 'react';
 import SettingsRow from '../settingsRow/SettingsRow';
+import ChakraTimezoneSelect from 'components/chakraCustom/ChakraTimezoneSelect';
 
 const menuStyle: any = {
   width: '100%',
@@ -88,6 +89,12 @@ const GeneralSettings = () => {
 
   return (
     <>
+      <SettingsRow title={'Timezone'}>
+        <ChakraTimezoneSelect
+          onSelect={handleTimezoneUpdate}
+          value={settings.timezone}
+        />
+      </SettingsRow>
       <SettingsRow title={'Time format'}>
         <Menu>
           <MenuButton
@@ -205,12 +212,7 @@ const GeneralSettings = () => {
           </NumberInputStepper>
         </NumberInput>
       </SettingsRow>
-      <SettingsRow title={'Timezone'}>
-        <ChakraTimezoneSelect
-          onSelect={handleTimezoneUpdate}
-          value={settings.timezone}
-        />
-      </SettingsRow>
+
       <SettingsRow title={'Show week numbers'}>
         <Checkbox
           isChecked={settings.showWeekNumbers}

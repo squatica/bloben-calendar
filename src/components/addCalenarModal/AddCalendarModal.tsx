@@ -33,7 +33,7 @@ import { TOAST_STATUS } from '../../types/enums';
 import { map } from 'lodash';
 import Alarms from '../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import CalDavCalendarApi from '../../api/CalDavCalendarApi';
-import ChakraModal from '../chakraCustom/ChakraModal';
+import ModalNew from 'components/modalNew/ModalNew';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
 import StateReducer from '../../utils/state-reducer';
@@ -186,11 +186,11 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
   };
 
   return (
-    <ChakraModal
-      isOpen={true}
+    <ModalNew
       handleClose={closeFunc}
-      minWidth={350}
       title={'Create calendar'}
+      closeButton={true}
+      preventCloseOnBackdrop={true}
     >
       <>
         <FormControl>
@@ -297,7 +297,7 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
         </Center>
         <Separator height={15} />
       </>
-    </ChakraModal>
+    </ModalNew>
   );
 };
 

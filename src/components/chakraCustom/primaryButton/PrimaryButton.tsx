@@ -1,17 +1,19 @@
 import { ButtonProps } from '@chakra-ui/button/dist/declarations/src/button';
 import ButtonBase from '../buttonBase/ButtonBase';
 
-type PrimaryButtonProps = ButtonProps;
+interface PrimaryButtonProps extends ButtonProps {
+  isSecondary?: boolean;
+}
 const PrimaryButton = (props: PrimaryButtonProps) => {
   const hoverStyle = {
-    background: 'pink.400',
+    background: props.isSecondary ? 'gray.600' : 'pink.400',
   };
 
   return (
     <ButtonBase
       onClick={props.onClick}
-      bg={'primary.400'}
-      color={'gray.100'}
+      bg={props.isSecondary ? 'gray.800' : 'primary.400'}
+      color={'whiteAlpha.900'}
       size={props.size || 'lg'}
       hoverStyleCustom={hoverStyle}
       pressAnimate={true}

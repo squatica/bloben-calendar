@@ -23,7 +23,7 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
       direction={'row'}
       align={'center'}
       style={{
-        width: '90%',
+        width: '100%',
       }}
     >
       <FormIcon isDark={isDark} allVisible alignTop>

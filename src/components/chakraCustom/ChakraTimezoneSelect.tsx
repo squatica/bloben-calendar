@@ -7,7 +7,7 @@ interface ChakraTimezoneSelectProps {
   value: string;
 }
 const ChakraTimezoneSelect = (props: ChakraTimezoneSelectProps) => {
-  const [zones, setZones] = useState<any>(null);
+  const [zones, setZones] = useState<any>([]);
 
   useEffect(() => {
     const data: any = timezones.map((item: string) => ({
