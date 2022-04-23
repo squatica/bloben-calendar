@@ -153,7 +153,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
     <Flex
       direction={'column'}
       style={{
-        width: '90%',
+        width: '100%',
       }}
     >
       <Stack direction={'row'} align={'center'}>
@@ -206,7 +206,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
           <Stack
             direction={'column'}
             spacing={2}
-            style={{ width: '100%', marginTop: 2, marginBottom: 2 }}
+            style={{ width: '100%', marginTop: 4, marginBottom: 4 }}
           >
             <Button
               _focus={{ boxShadow: 'none' }}

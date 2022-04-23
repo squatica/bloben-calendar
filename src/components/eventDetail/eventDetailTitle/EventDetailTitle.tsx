@@ -19,7 +19,7 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
   const { isDark } = store;
 
   return (
-    <Stack direction={'row'} align={'center'} style={{ width: '90%' }}>
+    <Stack direction={'row'} align={'center'} style={{ width: '100%' }}>
       <FormIcon isDark={isDark} hidden allVisible>
         <EvaIcons.Note color={'transparent'} fill={'transparent'} />
       </FormIcon>

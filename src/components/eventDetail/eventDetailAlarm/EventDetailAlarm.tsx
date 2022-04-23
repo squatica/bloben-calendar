@@ -60,6 +60,7 @@ const renderAlarms = (
           type={'number'}
           width={50}
         />
+        <Spacer />
         <Menu closeOnSelect>
           <MenuButton
             as={Button}
@@ -145,7 +146,7 @@ const Alarms = (props: AlarmsProps) => {
     <Flex
       direction={'column'}
       style={{
-        width: '90%',
+        width: '100%',
       }}
     >
       <Stack direction={'row'} align={'center'}>
@@ -165,11 +166,15 @@ const Alarms = (props: AlarmsProps) => {
         ) : null}
       </Stack>
       {alarms.length ? (
-        <Stack direction={'row'} align={'center'}>
+        <Stack
+          direction={'row'}
+          align={'center'}
+          style={{ marginTop: 4, marginBottom: 4 }}
+        >
           <FormIcon isDark={isDark} allVisible hidden>
             <EvaIcons.Bell className={'EventDetail-icon'} />
           </FormIcon>
-          <Stack direction={'column'} spacing={1}>
+          <Stack direction={'column'} spacing={2}>
             {renderedAlarms}
           </Stack>
         </Stack>

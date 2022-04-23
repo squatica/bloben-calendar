@@ -24,7 +24,7 @@
     "@typescript-eslint/ban-ts-ignore": "off",
 
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "singleQuote": true
       }

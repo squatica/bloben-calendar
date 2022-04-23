@@ -18,7 +18,8 @@ import { createToast } from '../../../utils/common';
 import { useDispatch } from 'react-redux';
 import CalDavAccountApi from '../../../api/CalDavAccountApi';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
-import ChakraModal from '../../chakraCustom/ChakraModal';
+import ModalNew from '../../modalNew/ModalNew';
+import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';
 import StateReducer from '../../../utils/state-reducer';
@@ -107,11 +108,11 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
   };
 
   return (
-    <ChakraModal
-      isOpen={true}
+    <ModalNew
       handleClose={closeFunc}
-      minWidth={350}
       title={account ? 'Edit CalDavAccount' : 'Add CalDavAccount'}
+      closeButton={true}
+      preventCloseOnBackdrop={true}
     >
       <>
         <FormControl>
@@ -161,18 +162,13 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
         </FormControl>
         <Separator height={25} />
         <Center>
-          <Button
-            _focus={{ boxShadow: 'none' }}
-            colorScheme={'teal'}
-            isLoading={isLoading}
-            onClick={addAccount}
-          >
+          <PrimaryButton isLoading={isLoading} onClick={addAccount}>
             Confirm
-          </Button>
+          </PrimaryButton>
         </Center>
         <Separator height={15} />
       </>
-    </ChakraModal>
+    </ModalNew>
   );
 };
 
