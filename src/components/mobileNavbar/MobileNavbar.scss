@@ -8,6 +8,11 @@
   width: 100%;
   display: flex;
   justify-content: center;
+
+  &-dark {
+    @extend .MobileNavbar__wrapper;
+    background: #1D1F26;
+  }
 }
 
 .MobileNavbar__container {
@@ -20,6 +25,11 @@
   background: #ededed;
   border-radius: 20px;
   //display: flex;
+
+  &-dark {
+    @extend .MobileNavbar__container;
+    background: $GRAY_900;
+  }
 }
 
 .MobileNavbar-left {
@@ -36,4 +46,9 @@
   width: 25px;
   height: 25px;
   fill: $GRAY_800;
+
+  &-dark {
+    @extend .MobileNavbar__icon;
+    fill: $GRAY_200;
+  }
 }

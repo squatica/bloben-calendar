@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
-import { Input, Stack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 
 interface EventDetailLocationProps {
@@ -27,7 +28,7 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
       <FormIcon isDark={isDark} allVisible>
         <EvaIcons.Pin className={'EventDetail-icon'} />
       </FormIcon>
-      <Input
+      <ChakraInput
         size={'md'}
         type="text"
         placeholder="Location"

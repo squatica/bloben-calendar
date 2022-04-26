@@ -9,6 +9,7 @@ import { parseToDateTime } from './datetimeParser';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
 
+import { THEME_SETTINGS, ThemeSettings } from '../redux/reducers/themeSettings';
 import { parseToAlarmTrigger } from './caldavAlarmHelper';
 import _, { forEach } from 'lodash';
 
@@ -72,7 +73,7 @@ export const capitalStart = (text?: string) => {
   const firstLetter = text.slice(0, 1).toUpperCase();
   const restLetters = text.slice(1, stringLength);
 
-  return firstLetter + restLetters;
+  return firstLetter + restLetters.toLowerCase();
 };
 
 export const colorPalette: any = {
@@ -671,4 +672,12 @@ export const getHostname = () => {
   } else {
     return `${window.location.protocol}//${window.location.hostname}`;
   }
+};
+
+export const handleIsDarkTheme = (themeSettings: ThemeSettings): boolean => {
+  if (themeSettings.settings === THEME_SETTINGS.DARK) {
+    return true;
+  }
+
+  return false;
 };

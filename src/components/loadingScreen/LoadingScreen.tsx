@@ -8,12 +8,13 @@ import Spinner from './spinner/Spinner';
 interface LoadingProps {
   isDark: boolean;
 }
-const LoaderBig = (props: LoadingProps) => {
-  const { isDark } = props;
+const LoaderBig = () => {
+  const isDark =
+    window.localStorage.isDark && window.localStorage.isDark === 'true';
 
   return (
     <div className={parseCssDark('LoadingScreen__wrapper', isDark)}>
-      <Spinner />
+      <Spinner isDark={isDark} />
       <p className={parseCssDark('LoadingScreen__text', isDark)}>Loading</p>
     </div>
   );
@@ -36,11 +37,7 @@ interface LoadingScreenProps {
 const LoadingScreen = (props: LoadingScreenProps) => {
   const { small, isDark } = props;
 
-  return small ? (
-    <LoaderSmall isDark={isDark} />
-  ) : (
-    <LoaderBig isDark={isDark} />
-  );
+  return small ? <LoaderSmall isDark={isDark} /> : <LoaderBig />;
 };
 
 export default LoadingScreen;

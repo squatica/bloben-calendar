@@ -17,6 +17,7 @@ import {
   checkIfIsInRange,
   createToast,
   getSyncRange,
+  parseCssDark,
 } from '../../utils/common';
 import { reduxStore } from '../../layers/ReduxProvider';
 import { setCalendarDaysRange } from '../../redux/actions';
@@ -177,7 +178,10 @@ const Calendar = (props: CalendarProps) => {
 
   return (
     <div
-      className={`Calendar_container${props.isDrawerOpen ? '-collapsed' : ''}`}
+      className={parseCssDark(
+        `Calendar_container${props.isDrawerOpen ? '-collapsed' : ''}`,
+        store.isDark
+      )}
     >
       <CalendarHeader
         kalendRef={kalendRef}
@@ -214,6 +218,7 @@ const Calendar = (props: CalendarProps) => {
           timezone={settings.timezone}
           showWeekNumbers={settings.showWeekNumbers}
           autoScroll={true}
+          isDark={store.isDark}
         />
       ) : null}
       {/*</Carousel>*/}

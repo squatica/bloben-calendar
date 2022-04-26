@@ -1,8 +1,9 @@
 import { Button, Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import { CALENDAR_VIEW, CalendarView } from 'kalend';
+import { CSS_CLASSES, DRAWER_PATH } from '../../types/enums';
 import { Context } from '../../context/store';
-import { DRAWER_PATH } from '../../types/enums';
 import { initialReduxState } from '../../redux/reducers';
+import { parseCssDark } from '../../utils/common';
 import { replace } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -25,7 +26,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
   const { isBottomSheetOpen, onClose, setSelectedView, selectedView } = props;
 
   const dispatch = useDispatch();
-  const [, dispatchContext] = useContext(Context);
+  const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -52,14 +53,14 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
       {isBottomSheetOpen ? (
         <BottomSheet
           {...props}
-          // backdropClassName={parseCssDark(
-          //   CSS_CLASSES.BOTTOM_SHEET_BACKDROP,
-          //   isDark
-          // )}
-          // containerClassName={parseCssDark(
-          //   CSS_CLASSES.BOTTOM_SHEET_CONTAINER,
-          //   isDark
-          // )}
+          backdropClassName={parseCssDark(
+            CSS_CLASSES.BOTTOM_SHEET_BACKDROP,
+            store.isDark
+          )}
+          containerClassName={parseCssDark(
+            CSS_CLASSES.BOTTOM_SHEET_CONTAINER,
+            store.isDark
+          )}
           customHeight={350}
           isExpandable={true}
           onClose={onClose}
@@ -76,7 +77,11 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
             <Separator height={6} />
             <Button
               _focus={{ boxShadow: 'none' }}
-              leftIcon={<SettingsIcon className={'SettingsMenu__icon'} />}
+              leftIcon={
+                <SettingsIcon
+                  className={parseCssDark('SettingsMenu__icon', store.isDark)}
+                />
+              }
               variant={'ghost'}
               onClick={handleOpenSettings}
               isFullWidth={true}
@@ -87,7 +92,11 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
             </Button>
             <Button
               _focus={{ boxShadow: 'none' }}
-              leftIcon={<PersonIcon className={'SettingsMenu__icon'} />}
+              leftIcon={
+                <PersonIcon
+                  className={parseCssDark('SettingsMenu__icon', store.isDark)}
+                />
+              }
               variant={'ghost'}
               onClick={handleLogout}
               isFullWidth={true}

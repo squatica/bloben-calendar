@@ -10,6 +10,16 @@
     @extend .MiniCalendarDay__button;
   }
 
+  &-dark {
+    @extend .MiniCalendarDay__button;
+    color: $GRAY_100 !important;
+
+    &:hover {
+      @extend .MiniCalendarDay__button-dark;
+      background-color: $GRAY_700;
+    }
+  }
+
   &-selected {
     @extend .MiniCalendarDay__button;
     background-color: $PRIMARY_LIGHT;
@@ -33,6 +43,7 @@
   color: $GRAY_400;
 
   &-dark {
+    @extend .MiniCalendarDay__text;
     color: $GRAY_600;
   }
 
@@ -48,6 +59,11 @@
     &-selected {
       @extend .MiniCalendarDay__text-normal;
       color: $reverseText;
+
+      &-dark {
+        @extend .MiniCalendarDay__text-normal-selected;
+        color: $text;
+      }
     }
   }
 

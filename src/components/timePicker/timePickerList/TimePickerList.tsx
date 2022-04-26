@@ -15,8 +15,8 @@ const renderTimePickerUnits = (selectedDate: string, selectTime: any) => {
       result += '0';
     }
 
-    timeUnits.push(`${result}${i}:00`);
-    timeUnits.push(`${result}${i}:30`);
+    timeUnits.push(`${result}${i}  :  00`);
+    timeUnits.push(`${result}${i}  :  30`);
   }
 
   return timeUnits.map((timeUnit: string) => (

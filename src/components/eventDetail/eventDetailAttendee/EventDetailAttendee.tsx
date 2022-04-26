@@ -6,7 +6,6 @@ import {
   Button,
   Flex,
   IconButton,
-  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -20,6 +19,7 @@ import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 import TrashIcon from '../../eva-icons/trash';
 import Validator from '../../../utils/Validator';
@@ -161,7 +161,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
           <EvaIcons.Person className={'EventDetail-icon'} />
         </FormIcon>
         {!disabled ? (
-          <Input
+          <ChakraInput
             size={'md'}
             type="text"
             placeholder="Add attendee"

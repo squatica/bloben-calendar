@@ -1,10 +1,4 @@
-import {
-  Center,
-  FormControl,
-  FormLabel,
-  Input,
-  useToast,
-} from '@chakra-ui/react';
+import { Center, FormControl, FormLabel, useToast } from '@chakra-ui/react';
 import { Context } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
 import {
@@ -12,6 +6,7 @@ import {
   UserEmailConfigData,
 } from '../../bloben-interface/userEmailConfig/userEmailConfig';
 import { createToast } from '../../utils/common';
+import ChakraInput from '../chakraCustom/ChakraInput';
 import ModalNew from 'components/modalNew/ModalNew';
 import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useReducer, useState } from 'react';
@@ -92,7 +87,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
       <>
         <FormControl>
           <FormLabel htmlFor="smtpHost">Host</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="smtpHost"
             name={'smtpHost'}
@@ -103,7 +98,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
         <Separator height={8} />
         <FormControl>
           <FormLabel htmlFor="smtpPort">Port</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="smtpPort"
             name={'smtpPort'}
@@ -114,7 +109,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
         <Separator height={8} />
         <FormControl>
           <FormLabel htmlFor="smtpUsername">Username</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="smtpUsername"
             name={'smtpUsername'}
@@ -125,7 +120,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
         <Separator height={8} />
         <FormControl>
           <FormLabel htmlFor="smtpPassword">Password</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="smtpPassword"
             name={'smtpPassword'}
@@ -137,7 +132,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
         <Separator height={8} />
         <FormControl>
           <FormLabel htmlFor="smtpEmail">Email</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="smtpEmail"
             name={'smtpEmail'}

@@ -17,6 +17,11 @@ $PADDING:24px;
   justify-content: center;
   align-items: center;
   display: flex;
+
+  &-dark {
+    @extend .ModalNew__backdrop;
+    background-color: rgba(12, 12, 12, 0.6);
+  }
 }
 
 .ModalNew__wrapper {
@@ -29,6 +34,12 @@ $PADDING:24px;
   background: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   border-radius: 8px;
+
+  &-dark {
+    @extend .ModalNew__wrapper;
+    box-shadow: none;
+    background: $GRAY_900;
+  }
 }
 
 .ModalNew__container-outer {
@@ -92,4 +103,9 @@ $PADDING:24px;
   width: 30px;
   height: 30px;
   fill: $GRAY_600;
+
+  &-dark {
+    @extend .ModalNew__icon;
+    fill: $GRAY_400;
+  }
 }
