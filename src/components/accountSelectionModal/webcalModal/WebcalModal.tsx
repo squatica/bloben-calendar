@@ -191,9 +191,9 @@ const WebcalModal = (props: WebcalModalProps) => {
               onChange={onChange}
               value={syncFrequency}
               type={'number'}
-              min={30}
+              min={1}
             />
-            <InputRightAddon>minutes</InputRightAddon>
+            <InputRightAddon>hours</InputRightAddon>
           </InputGroup>
         </FormControl>
         {/*DISABLED*/}
