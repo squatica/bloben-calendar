@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import './TimeInput.scss';
 
 import { DateTime } from 'luxon';
-import { Input } from '@chakra-ui/react';
 import { validateHour, validateMinute } from './TimeInputUtils';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 
 const TIME_MAX_LENGTH = 2;
 const MINUTE = 'minute';
@@ -127,7 +127,7 @@ const TimeInput = (props: TimeInputProps) => {
 
   return (
     <div className={'TimeInput__container'}>
-      <Input
+      <ChakraInput
         ref={hourRef}
         value={hour}
         maxLength={TIME_MAX_LENGTH}
@@ -142,7 +142,7 @@ const TimeInput = (props: TimeInputProps) => {
       <div className={'TimeInput__container-text'}>
         <p className={'TimeInput__text'}>:</p>
       </div>
-      <Input
+      <ChakraInput
         ref={minuteRef}
         value={minute}
         maxLength={TIME_MAX_LENGTH}

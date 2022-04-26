@@ -1,9 +1,12 @@
+import { Context } from '../../../context/store';
 import { Link, Text } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import Separator from '../../../components/separator/Separator';
 import SettingsCard from '../settingsCard/SettingsCard';
 
 const HelpSettings = () => {
+  const [store] = useContext(Context);
+
   return (
     <>
       <SettingsCard title={'Acknowledgments'}>
@@ -13,7 +16,7 @@ const HelpSettings = () => {
             <Link
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
-              color={'primary.400'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
               href={'https://www.behance.net/federicaprunotto'}
             >
               Federica Prunotto
@@ -25,7 +28,7 @@ const HelpSettings = () => {
             <Link
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
-              color={'primary.400'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
               href={'https://akveo.github.io/eva-icons/#/'}
             >
               Eva Icons
@@ -37,7 +40,7 @@ const HelpSettings = () => {
             <Link
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
-              color={'primary.400'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
               href={'https://github.com/fafruch/react-rrule-generator'}
             >
               fafruch
@@ -48,7 +51,7 @@ const HelpSettings = () => {
             <Link
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
-              color={'primary.400'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
               href={
                 'https://github.com/nibdo/bloben-calendar/blob/production/package.json'
               }
@@ -61,7 +64,7 @@ const HelpSettings = () => {
             <Link
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
-              color={'primary.400'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
               href={
                 'https://github.com/nibdo/bloben-admin/blob/production/package.json'
               }
@@ -74,7 +77,7 @@ const HelpSettings = () => {
             <Link
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
-              color={'primary.400'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
               href={
                 'https://github.com/nibdo/bloben-api/blob/production/package.json'
               }

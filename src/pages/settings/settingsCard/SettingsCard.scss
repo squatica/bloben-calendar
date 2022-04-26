@@ -14,5 +14,10 @@
   padding:0;
   margin:0;
   padding-bottom: 16px;
+
+  &-dark {
+    @extend .SettingsCard__title;
+    color: $GRAY_300;
+  }
 }
 

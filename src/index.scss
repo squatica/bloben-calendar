@@ -1,3 +1,5 @@
+@import 'styles/colors';
+
 html, body {
   width: 100vw !important;
   height: 100vh !important;
@@ -58,8 +60,6 @@ html, body {
   width: 100vw;
   height: 100vh;
   //background-color: #243042;
-  background-color: #f5f1f1;
-
 }
 
 
@@ -73,4 +73,64 @@ html, body {
 
 .full-height {
   height: 100%;
+}
+
+.Surface {
+  width: 100%;
+  height: 100%;
+  background-color: $SURFACE_LIGHT;
+
+  &-dark {
+    @extend .Surface;
+    background-color: $SURFACE_DARK;
+  }
+}
+
+.color-primary {
+  color: $PRIMARY_LIGHT;
+}
+.color-primary-dark {
+  color: $PRIMARY_DARK;
+}
+.bg-primary {
+  background: $PRIMARY_LIGHT;
+}
+.bg-primary-dark {
+  background: $PRIMARY_DARK;
+}
+.color-base {
+  color: $GRAY_900;
+}
+.color-base-dark {
+  color: $GRAY_100;
+}
+.color-base {
+  color: $GRAY_900;
+}
+.bg-base {
+  color: $GRAY_100;
+}
+.bg-base-dark {
+  color: $GRAY_900;
+}
+
+.PrimaryButton {
+  background: $PRIMARY_LIGHT;
+  color: $GRAY_100;
+
+  &-dark {
+    @extend .PrimaryButton;
+    background: $PRIMARY_DARK;
+    color: $GRAY_900;
+  }
+}
+.SecondaryButton {
+  background: $GRAY_900;
+  color: $GRAY_100;
+
+  &-dark {
+    @extend .SecondaryButton;
+    background: $GRAY_300;
+    color: $GRAY_900;
+  }
 }

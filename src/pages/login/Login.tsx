@@ -6,7 +6,6 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  Input,
   InputGroup,
   InputRightElement,
   useToast,
@@ -14,6 +13,7 @@ import {
 import { Context } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, getHostname } from '../../utils/common';
+import ChakraInput from '../../components/chakraCustom/ChakraInput';
 import PrimaryButton from '../../components/chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useState } from 'react';
 import Separator from 'components/separator/Separator';
@@ -81,7 +81,6 @@ const Login = () => {
         alignItems: 'center',
         height: '100%',
         width: '100%',
-        background: 'white',
       }}
     >
       <Container
@@ -95,7 +94,7 @@ const Login = () => {
         <Separator height={30} />
         <FormControl id="username" size="2xl">
           <FormLabel size="2xl">Username</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             name={'username'}
             value={username}
@@ -107,7 +106,7 @@ const Login = () => {
         <FormControl id="password" size="2xl">
           <FormLabel size="2xl">Password</FormLabel>
           <InputGroup size={'lg'}>
-            <Input
+            <ChakraInput
               size={'lg'}
               type={show ? 'text' : 'password'}
               name={'password'}
@@ -132,7 +131,7 @@ const Login = () => {
             Login
           </PrimaryButton>
           <Separator height={80} />
-          <VersionFooter isDark={false} />
+          <VersionFooter />
         </Center>
       </Container>
     </div>

@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
-import { Stack, Textarea } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import { parseHtml } from '../../../utils/parserHtml';
+import ChakraTextArea from '../../chakraCustom/ChakraTextArea';
 import FormIcon from '../../formIcon/FormIcon';
 import ResizeTextarea from 'react-textarea-autosize';
 
@@ -32,7 +33,7 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
       {disabled ? (
         <p dangerouslySetInnerHTML={{ __html: parseHtml(value) }} />
       ) : (
-        <Textarea
+        <ChakraTextArea
           size={'md'}
           placeholder="Notes"
           name={'description'}
@@ -45,7 +46,6 @@ const EventDetailNotes = (props: EventDetailNotesProps) => {
           rows={1}
           maxRows={5}
           as={ResizeTextarea}
-          focusBorderColor={'gray.700'}
         />
       )}
     </Stack>

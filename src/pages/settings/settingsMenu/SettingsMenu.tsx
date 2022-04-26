@@ -3,6 +3,7 @@ import { Button, Stack } from '@chakra-ui/react';
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
 import { SETTINGS_PATHS } from '../../../types/enums';
+import { parseCssDark } from 'utils/common';
 import CalendarIcon from '../../../components/eva-icons/calendar';
 import Email from '../../../components/eva-icons/email';
 import PersonIcon from '../../../components/eva-icons/person';
@@ -56,7 +57,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.ACCOUNTS);
           }}
           text={'Accounts'}
-          icon={<PersonIcon className={'SettingsMenu__icon'} />}
+          icon={
+            <PersonIcon
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         <SettingsButton
           selected={selected}
@@ -65,7 +70,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.CALENDARS);
           }}
           text={'Calendars'}
-          icon={<CalendarIcon className={'SettingsMenu__icon'} />}
+          icon={
+            <CalendarIcon
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         <SettingsButton
           selected={selected}
@@ -74,7 +83,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.GENERAL);
           }}
           text={'General'}
-          icon={<SettingsIcon className={'SettingsMenu__icon'} />}
+          icon={
+            <SettingsIcon
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         <SettingsButton
           selected={selected}
@@ -83,7 +96,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.EMAIL_CONFIG);
           }}
           text={'Email'}
-          icon={<Email className={'SettingsMenu__icon'} />}
+          icon={
+            <Email
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         {/*<SettingsButton*/}
         {/*  selected={selected}*/}
@@ -101,7 +118,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.HELP);
           }}
           text={'Help'}
-          icon={<EvaIcons.QuestionCircle className={'SettingsMenu__icon'} />}
+          icon={
+            <EvaIcons.QuestionCircle
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         <SettingsButton
           selected={selected}
@@ -110,7 +131,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.ACKNOWLEDGMENTS);
           }}
           text={'Acknowledgment'}
-          icon={<EvaIcons.Note className={'SettingsMenu__icon'} />}
+          icon={
+            <EvaIcons.Note
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         <SettingsButton
           selected={selected}
@@ -119,7 +144,11 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             setSelected(SETTINGS_PATHS.ABOUT);
           }}
           text={'About'}
-          icon={<EvaIcons.Info className={'SettingsMenu__icon'} />}
+          icon={
+            <EvaIcons.Info
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
         />
         {/*<SettingsButton*/}
         {/*  onClick={() => {}}*/}

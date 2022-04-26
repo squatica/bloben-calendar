@@ -6,6 +6,7 @@ import { createToast } from '../../../utils/common';
 import { refreshUserData } from '../../../redux/functions/user';
 import ButtonBase from 'components/chakraCustom/buttonBase/ButtonBase';
 import EmailConfigModal from '../../../components/emailConfigModal/EmailConfigModal';
+import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useEffect, useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 import UserEmailConfigApi from '../../../api/UserEmailConfigApi';
@@ -59,9 +60,9 @@ const EmailConfigSettings = () => {
       <Separator height={24} />
 
       {!emailConfig?.hasCustomConfig ? (
-        <ButtonBase onClick={() => openModal(true)}>
+        <PrimaryButton isSecondary onClick={() => openModal(true)}>
           Add custom config
-        </ButtonBase>
+        </PrimaryButton>
       ) : null}
 
       {modalOpen ? (

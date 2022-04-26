@@ -25,11 +25,21 @@
 .SettingsMenu__icon {
   width: 20px;
   height: 20px;
-  fill: $GRAY_700
+  fill: $GRAY_700;
+
+  &-dark {
+    @extend .SettingsMenu__icon;
+    fill: $GRAY_300;
+  }
 }
 
 .SettingsMenu__icon-red {
   width: 20px;
   height: 20px;
-  fill: $PRIMARY_LIGHT
+  fill: $PRIMARY_LIGHT;
+
+  &-dark {
+    @extend .SettingsMenu__icon-red;
+    fill: $PRIMARY_DARK;
+  }
 }

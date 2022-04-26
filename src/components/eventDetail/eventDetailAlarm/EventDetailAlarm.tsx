@@ -7,7 +7,6 @@ import {
   Button,
   Flex,
   IconButton,
-  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -18,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { Context } from '../../../context/store';
 import { EvaIcons } from '../../eva-icons';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 import TrashIcon from '../../eva-icons/trash';
 
@@ -50,7 +50,7 @@ const renderAlarms = (
         spacing={1}
         style={{ width: '100%', alignItems: 'center' }}
       >
-        <Input
+        <ChakraInput
           size={'md'}
           name={'amount'}
           value={item.amount}
