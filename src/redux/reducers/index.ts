@@ -9,6 +9,7 @@ import calDavEvents from './calDavEvents';
 import calendarDaysRange from './calendarDays';
 import calendarSettings, { defaultCalendarSettings } from './calendarSettings';
 import settings, { initSettings } from './settings';
+import settingsLocal, { initLocalSettings } from './settingsLocal';
 import syncLog from './syncLog';
 import themeSettings, { initThemeSettings } from './themeSettings';
 import user from './user';
@@ -32,6 +33,7 @@ export const initialReduxState: ReduxState = {
   },
   calendarSettings: defaultCalendarSettings,
   themeSettings: initThemeSettings,
+  settingsLocal: initLocalSettings(),
 };
 
 export const allReducers: Reducer = combineReducers({
@@ -47,6 +49,7 @@ export const allReducers: Reducer = combineReducers({
   user,
   calendarSettings,
   themeSettings,
+  settingsLocal,
 });
 
 const rootReducer = (state: ReduxState | undefined, action: any) => {

@@ -23,8 +23,6 @@ const Main = () => {
     }
   }, [settingsOpen]);
 
-  const [isDrawerOpen] = useState(true);
-
   const dispatch: any = useDispatch();
 
   useEffect(() => {
@@ -39,13 +37,7 @@ const Main = () => {
         <div
           style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
         >
-          {/*<Header*/}
-          {/*  handleDrawerIconClick={handleDrawerIconClick}*/}
-          {/*  isDrawerExpanded={isDrawerOpen}*/}
-          {/*/>*/}
-          <div className={'Main__content__row'}>
-            {calendarSelected ? <Calendar isDrawerOpen={isDrawerOpen} /> : null}
-          </div>
+          {calendarSelected ? <Calendar /> : null}
         </div>
       </div>
       <Settings />

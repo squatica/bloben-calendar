@@ -39,6 +39,11 @@ const theme = extendTheme({
   components: {
     Button,
     Input,
+    CheckBox: {
+      defaultProps: {
+        _focus: { boxShadow: 'none' },
+      },
+    },
   },
   colors: {
     primary: {

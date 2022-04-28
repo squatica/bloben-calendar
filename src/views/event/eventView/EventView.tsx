@@ -16,6 +16,7 @@ import { EVENT_TYPE } from 'bloben-interface/enums';
 import { EvaIcons } from 'components/eva-icons';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
+import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { calendarByEvent } from '../../../utils/tsdavHelper';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
 import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
@@ -77,10 +78,20 @@ const EventView = (props: EventViewProps) => {
   const calendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
   );
+  const webcalCalendars: WebcalCalendar[] = useSelector(
+    (state: ReduxState) => state.webcalCalendars
+  );
 
   const getCalendar = async () => {
-    const thisCalendar: any = await calendarByEvent(props.data, calendars);
-    setCalendar(thisCalendar);
+    const thisCalendar: any = calendarByEvent(props.data, calendars);
+    if (thisCalendar) {
+      setCalendar(thisCalendar);
+    } else {
+      const webcalCalendar: any = calendarByEvent(props.data, webcalCalendars);
+      if (webcalCalendar) {
+        setCalendar({ ...webcalCalendar, displayName: webcalCalendar.name });
+      }
+    }
   };
 
   const loadEvent = async (): Promise<void> => {

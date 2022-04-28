@@ -7,6 +7,7 @@ import {
 import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
 import { GetEventResponse } from '../../bloben-interface/event/event';
 import { OnPageChangeData } from 'kalend';
+import { SettingsLocal } from '../reducers/settingsLocal';
 import { ThemeSettings } from '../reducers/themeSettings';
 import { WebcalCalendar } from '../reducers/webcalCalendars';
 
@@ -171,6 +172,13 @@ export const setCalendarSettings = (data: CalendarSettingsResponse) => {
 export const setThemeSettings = (data: ThemeSettings) => {
   return {
     type: 'SET_THEME_SETTINGS',
+    payload: data,
+  };
+};
+
+export const setLocalSettings = (data: SettingsLocal) => {
+  return {
+    type: 'SET_LOCAL_SETTINGS',
     payload: data,
   };
 };
