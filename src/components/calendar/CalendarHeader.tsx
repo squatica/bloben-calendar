@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { CalendarView } from 'kalend';
 import { Context } from '../../context/store';
-import { checkHasNewVersion } from '../../utils/common';
+import { checkHasNewVersion, parseCssDark } from '../../utils/common';
 import { initialReduxState } from '../../redux/reducers';
 import { replace } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
@@ -22,6 +22,7 @@ import { useHistory } from 'react-router-dom';
 import ChevronLeft from '../eva-icons/chevron-left';
 import ChevronRight from '../eva-icons/chevron-right';
 import CircleFill from '../eva-icons/circle-fill';
+import MenuIcon from '../eva-icons/menu';
 import NewVersionModal from '../newVersionModal/NewVersionModal';
 import PersonIcon from '../eva-icons/person';
 import React, { useContext, useState } from 'react';
@@ -37,6 +38,7 @@ interface CalendarHeaderProps {
   setSelectedView: any;
   selectedView: any;
   handleRefresh: any;
+  handleOpenDrawer: any;
 }
 
 const CalendarHeader = (props: CalendarHeaderProps) => {
@@ -54,6 +56,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     setSelectedView,
     selectedView,
     handleRefresh,
+    handleOpenDrawer,
   } = props;
 
   const [versionModalOpen, openVersionModal] = useState(false);
@@ -94,11 +97,24 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     >
       {!isMobile ? (
         <Flex direction={'row'} justifyContent={'center'}>
+          <IconButton
+            variant={'ghost'}
+            aria-label="Drawer"
+            icon={
+              <MenuIcon
+                className={parseCssDark('HeaderModal__icon', store.isDark)}
+              />
+            }
+            isRound
+            autoFocus={false}
+            onClick={handleOpenDrawer}
+            style={{ marginLeft: 18 }}
+          />
           <Center margin={'0 auto'}>
             <Stack
               spacing={0}
               direction={'row'}
-              border={'solid 0.4px #E2E8F0'}
+              border={store.isDark ? '' : 'solid 0.4px #E2E8F0'}
               borderRadius={4}
             >
               <Button
@@ -184,7 +200,11 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 _focus={{ boxShadow: 'none' }}
                 variant={'ghost'}
                 aria-label="Refresh"
-                icon={<RefreshIcon className={'HeaderModal__icon'} />}
+                icon={
+                  <RefreshIcon
+                    className={parseCssDark('HeaderModal__icon', store.isDark)}
+                  />
+                }
                 isRound
                 // size={"sm"}
                 autoFocus={false}
@@ -200,7 +220,14 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                   variant={'ghost'}
                   aria-label="Settings"
                   isRound
-                  icon={<SettingsIcon className={'HeaderModal__icon'} />}
+                  icon={
+                    <SettingsIcon
+                      className={parseCssDark(
+                        'HeaderModal__icon',
+                        store.isDark
+                      )}
+                    />
+                  }
                   fontSize={14}
                   style={{ position: 'relative' }}
                 />
@@ -208,7 +235,14 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                   <MenuItem
                     as={Button}
                     _focus={{ boxShadow: 'none' }}
-                    leftIcon={<SettingsIcon className={'SettingsMenu__icon'} />}
+                    leftIcon={
+                      <SettingsIcon
+                        className={parseCssDark(
+                          'SettingsMenu__icon',
+                          store.isDark
+                        )}
+                      />
+                    }
                     variant={'ghost'}
                     onClick={handleOpenSettings}
                     isFullWidth={true}
@@ -222,7 +256,12 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       as={Button}
                       _focus={{ boxShadow: 'none' }}
                       leftIcon={
-                        <CircleFill className={'SettingsMenu__icon-red'} />
+                        <CircleFill
+                          className={parseCssDark(
+                            'SettingsMenu__icon-red',
+                            store.isDark
+                          )}
+                        />
                       }
                       variant={'ghost'}
                       onClick={() => openVersionModal(true)}
@@ -236,7 +275,14 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                   <MenuItem
                     as={Button}
                     _focus={{ boxShadow: 'none' }}
-                    leftIcon={<PersonIcon className={'SettingsMenu__icon'} />}
+                    leftIcon={
+                      <PersonIcon
+                        className={parseCssDark(
+                          'SettingsMenu__icon',
+                          store.isDark
+                        )}
+                      />
+                    }
                     variant={'ghost'}
                     onClick={handleLogout}
                     isFullWidth={true}
@@ -277,7 +323,14 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                   _focus={{ boxShadow: 'none' }}
                   variant={'ghost'}
                   aria-label="Refresh"
-                  icon={<RefreshIcon className={'HeaderModal__icon'} />}
+                  icon={
+                    <RefreshIcon
+                      className={parseCssDark(
+                        'HeaderModal__icon',
+                        store.isDark
+                      )}
+                    />
+                  }
                   isRound
                   // size={"sm"}
                   autoFocus={false}
@@ -304,7 +357,11 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               <IconButton
                 _focus={{ boxShadow: 'none' }}
                 aria-label="Go back calendar"
-                icon={<ChevronLeft className={'HeaderModal__icon'} />}
+                icon={
+                  <ChevronLeft
+                    className={parseCssDark('HeaderModal__icon', store.isDark)}
+                  />
+                }
                 isRound
                 onClick={goBack}
               />
@@ -313,7 +370,11 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               <IconButton
                 _focus={{ boxShadow: 'none' }}
                 aria-label="Go forward calendar"
-                icon={<ChevronRight className={'HeaderModal__icon'} />}
+                icon={
+                  <ChevronRight
+                    className={parseCssDark('HeaderModal__icon', store.isDark)}
+                  />
+                }
                 isRound
                 onClick={goForward}
               />

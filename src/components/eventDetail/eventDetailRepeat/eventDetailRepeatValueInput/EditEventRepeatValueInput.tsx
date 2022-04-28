@@ -5,6 +5,7 @@ import './EditEventRepeatValueInput.scss';
 
 import { Context } from '../../../../context/store';
 import { parseCssDark } from 'utils/common';
+import ChakraInput from '../../../chakraCustom/ChakraInput';
 
 interface EditEventRepeatValueInputProps {
   defaultValue?: any;
@@ -28,7 +29,7 @@ const EditEventRepeatValueInput = (props: EditEventRepeatValueInputProps) => {
 
   return (
     <div className={'EditEventRepeatValueInput__wrapper'}>
-      <input
+      <ChakraInput
         type={type}
         style={style}
         defaultValue={defaultValue}

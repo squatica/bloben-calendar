@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../context/store';
 import { Flex } from '@chakra-ui/react';
 import { SETTINGS_PATHS } from '../../types/enums';
+import { parseCssDark } from '../../utils/common';
 import ModalNew from '../../components/modalNew/ModalNew';
 import SettingsContent from './settingsContent/SettingsContent';
 import SettingsMenu from './settingsMenu/SettingsMenu';
@@ -44,7 +45,7 @@ const Settings = () => {
   return isMobile ? (
     <Flex>
       {store.settingsOpen ? (
-        <div className={'Settings__wrapper'}>
+        <div className={parseCssDark('Settings__wrapper', store.isDark)}>
           {selected === '' ? (
             <>
               <SettingsMenu setSelected={setSelected} selected={selected} />
@@ -59,7 +60,7 @@ const Settings = () => {
     </Flex>
   ) : store.settingsOpen ? (
     <ModalNew handleClose={handleClose} className={'SettingsModal'}>
-      <div className={'Settings__wrapper'}>
+      <div className={parseCssDark('Settings__wrapper', store.isDark)}>
         <div className={'Settings__content__row'}>
           <SettingsMenu setSelected={setSelected} selected={selected} />
           <SettingsContent selected={selected} />

@@ -11,6 +11,8 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Stack,
+  Text,
 } from '@chakra-ui/react';
 import {
   CalendarSettingsResponse,
@@ -18,12 +20,24 @@ import {
 } from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { CalendarView } from 'kalend';
 import { ReduxState } from '../../../types/interface';
-import { setCalendarSettings, setSettings } from '../../../redux/actions';
+import {
+  setCalendarSettings,
+  setSettings,
+  setThemeSettings,
+} from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SettingsRow from '../settingsRow/SettingsRow';
 import ChakraTimezoneSelect from 'components/chakraCustom/ChakraTimezoneSelect';
+import {
+  DEFAULT_TIME_SETTINGS,
+  THEME_SETTINGS,
+  ThemeSettings,
+} from '../../../redux/reducers/themeSettings';
+import { capitalStart, handleIsDarkTheme } from '../../../utils/common';
+import { Context } from '../../../context/store';
+import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 
 const menuStyle: any = {
   width: '100%',
@@ -32,11 +46,22 @@ const menuStyle: any = {
 };
 
 const GeneralSettings = () => {
+  const [store, dispatchContext] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatchContext({ type, payload });
+  };
+
   const dispatch = useDispatch();
   const settings: CalendarSettingsResponse = useSelector(
     (state: ReduxState) => state.calendarSettings
   );
+  const themeSettings: ThemeSettings = useSelector(
+    (state: ReduxState) => state.themeSettings
+  );
   const [hourHeightValue, setHourHeightValue] = useState(settings.hourHeight);
+  const [themeTimeSettings, setThemeTimeSettings] = useState(
+    DEFAULT_TIME_SETTINGS
+  );
 
   const requestUpdate = async (data: PatchCalendarSettingsRequest) => {
     await CalendarSettingsApi.patch(data);
@@ -85,6 +110,60 @@ const GeneralSettings = () => {
     newSettings['showWeekNumbers'] = !settings.showWeekNumbers;
 
     await requestUpdate(newSettings);
+  };
+
+  useEffect(() => {
+    setThemeTimeSettings(themeSettings.value);
+  }, []);
+
+  const handleUpdateThemeSettings = (
+    settingsValue: THEME_SETTINGS,
+    value?: any
+  ) => {
+    const newSettings = {
+      settings: settingsValue,
+      value: value ? value : DEFAULT_TIME_SETTINGS,
+    };
+    dispatch(setThemeSettings(newSettings));
+  };
+
+  const onChangeTimeSettingsTheme = (e: any) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    let newValue = { ...themeTimeSettings };
+    if (name === 'hourFrom') {
+      newValue.from.hour = value;
+    } else if (name === 'minuteFrom') {
+      newValue.from.minute = value;
+    } else if (name === 'hourTo') {
+      newValue.to.hour = value;
+    } else if (name === 'minuteTo') {
+      newValue.to.minute = value;
+    }
+
+    setThemeTimeSettings(newValue);
+  };
+  const onBlur = (e: any) => {
+    const name = e.target.name;
+    const value =
+      e.target.value.length === 1 ? `0${e.target.value}` : e.target.value;
+
+    let newValue = { ...themeTimeSettings };
+
+    if (name === 'hourFrom') {
+      newValue.from.hour = value;
+    } else if (name === 'minuteFrom') {
+      newValue.from.minute = value;
+    } else if (name === 'hourTo') {
+      newValue.to.hour = value;
+    } else if (name === 'minuteTo') {
+      newValue.to.minute = value;
+    }
+
+    setThemeTimeSettings(newValue);
+
+    handleUpdateThemeSettings(THEME_SETTINGS.TIME, newValue);
   };
 
   return (
@@ -214,11 +293,94 @@ const GeneralSettings = () => {
       </SettingsRow>
 
       <SettingsRow title={'Show week numbers'}>
-        <Checkbox
-          isChecked={settings.showWeekNumbers}
-          onChange={() => handleShowWeekNumbersChange()}
-        ></Checkbox>
+        <Button
+          variant={'ghost'}
+          onClick={handleShowWeekNumbersChange}
+          _focus={{ boxShadow: 'none' }}
+        >
+          <Checkbox
+            isChecked={settings.showWeekNumbers}
+            onChange={handleShowWeekNumbersChange}
+            size={'lg'}
+          ></Checkbox>
+        </Button>
       </SettingsRow>
+      <SettingsRow title={'Theme settings'}>
+        <Menu>
+          <MenuButton
+            as={Button}
+            style={menuStyle}
+            _focus={{ boxShadow: 'none' }}
+          >
+            {capitalStart(themeSettings.settings)}
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              minH="40px"
+              onClick={() => handleUpdateThemeSettings(THEME_SETTINGS.LIGHT)}
+            >
+              <span>Light</span>
+            </MenuItem>
+            <MenuItem
+              minH="40px"
+              onClick={() => handleUpdateThemeSettings(THEME_SETTINGS.DARK)}
+            >
+              <span>Dark</span>
+            </MenuItem>
+            <MenuItem
+              minH="40px"
+              onClick={() => handleUpdateThemeSettings(THEME_SETTINGS.TIME)}
+            >
+              <span>Time</span>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </SettingsRow>
+      {themeSettings.settings === THEME_SETTINGS.TIME ? (
+        <SettingsRow title={'Light theme range'}>
+          <Stack direction={'row'} spacing={1} style={{ alignItems: 'center' }}>
+            <ChakraInput
+              value={themeTimeSettings.from.hour}
+              maxLength={2}
+              name={'hourFrom'}
+              onChange={onChangeTimeSettingsTheme}
+              width={14}
+              type={'numeric'}
+              onBlur={onBlur}
+            />
+            <Text>:</Text>
+            <ChakraInput
+              value={themeTimeSettings.from.minute}
+              maxLength={2}
+              name={'minuteFrom'}
+              onChange={onChangeTimeSettingsTheme}
+              width={14}
+              type={'numeric'}
+              onBlur={onBlur}
+            />
+            <Text> - </Text>
+            <ChakraInput
+              value={themeTimeSettings.to.hour}
+              maxLength={2}
+              name={'hourTo'}
+              onChange={onChangeTimeSettingsTheme}
+              width={14}
+              type={'numeric'}
+              onBlur={onBlur}
+            />
+            <Text>:</Text>
+            <ChakraInput
+              value={themeTimeSettings.to.minute}
+              maxLength={2}
+              name={'minuteTo'}
+              onChange={onChangeTimeSettingsTheme}
+              width={14}
+              type={'numeric'}
+              onBlur={onBlur}
+            />
+          </Stack>
+        </SettingsRow>
+      ) : null}
       {/*<SettingsRow title={'Enabled views'}>*/}
       {/*  <Menu closeOnSelect={false}>*/}
       {/*    <MenuButton*/}

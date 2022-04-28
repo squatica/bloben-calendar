@@ -30,7 +30,7 @@ $HEADER_HEIGHT_MOBILE: 56px;
 
   &-dark {
     @extend .HeaderModal__wrapper;
-    background-color: $MODAL_DARK;
+    background-color: $GRAY_900;
   }
 }
 
@@ -59,7 +59,7 @@ $HEADER_HEIGHT_MOBILE: 56px;
 
     &-dark {
       @extend .HeaderModal__row-shadow;
-      background-color: $MODAL_DARK_LIGHTER;
+      background-color: $GRAY_900;
     }
   }
 }
@@ -116,4 +116,9 @@ $HEADER_HEIGHT_MOBILE: 56px;
   width: 20px;
   height: 20px;
   fill: $GRAY_700;
+
+  &-dark {
+    @extend .HeaderModal__icon;
+    fill: $GRAY_200;
+  }
 }

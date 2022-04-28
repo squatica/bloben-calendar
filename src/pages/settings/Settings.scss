@@ -17,6 +17,12 @@
   align-items: flex-start;
   min-width: 400px;
 
+  &-dark {
+    @extend .Settings__wrapper;
+    background: $GRAY_900;
+    color: $GRAY_100;
+  }
+
   @media (max-width: 750px) {
     max-width: 0;
     width: 100%;

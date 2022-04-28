@@ -4,13 +4,13 @@ import './DateInput.scss';
 
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
-import { Input } from '@chakra-ui/react';
 import {
   validateDate,
   validateDay,
   validateMonth,
   validateYear,
 } from './DateInputUtils';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 
 const DAY_MAX_LENGTH = 2;
 const MONTH_MAX_LENGTH = 2;
@@ -147,14 +147,14 @@ const DateInput = (props: DateInputProps) => {
   }, [selectedDate]);
 
   const containerStyle: any = {
-    width: width - sideMargin * 2,
+    width: width - sideMargin * 2 + 20,
     marginLeft: sideMargin,
     marginRight: sideMargin,
   };
 
   return (
     <div className={'DateInput__container'} style={containerStyle}>
-      <Input
+      <ChakraInput
         ref={dayRef}
         value={day}
         maxLength={DAY_MAX_LENGTH}
@@ -165,13 +165,13 @@ const DateInput = (props: DateInputProps) => {
         onFocus={onFocus}
         onKeyPress={onKeyPress}
         disabled={isMobile}
-        width={20}
+        width={40}
         padding={0}
       />
       <div className={'DateInput__container-text'}>
         <p className={'DateInput__text'}>/</p>
       </div>
-      <Input
+      <ChakraInput
         ref={monthRef}
         value={month}
         maxLength={MONTH_MAX_LENGTH}
@@ -182,14 +182,14 @@ const DateInput = (props: DateInputProps) => {
         onFocus={onFocus}
         onKeyPress={onKeyPress}
         disabled={isMobile}
-        width={20}
+        width={40}
         padding={0}
         margin={0}
       />
       <div className={'DateInput__container-text'}>
         <p className={'DateInput__text'}>/</p>
       </div>
-      <Input
+      <ChakraInput
         ref={yearRef}
         value={year}
         maxLength={YEAR_MAX_LENGTH}
@@ -200,7 +200,7 @@ const DateInput = (props: DateInputProps) => {
         onFocus={onFocus}
         onKeyPress={onKeyPress}
         disabled={isMobile}
-        width={52}
+        width={60}
         padding={0}
       />
     </div>

@@ -3,7 +3,6 @@ import {
   Center,
   FormControl,
   FormLabel,
-  Input,
   InputGroup,
   InputRightAddon,
   Popover,
@@ -17,6 +16,7 @@ import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../utils/common';
 import { map } from 'lodash';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 import ModalNew from 'components/modalNew/ModalNew';
 import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
@@ -66,10 +66,10 @@ const WebcalModal = (props: WebcalModalProps) => {
   }, []);
 
   const addWebcalCalendar = async () => {
-    if (syncFrequency < 30) {
+    if (syncFrequency < 1) {
       toast(
         createToast(
-          'Sync frequency has to be minimum 30 minutes',
+          'Sync frequency has to be minimum 1 hour',
           TOAST_STATUS.ERROR
         )
       );
@@ -149,7 +149,7 @@ const WebcalModal = (props: WebcalModalProps) => {
       <>
         <FormControl>
           <FormLabel htmlFor="url">Url</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="url"
             type="text"
@@ -159,7 +159,7 @@ const WebcalModal = (props: WebcalModalProps) => {
           />
           <Separator height={18} />
           <FormLabel htmlFor="name">Name</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="name"
             type="text"
@@ -184,16 +184,16 @@ const WebcalModal = (props: WebcalModalProps) => {
           <Separator height={18} />
           <FormLabel htmlFor="color">Sync frequency</FormLabel>
           <InputGroup size={'lg'}>
-            <Input
+            <ChakraInput
               size={'lg'}
               id="syncFrequency"
               name={'syncFrequency'}
               onChange={onChange}
               value={syncFrequency}
               type={'number'}
-              min={30}
+              min={1}
             />
-            <InputRightAddon>minutes</InputRightAddon>
+            <InputRightAddon>hours</InputRightAddon>
           </InputGroup>
         </FormControl>
         {/*DISABLED*/}

@@ -1,9 +1,11 @@
 import './index.scss';
 import 'typeface-poppins';
 import * as serviceWorker from './serviceWorker';
+import { ColorModeScript } from '@chakra-ui/react';
 import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import theme from './theme';
 
 declare global {
   interface Window {
@@ -18,6 +20,7 @@ window.env = {};
 
 ReactDOM.render(
   <React.StrictMode>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <App />
   </React.StrictMode>,
   document.getElementById('root')

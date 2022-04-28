@@ -3,7 +3,7 @@ export default {
     name: '',
     url: '',
     color: 'indigo',
-    syncFrequency: 30,
+    syncFrequency: 1,
     isLoading: false,
     alarms: [],
   },

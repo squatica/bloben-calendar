@@ -1,4 +1,5 @@
 import { CalDavAccount, CalDavCalendar, CalDavEvent } from '../types/interface';
+import { WebcalCalendar } from '../redux/reducers/webcalCalendars';
 
 export const getAccountByCalendar = (
   calendar: CalDavCalendar,
@@ -26,9 +27,9 @@ export const getAccountByCalendar = (
 
 export const calendarByEvent = (
   event: CalDavEvent,
-  calendars: CalDavCalendar[]
-): CalDavCalendar | null => {
-  let result: CalDavCalendar | null = null;
+  calendars: CalDavCalendar[] | WebcalCalendar[]
+): CalDavCalendar | WebcalCalendar | null => {
+  let result: CalDavCalendar | WebcalCalendar | null = null;
 
   if (!calendars || calendars.length === 0) {
     return null;

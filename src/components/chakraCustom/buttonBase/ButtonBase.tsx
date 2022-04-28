@@ -8,6 +8,9 @@ interface ButtonBaseProps extends ButtonProps {
   pressAnimate?: boolean;
 }
 const ButtonBase = (props: ButtonBaseProps) => {
+  // const [store] = useContext(Context);
+  // const { isDark } = store;
+
   const { hoverStyleCustom, pressAnimate } = props;
 
   const [className, setClassName] = useState('');

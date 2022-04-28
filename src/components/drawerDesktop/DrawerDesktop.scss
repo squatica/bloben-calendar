@@ -1,0 +1,43 @@
+@import '~styles/colors.scss';
+
+.DrawerDesktop__wrapper {
+  min-width: 200px;
+  width: 200px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: solid 0.4px $GRAY_300;
+
+  &-dark {
+    @extend .DrawerDesktop__wrapper;
+    background: $GRAY_900;
+    border-right: solid 0.4px $GRAY_700;
+  }
+
+  //animation: DrawerDesktop__animation 300ms;
+  //@keyframes DrawerDesktop__animation {
+  //  from {
+  //    width: 0;
+  //    min-width: 0;
+  //  }
+  //  to {
+  //    min-width: 200px;
+  //    width: 200px;
+  //  }
+  //}
+}
+.DrawerDesktop__container-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+.DrawerDesktop__container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 8px;
+  width: 100%;
+}

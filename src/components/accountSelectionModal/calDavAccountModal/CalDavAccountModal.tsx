@@ -3,7 +3,6 @@ import {
   Center,
   FormControl,
   FormLabel,
-  Input,
   InputGroup,
   InputRightElement,
   useToast,
@@ -18,6 +17,7 @@ import { createToast } from '../../../utils/common';
 import { useDispatch } from 'react-redux';
 import CalDavAccountApi from '../../../api/CalDavAccountApi';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
+import ChakraInput from 'components/chakraCustom/ChakraInput';
 import ModalNew from '../../modalNew/ModalNew';
 import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
@@ -117,7 +117,7 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
       <>
         <FormControl>
           <FormLabel htmlFor="url">Url</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="url"
             type="text"
@@ -128,7 +128,7 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
           />
           <Separator height={18} />
           <FormLabel htmlFor="username">Username</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="username"
             type="text"
@@ -140,7 +140,7 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
           <Separator height={18} />
           <FormLabel htmlFor="password">Password</FormLabel>
           <InputGroup size={'lg'}>
-            <Input
+            <ChakraInput
               size={'lg'}
               id="password"
               name={'password'}

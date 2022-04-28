@@ -1,10 +1,12 @@
 import './MobileNavbar.scss';
+import { Context } from '../../context/store';
 import { Flex, IconButton, Spacer } from '@chakra-ui/react';
+import { parseCssDark } from '../../utils/common';
 import CalendarIcon from '../eva-icons/calendar';
 import ChevronLeft from '../eva-icons/chevron-left';
 import ChevronRight from '../eva-icons/chevron-right';
 import MenuIcon from '../eva-icons/menu';
-import React from 'react';
+import React, { useContext } from 'react';
 import Separator from '../separator/Separator';
 
 interface MobileNavbarProps {
@@ -12,6 +14,7 @@ interface MobileNavbarProps {
   openBottomSheet: any;
 }
 const MobileNavbar = (props: MobileNavbarProps) => {
+  const [store] = useContext(Context);
   const { kalendRef, openBottomSheet } = props;
 
   const goForward = () => {
@@ -25,8 +28,8 @@ const MobileNavbar = (props: MobileNavbarProps) => {
   };
 
   return (
-    <div className={'MobileNavbar__wrapper'}>
-      <div className={'MobileNavbar__container'}>
+    <div className={parseCssDark('MobileNavbar__wrapper', store.isDark)}>
+      <div className={parseCssDark('MobileNavbar__container', store.isDark)}>
         <Flex
           paddingLeft={8}
           paddingRight={8}
@@ -38,7 +41,11 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               _focus={{ boxShadow: 'none' }}
               variant={'ghost'}
               aria-label="Menu"
-              icon={<ChevronLeft className={'MobileNavbar__icon'} />}
+              icon={
+                <ChevronLeft
+                  className={parseCssDark('MobileNavbar__icon', store.isDark)}
+                />
+              }
               isRound
               size={'lg'}
               autoFocus={false}
@@ -49,7 +56,11 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               _focus={{ boxShadow: 'none' }}
               variant={'ghost'}
               aria-label="Menu"
-              icon={<ChevronRight className={'MobileNavbar__icon'} />}
+              icon={
+                <ChevronRight
+                  className={parseCssDark('MobileNavbar__icon', store.isDark)}
+                />
+              }
               isRound
               size={'lg'}
               autoFocus={false}
@@ -62,7 +73,11 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               _focus={{ boxShadow: 'none' }}
               variant={'ghost'}
               aria-label="Today"
-              icon={<CalendarIcon className={'MobileNavbar__icon'} />}
+              icon={
+                <CalendarIcon
+                  className={parseCssDark('MobileNavbar__icon', store.isDark)}
+                />
+              }
               isRound
               size={'lg'}
               autoFocus={false}
@@ -72,7 +87,11 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               _focus={{ boxShadow: 'none' }}
               variant={'ghost'}
               aria-label="Menu"
-              icon={<MenuIcon className={'MobileNavbar__icon'} />}
+              icon={
+                <MenuIcon
+                  className={parseCssDark('MobileNavbar__icon', store.isDark)}
+                />
+              }
               isRound
               size={'lg'}
               autoFocus={false}

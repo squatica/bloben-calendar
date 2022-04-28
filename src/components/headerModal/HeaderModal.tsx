@@ -1,6 +1,7 @@
 import './HeaderModal.scss';
 import { EvaIcons } from 'components/eva-icons';
 import { IconButton, Stack } from '@chakra-ui/react';
+import { parseCssDark } from '../../utils/common';
 import ButtonIcon from '../button/buttonIcon/ButtonIcon';
 import React, { useEffect, useState } from 'react';
 
@@ -64,13 +65,19 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
         <Stack direction={'row'} spacing={2}>
           {handleSave ? (
             <ButtonIcon onClick={handleSave} isDark={isDark}>
-              <EvaIcons.Check />
+              <EvaIcons.Check
+                className={parseCssDark('HeaderModal__icon', isDark)}
+              />
             </ButtonIcon>
           ) : null}
           {onDelete ? (
             <IconButton
               aria-label="Delete"
-              icon={<EvaIcons.Trash className={'HeaderModal__icon'} />}
+              icon={
+                <EvaIcons.Trash
+                  className={parseCssDark('HeaderModal__icon', isDark)}
+                />
+              }
               isRound
               size={'sm'}
               onClick={onDelete}
@@ -79,7 +86,11 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
           {handleEdit ? (
             <IconButton
               aria-label="Edit"
-              icon={<EvaIcons.Edit className={'HeaderModal__icon'} />}
+              icon={
+                <EvaIcons.Edit
+                  className={parseCssDark('HeaderModal__icon', isDark)}
+                />
+              }
               isRound
               size={'sm'}
               onClick={handleEdit}

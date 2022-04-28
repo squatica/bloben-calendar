@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import './TimePickerUnit.scss';
 
 import { Context } from '../../../context/store';
+import { parseCssDark } from '../../../utils/common';
 import ButtonBase from '../../button/buttonBase/ButtonBase';
 
 interface TimePickerUnitProps {
@@ -44,7 +45,10 @@ const TimePickerUnit = (props: TimePickerUnitProps) => {
       isDark={isDark}
       id={key}
       onClick={onClick}
-      className={`TimePickerUnit${isSelected ? '-selected' : ''}`}
+      className={parseCssDark(
+        `TimePickerUnit${isSelected ? '-selected' : ''}`,
+        isDark
+      )}
     >
       {value}
     </ButtonBase>
