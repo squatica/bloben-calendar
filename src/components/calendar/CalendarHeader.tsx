@@ -22,6 +22,7 @@ import { useHistory } from 'react-router-dom';
 import ChevronLeft from '../eva-icons/chevron-left';
 import ChevronRight from '../eva-icons/chevron-right';
 import CircleFill from '../eva-icons/circle-fill';
+import MenuIcon from '../eva-icons/menu';
 import NewVersionModal from '../newVersionModal/NewVersionModal';
 import PersonIcon from '../eva-icons/person';
 import React, { useContext, useState } from 'react';
@@ -37,6 +38,7 @@ interface CalendarHeaderProps {
   setSelectedView: any;
   selectedView: any;
   handleRefresh: any;
+  handleOpenDrawer: any;
 }
 
 const CalendarHeader = (props: CalendarHeaderProps) => {
@@ -54,6 +56,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     setSelectedView,
     selectedView,
     handleRefresh,
+    handleOpenDrawer,
   } = props;
 
   const [versionModalOpen, openVersionModal] = useState(false);
@@ -94,6 +97,19 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     >
       {!isMobile ? (
         <Flex direction={'row'} justifyContent={'center'}>
+          <IconButton
+            variant={'ghost'}
+            aria-label="Drawer"
+            icon={
+              <MenuIcon
+                className={parseCssDark('HeaderModal__icon', store.isDark)}
+              />
+            }
+            isRound
+            autoFocus={false}
+            onClick={handleOpenDrawer}
+            style={{ marginLeft: 18 }}
+          />
           <Center margin={'0 auto'}>
             <Stack
               spacing={0}

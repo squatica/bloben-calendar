@@ -12,6 +12,7 @@ import { CalendarSettingsResponse } from '../../bloben-interface/calendarSetting
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../bloben-interface/enums';
+import { SettingsLocal } from '../../redux/reducers/settingsLocal';
 import { TOAST_STATUS } from '../../types/enums';
 import {
   checkIfIsInRange,
@@ -20,12 +21,14 @@ import {
   parseCssDark,
 } from '../../utils/common';
 import { reduxStore } from '../../layers/ReduxProvider';
-import { setCalendarDaysRange } from '../../redux/actions';
+import { setCalendarDaysRange, setLocalSettings } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '@chakra-ui/react';
+import { useWidth } from '../../utils/layout';
 import BottomSheetMobile from '../bottomSheetMobile/BottomSheetMobile';
 import CalDavAccountModal from '../accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import CalendarHeader from './CalendarHeader';
+import DrawerDesktop from '../drawerDesktop/DrawerDesktop';
 import EditEvent, { createEvent } from '../../views/event/editEvent/EditEvent';
 import EventView from '../../views/event/eventView/EventView';
 import EventsApi from '../../api/EventsApi';
@@ -38,11 +41,11 @@ import Kalend, {
 import MobileNavbar from '../mobileNavbar/MobileNavbar';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-interface CalendarProps {
-  isDrawerOpen: boolean;
-}
-const Calendar = (props: CalendarProps) => {
+const Calendar = () => {
   const toast = useToast();
+  const settingsLocal: SettingsLocal = useSelector(
+    (state: ReduxState) => state.settingsLocal
+  );
   const settings: CalendarSettingsResponse = useSelector(
     (state: ReduxState) => state.calendarSettings
   );
@@ -176,99 +179,117 @@ const Calendar = (props: CalendarProps) => {
     await handleSyncWithRange();
   };
 
+  const handleOpenDrawer = () => {
+    dispatch(
+      setLocalSettings({
+        drawerOpen: !settingsLocal.drawerOpen,
+      })
+    );
+  };
+
+  const width = useWidth();
+
   return (
-    <div
-      className={parseCssDark(
-        `Calendar_container${props.isDrawerOpen ? '-collapsed' : ''}`,
-        store.isDark
-      )}
-    >
-      <CalendarHeader
-        kalendRef={kalendRef}
-        selectedDate={selectedDate}
-        selectedView={selectedView}
-        setSelectedView={setSelectedView}
-        handleRefresh={handleRefresh}
-      />
-      {/*<Carousel onPageChange={handleCarouselSwipe}>*/}
-      {settings.defaultView ? (
-        <Kalend
+    <div className={'Main__content__row'}>
+      {settingsLocal.drawerOpen ? <DrawerDesktop /> : null}
+      <div
+        // className={parseCssDark(`Calendar_container`, store.isDark)}
+        className={parseCssDark(
+          `Calendar_container${settingsLocal.drawerOpen ? '-collapsed' : ''}`,
+          store.isDark
+        )}
+        style={{
+          width: settingsLocal.drawerOpen ? width - 200 : width,
+        }}
+      >
+        <CalendarHeader
           kalendRef={kalendRef}
-          onEventClick={handleEventClick}
-          onNewEventClick={openNewEvent}
-          events={events}
-          initialDate={new Date().toISOString()}
-          hourHeight={settings.hourHeight}
-          timeFormat={settings.timeFormat.toString()}
-          weekDayStart={settings.startOfWeek}
-          initialView={settings.defaultView}
-          onEventDragFinish={onDraggingFinish}
-          // disabledViews={settings.disabledViews}
-          draggingDisabledConditions={{
-            type: EVENT_TYPE.WEBCAL,
-          }}
-          // onSelectView={() => {}}
-          onPageChange={onPageChange}
-          disableMobileDropdown={true}
-          // calendarIDsHidden={settings.hiddenCalendarIDs}
-          onStateChange={onKalendStateChange}
-          selectedView={selectedView || settings.defaultView}
-          isNewEventOpen={isNewEventOpen !== null}
-          showTimeLine={true}
-          timezone={settings.timezone}
-          showWeekNumbers={settings.showWeekNumbers}
-          autoScroll={true}
-          isDark={store.isDark}
-        />
-      ) : null}
-      {/*</Carousel>*/}
-      {isNewEventOpen ? (
-        calDavAccounts.length && calDavCalendars.length ? (
-          <EditEvent
-            isNewEvent={true}
-            event={undefined}
-            newEventTime={isNewEventOpen}
-            handleClose={handleCloseNewEventModal}
-            wasInitRef={wasInitRef}
-            currentE={currentE}
-          />
-        ) : (
-          <CalDavAccountModal handleClose={handleCloseNewEventModal} />
-        )
-      ) : null}
-
-      {isEditingEventOpen ? (
-        <EditEvent
-          isNewEvent={false}
-          event={isEditingEventOpen}
-          newEventTime={isNewEventOpen}
-          handleClose={handleCloseEditingEventModal}
-          currentE={currentE}
-        />
-      ) : null}
-
-      {isEventViewOpen ? (
-        <EventView
-          data={isEventViewOpen}
-          handleClose={closeEventView}
-          openEditEventModal={openEditingEvent}
-          currentE={currentE}
-        />
-      ) : null}
-      {store.isMobile ? (
-        <MobileNavbar
-          openBottomSheet={() => openBottomSheet(true)}
-          kalendRef={kalendRef}
-        />
-      ) : null}
-      {store.isMobile && isBottomSheetOpen ? (
-        <BottomSheetMobile
-          isBottomSheetOpen={isBottomSheetOpen}
-          onClose={() => openBottomSheet(false)}
+          selectedDate={selectedDate}
           selectedView={selectedView}
           setSelectedView={setSelectedView}
+          handleRefresh={handleRefresh}
+          handleOpenDrawer={handleOpenDrawer}
         />
-      ) : null}
+        {/*<Carousel onPageChange={handleCarouselSwipe}>*/}
+        {settings.defaultView ? (
+          <Kalend
+            kalendRef={kalendRef}
+            onEventClick={handleEventClick}
+            onNewEventClick={openNewEvent}
+            events={events}
+            initialDate={new Date().toISOString()}
+            hourHeight={settings.hourHeight}
+            timeFormat={settings.timeFormat.toString()}
+            weekDayStart={settings.startOfWeek}
+            initialView={settings.defaultView}
+            onEventDragFinish={onDraggingFinish}
+            // disabledViews={settings.disabledViews}
+            draggingDisabledConditions={{
+              type: EVENT_TYPE.WEBCAL,
+            }}
+            // onSelectView={() => {}}
+            onPageChange={onPageChange}
+            disableMobileDropdown={true}
+            // calendarIDsHidden={settings.hiddenCalendarIDs}
+            onStateChange={onKalendStateChange}
+            selectedView={selectedView || settings.defaultView}
+            isNewEventOpen={isNewEventOpen !== null}
+            showTimeLine={true}
+            timezone={settings.timezone}
+            showWeekNumbers={settings.showWeekNumbers}
+            autoScroll={true}
+            isDark={store.isDark}
+          />
+        ) : null}
+        {/*</Carousel>*/}
+        {isNewEventOpen ? (
+          calDavAccounts.length && calDavCalendars.length ? (
+            <EditEvent
+              isNewEvent={true}
+              event={undefined}
+              newEventTime={isNewEventOpen}
+              handleClose={handleCloseNewEventModal}
+              wasInitRef={wasInitRef}
+              currentE={currentE}
+            />
+          ) : (
+            <CalDavAccountModal handleClose={handleCloseNewEventModal} />
+          )
+        ) : null}
+
+        {isEditingEventOpen ? (
+          <EditEvent
+            isNewEvent={false}
+            event={isEditingEventOpen}
+            newEventTime={isNewEventOpen}
+            handleClose={handleCloseEditingEventModal}
+            currentE={currentE}
+          />
+        ) : null}
+
+        {isEventViewOpen ? (
+          <EventView
+            data={isEventViewOpen}
+            handleClose={closeEventView}
+            openEditEventModal={openEditingEvent}
+            currentE={currentE}
+          />
+        ) : null}
+        {store.isMobile ? (
+          <MobileNavbar
+            openBottomSheet={() => openBottomSheet(true)}
+            kalendRef={kalendRef}
+          />
+        ) : null}
+        {store.isMobile && isBottomSheetOpen ? (
+          <BottomSheetMobile
+            isBottomSheetOpen={isBottomSheetOpen}
+            onClose={() => openBottomSheet(false)}
+            selectedView={selectedView}
+            setSelectedView={setSelectedView}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };

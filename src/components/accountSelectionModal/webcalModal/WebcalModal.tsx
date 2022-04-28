@@ -66,10 +66,10 @@ const WebcalModal = (props: WebcalModalProps) => {
   }, []);
 
   const addWebcalCalendar = async () => {
-    if (syncFrequency < 30) {
+    if (syncFrequency < 1) {
       toast(
         createToast(
-          'Sync frequency has to be minimum 30 minutes',
+          'Sync frequency has to be minimum 1 hour',
           TOAST_STATUS.ERROR
         )
       );
