@@ -1,5 +1,5 @@
 import { Context } from '../context/store';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { parseCssDark } from '../utils/common';
 import { setUser } from '../redux/actions';
 import { useDispatch } from 'react-redux';
@@ -81,7 +81,12 @@ const AuthProvider = (props: any) => {
 
   return (
     <div className={parseCssDark('Surface', store.isDark)}>
-      <Route path={'/calendar'}>{!isLogged ? <Login /> : props.children}</Route>
+      <Routes>
+        <Route
+          path={'/calendar'}
+          element={!isLogged ? <Login /> : props.children}
+        />
+      </Routes>
     </div>
   );
 };

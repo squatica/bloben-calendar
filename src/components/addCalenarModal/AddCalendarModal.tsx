@@ -265,6 +265,7 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
           <Separator height={18} />
           <FormLabel htmlFor="color">Color</FormLabel>
           <Popover>
+            {/*// @ts-ignore*/}
             <PopoverTrigger>
               <Button style={{ width: 100, background: color, color: 'white' }}>
                 {color}
