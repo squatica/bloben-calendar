@@ -71,7 +71,11 @@ const SyncLayer = (props: any) => {
 
   useEffect(() => {
     loadData();
-    Notification.requestPermission();
+
+    try {
+      Notification.requestPermission();
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   }, []);
 
   return props.children;
