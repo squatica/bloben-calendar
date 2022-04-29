@@ -34,11 +34,14 @@ const SyncLayer = (props: any) => {
     const webcalCalendarsResponse =
       await WebcalCalendarApi.getWebcalCalendars();
 
-    if (!calendarSettingsResponse.data.timezone) {
-      await CalendarSettingsApi.patch({
-        timezone: getLocalTimezone(),
-      });
-    }
+    try {
+      if (!calendarSettingsResponse.data.timezone) {
+        await CalendarSettingsApi.patch({
+          timezone: getLocalTimezone(),
+        });
+      }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
 
     dispatch(setCalendarSettings(calendarSettingsResponse.data));
     dispatch(setCaldavAccounts(calDavAccountsResponse.data));
@@ -68,7 +71,11 @@ const SyncLayer = (props: any) => {
 
   useEffect(() => {
     loadData();
-    Notification.requestPermission();
+
+    try {
+      Notification.requestPermission();
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   }, []);
 
   return props.children;
