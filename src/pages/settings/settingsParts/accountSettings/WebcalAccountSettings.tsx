@@ -50,6 +50,7 @@ const renderWebcalCalendars = (
           </Td>
           <Td>
             <Popover>
+              {/*// @ts-ignore*/}
               <PopoverTrigger>
                 <Button>Show url</Button>
               </PopoverTrigger>

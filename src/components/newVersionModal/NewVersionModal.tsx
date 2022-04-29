@@ -9,7 +9,7 @@ interface NewVersionModalProps {
 const NewVersionModal = (props: NewVersionModalProps) => {
   const [store] = useContext(Context);
 
-  const { latestVersion, version } = store;
+  const { latestVersion, version, isDark } = store;
 
   const { handleClose } = props;
 
@@ -32,7 +32,7 @@ const NewVersionModal = (props: NewVersionModalProps) => {
           <Link
             _focus={{ boxShadow: 'none' }}
             target={'_blank'}
-            color={'primary.400'}
+            color={isDark ? 'pink.300' : 'pink.500'}
             href={'https://docs.bloben.com/docs/updates'}
           >
             update instructions
@@ -42,7 +42,7 @@ const NewVersionModal = (props: NewVersionModalProps) => {
         <Link
           _focus={{ boxShadow: 'none' }}
           target={'_blank'}
-          color={'primary.400'}
+          color={isDark ? 'pink.300' : 'pink.500'}
           href={
             'https://github.com/nibdo/bloben-app/blob/production/CHANGELOG.md'
           }

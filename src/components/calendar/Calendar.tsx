@@ -1,6 +1,7 @@
 import '../button/buttonBase/ButtonBase.scss';
 import './Calendar.scss';
 import 'kalend/dist/styles/index.css';
+import { CALENDAR_VIEW } from 'kalend-layout';
 import {
   CalDavAccount,
   CalDavCalendar,
@@ -166,6 +167,11 @@ const Calendar = () => {
   };
 
   const onKalendStateChange = (data: any) => {
+    // workaround for navigating to day view internal
+    if (data.calendarDays.length === 1) {
+      setSelectedView(CALENDAR_VIEW.DAY);
+    }
+
     dispatch(setCalendarDaysRange(data.range));
     kalendState.current = data;
     setSelectedDate(

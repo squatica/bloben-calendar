@@ -6,12 +6,12 @@ import { Context, StoreContext } from '../../context/store';
 import { initBaseDateRange } from '../../redux/reducers/baseDateRange';
 import { setBaseDateRange } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Calendar from '../../components/calendar/Calendar';
 import Settings from '../settings/Settings';
 
 const Main = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [selected] = useState<DRAWER_PATH>(DRAWER_PATH.CALENDAR);
 
   const [store] = useContext(Context);
@@ -19,7 +19,7 @@ const Main = () => {
 
   useEffect(() => {
     if (settingsOpen && isMobile) {
-      history.push(APP_PATH.SETTINGS);
+      navigate(APP_PATH.SETTINGS);
     }
   }, [settingsOpen]);
 

@@ -18,7 +18,7 @@ import { checkHasNewVersion, parseCssDark } from '../../utils/common';
 import { initialReduxState } from '../../redux/reducers';
 import { replace } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ChevronLeft from '../eva-icons/chevron-left';
 import ChevronRight from '../eva-icons/chevron-right';
 import CircleFill from '../eva-icons/circle-fill';
@@ -42,7 +42,7 @@ interface CalendarHeaderProps {
 }
 
 const CalendarHeader = (props: CalendarHeaderProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -79,7 +79,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     await UserApi.logout();
 
     dispatch(replace(initialReduxState));
-    history.push('/calendar');
+    navigate('/calendar');
     setContext('isLogged', false);
   };
 

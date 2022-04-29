@@ -6,7 +6,7 @@ import { initialReduxState } from '../../redux/reducers';
 import { parseCssDark } from '../../utils/common';
 import { replace } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BottomSheet from 'bottom-sheet-react';
 import DrawerCalendars from '../drawer/drawerContent/DrawerCalendars';
 import PersonIcon from '../eva-icons/person';
@@ -22,7 +22,7 @@ interface BottomSheetMobileProps {
   selectedView: CALENDAR_VIEW;
 }
 const BottomSheetMobile = (props: BottomSheetMobileProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { isBottomSheetOpen, onClose, setSelectedView, selectedView } = props;
 
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
     await UserApi.logout();
 
     dispatch(replace(initialReduxState));
-    history.push('/calendar');
+    navigate('/calendar');
     setContext('isLogged', false);
   };
 
