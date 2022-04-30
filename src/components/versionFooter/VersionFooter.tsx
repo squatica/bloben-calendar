@@ -4,15 +4,10 @@ import './VersionFooter.scss';
 import { Context } from '../../context/store';
 import { parseCssDark } from '../../utils/common';
 
-interface VersionFooterProps {
-  isDark: boolean;
-}
-const VersionFooter = (props: VersionFooterProps) => {
-  const { isDark } = props;
-
+const VersionFooter = () => {
   const [store] = useContext(Context);
 
-  const { version } = store;
+  const { version, isDark } = store;
 
   return (
     <div className={'VersionFooter__container'}>

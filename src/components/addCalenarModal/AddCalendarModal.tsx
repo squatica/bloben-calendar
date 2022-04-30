@@ -14,7 +14,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -33,6 +32,7 @@ import { TOAST_STATUS } from '../../types/enums';
 import { map } from 'lodash';
 import Alarms from '../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import CalDavCalendarApi from '../../api/CalDavCalendarApi';
+import ChakraInput from '../chakraCustom/ChakraInput';
 import ModalNew from 'components/modalNew/ModalNew';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
@@ -195,7 +195,7 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
       <>
         <FormControl>
           <FormLabel htmlFor="name">Name</FormLabel>
-          <Input
+          <ChakraInput
             size={'lg'}
             id="name"
             type="text"
@@ -265,6 +265,7 @@ const AddCalendarModal = (props: AddCalendarModalProps) => {
           <Separator height={18} />
           <FormLabel htmlFor="color">Color</FormLabel>
           <Popover>
+            {/*// @ts-ignore*/}
             <PopoverTrigger>
               <Button style={{ width: 100, background: color, color: 'white' }}>
                 {color}

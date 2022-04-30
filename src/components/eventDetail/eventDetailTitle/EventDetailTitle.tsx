@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
-import { Input, Stack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
+import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 
 interface EventDetailTitleProps {
@@ -23,7 +24,7 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
       <FormIcon isDark={isDark} hidden allVisible>
         <EvaIcons.Note color={'transparent'} fill={'transparent'} />
       </FormIcon>
-      <Input
+      <ChakraInput
         size={'md'}
         type="text"
         placeholder="Event title"

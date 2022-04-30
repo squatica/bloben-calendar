@@ -1,7 +1,9 @@
 import './ModalNew.scss';
+import { Context } from '../../context/store';
 import { Heading, IconButton } from '@chakra-ui/react';
+import { parseCssDark } from '../../utils/common';
 import CrossIcon from '../eva-icons/cross';
-import React from 'react';
+import React, { useContext } from 'react';
 
 interface ModalNewProps {
   children: any;
@@ -15,6 +17,8 @@ interface ModalNewProps {
   title?: string;
 }
 const ModalNew = (props: ModalNewProps) => {
+  const [store] = useContext(Context);
+
   const { handleClose, preventCloseOnBackdrop } = props;
 
   const preventDefault = (e: any) => {
@@ -31,9 +35,12 @@ const ModalNew = (props: ModalNewProps) => {
   };
 
   return (
-    <div className={'ModalNew__backdrop'} onClick={onClose}>
+    <div
+      className={parseCssDark('ModalNew__backdrop', store.isDark)}
+      onClick={onClose}
+    >
       <div
-        className={`ModalNew__wrapper ${
+        className={`${parseCssDark('ModalNew__wrapper', store.isDark)} ${
           props.className ? props.className : ''
         }`}
         onClick={preventDefault}
@@ -46,7 +53,11 @@ const ModalNew = (props: ModalNewProps) => {
               variant={'ghost'}
               aria-label="Close"
               background={'transparent'}
-              icon={<CrossIcon className={'ModalNew__icon'} />}
+              icon={
+                <CrossIcon
+                  className={parseCssDark('ModalNew__icon', store.isDark)}
+                />
+              }
               isRound
               size={'md'}
               autoFocus={false}

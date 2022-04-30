@@ -15,6 +15,7 @@
   //  padding: 4px 8px 4px 8px;
   //}
 
+
   margin-top: 1px;
   margin-bottom: 1px;
   &:hover {
@@ -26,7 +27,14 @@
 
   &-dark {
     @extend .TimePickerUnit;
-    color: $GRAY_400;
+    color: $GRAY_300;
+
+    &:hover {
+      @extend .TimePickerUnit-dark;
+      padding: 4px 8px 4px 8px;
+      background-color: $GRAY_700;
+      border-radius: 0;
+    }
   }
   &-selected {
     @extend .TimePickerUnit;

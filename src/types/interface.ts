@@ -2,6 +2,8 @@ import { Alarm } from 'ical-js-parser';
 import { CALDAV_OBJ_TYPE } from './enums';
 import { CalendarSettingsResponse } from '../bloben-interface/calendarSettings/calendarSettings';
 import { OnPageChangeData } from 'kalend';
+import { SettingsLocal } from '../redux/reducers/settingsLocal';
+import { ThemeSettings } from '../redux/reducers/themeSettings';
 import { WebcalCalendar } from '../redux/reducers/webcalCalendars';
 
 export interface CalDavAccount {
@@ -79,6 +81,8 @@ export interface ReduxState {
   syncLog: SyncLog;
   user: User;
   calendarSettings: CalendarSettingsResponse;
+  themeSettings: ThemeSettings;
+  settingsLocal: SettingsLocal;
 }
 
 export interface Duration {

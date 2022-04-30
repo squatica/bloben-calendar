@@ -1,9 +1,12 @@
+import { Context } from '../../../context/store';
 import { Link, Text } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import Separator from '../../../components/separator/Separator';
 import SettingsCard from '../settingsCard/SettingsCard';
 
 const HelpSettings = () => {
+  const [store] = useContext(Context);
+
   return (
     <>
       <SettingsCard title={'Help'}>
@@ -17,7 +20,7 @@ const HelpSettings = () => {
           <Link
             _focus={{ boxShadow: 'none' }}
             target={'_blank'}
-            color={'primary.400'}
+            color={store.isDark ? 'pink.300' : 'pink.500'}
             href={'https://github.com/nibdo/bloben-app/issues'}
           >
             Github
@@ -25,7 +28,7 @@ const HelpSettings = () => {
           or send email at{' '}
           <Link
             _focus={{ boxShadow: 'none' }}
-            color={'primary.400'}
+            color={store.isDark ? 'pink.300' : 'pink.500'}
             href={'mailto:hello@nibdo.com'}
           >
             hello@nibdo.com

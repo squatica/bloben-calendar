@@ -13,15 +13,12 @@ import ReduxProvider from './layers/ReduxProvider';
 import SocketioProvider from './layers/SocketioProvider';
 import StorageProvider from 'layers/StorageProvider';
 import StoreProvider from './context/store';
+import ThemeProvider from './layers/ThemeProvider';
 import ThemeWrapper from './components/themeWrapper/ThemeWrapper';
 
 const Input: ComponentStyleConfig = {
-  baseStyle: {
-    focusBorderColor: 'gray.700',
-  },
   defaultProps: {
     size: 'lg',
-    focusBorderColor: 'gray.700',
   },
 };
 
@@ -42,6 +39,11 @@ const theme = extendTheme({
   components: {
     Button,
     Input,
+    CheckBox: {
+      defaultProps: {
+        _focus: { boxShadow: 'none' },
+      },
+    },
   },
   colors: {
     primary: {
@@ -58,13 +60,15 @@ const App = () => (
         <StorageProvider>
           <ContextProvider>
             <ReduxProvider>
-              <BrowserProvider>
-                <AuthProvider>
-                  <SocketioProvider>
-                    <AppRouter />
-                  </SocketioProvider>
-                </AuthProvider>
-              </BrowserProvider>
+              <ThemeProvider>
+                <BrowserProvider>
+                  <AuthProvider>
+                    <SocketioProvider>
+                      <AppRouter />
+                    </SocketioProvider>
+                  </AuthProvider>
+                </BrowserProvider>
+              </ThemeProvider>
             </ReduxProvider>
           </ContextProvider>
         </StorageProvider>

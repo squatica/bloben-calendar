@@ -50,19 +50,27 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
   return (
     <Stack direction={'row'} align={'center'}>
       <FormIcon desktopVisible isDark={isDark}>
-        <EvaIcons.Calendar className={'EventDetail-icon'} />
+        {disabled ? (
+          <EvaIcons.CircleFill
+            style={{
+              fill: props.color || calendar.customColor || calendar.color,
+              filter: isDark ? 'saturate(60%) brightness(120%)' : '',
+            }}
+          />
+        ) : (
+          <EvaIcons.Calendar className={'EventDetail-icon'} />
+        )}
       </FormIcon>
-      <Menu isLazy>
-        <MenuButton
-          size={'md'}
-          style={{
-            background: props.color || calendar.customColor || calendar.color,
-          }}
-          as={Button}
-        >
-          {' '}
-        </MenuButton>
-        {disabled ? null : (
+      {disabled ? null : (
+        <Menu isLazy>
+          <MenuButton size={'md'} as={Button}>
+            <EvaIcons.CircleFill
+              style={{
+                fill: props.color || calendar.customColor || calendar.color,
+                filter: isDark ? 'saturate(60%) brightness(120%)' : '',
+              }}
+            />
+          </MenuButton>
           <MenuList
             style={{
               maxHeight: 120,
@@ -76,15 +84,20 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
                   key={item}
                   onClick={() => props.setForm('color', item)}
                 >
-                  <CircleFill fill={item} />
+                  <CircleFill
+                    style={{
+                      fill: item,
+                      filter: isDark ? 'saturate(60%) brightness(120%)' : '',
+                    }}
+                  />
                   <Separator width={8} />
                   {item}
                 </MenuItem>
               );
             })}
           </MenuList>
-        )}
-      </Menu>
+        </Menu>
+      )}
       {disabled ? (
         <Text style={{ fontWeight: 'normal' }}>{calendar.displayName}</Text>
       ) : (

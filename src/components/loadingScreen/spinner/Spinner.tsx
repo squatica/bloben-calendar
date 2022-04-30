@@ -2,11 +2,14 @@ import { EvaIcons } from 'components/eva-icons';
 import React from 'react';
 
 import './Spinner.scss';
+import { parseCssDark } from '../../../utils/common';
 
-const Spinner = () => {
+const Spinner = (props: { isDark?: boolean }) => {
   return (
     <>
-      <EvaIcons.Loader className={'Spinner-icon rotate'} />
+      <EvaIcons.Loader
+        className={`${parseCssDark('Spinner-icon', props.isDark)} rotate`}
+      />
     </>
   );
 };

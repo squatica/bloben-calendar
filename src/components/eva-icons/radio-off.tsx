@@ -5,6 +5,7 @@ const RadioOff = (props: any) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     className={`bi bi-circle-fill ${props.className}`}
+    style={props.style}
     fill={props.fill ? props.fill : 'currentColor'}
   >
     <g data-name="Layer 2">
