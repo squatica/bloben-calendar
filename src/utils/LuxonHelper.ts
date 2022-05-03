@@ -14,6 +14,7 @@ export const WEEK_DAY_FORMAT = 'cccc';
 export const WEEK_DAY_FORMAT_MEDIUM = 'ccc';
 export const WEEK_DAY_FORMAT_SHORT = 'EEEEEE';
 export const DATE_MONTH_YEAR_FORMAT = 'd. MMMM yyyy';
+export const ICAL_FORMAT = `yyyyMMdd'T'HHmmss`;
 
 /**
  * Parse datetime according different rules like local datetime, floating time and timezones

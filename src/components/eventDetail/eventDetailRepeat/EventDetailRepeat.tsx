@@ -50,9 +50,10 @@ interface EventDetailRepeatProps {
   setForm: any;
   isRepeated: boolean;
   form?: any;
+  disabledRRule?: boolean;
 }
 const EventDetailRepeat = (props: EventDetailRepeatProps) => {
-  const { setForm, form } = props;
+  const { setForm, form, disabledRRule } = props;
 
   const [isCustomOpen, openCustomMenu] = useState(false);
 
@@ -89,7 +90,7 @@ const EventDetailRepeat = (props: EventDetailRepeatProps) => {
 
   const renderedRepeatOptions = renderRepeatOptions(selectOption);
 
-  return (
+  return disabledRRule ? null : (
     <Stack direction={'row'} align={'center'}>
       <FormIcon desktopVisible isDark={isDark}>
         <EvaIcons.Refresh className={'EventDetail-icon'} />

@@ -43,6 +43,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
       bg={props.bg || 'gray.800'}
       color={props.color || 'gray.100'}
       size={props.size || 'lg'}
+      variant={props.variant || 'solid'}
       _hover={hoverStyle}
       _active={hoverStyle}
       className={className}
