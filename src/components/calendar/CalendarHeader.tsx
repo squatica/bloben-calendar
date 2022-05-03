@@ -48,7 +48,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
-  const { isSyncing, isMobile, version, latestVersion } = store;
+  const { isSyncing, isMobile, version } = store;
 
   const {
     kalendRef,
@@ -84,7 +84,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
   };
 
   const hasNewVersion = checkHasNewVersion(
-    latestVersion,
+    version.lastVersion,
     version.dockerImageVersion
   );
 

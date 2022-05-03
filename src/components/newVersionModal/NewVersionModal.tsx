@@ -9,7 +9,7 @@ interface NewVersionModalProps {
 const NewVersionModal = (props: NewVersionModalProps) => {
   const [store] = useContext(Context);
 
-  const { latestVersion, version, isDark } = store;
+  const { version, isDark } = store;
 
   const { handleClose } = props;
 
@@ -18,7 +18,7 @@ const NewVersionModal = (props: NewVersionModalProps) => {
       isOpen={true}
       handleClose={handleClose}
       minWidth={350}
-      title={`New version available ${String(latestVersion)}`}
+      title={`New version available ${String(version.lastVersion)}`}
     >
       <>
         <Text>

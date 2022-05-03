@@ -213,13 +213,17 @@ export const formatEventDate = (event: any) => {
 };
 
 export const checkHasNewVersion = (
-  latestVersion: string,
+  lastVersion: string | null,
   serverVersion: string
 ) => {
+  if (!lastVersion) {
+    return false;
+  }
+
   return (
-    latestVersion.length > 1 &&
+    lastVersion.length > 1 &&
     serverVersion.length > 1 &&
-    latestVersion !== serverVersion
+    lastVersion !== serverVersion
   );
 };
 
