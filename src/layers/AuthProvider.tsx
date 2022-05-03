@@ -1,6 +1,6 @@
 import { Context } from '../context/store';
 import { Route, Routes } from 'react-router-dom';
-import { parseCssDark } from '../utils/common';
+import { getHostname, parseCssDark } from '../utils/common';
 import { setUser } from '../redux/actions';
 import { useDispatch } from 'react-redux';
 import GeneralApi from '../api/GeneralApi';
@@ -21,8 +21,10 @@ const AuthProvider = (props: any) => {
     const query = new URLSearchParams(window.location.search);
     const param = query.get('demo');
     if (param) {
-      window.localStorage.setItem('apiUrl', 'https://demo.bloben.com/api');
-      window.env.apiUrl = 'https://demo.bloben.com/api';
+      const apiUrl = `${getHostname()}/api`;
+
+      window.localStorage.setItem('apiUrl', apiUrl);
+      window.env.apiUrl = apiUrl;
       window.location.replace('/calendar');
     }
   };
