@@ -1,10 +1,11 @@
 import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
+import { InitialForm } from '../views/event/editEvent/EditEvent.utils';
 import { forEach, map } from 'lodash';
 import { formatAppAlarm } from './common';
 import { v4 } from 'uuid';
-import LuxonHelper from './LuxonHelper';
+import LuxonHelper, { ICAL_FORMAT } from './LuxonHelper';
 
 export type CalendarMethod = 'REQUEST' | 'REPLY';
 export const CALENDAR_REQUEST_METHOD: CalendarMethod = 'REQUEST';
@@ -45,6 +46,22 @@ const getKnownProps = (item: any, type = 'VEVENT') => {
   return result;
 };
 
+interface IcalHelperInterface extends InitialForm {
+  externalID: string;
+}
+
+export const formatIcalDate = (date: string, timezone?: string | null) => {
+  if (!date) {
+    return undefined;
+  }
+
+  if (timezone) {
+    return DateTime.fromISO(date, { zone: timezone }).toFormat(ICAL_FORMAT);
+  }
+
+  return date;
+};
+
 class ICalHelper {
   dtstart: any;
   dtend: any;
@@ -63,9 +80,10 @@ class ICalHelper {
   transp?: string;
   rrule?: string;
   props?: any;
+  recurrenceID?: any;
   [key: string]: any;
 
-  constructor(event: any) {
+  constructor(event: IcalHelperInterface) {
     const {
       externalID,
       createdAt,
@@ -83,26 +101,32 @@ class ICalHelper {
       props,
       allDay,
       alarms,
+      recurrenceID,
+      sequence,
+      exdates,
+      valarms,
     } = event;
 
     this.dtstart = {
       value: allDay
         ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
-        : LuxonHelper.toUtcString(startAt),
+        : formatIcalDate(startAt, timezoneStartAt),
       timezone: allDay ? undefined : timezoneStartAt,
     };
     this.dtend = {
       value: allDay
         ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
-        : LuxonHelper.toUtcString(endAt),
+        : formatIcalDate(endAt, timezoneStartAt),
       timezone: allDay ? undefined : timezoneStartAt,
     };
     this.uid = externalID ? externalID : v4();
     if (attendees?.length) {
-      this.organizer = organizer || props?.organizer;
       this.attendee = attendees;
     }
 
+    if (organizer) {
+      this.organizer = organizer;
+    }
     this.created = LuxonHelper.toUtcString(createdAt);
     this.dtstamp = DateTime.local().toUTC().toString();
     this.description = description;
@@ -122,16 +146,31 @@ class ICalHelper {
       this.color = color;
     }
 
+    if (exdates) {
+      this.exdate = exdates;
+    }
+
+    if (valarms?.length) {
+      this.alarms = valarms;
+    }
+
+    if (recurrenceID) {
+      this.recurrenceId = {
+        value:
+          formatIcalDate(recurrenceID?.value, timezoneStartAt) ||
+          formatIcalDate(recurrenceID, timezoneStartAt),
+        timezone: allDay ? undefined : timezoneStartAt,
+      };
+    }
+
     // include all other not supported properties
     if (props) {
       forEach(Object.entries(props), (propItem) => {
         if (propItem[0] === 'sequence') {
-          this[propItem[0]] = String(Number(propItem[1]) + 1);
-        } else {
-          if (propItem[0] === 'alarms' && alarms?.length === 0) {
-            this.alarms = propItem[1];
-          } else if (propItem[0] !== 'attendee') {
-            this[propItem[0]] = propItem[1];
+          if (sequence) {
+            this.sequence = String(Number(propItem[1]));
+          } else {
+            this[propItem[0]] = String(Number(propItem[1]) + 1);
           }
         }
       });
@@ -140,6 +179,10 @@ class ICalHelper {
     // format alarms
     if (alarms?.length) {
       this.alarms = map(alarms, formatAppAlarm);
+    }
+
+    if (!this.sequence) {
+      this.sequence = '0';
     }
   }
 
@@ -163,6 +206,10 @@ class ICalHelper {
         end: 'END:VCALENDAR',
       };
     }
+  };
+
+  public getEventJSON = () => {
+    return getKnownProps(this);
   };
 
   public parseTo = (method?: CalendarMethod) => {

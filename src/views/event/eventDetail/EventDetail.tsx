@@ -5,6 +5,7 @@ import './EventDetail.scss';
 
 import { CalDavCalendar } from '../../../types/interface';
 import { Context } from '../../../context/store';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
 import { Stack } from '@chakra-ui/react';
 import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/EventDetailAlarm';
 import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
@@ -46,6 +47,8 @@ interface EventDetailProps {
   form?: any;
   updateAttendee?: any;
   color?: string;
+  repeatChangeValue?: REPEATED_EVENT_CHANGE_TYPE;
+  disabledRRule?: boolean;
 }
 const EventDetail = (props: EventDetailProps) => {
   const [store] = useContext(Context);
@@ -74,6 +77,8 @@ const EventDetail = (props: EventDetailProps) => {
     updateAttendee,
     color,
     alarms,
+    repeatChangeValue,
+    disabledRRule,
   } = props;
 
   return (
@@ -88,6 +93,10 @@ const EventDetail = (props: EventDetailProps) => {
         selectCalendar={selectCalendar}
         color={color}
         setForm={setForm}
+        disabled={
+          repeatChangeValue === REPEATED_EVENT_CHANGE_TYPE.THIS_AND_FUTURE ||
+          repeatChangeValue === REPEATED_EVENT_CHANGE_TYPE.SINGLE
+        }
       />
       <EventDetailDates
         startDate={startDate}
@@ -104,6 +113,7 @@ const EventDetail = (props: EventDetailProps) => {
         isRepeated={isRepeated}
         setForm={setForm}
         form={form}
+        disabledRRule={disabledRRule}
       />
       {store?.emailConfig?.hasSystemConfig ||
       store?.emailConfig?.hasCustomConfig ? (

@@ -402,7 +402,6 @@ export const updateAlarm = (
 
 export const formatAppAlarm = (item: AppAlarm) => {
   return {
-    xBlobenAlarmType: item.type,
     action: 'DISPLAY',
     trigger: parseToAlarmTrigger(item),
   };
