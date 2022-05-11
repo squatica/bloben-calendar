@@ -69,7 +69,7 @@ const handleNotifications = (data: { title: string; body: string }) => {
   };
 };
 
-export const processSocketMsg = async (msg: any) => {
+export const processSocketMsg = async (msg: any, setContext: any) => {
   const msgData: any = JSON.parse(msg);
 
   if (msgData.type === 'EVENT') {
@@ -94,5 +94,9 @@ export const processSocketMsg = async (msg: any) => {
 
   if (msgData.type === 'NOTIFICATIONS') {
     await handleNotifications(msgData);
+  }
+
+  if (msgData.type === 'SYNCING') {
+    setContext('isSyncingServer', msgData.value);
   }
 };

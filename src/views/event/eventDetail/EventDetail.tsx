@@ -49,6 +49,7 @@ interface EventDetailProps {
   color?: string;
   repeatChangeValue?: REPEATED_EVENT_CHANGE_TYPE;
   disabledRRule?: boolean;
+  disabledAttendeeChange?: boolean;
 }
 const EventDetail = (props: EventDetailProps) => {
   const [store] = useContext(Context);
@@ -79,6 +80,7 @@ const EventDetail = (props: EventDetailProps) => {
     alarms,
     repeatChangeValue,
     disabledRRule,
+    disabledAttendeeChange,
   } = props;
 
   return (
@@ -122,6 +124,7 @@ const EventDetail = (props: EventDetailProps) => {
           removeAttendee={removeAttendee}
           updateAttendee={updateAttendee}
           attendees={attendees}
+          disabledAttendeeChange={disabledAttendeeChange}
         />
       ) : null}
       <EventDetailAlarm

@@ -54,6 +54,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../repeatEventModal/RepeatEventModal';
+import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
 
 const Calendar = () => {
   const toast = useToast();
@@ -89,15 +90,23 @@ const Calendar = () => {
   const [isBottomSheetOpen, openBottomSheet] = useState<any>(false);
   const [currentE, setCurrentE] = useState<any>(null);
   const [toastIsLoading, setToastIsLoading] = useState(false);
+  const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
 
   const kalendState: any = useRef({});
 
   const wasInitRef: any = useRef(false);
+  const hasEmailConfigRef = useRef(false);
 
   const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
+
+  useEffect(() => {
+    hasEmailConfigRef.current =
+      store?.emailConfig?.hasSystemConfig ||
+      store?.emailConfig?.hasCustomConfig;
+  }, [JSON.stringify(store.emailConfig)]);
 
   useEffect(() => {
     setContext('isAppStarting', false);
@@ -178,6 +187,24 @@ const Calendar = () => {
         return;
       }
 
+      if (updatedEvent?.attendees?.length && hasEmailConfigRef.current) {
+        openEmailInviteModal({
+          call: async (sendInvite?: boolean, inviteMessage?: string) => {
+            await createEvent(
+              updatedEvent as InitialForm,
+              false,
+              undefined,
+              undefined,
+              prevEvent,
+              sendInvite,
+              inviteMessage
+            );
+          },
+        });
+
+        return;
+      }
+
       await createEvent(
         updatedEvent as InitialForm,
         false,
@@ -194,6 +221,29 @@ const Calendar = () => {
     value: REPEATED_EVENT_CHANGE_TYPE
   ) => {
     if (!isRepeatModalOpen) {
+      return;
+    }
+
+    if (
+      isRepeatModalOpen.updatedEvent?.attendees?.length &&
+      hasEmailConfigRef.current
+    ) {
+      openEmailInviteModal({
+        call: async (sendInvite?: boolean, inviteMessage?: string) => {
+          await updateRepeatedEvent(
+            isRepeatModalOpen.updatedEvent,
+            value,
+            undefined,
+            undefined,
+            isRepeatModalOpen.prevEvent,
+            sendInvite,
+            inviteMessage
+          );
+        },
+      });
+
+      setRepeatModalOpen(false);
+
       return;
     }
 
@@ -345,6 +395,13 @@ const Calendar = () => {
             handleClose={() => setRepeatModalOpen(null)}
             title={''}
             handleClick={handleUpdateRepeatedEvent}
+          />
+        ) : null}
+
+        {emailInviteModalVisible ? (
+          <SendInviteModal
+            handleClose={() => openEmailInviteModal(null)}
+            clickData={emailInviteModalVisible}
           />
         ) : null}
       </div>

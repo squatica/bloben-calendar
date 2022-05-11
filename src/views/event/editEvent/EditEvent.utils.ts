@@ -89,7 +89,9 @@ export const createEvent = async (
   isNewEvent: boolean,
   calendar?: CalDavCalendar,
   handleClose?: any,
-  originalEvent?: any
+  originalEvent?: any,
+  sendInvite?: boolean,
+  inviteMessage?: string
 ) => {
   const eventCalendar: CalDavCalendar =
     calendar || findItemCalendar(originalEvent);
@@ -112,6 +114,8 @@ export const createEvent = async (
       calendarID: eventCalendar.id,
       iCalString,
       externalID: newEventExternalID,
+      sendInvite,
+      inviteMessage,
     });
   } else {
     if (calendarChanged) {
@@ -128,6 +132,8 @@ export const createEvent = async (
           url: originalEvent.url,
           etag: originalEvent.etag,
         },
+        sendInvite,
+        inviteMessage,
       });
     } else {
       await CalDavEventsApi.updateEvent({
@@ -138,6 +144,8 @@ export const createEvent = async (
         url: originalEvent.url,
         etag: originalEvent.etag,
         prevEvent: null,
+        sendInvite,
+        inviteMessage,
       });
     }
   }
@@ -171,7 +179,9 @@ export const updateRepeatedEvent = async (
   type: REPEATED_EVENT_CHANGE_TYPE,
   calendar?: CalDavCalendar,
   handleClose?: any,
-  originalEvent?: any
+  originalEvent?: any,
+  sendInvite?: boolean,
+  inviteMessage?: string
 ) => {
   const eventCalendar: CalDavCalendar =
     calendar || findItemCalendar(originalEvent);
@@ -204,6 +214,8 @@ export const updateRepeatedEvent = async (
           etag: originalEvent.etag,
         }
       : null,
+    sendInvite,
+    inviteMessage,
   });
 
   // Close modal

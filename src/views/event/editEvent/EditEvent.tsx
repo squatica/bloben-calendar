@@ -48,6 +48,7 @@ import PrimaryButton from '../../../components/chakraCustom/primaryButton/Primar
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
+import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
 import Separator from 'components/separator/Separator';
 
 export const findItemCalendar = (item: any) => {
@@ -129,6 +130,7 @@ const EditEvent = (props: EditEventProps) => {
   const [isSaving, setIsSaving] = useState(false);
   const [repeatChangeValue, setRepeatChangeValue] = useState<any>(null);
   const [wasSimpleEvent, setWasSimpleEvent] = useState(true);
+  const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
 
   const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -179,6 +181,17 @@ const EditEvent = (props: EditEventProps) => {
     rRule,
     color,
   } = form;
+
+  const showRepeatEventModal =
+    checkIfHasRepeatPreAction(form) &&
+    !repeatChangeValue &&
+    !isNewEvent &&
+    !wasSimpleEvent;
+
+  const showEmailInviteModal =
+    form?.attendees?.length &&
+    (store?.emailConfig?.hasSystemConfig ||
+      store?.emailConfig?.hasCustomConfig);
 
   const loadEvent = async () => {
     // Find event
@@ -441,9 +454,28 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   const saveEvent = async () => {
-    setIsSaving(true);
     try {
+      if (showEmailInviteModal) {
+        openEmailInviteModal({
+          call: async (sendInvite?: boolean, inviteMessage?: string) => {
+            await createEvent(
+              form,
+              isNewEvent,
+              calendar,
+              handleClose,
+              props.event,
+              sendInvite,
+              inviteMessage
+            );
+            setContext('syncSequence', store.syncSequence + 1);
+          },
+        });
+
+        return;
+      }
+
       if (!isNewEvent && checkIfHasRepeatPreAction(form) && !wasSimpleEvent) {
+        setIsSaving(true);
         await handleUpdateRepeatedEvent();
 
         setContext('syncSequence', store.syncSequence + 1);
@@ -453,6 +485,8 @@ const EditEvent = (props: EditEventProps) => {
         toast(createToast('Event updated'));
         return;
       }
+
+      setIsSaving(true);
 
       await createEvent(form, isNewEvent, calendar, handleClose, props.event);
 
@@ -476,103 +510,131 @@ const EditEvent = (props: EditEventProps) => {
     // @ts-ignore
     eventForm.externalID = props.event?.externalID;
 
-    await updateRepeatedEvent(
-      eventForm,
-      repeatChangeValue,
-      calendar,
-      undefined,
-      props.event
-    );
+    if (showEmailInviteModal) {
+      openEmailInviteModal({
+        call: async (sendInvite?: boolean, inviteMessage?: string) => {
+          await updateRepeatedEvent(
+            eventForm,
+            repeatChangeValue,
+            calendar,
+            undefined,
+            props.event,
+            sendInvite,
+            inviteMessage
+          );
+        },
+      });
+    } else {
+      await updateRepeatedEvent(
+        eventForm,
+        repeatChangeValue,
+        calendar,
+        undefined,
+        props.event
+      );
+    }
 
     setRepeatChangeValue(null);
   };
 
-  return checkIfHasRepeatPreAction(form) &&
-    !repeatChangeValue &&
-    !isNewEvent &&
-    !wasSimpleEvent ? (
-    <RepeatEventModal
-      type={REPEAT_MODAL_TYPE.UPDATE}
-      handleClose={handleClose}
-      title={''}
-      handleClick={(value: REPEATED_EVENT_CHANGE_TYPE) =>
-        setRepeatChangeValue(value)
-      }
-    />
-  ) : (
-    <ModalNew
-      handleClose={handleClose}
-      className={'EditEventModal'}
-      preventCloseOnBackdrop={true}
-      closeButton={true}
-      footer={
-        <Flex direction={'row'} style={{ marginTop: 2 }}>
-          <Spacer />
-          <PrimaryButton isSecondary onClick={handleClose}>
-            Cancel
-          </PrimaryButton>
-          <Separator width={6} />
-          <PrimaryButton
-            onClick={saveEvent}
-            disabled={isSaving}
-            isLoading={isSaving}
-          >
-            Save
-          </PrimaryButton>
-        </Flex>
-      }
-    >
-      <>
-        <Flex
-          direction={'column'}
-          style={{ overflowY: 'auto', overflowX: 'hidden' }}
+  return (
+    <>
+      {showRepeatEventModal ? (
+        <RepeatEventModal
+          type={REPEAT_MODAL_TYPE.UPDATE}
+          handleClose={handleClose}
+          title={''}
+          handleClick={(value: REPEATED_EVENT_CHANGE_TYPE) =>
+            setRepeatChangeValue(value)
+          }
+        />
+      ) : null}
+      {emailInviteModalVisible ? (
+        <SendInviteModal
+          handleClose={handleClose}
+          clickData={emailInviteModalVisible}
+        />
+      ) : null}
+      {!showRepeatEventModal && !emailInviteModalVisible ? (
+        <ModalNew
+          handleClose={handleClose}
+          className={'EditEventModal'}
+          preventCloseOnBackdrop={true}
+          closeButton={true}
+          footer={
+            <Flex direction={'row'} style={{ marginTop: 2 }}>
+              <Spacer />
+              <PrimaryButton isSecondary onClick={handleClose}>
+                Cancel
+              </PrimaryButton>
+              <Separator width={6} />
+              <PrimaryButton
+                onClick={saveEvent}
+                disabled={isSaving}
+                isLoading={isSaving}
+              >
+                Save
+              </PrimaryButton>
+            </Flex>
+          }
         >
-          <Flex direction={'column'} style={{ paddingRight: 8 }}>
-            {calendar?.url && startAt && endAt ? (
-              <EventDetail
-                isNewEvent={isNewEvent}
-                calendar={calendar}
-                summary={summary}
-                location={location}
-                description={description}
-                startDate={startAt}
-                rRule={rRule}
-                endDate={endAt}
-                repeatChangeValue={repeatChangeValue}
-                isRepeated={isRepeated}
-                handleChange={handleChange}
-                disabledRRule={
-                  !wasSimpleEvent &&
-                  repeatChangeValue !== REPEATED_EVENT_CHANGE_TYPE.ALL
-                }
-                allDay={allDay}
-                setForm={setForm}
-                handleChangeDateFrom={handleChangeDateFrom}
-                handleChangeDateTill={handleChangeDateTill}
-                isStartDateValid={isStartDateValid}
-                alarms={alarms}
-                addAlarm={addAlarmEvent}
-                removeAlarm={removeAlarmEvent}
-                updateAlarm={updateAlarmEvent}
-                timezoneStartAt={timezoneStartAt}
-                setStartTimezone={setStartTimezone}
-                selectCalendar={selectCalendar}
-                attendees={attendees}
-                addAttendee={addAttendee}
-                removeAttendee={removeAttendee}
-                updateAttendee={updateAttendee}
-                color={color || calendar.color}
-                // makeOptional={makeOptional}
-                organizer={organizer}
-                form={form}
-              />
-            ) : (
-              <div />
-            )}
-          </Flex>
-        </Flex>
-      </>
-    </ModalNew>
+          <>
+            <Flex
+              direction={'column'}
+              style={{ overflowY: 'auto', overflowX: 'hidden' }}
+            >
+              <Flex direction={'column'} style={{ paddingRight: 8 }}>
+                {calendar?.url && startAt && endAt ? (
+                  <EventDetail
+                    isNewEvent={isNewEvent}
+                    calendar={calendar}
+                    summary={summary}
+                    location={location}
+                    description={description}
+                    startDate={startAt}
+                    rRule={rRule}
+                    endDate={endAt}
+                    repeatChangeValue={repeatChangeValue}
+                    isRepeated={isRepeated}
+                    handleChange={handleChange}
+                    disabledRRule={
+                      !wasSimpleEvent &&
+                      repeatChangeValue !== REPEATED_EVENT_CHANGE_TYPE.ALL
+                    }
+                    disabledAttendeeChange={
+                      !wasSimpleEvent &&
+                      repeatChangeValue !== REPEATED_EVENT_CHANGE_TYPE.ALL
+                    }
+                    allDay={allDay}
+                    setForm={setForm}
+                    handleChangeDateFrom={handleChangeDateFrom}
+                    handleChangeDateTill={handleChangeDateTill}
+                    isStartDateValid={isStartDateValid}
+                    alarms={alarms}
+                    addAlarm={addAlarmEvent}
+                    removeAlarm={removeAlarmEvent}
+                    updateAlarm={updateAlarmEvent}
+                    timezoneStartAt={timezoneStartAt}
+                    setStartTimezone={setStartTimezone}
+                    selectCalendar={selectCalendar}
+                    attendees={attendees}
+                    addAttendee={addAttendee}
+                    removeAttendee={removeAttendee}
+                    updateAttendee={updateAttendee}
+                    color={color || calendar.color}
+                    // makeOptional={makeOptional}
+                    organizer={organizer}
+                    form={form}
+                  />
+                ) : (
+                  <div />
+                )}
+              </Flex>
+            </Flex>
+          </>
+        </ModalNew>
+      ) : null}
+    </>
   );
 };
 

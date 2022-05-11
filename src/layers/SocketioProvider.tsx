@@ -12,7 +12,7 @@ import Axios from '../lib/Axios';
 
 export let SocketIO: any = null;
 
-const reconnect = (clientSessionId: string) => {
+const reconnect = (clientSessionId: string, setContext: any) => {
   // eslint-disable-next-line no-undef
   const wsPath = window.env.apiUrl;
 
@@ -31,7 +31,7 @@ const reconnect = (clientSessionId: string) => {
     return;
   });
   SocketIO.on('sync', (data: any) => {
-    processSocketMsg(data);
+    processSocketMsg(data, setContext);
   });
 
   // @ts-ignore
@@ -45,10 +45,13 @@ const reconnect = (clientSessionId: string) => {
 };
 
 const SocketioProvider = (props: any) => {
-  const [store] = useContext(Context);
+  const [store, dispatch] = useContext(Context);
 
   const { isLogged } = store as StoreContext;
 
+  const setContext = (type: string, payload: any) => {
+    dispatch({ type, payload });
+  };
   /**
    * Init websocket connection
    */
@@ -71,7 +74,7 @@ const SocketioProvider = (props: any) => {
       );
 
       if (response?.status === 200) {
-        reconnect(clientSessionId);
+        reconnect(clientSessionId, setContext);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
