@@ -12,7 +12,15 @@ import {
 import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
-import { EVENT_TYPE } from '../../bloben-interface/enums';
+import {
+  EVENT_TYPE,
+  REPEATED_EVENT_CHANGE_TYPE,
+} from '../../bloben-interface/enums';
+import {
+  InitialForm,
+  createEvent,
+  updateRepeatedEvent,
+} from '../../views/event/editEvent/EditEvent.utils';
 import { SettingsLocal } from '../../redux/reducers/settingsLocal';
 import { TOAST_STATUS } from '../../types/enums';
 import {
@@ -30,8 +38,10 @@ import BottomSheetMobile from '../bottomSheetMobile/BottomSheetMobile';
 import CalDavAccountModal from '../accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import CalendarHeader from './CalendarHeader';
 import DrawerDesktop from '../drawerDesktop/DrawerDesktop';
-import EditEvent, { createEvent } from '../../views/event/editEvent/EditEvent';
-import EventView from '../../views/event/eventView/EventView';
+import EditEvent from '../../views/event/editEvent/EditEvent';
+import EventView, {
+  checkIfHasRepeatPreAction,
+} from '../../views/event/eventView/EventView';
 import EventsApi from '../../api/EventsApi';
 import GeneralApi from '../../api/GeneralApi';
 import Kalend, {
@@ -41,6 +51,10 @@ import Kalend, {
 } from 'kalend';
 import MobileNavbar from '../mobileNavbar/MobileNavbar';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import RepeatEventModal, {
+  REPEAT_MODAL_TYPE,
+} from '../repeatEventModal/RepeatEventModal';
+import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
 
 const Calendar = () => {
   const toast = useToast();
@@ -72,18 +86,27 @@ const Calendar = () => {
   const [isEditingEventOpen, setEditingEventOpen] = useState<any>(null);
   const [isEventViewOpen, setEventViewOpen] = useState<any>(null);
   const [isNewEventOpen, setIsNewEventOpen] = useState<any>(null);
+  const [isRepeatModalOpen, setRepeatModalOpen] = useState<any>(null);
   const [isBottomSheetOpen, openBottomSheet] = useState<any>(false);
   const [currentE, setCurrentE] = useState<any>(null);
   const [toastIsLoading, setToastIsLoading] = useState(false);
+  const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
 
   const kalendState: any = useRef({});
 
   const wasInitRef: any = useRef(false);
+  const hasEmailConfigRef = useRef(false);
 
   const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
+
+  useEffect(() => {
+    hasEmailConfigRef.current =
+      store?.emailConfig?.hasSystemConfig ||
+      store?.emailConfig?.hasCustomConfig;
+  }, [JSON.stringify(store.emailConfig)]);
 
   useEffect(() => {
     setContext('isAppStarting', false);
@@ -157,11 +180,84 @@ const Calendar = () => {
   ) => {
     try {
       wasInitRef.current = false;
-      await createEvent(updatedEvent, false, undefined, undefined, prevEvent);
+
+      // handle more update options for repeated events
+      if (checkIfHasRepeatPreAction(updatedEvent)) {
+        setRepeatModalOpen({ updatedEvent, prevEvent });
+        return;
+      }
+
+      if (updatedEvent?.attendees?.length && hasEmailConfigRef.current) {
+        openEmailInviteModal({
+          call: async (sendInvite?: boolean, inviteMessage?: string) => {
+            await createEvent(
+              updatedEvent as InitialForm,
+              false,
+              undefined,
+              undefined,
+              prevEvent,
+              sendInvite,
+              inviteMessage
+            );
+          },
+        });
+
+        return;
+      }
+
+      await createEvent(
+        updatedEvent as InitialForm,
+        false,
+        undefined,
+        undefined,
+        prevEvent
+      );
     } catch (e: any) {
       toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
     }
   };
+
+  const handleUpdateRepeatedEvent = async (
+    value: REPEATED_EVENT_CHANGE_TYPE
+  ) => {
+    if (!isRepeatModalOpen) {
+      return;
+    }
+
+    if (
+      isRepeatModalOpen.updatedEvent?.attendees?.length &&
+      hasEmailConfigRef.current
+    ) {
+      openEmailInviteModal({
+        call: async (sendInvite?: boolean, inviteMessage?: string) => {
+          await updateRepeatedEvent(
+            isRepeatModalOpen.updatedEvent,
+            value,
+            undefined,
+            undefined,
+            isRepeatModalOpen.prevEvent,
+            sendInvite,
+            inviteMessage
+          );
+        },
+      });
+
+      setRepeatModalOpen(false);
+
+      return;
+    }
+
+    await updateRepeatedEvent(
+      isRepeatModalOpen.updatedEvent,
+      value,
+      undefined,
+      undefined,
+      isRepeatModalOpen.prevEvent
+    );
+
+    setRepeatModalOpen(false);
+  };
+
   const onPageChange = async () => {
     handleSyncWithRange();
   };
@@ -199,7 +295,6 @@ const Calendar = () => {
     <div className={'Main__content__row'}>
       {settingsLocal.drawerOpen ? <DrawerDesktop /> : null}
       <div
-        // className={parseCssDark(`Calendar_container`, store.isDark)}
         className={parseCssDark(
           `Calendar_container${settingsLocal.drawerOpen ? '-collapsed' : ''}`,
           store.isDark
@@ -216,7 +311,6 @@ const Calendar = () => {
           handleRefresh={handleRefresh}
           handleOpenDrawer={handleOpenDrawer}
         />
-        {/*<Carousel onPageChange={handleCarouselSwipe}>*/}
         {settings.defaultView ? (
           <Kalend
             kalendRef={kalendRef}
@@ -247,7 +341,6 @@ const Calendar = () => {
             isDark={store.isDark}
           />
         ) : null}
-        {/*</Carousel>*/}
         {isNewEventOpen ? (
           calDavAccounts.length && calDavCalendars.length ? (
             <EditEvent
@@ -293,6 +386,22 @@ const Calendar = () => {
             onClose={() => openBottomSheet(false)}
             selectedView={selectedView}
             setSelectedView={setSelectedView}
+          />
+        ) : null}
+
+        {isRepeatModalOpen ? (
+          <RepeatEventModal
+            type={REPEAT_MODAL_TYPE.UPDATE}
+            handleClose={() => setRepeatModalOpen(null)}
+            title={''}
+            handleClick={handleUpdateRepeatedEvent}
+          />
+        ) : null}
+
+        {emailInviteModalVisible ? (
+          <SendInviteModal
+            handleClose={() => openEmailInviteModal(null)}
+            clickData={emailInviteModalVisible}
           />
         ) : null}
       </div>

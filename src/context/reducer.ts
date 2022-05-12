@@ -46,6 +46,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isSyncing: action.payload,
       };
+    case 'isSyncingServer':
+      return {
+        ...state,
+        isSyncingServer: action.payload,
+      };
     case 'settingsOpen':
       return {
         ...state,

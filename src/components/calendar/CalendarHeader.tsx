@@ -316,27 +316,20 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
           <>
             <Flex flex="1" justifyContent={'flex-end '}>
               <Spacer />
-              {isSyncing ? (
-                <Spinner color="red.500" />
-              ) : (
-                <IconButton
-                  _focus={{ boxShadow: 'none' }}
-                  variant={'ghost'}
-                  aria-label="Refresh"
-                  icon={
-                    <RefreshIcon
-                      className={parseCssDark(
-                        'HeaderModal__icon',
-                        store.isDark
-                      )}
-                    />
-                  }
-                  isRound
-                  // size={"sm"}
-                  autoFocus={false}
-                  onClick={handleRefresh}
-                />
-              )}
+              <IconButton
+                _focus={{ boxShadow: 'none' }}
+                variant={'ghost'}
+                aria-label="Refresh"
+                icon={
+                  <RefreshIcon
+                    className={parseCssDark('HeaderModal__icon', store.isDark)}
+                  />
+                }
+                isRound
+                // size={"sm"}
+                autoFocus={false}
+                onClick={handleRefresh}
+              />
             </Flex>
           </>
         ) : null}
