@@ -45,6 +45,7 @@ import EventView, {
 import EventsApi from '../../api/EventsApi';
 import GeneralApi from '../../api/GeneralApi';
 import Kalend, {
+  CalendarEvent,
   OnEventClickData,
   OnEventDragFinish,
   OnNewEventClickData,
@@ -175,15 +176,17 @@ const Calendar = () => {
   };
 
   const onDraggingFinish: OnEventDragFinish = async (
-    prevEvent,
-    updatedEvent
+    prevEvent: CalendarEvent,
+    updatedEvent: CalendarEvent,
+    _: any,
+    resetPosition: any
   ) => {
     try {
       wasInitRef.current = false;
 
       // handle more update options for repeated events
       if (checkIfHasRepeatPreAction(updatedEvent)) {
-        setRepeatModalOpen({ updatedEvent, prevEvent });
+        setRepeatModalOpen({ updatedEvent, prevEvent, resetPosition });
         return;
       }
 
@@ -392,7 +395,12 @@ const Calendar = () => {
         {isRepeatModalOpen ? (
           <RepeatEventModal
             type={REPEAT_MODAL_TYPE.UPDATE}
-            handleClose={() => setRepeatModalOpen(null)}
+            handleClose={() => {
+              setRepeatModalOpen(null);
+              if (isRepeatModalOpen.resetPosition) {
+                isRepeatModalOpen.resetPosition();
+              }
+            }}
             title={''}
             handleClick={handleUpdateRepeatedEvent}
           />
