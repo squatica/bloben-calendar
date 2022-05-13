@@ -199,7 +199,10 @@ const EventView = (props: EventViewProps) => {
             timezoneStart: originalEvent.data.timezoneStart,
             externalID: newEventExternalID,
             rRule: originalEvent.data.rRule,
-            recurrenceID: undefined,
+            recurrenceID: {
+              value: event.startAt,
+              timezone: event.timezoneStartAt,
+            },
             exdates: [
               ...event.exdates,
               { value: event.startAt, timezone: event.timezoneStartAt },
@@ -214,6 +217,10 @@ const EventView = (props: EventViewProps) => {
             type: value,
             // @ts-ignore
             iCalString: iCalString ? iCalString : null,
+            recurrenceID: {
+              value: event.startAt,
+              timezone: event.timezoneStartAt,
+            },
             exDates: [
               ...event.exdates,
               { value: event.startAt, timezone: event.timezoneStartAt },
