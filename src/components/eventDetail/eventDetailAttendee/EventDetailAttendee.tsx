@@ -102,14 +102,21 @@ interface EventDetailAttendeeProps {
   updateAttendee?: any;
   attendees: Attendee[];
   disabled?: boolean;
+  disabledAttendeeChange?: boolean;
 }
 const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
   const toast = useToast();
 
   const [isListVisible, setListVisible] = useState(false);
   const [attendee, setAttendee] = useState('');
-  const { disabled, addAttendee, removeAttendee, updateAttendee, attendees } =
-    props;
+  const {
+    disabled,
+    disabledAttendeeChange,
+    addAttendee,
+    removeAttendee,
+    updateAttendee,
+    attendees,
+  } = props;
 
   const [store] = useContext(Context);
   const { isDark } = store;
@@ -146,10 +153,10 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
     attendees,
     removeAttendee,
     updateAttendee,
-    disabled
+    disabled || disabledAttendeeChange
   );
 
-  return (
+  return (disabled || disabledAttendeeChange) && !attendees?.length ? null : (
     <Flex
       direction={'column'}
       style={{
@@ -160,7 +167,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
         <FormIcon isDark={isDark} allVisible>
           <EvaIcons.Person className={'EventDetail-icon'} />
         </FormIcon>
-        {!disabled ? (
+        {!disabled && !disabledAttendeeChange ? (
           <ChakraInput
             size={'md'}
             type="text"
@@ -198,7 +205,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
           </Stack>
         ) : null}
       </Stack>
-      {!disabled && attendees.length ? (
+      {!disabled && attendees.length && !disabledAttendeeChange ? (
         <Stack direction={'row'} align={'center'} style={{ marginBottom: 4 }}>
           <FormIcon isDark={isDark} allVisible hidden>
             <EvaIcons.Person className={'EventDetail-icon'} />

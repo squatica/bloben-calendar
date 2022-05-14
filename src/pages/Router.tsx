@@ -5,6 +5,7 @@ import React from 'react';
 import Settings from './settings/Settings';
 
 import SyncLayer from 'layers/SyncLayer';
+import Toast from '../components/toast/Toast';
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
         <Route path={APP_PATH.SETTINGS} element={<Settings />} />
         <Route path={'/'} element={<Main />} />
       </Routes>
+      <Toast />
     </SyncLayer>
   );
 };

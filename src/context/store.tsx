@@ -17,6 +17,7 @@ export interface StoreContext {
   isSyncing: boolean;
   version: GetVersion;
   emailConfig: GetUserEmailConfigResponse;
+  isSyncingServer: boolean;
 }
 
 const initialContext: StoreContext = {
@@ -41,6 +42,7 @@ const initialContext: StoreContext = {
     hasSystemConfig: false,
     mailto: null,
   },
+  isSyncingServer: false,
 };
 
 const StoreProvider = ({ children }: any) => {
