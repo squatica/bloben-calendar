@@ -10,6 +10,7 @@ interface FormIconProps {
   desktopVisible?: boolean;
   allVisible?: boolean;
   alignTop?: boolean;
+  style?: any;
 }
 const FormIcon = (props: FormIconProps) => {
   const { children, hidden, desktopVisible, allVisible, isDark } = props;
@@ -21,7 +22,10 @@ const FormIcon = (props: FormIconProps) => {
   });
 
   return (
-    <div className={`FormIcon__wrapper ${props.alignTop ? 'AlignTop' : ''}`}>
+    <div
+      className={`FormIcon__wrapper ${props.alignTop ? 'AlignTop' : ''}`}
+      style={props.style}
+    >
       <div
         className={`FormIcon__container${
           desktopVisible ? '-desktop-visible' : ''

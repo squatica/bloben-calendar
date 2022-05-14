@@ -6,5 +6,6 @@ export default {
     syncFrequency: 5,
     isLoading: false,
     alarms: [],
+    userMailto: null,
   },
 };

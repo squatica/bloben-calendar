@@ -65,6 +65,12 @@ const EmailConfigSettings = () => {
         </PrimaryButton>
       ) : null}
 
+      {emailConfig ? (
+        <ButtonBase onClick={() => openModal(true)}>View config</ButtonBase>
+      ) : null}
+
+      <Separator width={16} height={16} />
+
       {modalOpen ? (
         <EmailConfigModal handleClose={() => openModal(false)} />
       ) : null}

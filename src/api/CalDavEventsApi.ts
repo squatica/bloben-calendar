@@ -5,6 +5,7 @@ import {
   DeleteCalDavEventRequest,
   DeleteRepeatedCalDavEventRequest,
   UpdateCalDavEventRequest,
+  UpdatePartstatStatusRequest,
   UpdateRepeatedCalDavEventRequest,
 } from '../bloben-interface/event/event';
 import { GetCaldavEventResponse } from '../bloben-interface/caldavEvent/caldavEvent';
@@ -41,5 +42,11 @@ export default {
     data: DeleteRepeatedCalDavEventRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.delete(`/v1/caldav-events/repeated`, data);
+  },
+  updateStatus: async (
+    id: string,
+    data: UpdatePartstatStatusRequest
+  ): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.patch(`/v1/caldav-events/${id}`, data);
   },
 };
