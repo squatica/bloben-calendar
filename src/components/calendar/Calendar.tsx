@@ -135,7 +135,8 @@ const Calendar = () => {
         }
         const rangeEventsResponse = await EventsApi.getEvents(
           kalendState?.current?.range.rangeFrom, // range.rangeFrom,
-          kalendState?.current?.range.rangeTo //range.rangeTo
+          kalendState?.current?.range.rangeTo, //range.rangeTo
+          store.isDark
         );
 
         toast.closeAll();
