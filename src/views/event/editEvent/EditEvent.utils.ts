@@ -4,7 +4,13 @@ import {
   EVENT_TYPE,
   REPEATED_EVENT_CHANGE_TYPE,
 } from '../../../bloben-interface/enums';
+import {
+  PARTSTAT_ACCEPTED,
+  ROLE_REQ,
+  RSVP_TRUE,
+} from '../../../utils/AttendeeUtils';
 import { debug } from '../../../utils/debug';
+import { find } from 'lodash';
 import { findItemCalendar } from './EditEvent';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
@@ -98,6 +104,28 @@ export const createEvent = async (
 
   const calendarChanged: boolean =
     !isNewEvent && originalEvent?.calendarID !== eventCalendar.id;
+
+  // add organizer as attendee
+  if (form.attendees.length && form.organizer) {
+    // check if exists
+    const organizerAttendee = find(
+      form.attendees,
+      (attendee) => attendee.mailto === form.organizer.mailto
+    );
+
+    if (!organizerAttendee) {
+      form.attendees = [
+        ...form.attendees,
+        {
+          CN: form.organizer.CN,
+          mailto: form.organizer.mailto,
+          ROLE: ROLE_REQ,
+          RSVP: RSVP_TRUE,
+          PARTSTAT: PARTSTAT_ACCEPTED,
+        },
+      ];
+    }
+  }
 
   // use issued id or create for new event
   const newEventExternalID: string = originalEvent?.externalID || v4();

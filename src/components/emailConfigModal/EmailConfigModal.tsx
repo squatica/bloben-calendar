@@ -1,15 +1,17 @@
-import { Center, FormControl, FormLabel, useToast } from '@chakra-ui/react';
+import {
+  Center,
+  FormControl,
+  FormLabel,
+  Heading,
+  useToast,
+} from '@chakra-ui/react';
 import { Context } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
-import {
-  UpdateUserEmailConfigRequest,
-  UserEmailConfigData,
-} from '../../bloben-interface/userEmailConfig/userEmailConfig';
 import { createToast } from '../../utils/common';
 import ChakraInput from '../chakraCustom/ChakraInput';
 import ModalNew from 'components/modalNew/ModalNew';
 import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
-import React, { useContext, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
 import StateReducer from '../../utils/state-reducer';
 import UserEmailConfigApi from '../../api/UserEmailConfigApi';
@@ -17,18 +19,24 @@ import UserEmailConfigApi from '../../api/UserEmailConfigApi';
 interface EmailConfigModalProps {
   handleClose: any;
 }
-const initialState: UserEmailConfigData = {
+
+const initialState: any = {
   smtpEmail: '',
   smtpPort: 587,
   smtpUsername: '',
   smtpHost: '',
   smtpPassword: '',
+  imapPort: 143,
+  imapHost: '',
+  imapUsername: '',
+  imapPassword: '',
+  imapSyncingInterval: 15,
 };
 
 const EmailConfigModal = (props: EmailConfigModalProps) => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [, dispatchContext] = useContext(Context);
+  const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -41,8 +49,18 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
     dispatchState({ state, payload });
   };
 
-  const { smtpHost, smtpPort, smtpPassword, smtpUsername, smtpEmail } =
-    state as UserEmailConfigData;
+  const {
+    smtpHost,
+    smtpPort,
+    smtpPassword,
+    smtpUsername,
+    smtpEmail,
+    imapPassword,
+    imapUsername,
+    imapHost,
+    imapPort,
+    imapSyncingInterval,
+  } = state as any;
 
   const onChange = (e: any): void => {
     const name = e.target.name;
@@ -54,9 +72,26 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
   const handleSave = async () => {
     setIsLoading(true);
     try {
-      const response = await UserEmailConfigApi.update(
-        state as UpdateUserEmailConfigRequest
-      );
+      const response = await UserEmailConfigApi.update({
+        smtp: smtpPassword
+          ? {
+              smtpEmail,
+              smtpPort,
+              smtpUsername,
+              smtpHost,
+              smtpPassword,
+            }
+          : undefined,
+        imap: imapPassword
+          ? {
+              imapPort,
+              imapHost,
+              imapUsername,
+              imapPassword,
+            }
+          : undefined,
+        imapSyncingInterval,
+      });
 
       toast(createToast(response?.data?.message));
       setIsLoading(false);
@@ -77,6 +112,25 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
     }
   };
 
+  useEffect(() => {
+    if (store.emailConfig) {
+      if (store.emailConfig.smtp) {
+        setLocalState('smtpHost', store.emailConfig.smtp.smtpHost);
+        setLocalState('smtpEmail', store.emailConfig.smtp.smtpEmail);
+        setLocalState('smtpPort', store.emailConfig.smtp.smtpPort);
+        setLocalState('smtpUsername', store.emailConfig.smtp.smtpUsername);
+        setLocalState('smtpPassword', store.emailConfig.smtp.smtpPassword);
+      }
+      if (store.emailConfig.imap) {
+        setLocalState('imapHost', store.emailConfig.imap.imapHost);
+        setLocalState('imapEmail', store.emailConfig.imap.imapEmail);
+        setLocalState('imapPort', store.emailConfig.imap.imapPort);
+        setLocalState('imapUsername', store.emailConfig.imap.imapUsername);
+        setLocalState('imapPassword', store.emailConfig.imap.imapPassword);
+      }
+    }
+  }, []);
+
   return (
     <ModalNew
       handleClose={closeFunc}
@@ -85,6 +139,7 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
       preventCloseOnBackdrop={true}
     >
       <>
+        <Heading size={'md'}>SMTP</Heading>
         <FormControl>
           <FormLabel htmlFor="smtpHost">Host</FormLabel>
           <ChakraInput
@@ -138,6 +193,66 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
             name={'smtpEmail'}
             onChange={onChange}
             value={smtpEmail}
+          />
+        </FormControl>
+        <Separator height={25} />
+        <Heading size={'md'}>IMAP</Heading>
+        <FormControl>
+          <FormLabel htmlFor="imapHost">Host</FormLabel>
+          <ChakraInput
+            size={'lg'}
+            id="imapHost"
+            name={'imapHost'}
+            onChange={onChange}
+            value={imapHost}
+          />
+        </FormControl>
+        <Separator height={8} />
+        <FormControl>
+          <FormLabel htmlFor="imapPort">Port</FormLabel>
+          <ChakraInput
+            size={'lg'}
+            id="imapPort"
+            name={'imapPort'}
+            onChange={onChange}
+            value={imapPort}
+          />
+        </FormControl>
+        <Separator height={8} />
+        <FormControl>
+          <FormLabel htmlFor="imapUsername">Username</FormLabel>
+          <ChakraInput
+            size={'lg'}
+            id="imapUsername"
+            name={'imapUsername'}
+            onChange={onChange}
+            value={imapUsername}
+          />
+        </FormControl>
+        <Separator height={8} />
+        <FormControl>
+          <FormLabel htmlFor="imapPassword">Password</FormLabel>
+          <ChakraInput
+            size={'lg'}
+            id="imapPassword"
+            name={'imapPassword'}
+            autoComplete={'off'}
+            onChange={onChange}
+            value={imapPassword}
+          />
+        </FormControl>
+        <Separator height={8} />
+        <FormControl>
+          <FormLabel htmlFor="imapSyncingInterval">
+            IMAP syncing interval
+          </FormLabel>
+          <ChakraInput
+            size={'lg'}
+            id="imapSyncingInterval"
+            name={'imapSyncingInterval'}
+            autoComplete={'off'}
+            onChange={onChange}
+            value={imapSyncingInterval}
           />
         </FormControl>
         <Separator height={25} />
