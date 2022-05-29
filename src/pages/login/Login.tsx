@@ -112,6 +112,11 @@ const Login = () => {
               name={'password'}
               value={password}
               onChange={onChange}
+              onKeyPress={(e: any) => {
+                if (e.key === 'Enter' || e.keyCode == 13) {
+                  handleLogin();
+                }
+              }}
             />
             <InputRightElement width="4.5rem">
               <Button

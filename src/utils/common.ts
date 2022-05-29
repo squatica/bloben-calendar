@@ -31,7 +31,8 @@ export const formatTimestampToDate = (dateObj: any): string =>
     : DateTime.fromISO(dateObj).toFormat('dd-MM-yyyy');
 
 export const getLocalTimezone = (): string =>
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ||
+  DateTime.now().zoneName;
 
 export const parseErrorMessage = (error: any): any => {
   if (error && error.response) {

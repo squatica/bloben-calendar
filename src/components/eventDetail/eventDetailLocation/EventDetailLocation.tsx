@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
-import { Stack } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
+import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
 import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 
@@ -28,17 +29,21 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
       <FormIcon isDark={isDark} allVisible>
         <EvaIcons.Pin className={'EventDetail-icon'} />
       </FormIcon>
-      <ChakraInput
-        size={'md'}
-        type="text"
-        placeholder="Location"
-        name={'location'}
-        value={value}
-        variant={disabled ? 'unstyled' : 'outline'}
-        onChange={handleChange}
-        isDisabled={disabled}
-        autoComplete={'off'}
-      />
+      {disabled ? (
+        <Text size={'md'}>{parseEventString(value)}</Text>
+      ) : (
+        <ChakraInput
+          size={'md'}
+          type="text"
+          placeholder="Location"
+          name={'location'}
+          value={value}
+          variant={disabled ? 'unstyled' : 'outline'}
+          onChange={handleChange}
+          isDisabled={disabled}
+          autoComplete={'off'}
+        />
+      )}
     </Stack>
   );
 };
