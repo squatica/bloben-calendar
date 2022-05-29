@@ -1,5 +1,6 @@
 import { AppSettings } from '../../types/interface';
 import { CalendarView } from 'kalend';
+import { getLocalTimezone } from '../../utils/common';
 
 export const initSettings = (): AppSettings => {
   return {
@@ -9,7 +10,7 @@ export const initSettings = (): AppSettings => {
     defaultView: CalendarView.WEEK,
     hourHeight: 40,
     disabledViews: [],
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timezone: getLocalTimezone(),
     hiddenCalendarIDs: [],
   };
 };
