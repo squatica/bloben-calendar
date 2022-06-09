@@ -34,6 +34,19 @@ export const getLocalTimezone = (): string =>
   // Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ||
   DateTime.now().zoneName;
 
+export const parseCalendarTimezone = (timezone: string): string => {
+  if (
+    !timezone ||
+    timezone.length === 0 ||
+    timezone === ' ' ||
+    !timezone.includes('/')
+  ) {
+    return getLocalTimezone();
+  }
+
+  return timezone;
+};
+
 export const parseErrorMessage = (error: any): any => {
   if (error && error.response) {
     if (
