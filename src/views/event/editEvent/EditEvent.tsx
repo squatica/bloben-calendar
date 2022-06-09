@@ -9,6 +9,7 @@ import {
   createToast,
   formatAppAlarm,
   getLocalTimezone,
+  parseCalendarTimezone,
   removeAlarm,
   updateAlarm,
 } from 'utils/common';
@@ -246,12 +247,16 @@ const EditEvent = (props: EditEventProps) => {
     if (!thisCalendar) {
       return;
     }
+
     if (isNewEvent) {
-      const timezoneFromCalendar: string = getLocalTimezone();
+      const timezoneFromCalendar: string = parseCalendarTimezone(
+        thisCalendar.timezone
+      );
 
       setForm('timezoneStartAt', timezoneFromCalendar);
       setForm('timezoneEndAt', timezoneFromCalendar);
     }
+
     setCalendar(thisCalendar);
   };
 
@@ -438,15 +443,10 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   const selectCalendar = (calendarObj: any) => {
-    const localTimezone = getLocalTimezone();
-    setForm(
-      'startAt',
-      DatetimeParser(startAt, calendarObj.timezone || localTimezone)
-    );
-    setForm(
-      'endAt',
-      DatetimeParser(endAt, calendarObj.timezone || localTimezone)
-    );
+    const localTimezone = parseCalendarTimezone(calendarObj.timezone);
+
+    setForm('startAt', DatetimeParser(startAt, localTimezone));
+    setForm('endAt', DatetimeParser(endAt, localTimezone));
     setForm('calendarUrl', calendarObj.url);
     setCalendar(calendarObj);
     setForm('alarms', calendarObj?.alarms || []);
