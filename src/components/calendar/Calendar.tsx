@@ -57,6 +57,23 @@ import RepeatEventModal, {
 } from '../repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
 
+const parseHourHeight = (hourHeightSetting: number): number => {
+  const element = document.querySelector('.Kalend__Calendar__table');
+  if (!element) {
+    return hourHeightSetting;
+  }
+
+  const rect = element.getBoundingClientRect();
+
+  const maxHourHeight = hourHeightSetting * 24;
+
+  if (rect.height > maxHourHeight) {
+    return rect.height / 21;
+  }
+
+  return hourHeightSetting;
+};
+
 const Calendar = () => {
   const toast = useToast();
   const settingsLocal: SettingsLocal = useSelector(
@@ -321,7 +338,7 @@ const Calendar = () => {
             onNewEventClick={openNewEvent}
             events={events}
             initialDate={new Date().toISOString()}
-            hourHeight={settings.hourHeight}
+            hourHeight={parseHourHeight(settings.hourHeight)}
             timeFormat={settings.timeFormat.toString()}
             weekDayStart={settings.startOfWeek}
             initialView={settings.defaultView}
