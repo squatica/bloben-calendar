@@ -23,7 +23,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Context } from '../../../context/store';
-import { EVENT_TYPE } from '../../../bloben-interface/enums';
 import { EvaIcons } from 'components/eva-icons';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
@@ -280,10 +279,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
           </Stack>
         </Stack>
       ) : null}
-
-      {disabled &&
-      !disabledAttendeeChange &&
-      event.type === EVENT_TYPE.CALDAV ? (
+      {disabled && !disabledAttendeeChange ? (
         <OrganizerResponseRow event={event} handleClose={handleClose} />
       ) : null}
     </Flex>

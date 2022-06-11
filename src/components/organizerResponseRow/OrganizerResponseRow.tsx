@@ -4,6 +4,8 @@ import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
 import { find } from 'lodash';
 import CalDavEventsApi from '../../api/CalDavEventsApi';
+import React, { useState } from 'react';
+import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
 
 interface OrganizerResponseRowProps {
   event: any;
@@ -12,6 +14,7 @@ interface OrganizerResponseRowProps {
 const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
   const { event, handleClose } = props;
   const toast = useToast();
+  const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
 
   const organizer = find(
     event?.attendees,
@@ -20,13 +23,13 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
 
   const partStat: ATTENDEE_PARTSTAT | undefined = organizer?.PARTSTAT;
 
-  const updateStatus = async (status: ATTENDEE_PARTSTAT) => {
-    if (partStat === status) {
+  const updateStatus = async (eventID: string, data: any) => {
+    if (partStat === data.status) {
       return;
     }
 
     try {
-      const response = await CalDavEventsApi.updateStatus(event.id, { status });
+      const response = await CalDavEventsApi.updateStatus(eventID, data);
 
       if (response.data?.message) {
         toast(createToast(response.data.message));
@@ -36,6 +39,14 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
     } catch (e: any) {
       toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
     }
+  };
+
+  const handleClick = async (status: ATTENDEE_PARTSTAT) => {
+    openEmailInviteModal({
+      call: async (sendInvite?: boolean, inviteMessage?: string) => {
+        await updateStatus(event.id, { status, sendInvite, inviteMessage });
+      },
+    });
   };
 
   return organizer ? (
@@ -48,24 +59,30 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
       <Button
         variant={partStat === ATTENDEE_PARTSTAT.ACCEPTED ? 'solid' : 'ghost'}
         colorScheme={partStat === ATTENDEE_PARTSTAT.ACCEPTED ? 'pink' : 'gray'}
-        onClick={() => updateStatus(ATTENDEE_PARTSTAT.ACCEPTED)}
+        onClick={() => handleClick(ATTENDEE_PARTSTAT.ACCEPTED)}
       >
         Going
       </Button>
       <Button
         variant={partStat === ATTENDEE_PARTSTAT.TENTATIVE ? 'solid' : 'ghost'}
         colorScheme={partStat === ATTENDEE_PARTSTAT.TENTATIVE ? 'pink' : 'gray'}
-        onClick={() => updateStatus(ATTENDEE_PARTSTAT.TENTATIVE)}
+        onClick={() => handleClick(ATTENDEE_PARTSTAT.TENTATIVE)}
       >
         Maybe
       </Button>
       <Button
         variant={partStat === ATTENDEE_PARTSTAT.DECLINED ? 'solid' : 'ghost'}
         colorScheme={partStat === ATTENDEE_PARTSTAT.DECLINED ? 'pink' : 'gray'}
-        onClick={() => updateStatus(ATTENDEE_PARTSTAT.DECLINED)}
+        onClick={() => handleClick(ATTENDEE_PARTSTAT.DECLINED)}
       >
         No
       </Button>
+      {emailInviteModalVisible ? (
+        <SendInviteModal
+          handleClose={handleClose}
+          clickData={emailInviteModalVisible}
+        />
+      ) : null}
     </Stack>
   ) : null;
 };

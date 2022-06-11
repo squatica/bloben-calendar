@@ -30,7 +30,7 @@ const initialState: any = {
   imapHost: '',
   imapUsername: '',
   imapPassword: '',
-  imapSyncingInterval: 15,
+  imapSyncingInterval: 30,
 };
 
 const EmailConfigModal = (props: EmailConfigModalProps) => {
