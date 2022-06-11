@@ -1,6 +1,6 @@
 {
   "name": "bloben-calendar",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "author": "nibdo",
   "license": "GPL",
   "private": false,
@@ -20,7 +20,7 @@
     "bottom-sheet-react": "0.1.24",
     "chakra-react-select": "3.3.1",
     "framer-motion": "5.6.0",
-    "ical-js-parser": "0.6.5",
+    "ical-js-parser": "0.6.6",
     "kalend": "0.14.13",
     "kalend-layout": "0.0.14",
     "localforage": "1.10.0",
