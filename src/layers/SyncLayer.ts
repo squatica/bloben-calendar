@@ -18,7 +18,7 @@ import UserEmailConfigApi from '../api/UserEmailConfigApi';
 import WebcalCalendarApi from '../api/WebcalCalendarApi';
 
 const SyncLayer = (props: any) => {
-  const [, dispatchContext] = useContext(Context);
+  const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -30,7 +30,7 @@ const SyncLayer = (props: any) => {
     const calDavAccountsResponse = await CalDavAccountApi.getCalDavAccounts();
     const calDavCalendarsResponse =
       await CalDavCalendarApi.getCalDavCalendars();
-    const calDavEventsResponse = await EventsApi.getCachedEvents();
+    const calDavEventsResponse = await EventsApi.getCachedEvents(store.isDark);
     const webcalCalendarsResponse =
       await WebcalCalendarApi.getWebcalCalendars();
 

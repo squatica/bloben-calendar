@@ -330,15 +330,21 @@ const EventView = (props: EventViewProps) => {
             {calendar && calendar?.displayName ? (
               <EventDetailCalendar calendar={calendar} disabled />
             ) : null}
-            {event.props?.attendee?.length ? (
-              <EventDetailAttendee attendees={event.props.attendee} disabled />
-            ) : null}
 
             {event.location?.length > 0 ? (
               <EventDetailLocation value={event.location} disabled />
             ) : null}
             {event.description?.length > 0 ? (
               <EventDetailNotes value={event.description} disabled />
+            ) : null}
+
+            {event?.attendees?.length ? (
+              <EventDetailAttendee
+                attendees={event.attendees}
+                disabled
+                event={event}
+                handleClose={handleClose}
+              />
             ) : null}
           </>
         </Modal>

@@ -5,13 +5,18 @@ import Axios from '../lib/Axios';
 export default {
   getEvents: async (
     rangeFrom: string,
-    rangeTo: string
+    rangeTo: string,
+    isDark?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
     return Axios.get(
-      `/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}`
+      `/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
+        isDark || false
+      }`
     );
   },
-  getCachedEvents: async (): Promise<AxiosResponse<GetEventResponse[]>> => {
-    return Axios.get(`/v1/events`);
+  getCachedEvents: async (
+    isDark?: boolean
+  ): Promise<AxiosResponse<GetEventResponse[]>> => {
+    return Axios.get(`/v1/events?isDark=${isDark || false}`);
   },
 };

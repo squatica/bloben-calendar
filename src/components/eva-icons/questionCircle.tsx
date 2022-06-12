@@ -5,6 +5,8 @@ const QuestionCircle = (props: any) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     className={props.className}
+    style={props.style}
+    fill={props.fill}
   >
     <g data-name="Layer 2">
       <g data-name="menu-arrow-circle">

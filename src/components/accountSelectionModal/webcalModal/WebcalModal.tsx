@@ -43,7 +43,7 @@ const WebcalModal = (props: WebcalModalProps) => {
     dispatchState({ state, payload });
   };
 
-  const { name, url, syncFrequency, color, alarms }: any = state;
+  const { name, url, syncFrequency, color, alarms, userMailto }: any = state;
 
   const onChange = (e: any): void => {
     const value = e.target.value;
@@ -62,6 +62,7 @@ const WebcalModal = (props: WebcalModalProps) => {
       setLocalState('name', webcalCalendar.name);
       setLocalState('syncFrequency', webcalCalendar.syncFrequency);
       setLocalState('alarms', webcalCalendar.alarms);
+      setLocalState('userMailto', webcalCalendar.userMailto);
     }
   }, []);
 
@@ -90,6 +91,7 @@ const WebcalModal = (props: WebcalModalProps) => {
               amount: alarm.amount,
               timeUnit: alarm.timeUnit,
             })),
+            userMailto,
           }
         );
 
@@ -106,6 +108,7 @@ const WebcalModal = (props: WebcalModalProps) => {
             amount: alarm.amount,
             timeUnit: alarm.timeUnit,
           })),
+          userMailto,
         });
 
         if (response.data?.message) {
@@ -205,6 +208,16 @@ const WebcalModal = (props: WebcalModalProps) => {
         {/*  removeAlarm={removeAlarmEvent}*/}
         {/*  updateAlarm={updateAlarmEvent}*/}
         {/*/>*/}
+        <Separator height={18} />
+        <FormLabel htmlFor="name">Your email in webcal (optional)</FormLabel>
+        <ChakraInput
+          size={'lg'}
+          id="userMailto"
+          type="text"
+          name={'userMailto'}
+          onChange={onChange}
+          value={userMailto}
+        />
         <Separator height={25} />
         <Center>
           <PrimaryButton isLoading={isLoading} onClick={addWebcalCalendar}>
