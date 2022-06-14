@@ -7,6 +7,7 @@ import { CalDavCalendar } from '../../../types/interface';
 import { Context } from '../../../context/store';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
 import { Stack } from '@chakra-ui/react';
+import { filter } from 'lodash';
 import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/EventDetailAlarm';
 import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
@@ -123,7 +124,10 @@ const EventDetail = (props: EventDetailProps) => {
           addAttendee={addAttendee}
           removeAttendee={removeAttendee}
           updateAttendee={updateAttendee}
-          attendees={attendees}
+          attendees={filter(
+            attendees,
+            (item) => item.mailto !== form.organizer?.mailto
+          )}
           disabledAttendeeChange={disabledAttendeeChange}
         />
       ) : null}

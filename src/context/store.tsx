@@ -1,4 +1,3 @@
-import { GetUserEmailConfigResponse } from '../bloben-interface/userEmailConfig/userEmailConfig';
 import { GetVersion } from '../bloben-interface/version/version';
 import React, { createContext, useEffect, useReducer } from 'react';
 import Reducer from './reducer';
@@ -16,7 +15,11 @@ export interface StoreContext {
   syncSequence: number;
   isSyncing: boolean;
   version: GetVersion;
-  emailConfig: GetUserEmailConfigResponse;
+  emailConfig: {
+    hasSystemConfig: boolean;
+    hasCustomConfig: boolean;
+    mailto: string | null;
+  };
   isSyncingServer: boolean;
 }
 
