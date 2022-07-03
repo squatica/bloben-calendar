@@ -12,14 +12,15 @@ interface TimePickerUnitProps {
   selectValue: any;
   value: string;
   keyPrefix: string;
+  id: string;
 }
 const TimePickerUnit = (props: TimePickerUnitProps) => {
-  const { selectedDate, selectValue, value, keyPrefix } = props;
+  const { selectedDate, selectValue, value, keyPrefix, id } = props;
 
   const [store] = useContext(Context);
   const { isDark } = store;
 
-  const key = `${keyPrefix}_${value}`;
+  // const key = `${keyPrefix}_${value}`;
 
   const isSelected: boolean =
     // @ts-ignore
@@ -41,9 +42,9 @@ const TimePickerUnit = (props: TimePickerUnitProps) => {
 
   return (
     <ButtonBase
-      key={key}
+      key={id}
       isDark={isDark}
-      id={key}
+      id={id}
       onClick={onClick}
       className={parseCssDark(
         `TimePickerUnit${isSelected ? '-selected' : ''}`,
