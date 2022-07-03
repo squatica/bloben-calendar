@@ -1,4 +1,12 @@
 import {
+  AddAlarmData,
+  AppAlarm,
+  addAlarm,
+  createToast,
+  removeAlarm,
+  updateAlarm,
+} from '../../../utils/common';
+import {
   Button,
   Center,
   FormControl,
@@ -14,8 +22,8 @@ import {
 import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
-import { createToast } from '../../../utils/common';
 import { map } from 'lodash';
+import Alarms from '../../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import ChakraInput from '../../chakraCustom/ChakraInput';
 import ModalNew from 'components/modalNew/ModalNew';
 import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
@@ -65,6 +73,17 @@ const WebcalModal = (props: WebcalModalProps) => {
       setLocalState('userMailto', webcalCalendar.userMailto);
     }
   }, []);
+
+  const addAlarmEvent = (item: AddAlarmData) => {
+    addAlarm(item, setLocalState, alarms);
+  };
+
+  const removeAlarmEvent = (item: AppAlarm) => {
+    removeAlarm(item, setLocalState, alarms);
+  };
+  const updateAlarmEvent = (item: AppAlarm) => {
+    updateAlarm(item, setLocalState, alarms);
+  };
 
   const addWebcalCalendar = async () => {
     if (syncFrequency < 1) {
@@ -200,14 +219,13 @@ const WebcalModal = (props: WebcalModalProps) => {
             <InputRightAddon>hours</InputRightAddon>
           </InputGroup>
         </FormControl>
-        {/*DISABLED*/}
-        {/*<Separator height={25} />*/}
-        {/*<Alarms*/}
-        {/*  alarms={alarms}*/}
-        {/*  addAlarm={addAlarmEvent}*/}
-        {/*  removeAlarm={removeAlarmEvent}*/}
-        {/*  updateAlarm={updateAlarmEvent}*/}
-        {/*/>*/}
+        <Separator height={25} />
+        <Alarms
+          alarms={alarms}
+          addAlarm={addAlarmEvent}
+          removeAlarm={removeAlarmEvent}
+          updateAlarm={updateAlarmEvent}
+        />
         <Separator height={18} />
         <FormLabel htmlFor="name">Your email in webcal (optional)</FormLabel>
         <ChakraInput
