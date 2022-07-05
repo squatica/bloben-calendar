@@ -55,6 +55,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../repeatEventModal/RepeatEventModal';
+import SearchModal from '../searchModal/SearchModal';
 import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
 
 const parseHourHeight = (hourHeightSetting: number): number => {
@@ -109,6 +110,7 @@ const Calendar = () => {
   const [currentE, setCurrentE] = useState<any>(null);
   const [toastIsLoading, setToastIsLoading] = useState(false);
   const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
+  const [searchModalOpen, openSearchModal] = useState(false);
 
   const kalendState: any = useRef({});
 
@@ -312,6 +314,24 @@ const Calendar = () => {
 
   const width = useWidth();
 
+  const handleSearchClick = async (
+    id: string,
+    type: EVENT_TYPE,
+    isDark: boolean
+  ) => {
+    try {
+      const response = await EventsApi.getEvent(id, type, isDark);
+
+      if (response.data) {
+        handleEventClick(response.data as unknown as CalendarEvent, null);
+      }
+    } catch (e: any) {
+      toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+    }
+
+    openSearchModal(false);
+  };
+
   return (
     <div className={'Main__content__row'}>
       {settingsLocal.drawerOpen ? <DrawerDesktop /> : null}
@@ -331,6 +351,7 @@ const Calendar = () => {
           setSelectedView={setSelectedView}
           handleRefresh={handleRefresh}
           handleOpenDrawer={handleOpenDrawer}
+          openSearchModal={() => openSearchModal(true)}
         />
         {settings.defaultView ? (
           <Kalend
@@ -431,6 +452,13 @@ const Calendar = () => {
           />
         ) : null}
       </div>
+
+      {searchModalOpen ? (
+        <SearchModal
+          handleClose={() => openSearchModal(false)}
+          handleClick={handleSearchClick}
+        />
+      ) : null}
     </div>
   );
 };

@@ -28,6 +28,7 @@ import PersonIcon from '../eva-icons/person';
 import React, { useContext, useState } from 'react';
 import RedCircle from '../redCircle/RedCircle';
 import RefreshIcon from '../eva-icons/refresh';
+import SearchIcon from '../eva-icons/search';
 import Separator from '../separator/Separator';
 import SettingsIcon from '../eva-icons/settings';
 import UserApi from '../../api/UserApi';
@@ -39,6 +40,7 @@ interface CalendarHeaderProps {
   selectedView: any;
   handleRefresh: any;
   handleOpenDrawer: any;
+  openSearchModal: any;
 }
 
 const CalendarHeader = (props: CalendarHeaderProps) => {
@@ -57,6 +59,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     selectedView,
     handleRefresh,
     handleOpenDrawer,
+    openSearchModal,
   } = props;
 
   const [versionModalOpen, openVersionModal] = useState(false);
@@ -192,6 +195,21 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
             <Spacer />
           </Center>
           <Flex>
+            <Separator width={20} height={0} />
+            <IconButton
+              _focus={{ boxShadow: 'none' }}
+              variant={'ghost'}
+              aria-label="Search"
+              icon={
+                <SearchIcon
+                  className={parseCssDark('HeaderModal__icon', store.isDark)}
+                />
+              }
+              isRound
+              // size={"sm"}
+              autoFocus={false}
+              onClick={() => openSearchModal(true)}
+            />
             <Separator width={20} height={0} />
             {isSyncing ? (
               <Spinner color="red.500" />

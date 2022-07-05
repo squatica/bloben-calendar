@@ -1,5 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { GetEventResponse } from '../bloben-interface/event/event';
+import { EVENT_TYPE } from '../bloben-interface/enums';
+import {
+  GetEventResponse,
+  SearchEventsResponse,
+} from '../bloben-interface/event/event';
 import Axios from '../lib/Axios';
 
 export default {
@@ -18,5 +22,17 @@ export default {
     isDark?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
     return Axios.get(`/v1/events?isDark=${isDark || false}`);
+  },
+  searchEvents: async (
+    summary: string
+  ): Promise<AxiosResponse<SearchEventsResponse[]>> => {
+    return Axios.get(`/v1/events/search?summary=${summary}`);
+  },
+  getEvent: async (
+    id: string,
+    type: EVENT_TYPE,
+    isDark: boolean
+  ): Promise<AxiosResponse<GetEventResponse>> => {
+    return Axios.get(`/v1/events/${id}?type=${type}&isDark=${isDark}`);
   },
 };
