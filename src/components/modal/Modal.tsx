@@ -19,7 +19,8 @@ const Modal = (props: ModalProps) => {
   const [layout, setLayout] = useState<any>({ x: null, y: null });
 
   useEffect(() => {
-    const { x, y } = e.nativeEvent;
+    const x = e?.nativeEvent?.x;
+    const y = e?.nativeEvent?.y;
 
     setLayout({ x, y });
     setVisible(true);
@@ -28,8 +29,8 @@ const Modal = (props: ModalProps) => {
   const getStyle = () => {
     if (layout.x) {
       return {
-        left: layout.x,
-        top: layout.y,
+        left: layout.x || '40%',
+        top: layout.y || '30%',
         maxWidth: '50%',
         maxHeight: props.maxHeight || '60%',
         minWidth: 300,
@@ -87,6 +88,27 @@ const Modal = (props: ModalProps) => {
           style={style}
         >
           {props.children}
+        </div>
+      ) : null}
+
+      {!e ? (
+        <div className={'Modal__container-wrapper-fixed'}>
+          <div
+            className={parseCssDark('Modal__container', store.isDark)}
+            onClick={preventDefault}
+            id="Modal__container"
+            style={{
+              maxWidth: '50%',
+              maxHeight: props.maxHeight || '60%',
+              minWidth: 300,
+              height: 'auto',
+              width: props.width ? props.width : 'auto',
+              overflowX: 'hidden',
+              overflowY: noOverflow ? 'hidden' : 'auto',
+            }}
+          >
+            {props.children}
+          </div>
         </div>
       ) : null}
     </div>
