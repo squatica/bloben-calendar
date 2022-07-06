@@ -1,0 +1,59 @@
+@import '~styles/colors.scss';
+
+.SearchModal__wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(128, 128, 128, 0.29);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  //overflow-y: scroll;
+  //overflow-x: hidden;
+
+  &-dark {
+    @extend .SearchModal__wrapper;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.SearchModal__header {
+  width: 100vw;
+  height: 60px;
+  background: $SURFACE_LIGHT;
+  margin: 0 auto;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+
+  &-dark {
+    @extend .SearchModal__header;
+    background-color: $GRAY_900;
+  }
+}
+
+.SearchModal__input {
+  margin: 0 auto;
+  width: 750px;
+}
+
+.SearchModal__container {
+  background: $SURFACE_LIGHT;
+  padding: 16px 24px 16px 24px;
+  border-radius: 8px;
+  margin: 0 auto;
+  width: 750px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  max-height: 70%;
+
+  &-dark {
+    @extend .SearchModal__container;
+    background-color: $GRAY_900;
+  }
+}

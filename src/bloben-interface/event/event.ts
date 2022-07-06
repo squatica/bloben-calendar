@@ -205,10 +205,10 @@ export interface EventResult {
   color: string;
   calendarID: string;
   props?: EventResultProps;
-  attendees?: Attendee[];
+  attendees?: Attendee[] | null;
   exdates?: any[];
   valarms?: any[];
-  organizer?: Organizer;
+  organizer?: Organizer | null;
   recurrenceID?: any;
   createdAt: string;
   updatedAt: string;
@@ -219,4 +219,13 @@ export interface UpdatePartstatStatusRequest {
   status: ATTENDEE_PARTSTAT;
   sendInvite?: boolean;
   inviteMessage?: string;
+}
+
+export interface SearchEventsResponse {
+  id: string;
+  summary: string;
+  startAt: string;
+  endAt: string;
+  timezoneStartAt: string | null;
+  type: EVENT_TYPE;
 }
