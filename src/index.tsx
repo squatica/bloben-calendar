@@ -20,7 +20,7 @@ window.env = {};
 
 const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const root = createRoot(container!);
+const root = createRoot(container! as HTMLElement);
 
 // disable strict mode because of rerenders
 root.render(

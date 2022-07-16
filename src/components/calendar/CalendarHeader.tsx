@@ -41,6 +41,7 @@ interface CalendarHeaderProps {
   handleRefresh: any;
   handleOpenDrawer: any;
   openSearchModal: any;
+  isPublic?: boolean;
 }
 
 const CalendarHeader = (props: CalendarHeaderProps) => {
@@ -60,6 +61,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     handleRefresh,
     handleOpenDrawer,
     openSearchModal,
+    isPublic,
   } = props;
 
   const [versionModalOpen, openVersionModal] = useState(false);
@@ -100,19 +102,21 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     >
       {!isMobile ? (
         <Flex direction={'row'} justifyContent={'center'}>
-          <IconButton
-            variant={'ghost'}
-            aria-label="Drawer"
-            icon={
-              <MenuIcon
-                className={parseCssDark('HeaderModal__icon', store.isDark)}
-              />
-            }
-            isRound
-            autoFocus={false}
-            onClick={handleOpenDrawer}
-            style={{ marginLeft: 18 }}
-          />
+          {!isPublic ? (
+            <IconButton
+              variant={'ghost'}
+              aria-label="Drawer"
+              icon={
+                <MenuIcon
+                  className={parseCssDark('HeaderModal__icon', store.isDark)}
+                />
+              }
+              isRound
+              autoFocus={false}
+              onClick={handleOpenDrawer}
+              style={{ marginLeft: 18 }}
+            />
+          ) : null}
           <Center margin={'0 auto'}>
             <Stack
               spacing={0}
@@ -231,13 +235,10 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
             )}
             <Separator width={20} height={0} />
             <div style={{ position: 'relative' }}>
-              <Menu closeOnSelect={true}>
-                <MenuButton
-                  as={IconButton}
-                  _focus={{ boxShadow: 'none' }}
+              {isPublic ? (
+                <IconButton
                   variant={'ghost'}
                   aria-label="Settings"
-                  isRound
                   icon={
                     <SettingsIcon
                       className={parseCssDark(
@@ -246,71 +247,93 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       )}
                     />
                   }
-                  fontSize={14}
-                  style={{ position: 'relative' }}
+                  isRound
+                  autoFocus={false}
+                  onClick={handleOpenSettings}
+                  // style={{ marginLeft: 18 }}
                 />
-                <MenuList zIndex={9991}>
-                  <MenuItem
-                    as={Button}
+              ) : (
+                <Menu closeOnSelect={true}>
+                  <MenuButton
+                    as={IconButton}
                     _focus={{ boxShadow: 'none' }}
-                    leftIcon={
+                    variant={'ghost'}
+                    aria-label="Settings"
+                    isRound
+                    icon={
                       <SettingsIcon
                         className={parseCssDark(
-                          'SettingsMenu__icon',
+                          'HeaderModal__icon',
                           store.isDark
                         )}
                       />
                     }
-                    variant={'ghost'}
-                    onClick={handleOpenSettings}
-                    isFullWidth={true}
-                    justifyContent={'flex-start'}
                     fontSize={14}
-                  >
-                    Settings
-                  </MenuItem>
-                  {hasNewVersion ? (
+                    style={{ position: 'relative' }}
+                  />
+                  <MenuList zIndex={9991}>
                     <MenuItem
                       as={Button}
                       _focus={{ boxShadow: 'none' }}
                       leftIcon={
-                        <CircleFill
+                        <SettingsIcon
                           className={parseCssDark(
-                            'SettingsMenu__icon-red',
+                            'SettingsMenu__icon',
                             store.isDark
                           )}
                         />
                       }
                       variant={'ghost'}
-                      onClick={() => openVersionModal(true)}
+                      onClick={handleOpenSettings}
                       isFullWidth={true}
                       justifyContent={'flex-start'}
                       fontSize={14}
                     >
-                      New version
+                      Settings
                     </MenuItem>
-                  ) : null}
-                  <MenuItem
-                    as={Button}
-                    _focus={{ boxShadow: 'none' }}
-                    leftIcon={
-                      <PersonIcon
-                        className={parseCssDark(
-                          'SettingsMenu__icon',
-                          store.isDark
-                        )}
-                      />
-                    }
-                    variant={'ghost'}
-                    onClick={handleLogout}
-                    isFullWidth={true}
-                    justifyContent={'flex-start'}
-                    fontSize={14}
-                  >
-                    Logout
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+                    {hasNewVersion ? (
+                      <MenuItem
+                        as={Button}
+                        _focus={{ boxShadow: 'none' }}
+                        leftIcon={
+                          <CircleFill
+                            className={parseCssDark(
+                              'SettingsMenu__icon-red',
+                              store.isDark
+                            )}
+                          />
+                        }
+                        variant={'ghost'}
+                        onClick={() => openVersionModal(true)}
+                        isFullWidth={true}
+                        justifyContent={'flex-start'}
+                        fontSize={14}
+                      >
+                        New version
+                      </MenuItem>
+                    ) : null}
+                    <MenuItem
+                      as={Button}
+                      _focus={{ boxShadow: 'none' }}
+                      leftIcon={
+                        <PersonIcon
+                          className={parseCssDark(
+                            'SettingsMenu__icon',
+                            store.isDark
+                          )}
+                        />
+                      }
+                      variant={'ghost'}
+                      onClick={handleLogout}
+                      isFullWidth={true}
+                      justifyContent={'flex-start'}
+                      fontSize={14}
+                    >
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              )}
               {hasNewVersion ? <RedCircle /> : null}
             </div>
           </Flex>

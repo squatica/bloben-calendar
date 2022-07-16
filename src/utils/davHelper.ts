@@ -2,11 +2,11 @@ import { CALDAV_OBJ_TYPE } from '../types/enums';
 import { CalDavQueryResult, QueryRange } from '../types/interface';
 import { DAVCalendarObject } from 'tsdav';
 import { DateTime } from 'luxon';
+import { RRule } from 'rrule';
 import { cloneDeep, forEach } from 'lodash';
 import { v4 } from 'uuid';
 import ICalParser, { EventJSON } from 'ical-js-parser';
 import LuxonHelper from './LuxonHelper';
-import RRule from 'rrule';
 
 export const parseUntilRRuleValue = (rRule: string): string => {
   const indexOfUntil: number = rRule.indexOf('UNTIL=');

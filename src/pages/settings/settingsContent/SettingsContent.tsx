@@ -9,6 +9,7 @@ import GeneralSettings from '../settingsParts/GeneralSettings';
 import HelpSettings from '../settingsParts/HelpSettings';
 import React from 'react';
 import ResetSettings from '../settingsParts/ResetSettings';
+import SharedCalendarsSettings from '../settingsParts/SharedCalendarsSettings';
 
 interface SettingsContentProps {
   selected: string;
@@ -20,6 +21,9 @@ const SettingsContent = (props: SettingsContentProps) => {
       {selected === SETTINGS_PATHS.GENERAL ? <GeneralSettings /> : null}
       {selected === SETTINGS_PATHS.ACCOUNTS ? <AccountSettings /> : null}
       {selected === SETTINGS_PATHS.CALENDARS ? <CalendarsSettings /> : null}
+      {selected === SETTINGS_PATHS.SHARED_CALENDARS ? (
+        <SharedCalendarsSettings />
+      ) : null}
       {selected === SETTINGS_PATHS.RESET ? <ResetSettings /> : null}
       {selected === SETTINGS_PATHS.HELP ? <HelpSettings /> : null}
       {selected === SETTINGS_PATHS.EMAIL_CONFIG ? (

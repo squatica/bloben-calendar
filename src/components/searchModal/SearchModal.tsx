@@ -8,6 +8,7 @@ import { TOAST_STATUS } from '../../types/enums';
 import { createToast, formatEventDate, parseCssDark } from '../../utils/common';
 import ChakraInput from '../chakraCustom/ChakraInput';
 import EventsApi from '../../api/EventsApi';
+import PublicApi from '../../api/PublicApi';
 
 interface SearchItemProps {
   item: SearchEventsResponse;
@@ -59,6 +60,7 @@ const SearchItem = (props: SearchItemProps) => {
 interface SearchModalProps {
   handleClose: any;
   handleClick: any;
+  sharedCalendarID?: string;
 }
 const SearchModal = (props: SearchModalProps) => {
   const toast = useToast();
@@ -68,7 +70,7 @@ const SearchModal = (props: SearchModalProps) => {
   const [store] = useContext(Context);
   const { isDark } = store;
 
-  const { handleClose, handleClick } = props;
+  const { handleClose, handleClick, sharedCalendarID } = props;
 
   const onChange = (e: any) => {
     setSearchText(e.target.value);
@@ -89,7 +91,13 @@ const SearchModal = (props: SearchModalProps) => {
         return;
       }
 
-      const response = await EventsApi.searchEvents(value);
+      let response;
+
+      if (sharedCalendarID) {
+        response = await PublicApi.searchPublicEvents(sharedCalendarID, value);
+      } else {
+        response = await EventsApi.searchEvents(value);
+      }
 
       if (response?.data?.length) {
         setResults(response.data);
