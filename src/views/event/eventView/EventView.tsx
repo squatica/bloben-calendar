@@ -72,6 +72,7 @@ interface EventViewProps {
   handleClose: any;
   openEditEventModal: any;
   currentE: any;
+  disabledEdit?: boolean;
 }
 
 const EventView = (props: EventViewProps) => {
@@ -82,7 +83,7 @@ const EventView = (props: EventViewProps) => {
     dispatchContext({ type, payload });
   };
 
-  const { handleClose, openEditEventModal, currentE } = props;
+  const { handleClose, openEditEventModal, currentE, disabledEdit } = props;
 
   const { isDark, isMobile } = store;
 
@@ -306,7 +307,7 @@ const EventView = (props: EventViewProps) => {
       event.id ? (
         <Modal e={currentE} handleClose={handleClose} maxHeight={'42%'}>
           <>
-            {event.type === EVENT_TYPE.CALDAV ? (
+            {event.type === EVENT_TYPE.CALDAV && !disabledEdit ? (
               <HeaderModal
                 isMobile={isMobile}
                 isDark={isDark}

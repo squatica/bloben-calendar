@@ -7,9 +7,27 @@ import { SETTINGS_PATHS } from '../../types/enums';
 import { parseCssDark } from '../../utils/common';
 import ModalNew from '../../components/modalNew/ModalNew';
 import SettingsContent from './settingsContent/SettingsContent';
+import SettingsContentPublic from './settingsContent/SettingsContentPublic';
 import SettingsMenu from './settingsMenu/SettingsMenu';
+import SettingsMenuPublic from './settingsMenu/SettingsMenuPublic';
 
-const Settings = () => {
+const getInitialSettingsPath = (isMobile: boolean, isPublic?: boolean) => {
+  if (isMobile) {
+    return '';
+  }
+
+  if (isPublic) {
+    return SETTINGS_PATHS.GENERAL;
+  }
+
+  return SETTINGS_PATHS.ABOUT;
+};
+
+interface SettingsProps {
+  isPublic?: boolean;
+}
+const Settings = (props: SettingsProps) => {
+  const { isPublic } = props;
   const [store, dispatchContext] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
@@ -17,30 +35,10 @@ const Settings = () => {
   const { isMobile } = store;
 
   const [selected, setSelected] = useState(
-    isMobile ? '' : SETTINGS_PATHS.ACCOUNTS
+    getInitialSettingsPath(isMobile, isPublic)
   );
 
   const handleClose = () => setContext('settingsOpen', false);
-  // const [height, setHeight] = useState(0);
-
-  // useEffect(() => {
-  //   const element = document.querySelector('.chakra-modal__body');
-  //   if (element) {
-  //     const rect = element.getBoundingClientRect();
-  //     setHeight(rect.height - 8);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const element = document.querySelector('.chakra-modal__body');
-  //   if (element) {
-  //     const rect = element.getBoundingClientRect();
-  //     setHeight(rect.height - 8);
-  //   }
-  // }, [
-  //   document.querySelector('.chakra-modal__content')?.getBoundingClientRect()
-  //     .height,
-  // ]);
 
   return isMobile ? (
     <Flex>
@@ -62,8 +60,16 @@ const Settings = () => {
     <ModalNew handleClose={handleClose} className={'SettingsModal'}>
       <div className={parseCssDark('Settings__wrapper', store.isDark)}>
         <div className={'Settings__content__row'}>
-          <SettingsMenu setSelected={setSelected} selected={selected} />
-          <SettingsContent selected={selected} />
+          {isPublic ? (
+            <SettingsMenuPublic setSelected={setSelected} selected={selected} />
+          ) : (
+            <SettingsMenu setSelected={setSelected} selected={selected} />
+          )}
+          {isPublic ? (
+            <SettingsContentPublic selected={selected} />
+          ) : (
+            <SettingsContent selected={selected} />
+          )}
         </div>
       </div>
     </ModalNew>

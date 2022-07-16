@@ -1,11 +1,11 @@
 import { CalDavEvent } from '../types/interface';
 import { DateTime } from 'luxon';
 import { OnPageChangeData } from 'kalend';
+import { RRule } from 'rrule';
 import { cloneDeep, forEach } from 'lodash';
 import { getLocalTimezone } from './common';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
-import RRule from 'rrule';
 
 const formatIsoDateToRRuleDate = (date: string) => {
   let result = '';

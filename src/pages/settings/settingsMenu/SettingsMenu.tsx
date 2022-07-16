@@ -6,18 +6,19 @@ import { SETTINGS_PATHS } from '../../../types/enums';
 import { parseCssDark } from 'utils/common';
 import CalendarIcon from '../../../components/eva-icons/calendar';
 import Email from '../../../components/eva-icons/email';
+import PersonAddIcon from '../../../components/eva-icons/person-add';
 import PersonIcon from '../../../components/eva-icons/person';
 import React, { useContext } from 'react';
 import SettingsIcon from '../../../components/eva-icons/settings';
 
-interface SettingsButtonProps {
+export interface SettingsButtonProps {
   onClick: any;
   icon: any;
   text: string;
   path: SETTINGS_PATHS;
   selected: string;
 }
-const SettingsButton = (props: SettingsButtonProps) => {
+export const SettingsButton = (props: SettingsButtonProps) => {
   return (
     <Button
       _focus={{ boxShadow: 'none' }}
@@ -78,6 +79,19 @@ const SettingsMenu = (props: SettingsMenuProps) => {
         />
         <SettingsButton
           selected={selected}
+          path={SETTINGS_PATHS.SHARED_CALENDARS}
+          onClick={() => {
+            setSelected(SETTINGS_PATHS.SHARED_CALENDARS);
+          }}
+          text={'Shared Calendars'}
+          icon={
+            <PersonAddIcon
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
+        />
+        <SettingsButton
+          selected={selected}
           path={SETTINGS_PATHS.GENERAL}
           onClick={() => {
             setSelected(SETTINGS_PATHS.GENERAL);
@@ -102,15 +116,6 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             />
           }
         />
-        {/*<SettingsButton*/}
-        {/*  selected={selected}*/}
-        {/*  path={SETTINGS_PATHS.RESET}*/}
-        {/*  onClick={() => {*/}
-        {/*    setSelected(SETTINGS_PATHS.RESET);*/}
-        {/*  }}*/}
-        {/*  text={"Reset"}*/}
-        {/*  icon={<EvaIcons.Trash className={"SettingsMenu__icon"} />}*/}
-        {/*/>*/}
         <SettingsButton
           selected={selected}
           path={SETTINGS_PATHS.HELP}
@@ -150,11 +155,6 @@ const SettingsMenu = (props: SettingsMenuProps) => {
             />
           }
         />
-        {/*<SettingsButton*/}
-        {/*  onClick={() => {}}*/}
-        {/*  text={'Syncing'}*/}
-        {/*  icon={<Sync className={'SettingsMenu__icon'} />}*/}
-        {/*/>*/}
       </Stack>
     </div>
   );
