@@ -42,8 +42,9 @@ export default {
     return Axios.delete(`/v1/calendars/shared/${id}`);
   },
   postInvite: async (
+    id: string,
     data: PostSendSharedCalendarInviteRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.post(`/v1/calendars/shared/invite`, data);
+    return Axios.post(`/v1/calendars/shared/${id}/invite`, data);
   },
 };

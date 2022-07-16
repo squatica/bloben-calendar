@@ -18,11 +18,12 @@ import Separator from '../separator/Separator';
 
 interface EmailModalModalProps {
   handleClose: any;
-  handleSend: (text: string, recipients: string[]) => void;
+  handleSend: (id: string, text: string, recipients: string[]) => void;
   initialText?: string;
+  id: string;
 }
 const EmailModal = (props: EmailModalModalProps) => {
-  const { handleClose, initialText, handleSend } = props;
+  const { handleClose, initialText, handleSend, id } = props;
   const [text, setText] = useState<string>('');
   const [recipients, setRecipients] = useState<string[]>([]);
   const [recipient, setRecipient] = useState<string>('');
@@ -34,7 +35,7 @@ const EmailModal = (props: EmailModalModalProps) => {
   }, []);
 
   const handleClick = async () => {
-    await handleSend(text, recipients);
+    await handleSend(id, text, recipients);
   };
 
   const handleAddRecipient = () => {
