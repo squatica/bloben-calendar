@@ -7,7 +7,7 @@ import React from 'react';
 const RouterProvider = () => {
   return (
     <Routes>
-      <Route path={'/calendar/public/:id'} element={<Public />} />
+      <Route path={'/calendar/public'} element={<Public />} />
       <Route path={'/calendar/404'} element={<NotFoundPage />} />
       <Route path={'/calendar'} element={<AuthProvider />} />
     </Routes>

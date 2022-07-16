@@ -31,7 +31,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 import ShareCalendarModal from '../../../components/shareCalendarsModal/ShareCalendarModal';
 
-const formatSharableLink = (id: string) => `${window.location}/public/${id}`;
+const formatSharableLink = (id: string) => {
+  let basePath = window.location.toString();
+
+  if (basePath[basePath.length - 1] === '/') {
+    basePath = basePath.slice(0, basePath.length - 1);
+  }
+
+  return `${basePath}/public?id=${id}`;
+};
 
 const SharedCalendarItem = (props: {
   item: GetSharedCalendarsResponse;

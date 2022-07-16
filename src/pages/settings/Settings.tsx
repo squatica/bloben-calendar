@@ -17,10 +17,10 @@ const getInitialSettingsPath = (isMobile: boolean, isPublic?: boolean) => {
   }
 
   if (isPublic) {
-    return SETTINGS_PATHS.GENERAL;
+    return SETTINGS_PATHS.ABOUT;
   }
 
-  return SETTINGS_PATHS.ABOUT;
+  return SETTINGS_PATHS.ACCOUNTS;
 };
 
 interface SettingsProps {

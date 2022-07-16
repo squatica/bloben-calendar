@@ -1,29 +1,39 @@
-/* eslint-disable */
-import PublicApi from '../api/PublicApi';
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Context } from '../context/store';
-import PublicCalendar from '../components/publicCalendar/PublicCalendar';
 import { CalDavEvent } from '../types/interface';
+import { Context } from '../context/store';
+import { GetSharedLinkPublicResponse } from '../bloben-interface/public/SharedLinkPublic';
 import { getHostname } from '../utils/common';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NotFoundPage from './NotFound';
-import { GetSharedLinkPublicResponse } from '../bloben-interface/public/SharedLinkPublic';
+import PublicApi from '../api/PublicApi';
+import PublicCalendar from '../components/publicCalendar/PublicCalendar';
+
+const getQueryID = () => {
+  const query = new URLSearchParams(window.location.search);
+
+  return query.get('id');
+};
 
 const Public = () => {
   const navigate = useNavigate();
-  const [store, dispatch] = useContext(Context);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_store, dispatch] = useContext(Context);
 
   const [events, setEvents] = useState<CalDavEvent[]>([]);
   const [settings, setSettings] = useState<GetSharedLinkPublicResponse | null>(
     null
   );
+  const [id, setID] = useState<null | string>(null);
 
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const params = useParams();
+  useEffect(() => {
+    const id = getQueryID();
+
+    setID(id);
+  }, []);
 
   const init = () => {
     const apiUrl = `${getHostname()}/api`;
@@ -34,16 +44,18 @@ const Public = () => {
 
   const getCalendars = async () => {
     try {
-      if (params.id) {
+      const sharedLinkID = id || getQueryID();
+
+      if (sharedLinkID) {
         const responseSharedLink = await PublicApi.getPublicSharedLink(
-          params.id
+          sharedLinkID
         );
 
         if (responseSharedLink.data) {
           setSettings(responseSharedLink.data.settings);
         }
 
-        const response = await PublicApi.getPublicCalendars(params.id);
+        await PublicApi.getPublicCalendars(sharedLinkID);
       }
 
       setContext('isAppStarting', false);
@@ -63,9 +75,9 @@ const Public = () => {
 
   return (
     <div>
-      {params.id && settings ? (
+      {id && settings ? (
         <PublicCalendar
-          sharedID={params.id}
+          sharedID={id}
           events={events}
           setEvents={setEvents}
           settings={settings}
