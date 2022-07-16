@@ -166,9 +166,13 @@ const SharedCalendarsSettings = () => {
     setInviteModalText('');
   };
 
-  const handleSendEmailInvite = async (text: string, recipients: string[]) => {
+  const handleSendEmailInvite = async (
+    id: string,
+    text: string,
+    recipients: string[]
+  ) => {
     try {
-      const response = await CalendarSharedApi.postInvite({
+      const response = await CalendarSharedApi.postInvite(id, {
         emailBody: text,
         recipients,
       });
@@ -238,6 +242,7 @@ const SharedCalendarsSettings = () => {
           handleClose={handleCloseInviteModal}
           handleSend={handleSendEmailInvite}
           initialText={inviteModalText}
+          id={inviteModalOpen}
         />
       ) : null}
     </>
