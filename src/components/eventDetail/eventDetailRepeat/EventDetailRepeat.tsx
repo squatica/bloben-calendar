@@ -11,10 +11,10 @@ import {
 } from '@chakra-ui/react';
 import { Context } from 'context/store';
 import { EvaIcons } from 'components/eva-icons';
+import { RRule } from 'rrule';
 import { repeatOptions } from './EventDetailRepeatUtils';
 import ChakraModal from '../../chakraCustom/ChakraModal';
 import FormIcon from '../../formIcon/FormIcon';
-import RRule from 'rrule';
 import RRuleCustom from '../../rRuleCustom/RRuleCustom';
 
 interface RepeatSelectedValueProps {

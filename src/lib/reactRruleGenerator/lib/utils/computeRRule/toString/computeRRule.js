@@ -1,4 +1,4 @@
-import RRule from 'rrule';
+import { RRule } from 'rrule';
 
 import computeEnd from './computeEnd';
 import computeOptions from './computeOptions';
