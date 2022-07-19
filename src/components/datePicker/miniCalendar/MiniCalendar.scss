@@ -20,3 +20,16 @@
   align-items: center;
   flex-direction: column;
 }
+
+.MiniCalendarHeader-weekdays__row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.MiniCalendarHeader-weekdays__col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: auto;
+}
