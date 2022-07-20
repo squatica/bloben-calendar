@@ -1,14 +1,14 @@
 import { Context } from '../context/store';
-import { Route, Routes } from 'react-router-dom';
 import { getHostname, parseCssDark } from '../utils/common';
 import { setUser } from '../redux/actions';
 import { useDispatch } from 'react-redux';
+import AppRouter from '../pages/Router';
 import GeneralApi from '../api/GeneralApi';
 import Login from 'pages/login/Login';
 import React, { useContext, useEffect } from 'react';
 import UserApi from '../api/UserApi';
 
-const AuthProvider = (props: any) => {
+const AuthProvider = () => {
   const reduxDispatch = useDispatch();
   const [store, dispatch] = useContext(Context);
   const { isLogged } = store;
@@ -34,8 +34,12 @@ const AuthProvider = (props: any) => {
       setContext('isLogged', false);
       setContext('isAppStarting', false);
 
+      const apiUrl = `${getHostname()}/api`;
+
+      window.localStorage.setItem('apiUrl', apiUrl);
+      window.env.apiUrl = apiUrl;
+
       handleDemoRedirect();
-      return;
     }
 
     try {
@@ -83,12 +87,7 @@ const AuthProvider = (props: any) => {
 
   return (
     <div className={parseCssDark('Surface', store.isDark)}>
-      <Routes>
-        <Route
-          path={'/calendar'}
-          element={!isLogged ? <Login /> : props.children}
-        />
-      </Routes>
+      {!isLogged ? <Login /> : <AppRouter />}
     </div>
   );
 };

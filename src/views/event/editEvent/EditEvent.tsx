@@ -218,7 +218,11 @@ const EditEvent = (props: EditEventProps) => {
             // @ts-ignore
             setForm('alarms', map(value, parseIcalAlarmToAppAlarm));
           } else if (value) {
-            setForm(key, value);
+            if (typeof value === 'string') {
+              setForm(key, value.replaceAll('\\n', '\n'));
+            } else {
+              setForm(key, value);
+            }
           }
         }
       }

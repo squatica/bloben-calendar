@@ -1,12 +1,32 @@
 import React from 'react';
 
 import './MiniCalendar.scss';
+import { Text } from '@chakra-ui/react';
 
+import { AppSettings, ReduxState } from '../../../types/interface';
 import { DateTime } from 'luxon';
+import { useSelector } from 'react-redux';
 import MiniCalendarDay from './miniCalendarDay/MiniCalendarDay';
 import MiniCalendarHeader from './miniCalendarHeader/MiniCalendarHeader';
 
 const MIDDLE_DATE_REF = 14;
+
+const renderWeekdays = (startOnMonday: boolean) => {
+  const mondayStart = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  const sundayStart = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  return startOnMonday
+    ? mondayStart.map((day) => (
+        <div key={day} className={'MiniCalendarHeader-weekdays__col'}>
+          <Text>{day}</Text>
+        </div>
+      ))
+    : sundayStart.map((day) => (
+        <div key={day} className={'MiniCalendarHeader-weekdays__col'}>
+          <Text key={day}>{day}</Text>
+        </div>
+      ));
+};
 
 const renderDays = (
   data: any,
@@ -53,6 +73,10 @@ const MiniCalendar = (props: MiniCalendarProps) => {
     addMonth,
   } = props;
 
+  const settings: AppSettings = useSelector(
+    (state: ReduxState) => state.settings
+  );
+
   const monthDayRef: any = data[MIDDLE_DATE_REF];
 
   const miniCalendarDays: any = renderDays(
@@ -78,6 +102,9 @@ const MiniCalendar = (props: MiniCalendarProps) => {
         subOneMonth={subMonth}
         addOneMonth={addMonth}
       />
+      <div className={'MiniCalendarHeader-weekdays__row'}>
+        {renderWeekdays(settings.startOfWeek === 'Monday')}
+      </div>
       {miniCalendarDays}
     </div>
   );

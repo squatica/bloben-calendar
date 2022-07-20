@@ -1,5 +1,5 @@
+import { RRule } from 'rrule';
 import { values } from 'lodash';
-import RRule from 'rrule';
 
 const computeWeekly = ({ interval, days }) => ({
   freq: RRule.WEEKLY,

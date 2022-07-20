@@ -105,7 +105,7 @@ export const getWeekDays = (
   date: DateTime,
   weekDayStart: string
 ): DateTime[] => {
-  if (weekDayStart === 'monday') {
+  if (weekDayStart === 'Monday') {
     return calculateMondayStartWeekDay(date);
   } else {
     return calculateSundayStartWeekDay(date);
