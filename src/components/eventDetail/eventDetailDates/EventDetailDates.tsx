@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import '../EventDetail.scss';
 import './EventDetailDates.scss';
 
-import { AppSettings, ReduxState } from '../../../types/interface';
 import {
   Button,
   Checkbox,
@@ -16,7 +15,6 @@ import {
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
 import { parseToDateTime } from 'utils/datetimeParser';
-import { useSelector } from 'react-redux';
 import { useWidth } from '../../../utils/layout';
 import DatePicker from '../../datePicker/DatePicker';
 import FormIcon from '../../formIcon/FormIcon';
@@ -53,9 +51,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
     allDay,
     setForm,
   } = props;
-  const settings: AppSettings = useSelector(
-    (state: ReduxState) => state.settings
-  );
+
   const [store] = useContext(Context);
   const { isDark, isMobile } = store;
 
@@ -77,30 +73,6 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
   const pickerWidth: number = isMobile ? width - 48 : 250;
 
   const handleSetAllDay = () => {
-    if (allDay) {
-      setForm('timezoneStartAt', settings.timezone);
-      setForm('timezoneEndAt', settings.timezone);
-    }
-    setForm(
-      'startAt',
-      parseToDateTime(startDate, !allDay ? 'floating' : settings.timezone)
-        .set({
-          hour: 0,
-          minute: 0,
-          second: 0,
-        })
-        .toString()
-    );
-    setForm(
-      'endAt',
-      parseToDateTime(endDate, !allDay ? 'floating' : settings.timezone)
-        .set({
-          hour: 0,
-          minute: 0,
-          second: 0,
-        })
-        .toString()
-    );
     setForm('allDay', !allDay);
   };
 

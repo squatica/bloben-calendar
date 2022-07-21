@@ -12,6 +12,7 @@ import {
 import { debug } from '../../../utils/debug';
 import { find } from 'lodash';
 import { findItemCalendar } from './EditEvent';
+import { parseToDateTime } from '../../../utils/datetimeParser';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
 import ICalHelper, { formatIcalDate } from '../../../utils/ICalHelper';
@@ -90,8 +91,32 @@ export const initialRRulState: any = {
   text: '',
 };
 
+const handleAllDayStatus = (form: InitialForm): InitialForm => {
+  if (form.allDay) {
+    form.startAt = parseToDateTime(form.startAt, 'floating')
+      .set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+      })
+      .toString();
+    form.endAt = parseToDateTime(form.endAt, 'floating')
+      .set({
+        hour: 0,
+        minute: 0,
+        second: 0,
+      })
+      .toString();
+
+    form.timezoneStartAt = 'floating';
+    form.timezoneEndAt = 'floating';
+  }
+
+  return form;
+};
+
 export const createEvent = async (
-  form: InitialForm,
+  formInitial: InitialForm,
   isNewEvent: boolean,
   calendar?: CalDavCalendar,
   handleClose?: any,
@@ -99,6 +124,7 @@ export const createEvent = async (
   sendInvite?: boolean,
   inviteMessage?: string
 ) => {
+  const form = handleAllDayStatus(formInitial);
   const eventCalendar: CalDavCalendar =
     calendar || findItemCalendar(originalEvent);
 
