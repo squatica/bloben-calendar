@@ -23,7 +23,7 @@ const End = ({
       <FormControl>
         <FormLabel>{translateLabel(translations, 'end.label')}</FormLabel>
       </FormControl>
-      <Flex direction={'row'}>
+      <Flex direction={'row'} alignItems={'center'}>
         <Select
           size={'lg'}
           name="end.mode"
@@ -31,7 +31,8 @@ const End = ({
           className="form-control"
           value={mode}
           onChange={handleChange}
-          width={180}
+          width={150}
+          style={{ maxWidth: 150 }}
         >
           {isOptionAvailable('Never') && (
             <option value="Never">
@@ -59,12 +60,7 @@ const End = ({
           />
         )}
         {isOptionSelected('On date') && (
-          <EndOnDate
-            id={`${id}-onDate`}
-            onDate={onDate}
-            handleChange={handleChange}
-            translations={translations}
-          />
+          <EndOnDate onDate={onDate} handleChange={handleChange} />
         )}
       </Flex>
     </Flex>
@@ -85,6 +81,7 @@ End.propTypes = {
   handleChange: PropTypes.func.isRequired,
   translations: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
     .isRequired,
+  state: PropTypes.any,
 };
 
 export default End;
