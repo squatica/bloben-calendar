@@ -53,6 +53,7 @@ const ReactRRuleGenerator = (props) => {
 
   const handleChange = ({ target }) => {
     const newData = cloneDeep(state.data);
+
     set(newData, target.name, target.value);
     const rrule = computeRRuleToString(newData);
 
