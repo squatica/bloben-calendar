@@ -475,7 +475,8 @@ const EditEvent = (props: EditEventProps) => {
               handleClose,
               props.event,
               sendInvite,
-              inviteMessage
+              inviteMessage,
+              isDuplicatingEvent
             );
             setContext('syncSequence', store.syncSequence + 1);
           },
