@@ -73,6 +73,7 @@ interface EventViewProps {
   openEditEventModal: any;
   currentE: any;
   disabledEdit?: boolean;
+  openDuplicateModal?: any;
 }
 
 const EventView = (props: EventViewProps) => {
@@ -83,7 +84,13 @@ const EventView = (props: EventViewProps) => {
     dispatchContext({ type, payload });
   };
 
-  const { handleClose, openEditEventModal, currentE, disabledEdit } = props;
+  const {
+    handleClose,
+    openEditEventModal,
+    currentE,
+    disabledEdit,
+    openDuplicateModal,
+  } = props;
 
   const { isDark, isMobile } = store;
 
@@ -116,8 +123,8 @@ const EventView = (props: EventViewProps) => {
     setEvent(props.data);
   };
 
-  const handleEdit = () => {
-    openEditEventModal(event);
+  const handleEdit = (duplicateEvent?: boolean) => {
+    openEditEventModal(event, duplicateEvent);
     handleClose();
   };
 
@@ -320,6 +327,7 @@ const EventView = (props: EventViewProps) => {
                 handleDelete={
                   event.type === EVENT_TYPE.CALDAV ? deleteEvent : null
                 }
+                duplicateMultiple={() => openDuplicateModal(event)}
               />
             ) : null}
             <EventDetailTitle

@@ -5,13 +5,15 @@ import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
 import Separator from '../separator/Separator';
+import Warning from '../warning/Warning';
 
 interface SendInviteModalProps {
   handleClose: any;
   clickData: any;
+  warningText?: string;
 }
 const SendInviteModal = (props: SendInviteModalProps) => {
-  const { handleClose, clickData } = props;
+  const { handleClose, clickData, warningText } = props;
   const [text, setText] = useState<string | null>(null);
 
   const handleClick = async (sendInvite?: boolean) => {
@@ -38,6 +40,12 @@ const SendInviteModal = (props: SendInviteModalProps) => {
       }
     >
       <Flex direction={'column'} alignItems={'flex-start'}>
+        {warningText ? (
+          <>
+            <Warning text={warningText} />
+            <Separator height={16} />{' '}
+          </>
+        ) : null}
         <ChakraTextArea
           size={'md'}
           placeholder="Optional email note"

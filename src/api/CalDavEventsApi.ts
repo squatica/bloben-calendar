@@ -4,6 +4,7 @@ import {
   CreateCalDavEventRequest,
   DeleteCalDavEventRequest,
   DeleteRepeatedCalDavEventRequest,
+  DuplicateMultipleCalDavEventsBody,
   UpdateCalDavEventRequest,
   UpdatePartstatStatusRequest,
   UpdateRepeatedCalDavEventRequest,
@@ -48,5 +49,11 @@ export default {
     data: UpdatePartstatStatusRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.patch(`/v1/caldav-events/${id}`, data);
+  },
+  duplicateMultiple: async (
+    id: string,
+    data: DuplicateMultipleCalDavEventsBody
+  ): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.post(`/v1/caldav-events/${id}/duplicate`, data);
   },
 };
