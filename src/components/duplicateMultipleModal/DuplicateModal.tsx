@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { EventResult } from '../../bloben-interface/event/event';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
-import { filter } from 'lodash';
+import { filter, map } from 'lodash';
 import CalDavEventsApi from '../../api/CalDavEventsApi';
 import DatePicker from '../datePicker/DatePicker';
 import ModalNew from 'components/modalNew/ModalNew';
@@ -79,7 +79,9 @@ const DuplicateMultipleModal = (props: DuplicateMultipleModalProps) => {
 
     try {
       const response = await CalDavEventsApi.duplicateMultiple(event.id, {
-        dates: selectedDays,
+        dates: map(selectedDays, (item) =>
+          DateTime.fromISO(item).toFormat('dd-MM-yyyy')
+        ),
         sendInvite,
         inviteMessage,
       });
