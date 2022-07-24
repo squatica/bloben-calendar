@@ -55,6 +55,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
       onMouseUpCapture={onLeave}
       isLoading={props.isLoading}
       onMouseDown={onPress}
+      disabled={props.disabled}
     >
       {props.children}
     </Button>

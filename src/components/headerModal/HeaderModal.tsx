@@ -1,6 +1,14 @@
 import './HeaderModal.scss';
+import {
+  Button,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  Stack,
+  Tooltip,
+} from '@chakra-ui/react';
 import { EvaIcons } from 'components/eva-icons';
-import { IconButton, Stack } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
 import ButtonIcon from '../button/buttonIcon/ButtonIcon';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +28,7 @@ interface HeaderModalMobileProps {
   children?: any;
   style?: any;
   showBack?: boolean;
+  duplicateMultiple: any;
 }
 // tslint:disable-next-line:cyclomatic-complexity
 const HeaderModalMobile = (props: HeaderModalMobileProps) => {
@@ -36,7 +45,12 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
     children,
     style,
     showBack,
+    duplicateMultiple,
   } = props;
+
+  const handleDuplicate = () => {
+    handleEdit(true);
+  };
 
   return (
     <div
@@ -71,30 +85,84 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
             </ButtonIcon>
           ) : null}
           {onDelete ? (
-            <IconButton
-              aria-label="Delete"
-              icon={
-                <EvaIcons.Trash
-                  className={parseCssDark('HeaderModal__icon', isDark)}
-                />
-              }
-              isRound
-              size={'sm'}
-              onClick={onDelete}
-            />
+            <Tooltip label="Delete event">
+              <IconButton
+                aria-label="Delete event"
+                icon={
+                  <EvaIcons.Trash
+                    className={parseCssDark('HeaderModal__icon', isDark)}
+                  />
+                }
+                isRound
+                size={'sm'}
+                onClick={onDelete}
+              />
+            </Tooltip>
           ) : null}
           {handleEdit ? (
-            <IconButton
-              aria-label="Edit"
-              icon={
-                <EvaIcons.Edit
-                  className={parseCssDark('HeaderModal__icon', isDark)}
-                />
-              }
-              isRound
-              size={'sm'}
-              onClick={handleEdit}
-            />
+            <Tooltip label="Duplicate event">
+              <IconButton
+                aria-label="Duplicate event"
+                icon={
+                  <EvaIcons.Copy
+                    className={parseCssDark('HeaderModal__icon', isDark)}
+                  />
+                }
+                isRound
+                size={'sm'}
+                onClick={handleDuplicate}
+              />
+            </Tooltip>
+          ) : null}
+          {handleEdit ? (
+            <Tooltip label="Edit event">
+              <IconButton
+                aria-label="Edit event"
+                icon={
+                  <EvaIcons.Edit
+                    className={parseCssDark('HeaderModal__icon', isDark)}
+                  />
+                }
+                isRound
+                size={'sm'}
+                onClick={() => handleEdit(false)}
+              />
+            </Tooltip>
+          ) : null}
+          {handleEdit ? (
+            <Menu isLazy={true}>
+              <Tooltip label="More">
+                <MenuButton
+                  as={IconButton}
+                  aria-label="More"
+                  icon={
+                    <EvaIcons.More
+                      className={parseCssDark('HeaderModal__icon', isDark)}
+                    />
+                  }
+                  isRound
+                  size={'sm'}
+                ></MenuButton>
+              </Tooltip>
+              <MenuList
+                style={{
+                  maxHeight: 120,
+                  overflowX: 'hidden',
+                  overflowY: 'scroll',
+                }}
+              >
+                <Button
+                  variant={'ghost'}
+                  onClick={duplicateMultiple}
+                  isFullWidth={true}
+                  style={{
+                    justifyContent: 'flex-start',
+                  }}
+                >
+                  Duplicate multiple
+                </Button>
+              </MenuList>
+            </Menu>
           ) : null}
           {icons ? <Icons icons={icons} /> : null}
         </Stack>
@@ -122,6 +190,7 @@ interface HeaderModalProps {
   style?: any;
   childrenStyle?: any;
   showBack?: boolean;
+  duplicateMultiple: any;
 }
 const HeaderModal = (props: HeaderModalProps) => {
   const {
@@ -138,6 +207,7 @@ const HeaderModal = (props: HeaderModalProps) => {
     style,
     childrenStyle,
     showBack,
+    duplicateMultiple,
   } = props;
 
   const [animation, setAnimation] = useState('');
@@ -169,6 +239,7 @@ const HeaderModal = (props: HeaderModalProps) => {
         isDark={isDark}
         style={childrenStyle}
         showBack={showBack}
+        duplicateMultiple={duplicateMultiple}
       >
         {children}
       </HeaderModalMobile>

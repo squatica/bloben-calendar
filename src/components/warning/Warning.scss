@@ -1,0 +1,29 @@
+@import '~styles/colors.scss';
+
+.Warning-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  flex-direction: row;
+  padding: 4px 6px 4px 6px;
+  border: solid 1px $GRAY_400;
+  border-radius: 8px;
+  &-dark {
+    @extend .Warning-container;
+    border: solid 1px $GRAY_300;
+  }
+}
+
+.Warning-Icon {
+  height:25px;
+  width: 25px;
+  fill: #ecca26;
+  margin-right: 16px;
+
+  &-dark {
+    @extend .Warning-Icon;
+    fill: #f8df6e;
+  }
+}

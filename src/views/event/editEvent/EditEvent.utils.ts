@@ -122,14 +122,17 @@ export const createEvent = async (
   handleClose?: any,
   originalEvent?: any,
   sendInvite?: boolean,
-  inviteMessage?: string
+  inviteMessage?: string,
+  isDuplicatingEvent?: boolean
 ) => {
   const form = handleAllDayStatus(formInitial);
   const eventCalendar: CalDavCalendar =
     calendar || findItemCalendar(originalEvent);
 
   const calendarChanged: boolean =
-    !isNewEvent && originalEvent?.calendarID !== eventCalendar.id;
+    !isNewEvent &&
+    !isDuplicatingEvent &&
+    originalEvent?.calendarID !== eventCalendar.id;
 
   // add organizer as attendee
   if (form.attendees.length && form.organizer) {
@@ -154,7 +157,10 @@ export const createEvent = async (
   }
 
   // use issued id or create for new event
-  const newEventExternalID: string = originalEvent?.externalID || v4();
+  const newEventExternalID: string =
+    originalEvent?.externalID && !isDuplicatingEvent
+      ? originalEvent.externalID
+      : v4();
 
   const iCalString: string = new ICalHelper({
     ...form,
@@ -163,7 +169,7 @@ export const createEvent = async (
 
   debug(iCalString);
 
-  if (isNewEvent) {
+  if (isNewEvent || isDuplicatingEvent) {
     await CalDavEventsApi.createEvent({
       calendarID: eventCalendar.id,
       iCalString,
