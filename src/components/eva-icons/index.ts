@@ -32,6 +32,7 @@ import ChevronLeft from './chevron-left';
 import ChevronRight from './chevron-right';
 import CircleFill from './circle-fill';
 import Clock from './clock';
+import Copy from './copy';
 import Cross from './cross';
 import CrossCircle from './crossCircle';
 import Document from './document';
@@ -138,4 +139,5 @@ export const EvaIcons = {
   Lock,
   RadioOn,
   RadioOff,
+  Copy,
 };

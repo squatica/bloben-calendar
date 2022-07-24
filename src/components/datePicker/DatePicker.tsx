@@ -18,13 +18,14 @@ interface DatePickerViewProps {
   width: number;
   sideMargin: number;
   selectDate: any;
-  selectedDate: string;
+  selectedDate: string | null;
   selectedDatePicker: string;
   initDatesPicker: any;
   addMonth: any;
   subMonth: any;
   handleScroll: any;
   withInput?: boolean;
+  selectedDates?: string[];
 }
 const DatePickerView = (props: DatePickerViewProps) => {
   const {
@@ -40,6 +41,7 @@ const DatePickerView = (props: DatePickerViewProps) => {
     subMonth,
     keyPrefix,
     withInput,
+    selectedDates,
   } = props;
 
   return (
@@ -50,7 +52,7 @@ const DatePickerView = (props: DatePickerViewProps) => {
     >
       {withInput ? (
         <DateInput
-          selectedDate={selectedDate}
+          selectedDate={selectedDate || DateTime.now().toString()}
           selectDate={selectDate}
           initDatesPicker={initDatesPicker}
           sideMargin={sideMargin}
@@ -67,6 +69,7 @@ const DatePickerView = (props: DatePickerViewProps) => {
         keyPrefix={keyPrefix}
         addMonth={addMonth}
         subMonth={subMonth}
+        selectedDates={selectedDates}
       />
     </div>
   );
@@ -78,18 +81,26 @@ interface DatePickerProps {
   width: number;
   sideMargin: number;
   selectDate: any;
-  selectedDate: string;
+  selectedDate: string | null;
   handleScroll?: any;
   height?: number;
   withInput?: boolean;
+  selectedDates?: string[];
 }
 const DatePicker = (props: DatePickerProps) => {
   const settings: AppSettings = useSelector(
     (state: ReduxState) => state.settings
   );
 
-  const { selectDate, withInput, selectedDate, width, sideMargin, keyPrefix } =
-    props;
+  const {
+    selectDate,
+    withInput,
+    selectedDate,
+    width,
+    sideMargin,
+    keyPrefix,
+    selectedDates,
+  } = props;
   const widthFromHook: number = useWidth();
 
   const [selectedDatePicker, setSelectedDatePicker]: any = useState(null);
@@ -159,6 +170,7 @@ const DatePicker = (props: DatePickerProps) => {
       addMonth={addOneMonth}
       subMonth={subOneMonth}
       withInput={withInput}
+      selectedDates={selectedDates}
     />
   ) : null;
 };

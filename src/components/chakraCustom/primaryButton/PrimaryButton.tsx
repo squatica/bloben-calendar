@@ -68,6 +68,7 @@ const PrimaryButton = (props: PrimaryButtonProps) => {
       hoverStyleCustom={hoverStyle}
       pressAnimate={true}
       isLoading={props.isLoading}
+      disabled={props.disabled}
     >
       {props.children}
     </ButtonBase>
