@@ -5,6 +5,7 @@ import { Text } from '@chakra-ui/react';
 
 import { AppSettings, ReduxState } from '../../../types/interface';
 import { DateTime } from 'luxon';
+import { find } from 'lodash';
 import { useSelector } from 'react-redux';
 import MiniCalendarDay from './miniCalendarDay/MiniCalendarDay';
 import MiniCalendarHeader from './miniCalendarHeader/MiniCalendarHeader';
@@ -29,25 +30,38 @@ const renderWeekdays = (startOnMonday: boolean) => {
 };
 
 const renderDays = (
-  data: any,
+  data: DateTime[],
   width: number,
   sideMargin = 0,
   selectDate: any,
-  selectedDate: string,
+  selectedDate: string | null,
   monthDayRef: any,
-  keyPrefix?: string
+  keyPrefix?: string,
+  selectedDates?: string[]
 ) =>
-  data.map((item: any) => (
-    <MiniCalendarDay
-      key={`${keyPrefix}${item.year}-${item.month}-${item.day}-${item.millisecond}`}
-      item={item}
-      width={width}
-      sideMargin={sideMargin}
-      selectDate={selectDate}
-      selectedDate={selectedDate}
-      monthDayRef={monthDayRef}
-    />
-  ));
+  data.map((item: DateTime) => {
+    let selected: string | null = selectedDate;
+
+    if (selectedDates?.length) {
+      selected =
+        find(
+          selectedDates,
+          (selectedDateString) => item.toString() === selectedDateString
+        ) || null;
+    }
+
+    return (
+      <MiniCalendarDay
+        key={`${keyPrefix}${item.year}-${item.month}-${item.day}-${item.millisecond}`}
+        item={item}
+        width={width}
+        sideMargin={sideMargin}
+        selectDate={selectDate}
+        selectedDate={selected}
+        monthDayRef={monthDayRef}
+      />
+    );
+  });
 
 interface MiniCalendarProps {
   keyPrefix?: string;
@@ -55,10 +69,11 @@ interface MiniCalendarProps {
   width: number;
   sideMargin: number;
   selectDate: any;
-  selectedDate: string;
+  selectedDate: string | null;
   selectedDatePicker: string;
   addMonth: any;
   subMonth: any;
+  selectedDates?: string[];
 }
 const MiniCalendar = (props: MiniCalendarProps) => {
   const {
@@ -71,6 +86,7 @@ const MiniCalendar = (props: MiniCalendarProps) => {
     keyPrefix,
     subMonth,
     addMonth,
+    selectedDates,
   } = props;
 
   const settings: AppSettings = useSelector(
@@ -86,7 +102,8 @@ const MiniCalendar = (props: MiniCalendarProps) => {
     selectDate,
     selectedDate,
     monthDayRef,
-    keyPrefix
+    keyPrefix,
+    selectedDates
   );
 
   const containerStyle: any = {

@@ -38,6 +38,7 @@ import BottomSheetMobile from '../bottomSheetMobile/BottomSheetMobile';
 import CalDavAccountModal from '../accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import CalendarHeader from './CalendarHeader';
 import DrawerDesktop from '../drawerDesktop/DrawerDesktop';
+import DuplicateMultipleModal from '../duplicateMultipleModal/DuplicateModal';
 import EditEvent from '../../views/event/editEvent/EditEvent';
 import EventView, {
   checkIfHasRepeatPreAction,
@@ -111,6 +112,8 @@ const Calendar = () => {
   const [toastIsLoading, setToastIsLoading] = useState(false);
   const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
   const [searchModalOpen, openSearchModal] = useState(false);
+  const [duplicatingEvent, setDuplicatingEvent] = useState(false);
+  const [duplicateModalOpen, openDuplicateModal] = useState<any>(false);
 
   const kalendState: any = useRef({});
 
@@ -181,10 +184,18 @@ const Calendar = () => {
   };
   const handleCloseNewEventModal = () => setIsNewEventOpen(null);
 
-  const openEditingEvent = (eventData: CalDavEvent) => {
+  const openEditingEvent = (eventData: CalDavEvent, duplicate?: boolean) => {
     setEditingEventOpen(eventData);
+    if (duplicate) {
+      setDuplicatingEvent(true);
+    }
   };
-  const handleCloseEditingEventModal = () => setEditingEventOpen(null);
+
+  const handleCloseEditingEventModal = () => {
+    setEditingEventOpen(null);
+
+    setDuplicatingEvent(false);
+  };
 
   const handleEventClick = (data: OnEventClickData, e: any) => {
     setEventViewOpen(data);
@@ -405,6 +416,7 @@ const Calendar = () => {
             newEventTime={isNewEventOpen}
             handleClose={handleCloseEditingEventModal}
             currentE={currentE}
+            isDuplicatingEvent={duplicatingEvent}
           />
         ) : null}
 
@@ -414,6 +426,13 @@ const Calendar = () => {
             handleClose={closeEventView}
             openEditEventModal={openEditingEvent}
             currentE={currentE}
+            openDuplicateModal={openDuplicateModal}
+          />
+        ) : null}
+        {duplicateModalOpen ? (
+          <DuplicateMultipleModal
+            event={duplicateModalOpen}
+            handleClose={() => openDuplicateModal(false)}
           />
         ) : null}
         {store.isMobile ? (

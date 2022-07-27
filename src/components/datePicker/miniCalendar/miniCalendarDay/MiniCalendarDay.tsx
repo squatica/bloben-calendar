@@ -12,7 +12,7 @@ interface MiniCalendarDayProps {
   width: number;
   sideMargin: number;
   selectDate: any;
-  selectedDate: string;
+  selectedDate: string | null;
   monthDayRef: any;
 }
 const MiniCalendarDay = (props: MiniCalendarDayProps) => {
@@ -28,7 +28,9 @@ const MiniCalendarDay = (props: MiniCalendarDayProps) => {
   };
 
   const isSameMonthValue: boolean = item.hasSame(monthDayRef, 'month');
-  const isSelectedDate: boolean = LuxonHelper.isSameDay(item, selectedDate);
+  const isSelectedDate: boolean = selectedDate
+    ? LuxonHelper.isSameDay(item, selectedDate)
+    : false;
 
   const [store] = useContext(Context);
 

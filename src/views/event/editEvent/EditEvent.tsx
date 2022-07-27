@@ -73,6 +73,7 @@ interface EditEventProps {
   event?: CalDavEvent;
   wasInitRef?: any;
   currentE: any;
+  isDuplicatingEvent?: boolean;
 }
 
 export const RRULE_DATE_FORMAT = 'yyyyLLddHHmmss';
@@ -162,7 +163,8 @@ const EditEvent = (props: EditEventProps) => {
     dispatchForm({ type, payload });
   };
 
-  const { isNewEvent, newEventTime, handleClose, event } = props;
+  const { isNewEvent, newEventTime, handleClose, event, isDuplicatingEvent } =
+    props;
 
   const { isStartDateValid } = eventState;
 
@@ -410,10 +412,14 @@ const EditEvent = (props: EditEventProps) => {
     const isDateValid: boolean = validateDate('startAt', dateValue, endAt);
 
     if (!isDateValid) {
+      const originalDateTill = parseToDateTime(endAt, timezoneStartAt);
       setForm(
         'endAt',
         DatetimeParser(
-          parseToDateTime(dateValue, timezoneStartAt).plus({ hour: 1 }),
+          parseToDateTime(dateValue, timezoneStartAt).set({
+            hour: originalDateTill.hour,
+            minute: originalDateTill.minute,
+          }),
           timezoneStartAt
         )
       );
@@ -469,7 +475,8 @@ const EditEvent = (props: EditEventProps) => {
               handleClose,
               props.event,
               sendInvite,
-              inviteMessage
+              inviteMessage,
+              isDuplicatingEvent
             );
             setContext('syncSequence', store.syncSequence + 1);
           },
@@ -478,7 +485,12 @@ const EditEvent = (props: EditEventProps) => {
         return;
       }
 
-      if (!isNewEvent && checkIfHasRepeatPreAction(form) && !wasSimpleEvent) {
+      if (
+        !isNewEvent &&
+        !isDuplicatingEvent &&
+        checkIfHasRepeatPreAction(form) &&
+        !wasSimpleEvent
+      ) {
         setIsSaving(true);
         await handleUpdateRepeatedEvent();
 
@@ -492,13 +504,26 @@ const EditEvent = (props: EditEventProps) => {
 
       setIsSaving(true);
 
-      await createEvent(form, isNewEvent, calendar, handleClose, props.event);
+      await createEvent(
+        form,
+        isNewEvent,
+        calendar,
+        handleClose,
+        props.event,
+        undefined,
+        undefined,
+        isDuplicatingEvent
+      );
 
       setContext('syncSequence', store.syncSequence + 1);
 
       setIsSaving(false);
 
-      toast(createToast(isNewEvent ? 'Event created' : 'Event updated'));
+      toast(
+        createToast(
+          isNewEvent || isDuplicatingEvent ? 'Event created' : 'Event updated'
+        )
+      );
     } catch (e: any) {
       toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
       setIsSaving(false);
