@@ -20,7 +20,7 @@ import { DateTime } from 'luxon';
 import { TOAST_STATUS } from '../../types/enums';
 import { WebcalCalendar } from '../../redux/reducers/webcalCalendars';
 import { createToast } from '../../utils/common';
-import { keyBy, map } from 'lodash';
+import { map } from 'lodash';
 import { useSelector } from 'react-redux';
 import CalendarSharedApi from '../../api/CalendarSharedApi';
 import ChakraInput from '../chakraCustom/ChakraInput';
@@ -283,6 +283,14 @@ const ShareCalendarModal = (props: ShareCalendarModalProps) => {
     setLocalState('calDavCalendars', selectedCalendars);
   };
 
+  const handleSelectAllCalDAV = () => {
+    if (calDavCalendarsState.length === calDavCalendars.length) {
+      setLocalState('calDavCalendars', []);
+    } else {
+      setLocalState('calDavCalendars', map(calDavCalendarsState, 'id'));
+    }
+  };
+
   const addWebcalCalendar = (calendarID: string) => {
     let selectedCalendars: string[] = [...webcalCalendars];
 
@@ -297,12 +305,20 @@ const ShareCalendarModal = (props: ShareCalendarModalProps) => {
     setLocalState('webcalCalendars', selectedCalendars);
   };
 
+  const handleSelectAllWebcal = () => {
+    if (webcalCalendars.length === webcalCalendarsState.length) {
+      setLocalState('webcalCalendars', []);
+    } else {
+      setLocalState('webcalCalendars', map(webcalCalendarsState, 'id'));
+    }
+  };
+
   const handleSetExpireDate = (dateValue: DateTime | string) => {
     setLocalState('expireAt', dateValue);
   };
 
-  const groupedCalDavCalendars = keyBy(calDavCalendarsState, 'id');
-  const groupedWebcalCalendars = keyBy(webcalCalendarsState, 'id');
+  // const groupedCalDavCalendars = keyBy(calDavCalendarsState, 'id');
+  // const groupedWebcalCalendars = keyBy(webcalCalendarsState, 'id');
 
   return (
     <ModalNew
@@ -323,24 +339,24 @@ const ShareCalendarModal = (props: ShareCalendarModalProps) => {
             value={name}
           />
 
-          <Separator height={16} />
+          <Separator height={20} />
           <Menu closeOnSelect={false}>
-            <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
-              {calDavCalendars.length ? 'CalDAV: ' : ''}
-              {calDavCalendars.length
-                ? map(
-                    calDavCalendars,
-                    (item, index) =>
-                      `${groupedCalDavCalendars[item]?.displayName} ${
-                        Number(index) < Number(calDavCalendars.length - 1)
-                          ? ', '
-                          : ''
-                      }`
-                  )
-                : 'No CalDAV calendars'}
+            <MenuButton
+              as={Button}
+              _focus={{ boxShadow: 'none' }}
+              style={{ maxWidth: 350, width: 350 }}
+            >
+              CalDAV calendars ({calDavCalendars.length})
             </MenuButton>
             <MenuList>
               <Stack spacing={1}>
+                <MenuItem onClick={handleSelectAllCalDAV}>
+                  <Box style={{ paddingLeft: 22 }}>
+                    {calDavCalendars.length === calDavCalendarsState.length
+                      ? 'Unselect all'
+                      : 'Select all'}
+                  </Box>
+                </MenuItem>
                 {calDavCalendarsState.map((calendar) => (
                   <MenuItem
                     key={calendar.id}
@@ -361,24 +377,24 @@ const ShareCalendarModal = (props: ShareCalendarModalProps) => {
             </MenuList>
           </Menu>
 
-          <Separator height={24} />
+          <Separator height={20} />
           <Menu closeOnSelect={false}>
-            <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
-              {webcalCalendars.length ? 'Webcal: ' : ''}
-              {webcalCalendars.length
-                ? map(
-                    webcalCalendars,
-                    (item, index) =>
-                      `${groupedWebcalCalendars[item]?.name} ${
-                        Number(index) < Number(webcalCalendars.length - 1)
-                          ? ', '
-                          : ''
-                      }`
-                  )
-                : 'No Webcal calendars'}
+            <MenuButton
+              as={Button}
+              _focus={{ boxShadow: 'none' }}
+              style={{ maxWidth: 350, width: 350 }}
+            >
+              Webcal calendars ({webcalCalendars.length})
             </MenuButton>
             <MenuList>
               <Stack spacing={1}>
+                <MenuItem onClick={handleSelectAllWebcal}>
+                  <Box style={{ paddingLeft: 22 }}>
+                    {webcalCalendars.length === webcalCalendarsState.length
+                      ? 'Unselect all'
+                      : 'Select all'}
+                  </Box>
+                </MenuItem>
                 {webcalCalendarsState.map((calendar) => (
                   <MenuItem
                     key={calendar.id}
@@ -399,9 +415,9 @@ const ShareCalendarModal = (props: ShareCalendarModalProps) => {
             </MenuList>
           </Menu>
         </FormControl>
-        <Separator height={25} />
+        <Separator height={20} />
         <Button onClick={() => openSettings(true)}>Calendar settings</Button>
-        <Separator height={25} />
+        <Separator height={20} />
         <Flex direction={'row'} alignItems={'center'}>
           <Button
             onClick={() =>
@@ -417,7 +433,7 @@ const ShareCalendarModal = (props: ShareCalendarModalProps) => {
           </Button>
           <Text>Set expire date</Text>
         </Flex>
-        <Separator height={25} />
+        <Separator height={20} />
         {expireAt !== null ? (
           <Menu isLazy>
             <MenuButton
