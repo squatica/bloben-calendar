@@ -235,7 +235,7 @@ const PublicCalendar = (props: PublicCalendarProps) => {
             kalendRef={kalendRef}
             onEventClick={handleEventClick}
             onNewEventClick={openNewEvent}
-            events={events}
+            events={events as any}
             initialDate={new Date().toISOString()}
             hourHeight={parseHourHeight(settings.hourHeight)}
             timeFormat={settings.timeFormat.toString()}
