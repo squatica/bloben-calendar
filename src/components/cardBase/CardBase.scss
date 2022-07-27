@@ -1,0 +1,14 @@
+@import '~styles/colors';
+
+.CardBase__container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: solid 1px $GRAY_400;
+  border-radius: 8px;
+
+  &-dark {
+    @extend .CardBase__container;
+    border: solid 1px $GRAY_200;
+  }
+}
