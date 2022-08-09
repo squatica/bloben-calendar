@@ -92,6 +92,19 @@ const SettingsMenu = (props: SettingsMenuProps) => {
         />
         <SettingsButton
           selected={selected}
+          path={SETTINGS_PATHS.CONTACTS}
+          onClick={() => {
+            setSelected(SETTINGS_PATHS.CONTACTS);
+          }}
+          text={'Contacts'}
+          icon={
+            <EvaIcons.Document
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
+        />
+        <SettingsButton
+          selected={selected}
           path={SETTINGS_PATHS.GENERAL}
           onClick={() => {
             setSelected(SETTINGS_PATHS.GENERAL);

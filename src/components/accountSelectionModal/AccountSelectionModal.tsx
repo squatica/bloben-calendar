@@ -21,7 +21,7 @@ const AccountSelectionModal = (props: AccountSelectionModalProps) => {
               props.handleOpenNewAccountModal(ACCOUNT_TYPE.CAL_DAV)
             }
           >
-            <Heading size={'lg'}>Caldav</Heading>
+            <Heading size={'lg'}>Dav</Heading>
           </Button>
         </Box>
         <Box height="80px">

@@ -4,6 +4,7 @@ import AboutSettings from '../settingsParts/AboutSettings';
 import AccountSettings from '../settingsParts/AccountSettings';
 import AcknowledgmentSettings from '../settingsParts/AcknowledgmentSettings';
 import CalendarsSettings from '../settingsParts/CalendarsSettings';
+import ContactsSettings from '../settingsParts/ContactsSettings';
 import EmailConfigSettings from '../settingsParts/EmailConfigSettings';
 import GeneralSettings from '../settingsParts/GeneralSettings';
 import HelpSettings from '../settingsParts/HelpSettings';
@@ -33,6 +34,7 @@ const SettingsContent = (props: SettingsContentProps) => {
         <AcknowledgmentSettings />
       ) : null}
       {selected === SETTINGS_PATHS.ABOUT ? <AboutSettings /> : null}
+      {selected === SETTINGS_PATHS.CONTACTS ? <ContactsSettings /> : null}
     </div>
   );
 };

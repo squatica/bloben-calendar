@@ -25,6 +25,7 @@ import {
   CalDavEvent,
   ReduxState,
 } from '../../../../types/interface';
+import { DAV_ACCOUNT_TYPE } from '../../../../bloben-interface/enums';
 import { TOAST_STATUS } from 'types/enums';
 import { createToast } from '../../../../utils/common';
 import {
@@ -32,7 +33,7 @@ import {
   setCaldavCalendars,
   setCaldavEvents,
 } from '../../../../redux/actions';
-import { forEach } from 'lodash';
+import { filter, forEach } from 'lodash';
 import { getAccountCalendars } from '../../../../utils/tsdavHelper';
 import { getBaseUrl } from '../../../../utils/parser';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,31 +45,34 @@ import Separator from '../../../../components/separator/Separator';
 const renderCalDavAccounts = (
   calDavAccounts: CalDavAccount[],
   handleEdit: any,
-  openPreDeleteModal: any
+  openPreDeleteModal: any,
+  type: DAV_ACCOUNT_TYPE
 ) => {
-  return calDavAccounts.map((item) => {
-    return (
-      <Tbody key={item.principalUrl}>
-        <Tr>
-          <Td>{item.username}</Td>
-          <Td>{getBaseUrl(item.principalUrl || '')}</Td>
-          <Td>
-            <Menu>
-              <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
-                Actions
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => handleEdit(item)}>Edit</MenuItem>
-                <MenuItem onClick={() => openPreDeleteModal(item)}>
-                  Delete
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Td>
-        </Tr>
-      </Tbody>
-    );
-  });
+  return filter(calDavAccounts, (item) => item.accountType === type).map(
+    (item) => {
+      return (
+        <Tbody key={item.principalUrl}>
+          <Tr>
+            <Td>{item.username}</Td>
+            <Td>{getBaseUrl(item.principalUrl || '')}</Td>
+            <Td>
+              <Menu>
+                <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+                  Actions
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => handleEdit(item)}>Edit</MenuItem>
+                  <MenuItem onClick={() => openPreDeleteModal(item)}>
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Td>
+          </Tr>
+        </Tbody>
+      );
+    }
+  );
 };
 
 const CalDavAccountSettings = () => {
@@ -115,7 +119,15 @@ const CalDavAccountSettings = () => {
   const calDavAccountsRendered = renderCalDavAccounts(
     calDavAccounts,
     handleEdit,
-    openPreDeleteModal
+    openPreDeleteModal,
+    DAV_ACCOUNT_TYPE.CALDAV
+  );
+
+  const cardDavAccountsRendered = renderCalDavAccounts(
+    calDavAccounts,
+    handleEdit,
+    openPreDeleteModal,
+    DAV_ACCOUNT_TYPE.CARDDAV
   );
 
   const handleDeleteAccount = async () => {
@@ -167,20 +179,43 @@ const CalDavAccountSettings = () => {
 
   return calDavAccounts.length ? (
     <>
-      <Heading size={'md'} paddingLeft={6}>
-        CalDAV
-      </Heading>
-      <Separator height={8} />
-      <Table variant="simple" size={'md'}>
-        <Thead>
-          <Tr>
-            <Th>Username</Th>
-            <Th>Domain</Th>
-            <Th>Action</Th>
-          </Tr>
-        </Thead>
-        {calDavAccountsRendered}
-      </Table>
+      {calDavAccountsRendered.length ? (
+        <>
+          <Heading size={'md'} paddingLeft={6}>
+            CalDAV
+          </Heading>
+          <Separator height={8} />
+          <Table variant="simple" size={'md'}>
+            <Thead>
+              <Tr>
+                <Th>Username</Th>
+                <Th>Domain</Th>
+                <Th>Action</Th>
+              </Tr>
+            </Thead>
+            {calDavAccountsRendered}
+          </Table>
+          <Separator height={24} />
+        </>
+      ) : null}
+      {cardDavAccountsRendered.length ? (
+        <>
+          <Heading size={'md'} paddingLeft={6}>
+            CardDAV
+          </Heading>
+          <Separator height={8} />
+          <Table variant="simple" size={'md'}>
+            <Thead>
+              <Tr>
+                <Th>Username</Th>
+                <Th>Domain</Th>
+                <Th>Action</Th>
+              </Tr>
+            </Thead>
+            {cardDavAccountsRendered}
+          </Table>
+        </>
+      ) : null}
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onModalClose}

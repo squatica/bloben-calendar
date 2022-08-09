@@ -5,9 +5,16 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
   useToast,
 } from '@chakra-ui/react';
 import { CalDavAccount } from '../../../types/interface';
+import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
 import { TOAST_STATUS } from '../../../types/enums';
 import {
   addToCaldavAccounts,
@@ -47,13 +54,14 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
     dispatchState({ state, payload });
   };
 
-  const { username, password, url }: any = state;
+  const { username, password, url, accountType }: any = state;
 
   useEffect(() => {
     if (account) {
       setLocalState('url', account.url);
       setLocalState('password', account.password);
       setLocalState('username', account.username);
+      setLocalState('accountType', account.accountType);
     }
   }, []);
 
@@ -72,6 +80,7 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
           username,
           password,
           url,
+          accountType,
         });
 
         if (response.data?.message) {
@@ -110,11 +119,44 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
   return (
     <ModalNew
       handleClose={closeFunc}
-      title={account ? 'Edit CalDavAccount' : 'Add CalDavAccount'}
+      title={account ? 'Edit Dav account' : 'Add Dav account'}
       closeButton={true}
       preventCloseOnBackdrop={true}
     >
       <>
+        <FormControl>
+          <FormLabel htmlFor="accountType">Account type</FormLabel>
+          <Menu>
+            <MenuButton
+              as={Button}
+              disabled={!!account}
+              _focus={{ boxShadow: 'none' }}
+              style={{ width: 80 }}
+              onClick={() => setLocalState('type', DAV_ACCOUNT_TYPE.CALDAV)}
+            >
+              <Text style={{ fontWeight: 'normal' }}>{accountType}</Text>
+            </MenuButton>
+            <MenuList>
+              <Stack spacing={1}>
+                <MenuItem
+                  onClick={() =>
+                    setLocalState('accountType', DAV_ACCOUNT_TYPE.CALDAV)
+                  }
+                >
+                  {DAV_ACCOUNT_TYPE.CALDAV}
+                </MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    setLocalState('accountType', DAV_ACCOUNT_TYPE.CARDDAV)
+                  }
+                >
+                  {DAV_ACCOUNT_TYPE.CARDDAV}
+                </MenuItem>
+              </Stack>
+            </MenuList>
+          </Menu>
+        </FormControl>
+        <Separator height={25} />
         <FormControl>
           <FormLabel htmlFor="url">Url</FormLabel>
           <ChakraInput
@@ -161,6 +203,7 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
           </InputGroup>
         </FormControl>
         <Separator height={25} />
+
         <Center>
           <PrimaryButton isLoading={isLoading} onClick={addAccount}>
             Confirm
