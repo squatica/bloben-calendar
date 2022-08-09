@@ -1,4 +1,5 @@
 import { CalDavAccount, CalDavCalendar, CalDavEvent } from '../types/interface';
+import { GetCardDavAddressBooks } from '../bloben-interface/cardDavAddressBook/cardDavAddressBook';
 import { WebcalCalendar } from '../redux/reducers/webcalCalendars';
 
 export const getAccountByCalendar = (
@@ -70,6 +71,15 @@ export const getAccountCalendars = (
 ) => {
   return calendars.filter((item) => {
     return item.calDavAccountID === account.id;
+  });
+};
+
+export const getAccountAddressBooks = (
+  account: CalDavAccount,
+  addressBooks: GetCardDavAddressBooks[]
+) => {
+  return addressBooks.filter((item) => {
+    return item.accountID === account.id;
   });
 };
 

@@ -25,7 +25,7 @@ const SendInviteModal = (props: SendInviteModalProps) => {
     <ModalNew
       handleClose={handleClose}
       closeButton={true}
-      width={250}
+      width={400}
       footer={
         <Flex direction={'row'} style={{ marginTop: 2 }}>
           <Spacer />

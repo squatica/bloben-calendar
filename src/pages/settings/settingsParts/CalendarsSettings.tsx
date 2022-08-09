@@ -33,6 +33,8 @@ import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 
 import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
+import { filter } from 'lodash';
 import { setCalendarSettings } from '../../../redux/actions';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
@@ -112,7 +114,10 @@ const renderCalDavAccountCalendars = (
   setDefaultCalendar: any,
   defaultCalendarID: string | null
 ) => {
-  return calDavAccounts.map((calDavAccount) => {
+  return filter(
+    calDavAccounts,
+    (item) => item.accountType === DAV_ACCOUNT_TYPE.CALDAV
+  ).map((calDavAccount) => {
     // find all account calendars
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const accountCalendars = getAccountCalendars(

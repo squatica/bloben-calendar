@@ -19,7 +19,7 @@ interface ModalNewProps {
 const ModalNew = (props: ModalNewProps) => {
   const [store] = useContext(Context);
 
-  const { handleClose, preventCloseOnBackdrop } = props;
+  const { handleClose, preventCloseOnBackdrop, width } = props;
 
   const preventDefault = (e: any) => {
     e.preventDefault();
@@ -43,6 +43,7 @@ const ModalNew = (props: ModalNewProps) => {
         className={`${parseCssDark('ModalNew__wrapper', store.isDark)} ${
           props.className ? props.className : ''
         }`}
+        style={width ? { width } : undefined}
         onClick={preventDefault}
         id="ModalNew__wrapper"
       >
