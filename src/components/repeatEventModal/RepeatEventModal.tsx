@@ -96,7 +96,7 @@ const RepeatEventModal = (props: RepeatEventModalProps) => {
     <ModalNew
       handleClose={handleClose}
       closeButton={true}
-      width={200}
+      width={300}
       footer={
         <Flex direction={'row'} style={{ marginTop: 2 }}>
           <Spacer />
