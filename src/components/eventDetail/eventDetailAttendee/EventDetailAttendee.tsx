@@ -141,7 +141,7 @@ const renderAttendees = (
   return attendees.map((item) => {
     return (
       <Flex
-        key={item.mailto}
+        key={item?.mailto}
         direction={'row'}
         paddingLeft={2}
         style={{ width: '100%', alignItems: 'center' }}
@@ -259,7 +259,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
   };
 
   const handleSubmit = (e: any, isClick?: boolean) => {
-    onChange(e.target.value);
+    onChange(e);
 
     if (e.keyCode === 13 || e.which === 13 || isClick) {
       // @ts-ignore
@@ -369,7 +369,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
               onFocus={() => setIsInFocus(true)}
               // onBlur={() => setIsInFocus(false)}
             />
-            {isInFocus ? (
+            {isInFocus && searchResult?.length ? (
               <SearchResult
                 attendeesSelected={attendees}
                 data={searchResult}
