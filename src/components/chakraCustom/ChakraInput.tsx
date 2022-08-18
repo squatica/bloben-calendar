@@ -33,6 +33,8 @@ const ChakraInput = (props: ChakraInputProps) => {
     onKeyPress,
     maxLength,
     onBlur,
+    className,
+    onFocus,
   } = props;
 
   return (
@@ -47,6 +49,7 @@ const ChakraInput = (props: ChakraInputProps) => {
       _placeholder={{
         color: isDark ? 'gray.400' : 'gray.500',
       }}
+      className={className}
       name={name}
       value={value}
       variant={variant || (disabled ? 'unstyled' : 'outline')}
@@ -61,6 +64,7 @@ const ChakraInput = (props: ChakraInputProps) => {
       onKeyPress={onKeyPress}
       maxLength={maxLength}
       onBlur={onBlur}
+      onFocus={onFocus}
     />
   );
 };

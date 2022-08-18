@@ -10,6 +10,8 @@ export const defaultCalendarSettings = {
   timezone: getLocalTimezone(),
   defaultView: CALENDAR_VIEW.WEEK,
   showWeekNumbers: false,
+  defaultAddressBookID: '',
+  saveContactsAuto: true,
 };
 
 const calendarSettings = (

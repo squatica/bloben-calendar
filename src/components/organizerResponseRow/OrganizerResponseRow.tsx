@@ -18,7 +18,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
 
   const organizer = find(
     event?.attendees,
-    (item) => item.mailto === event.organizer.mailto
+    (item) => item?.mailto === event?.organizer?.mailto
   );
 
   const partStat: ATTENDEE_PARTSTAT | undefined = organizer?.PARTSTAT;

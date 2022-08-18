@@ -1,6 +1,7 @@
 import { Alarm } from 'ical-js-parser';
 import { CALDAV_OBJ_TYPE } from './enums';
 import { CalendarSettingsResponse } from '../bloben-interface/calendarSettings/calendarSettings';
+import { DAV_ACCOUNT_TYPE } from '../bloben-interface/enums';
 import { OnPageChangeData } from 'kalend';
 import { SettingsLocal } from '../redux/reducers/settingsLocal';
 import { ThemeSettings } from '../redux/reducers/themeSettings';
@@ -12,6 +13,7 @@ export interface CalDavAccount {
   password: string;
   url: string;
   principalUrl: string;
+  accountType: DAV_ACCOUNT_TYPE;
 }
 
 export interface QueryRange {
