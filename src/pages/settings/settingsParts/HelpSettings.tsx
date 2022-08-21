@@ -22,6 +22,12 @@ const HelpSettings = () => {
             target={'_blank'}
             color={store.isDark ? 'pink.300' : 'pink.500'}
             href={'https://github.com/nibdo/bloben-app/issues'}
+            onClick={() =>
+              window.open(
+                'https://github.com/nibdo/bloben-app/issues',
+                '_blank'
+              )
+            }
           >
             Github
           </Link>{' '}
@@ -29,9 +35,9 @@ const HelpSettings = () => {
           <Link
             _focus={{ boxShadow: 'none' }}
             color={store.isDark ? 'pink.300' : 'pink.500'}
-            href={'mailto:hello@nibdo.com'}
+            href={'mailto:hello@bloben.com'}
           >
-            hello@nibdo.com
+            hello@bloben.com
           </Link>
           .
         </Text>
