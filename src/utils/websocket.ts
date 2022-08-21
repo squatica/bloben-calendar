@@ -40,7 +40,7 @@ const handleCalendars = (msg: any) => {
 };
 
 const handleSyncCalDavEvents = async (isDark?: boolean) => {
-  const response = await EventsApi.getCachedEvents(isDark);
+  const response = await EventsApi.getEventsOnInit(isDark);
 
   reduxStore.dispatch(setCaldavEvents(response.data));
 };
