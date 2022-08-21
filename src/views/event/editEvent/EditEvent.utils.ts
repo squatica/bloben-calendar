@@ -126,6 +126,7 @@ export const createEvent = async (
   isDuplicatingEvent?: boolean
 ) => {
   const form = handleAllDayStatus(formInitial);
+
   const eventCalendar: CalDavCalendar =
     calendar || findItemCalendar(originalEvent);
 
@@ -282,4 +283,24 @@ export const updateRepeatedEvent = async (
   if (handleClose) {
     handleClose();
   }
+};
+
+/**
+ * Format date in utc to actual date for all day event with floating timezone
+ * @param date
+ * @param timezone
+ */
+export const formatAllDayHeaderEventDate = (date: string, timezone: string) => {
+  const localDate = parseToDateTime(date, timezone);
+
+  return DateTime.now()
+    .toUTC()
+    .set({
+      year: localDate.year,
+      month: localDate.month,
+      day: localDate.day,
+      minute: 1,
+      hour: 0,
+    })
+    .toString();
 };

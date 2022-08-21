@@ -12,6 +12,7 @@ import {
 import { CalDavCalendar, ReduxState } from '../../../types/interface';
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
+import { MARGIN_LEFT_EVENT_VIEW_ITEM } from '../../../types/constants';
 import { colors } from '../../../utils/colors';
 import { useSelector } from 'react-redux';
 import CircleFill from '../../eva-icons/circle-fill';
@@ -99,7 +100,14 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
         </Menu>
       )}
       {disabled ? (
-        <Text style={{ fontWeight: 'normal' }}>{calendar.displayName}</Text>
+        <Text
+          style={{
+            fontWeight: 'normal',
+            marginLeft: MARGIN_LEFT_EVENT_VIEW_ITEM,
+          }}
+        >
+          {calendar.displayName}
+        </Text>
       ) : (
         <Menu>
           <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>

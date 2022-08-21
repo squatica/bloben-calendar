@@ -17,9 +17,30 @@ const HelpSettings = () => {
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
               color={store.isDark ? 'pink.300' : 'pink.500'}
+              onClick={() =>
+                window.open(
+                  'https://www.behance.net/federicaprunotto',
+                  '_blank'
+                )
+              }
               href={'https://www.behance.net/federicaprunotto'}
             >
               Federica Prunotto
+            </Link>{' '}
+          </Text>
+          <Separator height={8} />
+          <Text fontSize="md">
+            License for software -{' '}
+            <Link
+              _focus={{ boxShadow: 'none' }}
+              target={'_blank'}
+              color={store.isDark ? 'pink.300' : 'pink.500'}
+              onClick={() =>
+                window.open('https://jb.gg/OpenSourceSupport', '_blank')
+              }
+              href={'https://jb.gg/OpenSourceSupport'}
+            >
+              JetBrains
             </Link>{' '}
           </Text>
           <Separator height={8} />
@@ -29,6 +50,9 @@ const HelpSettings = () => {
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
               color={store.isDark ? 'pink.300' : 'pink.500'}
+              onClick={() =>
+                window.open('https://akveo.github.io/eva-icons/#/', '_blank')
+              }
               href={'https://akveo.github.io/eva-icons/#/'}
             >
               Eva Icons
@@ -41,6 +65,12 @@ const HelpSettings = () => {
               _focus={{ boxShadow: 'none' }}
               target={'_blank'}
               color={store.isDark ? 'pink.300' : 'pink.500'}
+              onClick={() =>
+                window.open(
+                  'https://github.com/fafruch/react-rrule-generator',
+                  '_blank'
+                )
+              }
               href={'https://github.com/fafruch/react-rrule-generator'}
             >
               fafruch
@@ -55,6 +85,12 @@ const HelpSettings = () => {
               href={
                 'https://github.com/nibdo/bloben-calendar/blob/production/package.json'
               }
+              onClick={() =>
+                window.open(
+                  'https://github.com/nibdo/bloben-calendar/blob/production/package.json',
+                  '_blank'
+                )
+              }
             >
               Calendar packages
             </Link>{' '}
@@ -68,6 +104,12 @@ const HelpSettings = () => {
               href={
                 'https://github.com/nibdo/bloben-admin/blob/production/package.json'
               }
+              onClick={() =>
+                window.open(
+                  'https://github.com/nibdo/bloben-admin/blob/production/package.json',
+                  '_blank'
+                )
+              }
             >
               Admin packages
             </Link>{' '}
@@ -80,6 +122,12 @@ const HelpSettings = () => {
               color={store.isDark ? 'pink.300' : 'pink.500'}
               href={
                 'https://github.com/nibdo/bloben-api/blob/production/package.json'
+              }
+              onClick={() =>
+                window.open(
+                  'https://github.com/nibdo/bloben-api/blob/production/package.json',
+                  '_blank'
+                )
               }
             >
               Server packages
