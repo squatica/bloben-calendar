@@ -1,11 +1,44 @@
 import React, { useContext } from 'react';
 
+import { Button, Stack } from '@chakra-ui/react';
 import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
-import { Stack, Text } from '@chakra-ui/react';
+import { LOCATION_PROVIDER } from '../../../bloben-interface/enums';
 import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
 import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
+
+const parseLink = (link: string, locationProvider: LOCATION_PROVIDER) => {
+  if (locationProvider === LOCATION_PROVIDER.GOOGLE_MAPS) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURI(link)}`;
+  } else {
+    return `https://www.openstreetmap.org/search?query=${encodeURI(link)}`;
+  }
+};
+
+interface LocationButtonProps {
+  location: string;
+}
+const LocationButton = (props: LocationButtonProps) => {
+  const { location } = props;
+  const [store] = useContext(Context);
+  const { serverSettings } = store;
+
+  return (
+    <Button
+      variant={'ghost'}
+      style={{ fontWeight: 'normal' }}
+      onClick={() => {
+        window.open(
+          parseLink(location, serverSettings.locationProvider),
+          '_blank'
+        );
+      }}
+    >
+      {parseEventString(location)}
+    </Button>
+  );
+};
 
 interface EventDetailLocationProps {
   handleChange?: any;
@@ -30,7 +63,7 @@ const EventDetailLocation = (props: EventDetailLocationProps) => {
         <EvaIcons.Pin className={'EventDetail-icon'} />
       </FormIcon>
       {disabled ? (
-        <Text size={'md'}>{parseEventString(value)}</Text>
+        <LocationButton location={value} />
       ) : (
         <ChakraInput
           size={'md'}

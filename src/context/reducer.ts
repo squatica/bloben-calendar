@@ -72,6 +72,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isDark: action.payload,
       };
+    case 'serverSettings':
+      return {
+        ...state,
+        serverSettings: action.payload,
+      };
     default:
       return state;
   }

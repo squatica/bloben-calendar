@@ -393,6 +393,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
             <Button
               _focus={{ boxShadow: 'none' }}
               style={{ height: 40 }}
+              variant={disabled ? 'ghost' : undefined}
               width={'100%'}
               justifyContent={'flex-start'}
               onClick={() => setListVisible(!isListVisible)}

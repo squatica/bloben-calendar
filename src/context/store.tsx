@@ -1,4 +1,6 @@
+import { GetServerSettingsUser } from '../bloben-interface/serverSettings/serverSettings';
 import { GetVersion } from '../bloben-interface/version/version';
+import { LOCATION_PROVIDER } from '../bloben-interface/enums';
 import React, { createContext, useEffect, useReducer } from 'react';
 import Reducer from './reducer';
 
@@ -21,6 +23,7 @@ export interface StoreContext {
     mailto: string | null;
   };
   isSyncingServer: boolean;
+  serverSettings: GetServerSettingsUser;
 }
 
 const initialContext: StoreContext = {
@@ -46,6 +49,9 @@ const initialContext: StoreContext = {
     mailto: null,
   },
   isSyncingServer: false,
+  serverSettings: {
+    locationProvider: LOCATION_PROVIDER.OPEN_STREET_MAPS,
+  },
 };
 
 const StoreProvider = ({ children }: any) => {
