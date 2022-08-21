@@ -22,6 +22,7 @@ const AboutSettings = () => {
             target={'_blank'}
             color={store.isDark ? 'pink.300' : 'pink.500'}
             href={'https://bloben.com/docs'}
+            onClick={() => window.open('https://bloben.com/docs', '_blank')}
           >
             Documentation
           </Link>{' '}

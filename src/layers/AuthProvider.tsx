@@ -79,10 +79,17 @@ const AuthProvider = () => {
     setContext('version', response?.data);
   };
 
+  const getServerSettings = async () => {
+    const response = await GeneralApi.getServerSettings();
+
+    setContext('serverSettings', response?.data);
+  };
+
   // check login on load
   useEffect(() => {
     checkLogin();
     getApiVersion();
+    getServerSettings();
   }, []);
 
   return (
