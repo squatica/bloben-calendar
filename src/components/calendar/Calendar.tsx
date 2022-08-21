@@ -179,7 +179,11 @@ const Calendar = () => {
   }, [JSON.stringify(calDavEvents)]); // TODO something better
 
   const openNewEvent = (eventData: OnNewEventClickData, e: any) => {
-    setIsNewEventOpen(eventData);
+    // force all day on header click
+    const isHeaderClick =
+      e?.target?.className.indexOf('Kalend__CalendarHeaderDates__col') !== -1;
+
+    setIsNewEventOpen({ ...eventData, isHeaderClick });
     setCurrentE(e);
   };
   const handleCloseNewEventModal = () => setIsNewEventOpen(null);

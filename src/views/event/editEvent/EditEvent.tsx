@@ -32,6 +32,7 @@ import { TOAST_STATUS } from '../../../types/enums';
 import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
 import {
   createEvent,
+  formatAllDayHeaderEventDate,
   initialFormState,
   initialState,
   updateRepeatedEvent,
@@ -319,12 +320,23 @@ const EditEvent = (props: EditEventProps) => {
       return;
     }
 
-    if (newEventTime.view === 'month') {
+    if (newEventTime.view === 'month' || newEventTime.isHeaderClick) {
       setForm('allDay', true);
-    }
+      setForm('timezoneStartAt', 'floating');
+      setForm('timezoneEndAt', 'floating');
 
-    setForm('startAt', newEventTime.startAt);
-    setForm('endAt', newEventTime.endAt);
+      setForm(
+        'startAt',
+        formatAllDayHeaderEventDate(newEventTime.startAt, timezoneFromCalendar)
+      );
+      setForm(
+        'endAt',
+        formatAllDayHeaderEventDate(newEventTime.endAt, timezoneFromCalendar)
+      );
+    } else {
+      setForm('startAt', newEventTime.startAt);
+      setForm('endAt', newEventTime.endAt);
+    }
   };
 
   useEffect(() => {
