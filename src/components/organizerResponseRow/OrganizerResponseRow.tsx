@@ -1,4 +1,4 @@
-import { ATTENDEE_PARTSTAT } from '../../bloben-interface/enums';
+import { ATTENDEE_PARTSTAT, EVENT_TYPE } from '../../bloben-interface/enums';
 import { Button, Stack, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
@@ -49,6 +49,8 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
     });
   };
 
+  const disabled = event.type === EVENT_TYPE.WEBCAL;
+
   return organizer ? (
     <Stack
       direction={'row'}
@@ -60,6 +62,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
         variant={partStat === ATTENDEE_PARTSTAT.ACCEPTED ? 'solid' : 'ghost'}
         colorScheme={partStat === ATTENDEE_PARTSTAT.ACCEPTED ? 'pink' : 'gray'}
         onClick={() => handleClick(ATTENDEE_PARTSTAT.ACCEPTED)}
+        disabled={disabled}
       >
         Going
       </Button>
@@ -67,6 +70,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
         variant={partStat === ATTENDEE_PARTSTAT.TENTATIVE ? 'solid' : 'ghost'}
         colorScheme={partStat === ATTENDEE_PARTSTAT.TENTATIVE ? 'pink' : 'gray'}
         onClick={() => handleClick(ATTENDEE_PARTSTAT.TENTATIVE)}
+        disabled={disabled}
       >
         Maybe
       </Button>
@@ -74,6 +78,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
         variant={partStat === ATTENDEE_PARTSTAT.DECLINED ? 'solid' : 'ghost'}
         colorScheme={partStat === ATTENDEE_PARTSTAT.DECLINED ? 'pink' : 'gray'}
         onClick={() => handleClick(ATTENDEE_PARTSTAT.DECLINED)}
+        disabled={disabled}
       >
         No
       </Button>
