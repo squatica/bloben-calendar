@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import AuthProvider from './AuthProvider';
+import AuthProvider from './authProvider/AuthProvider';
 import NotFoundPage from '../pages/NotFound';
 import Public from '../pages/Public';
 import React from 'react';

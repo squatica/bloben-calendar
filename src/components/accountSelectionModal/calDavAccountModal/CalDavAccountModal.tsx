@@ -14,6 +14,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { CalDavAccount } from '../../../types/interface';
+import {
+  CalDavAccountModalInitialState,
+  calDavAccountModalState,
+} from './CalDavAccountModalHelper';
 import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
 import { TOAST_STATUS } from '../../../types/enums';
 import {
@@ -30,7 +34,6 @@ import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';
 import StateReducer from '../../../utils/state-reducer';
-import Utils from './CalDavAccountModal.utils';
 
 interface CalDavAccountModalProps {
   handleClose: any;
@@ -47,14 +50,18 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
 
   const dispatch = useDispatch();
 
-  const [state, dispatchState] = useReducer(StateReducer, Utils.state);
+  const [state, dispatchState] = useReducer(
+    StateReducer,
+    calDavAccountModalState
+  );
   const setLocalState = (stateName: string, data: any): void => {
     const payload: any = { stateName, type: 'simple', data };
     // @ts-ignore
     dispatchState({ state, payload });
   };
 
-  const { username, password, url, accountType }: any = state;
+  const { username, password, url, accountType } =
+    state as CalDavAccountModalInitialState;
 
   useEffect(() => {
     if (account) {
@@ -94,10 +101,6 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
 
         dispatch(addToCaldavAccounts(accountResponse.data));
         dispatch(setCaldavCalendars(calendarsResponse.data));
-      } else {
-        // if (response.status === 200) {
-        //   toast(createToast(response.data.message));
-        // }
       }
 
       handleClose();
@@ -203,7 +206,6 @@ const CalDavAccountModal = (props: CalDavAccountModalProps) => {
           </InputGroup>
         </FormControl>
         <Separator height={25} />
-
         <Center>
           <PrimaryButton isLoading={isLoading} onClick={addAccount}>
             Confirm

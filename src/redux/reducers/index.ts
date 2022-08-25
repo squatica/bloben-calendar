@@ -3,7 +3,7 @@ import { Reducer, combineReducers } from 'redux';
 import { ReduxState } from '../../types/interface';
 import baseDateRange, { initBaseDateRange } from './baseDateRange';
 import cachedEvents from './cachedEvents';
-import calDavAccounts from 'redux/reducers/calDavAccounts';
+import calDavAccounts from '../../redux/reducers/calDavAccounts';
 import calDavCalendars from './calDavCalendars';
 import calDavEvents from './calDavEvents';
 import calendarDaysRange from './calendarDays';
