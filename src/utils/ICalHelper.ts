@@ -1,7 +1,7 @@
 import ICalParser from 'ical-js-parser';
 
 import { DateTime } from 'luxon';
-import { InitialForm } from '../views/event/editEvent/EditEvent.utils';
+import { InitialForm } from '../views/event/editEvent/editEventHelper';
 import { forEach, map } from 'lodash';
 import { formatAppAlarm } from './common';
 import { v4 } from 'uuid';

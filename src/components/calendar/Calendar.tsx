@@ -18,9 +18,9 @@ import {
 } from '../../bloben-interface/enums';
 import {
   InitialForm,
-  createEvent,
+  createCalDavEvent,
   updateRepeatedEvent,
-} from '../../views/event/editEvent/EditEvent.utils';
+} from '../../views/event/editEvent/editEventHelper';
 import { SettingsLocal } from '../../redux/reducers/settingsLocal';
 import { TOAST_STATUS } from '../../types/enums';
 import {
@@ -228,7 +228,7 @@ const Calendar = () => {
       if (updatedEvent?.attendees?.length && hasEmailConfigRef.current) {
         openEmailInviteModal({
           call: async (sendInvite?: boolean, inviteMessage?: string) => {
-            await createEvent(
+            await createCalDavEvent(
               updatedEvent as InitialForm,
               false,
               undefined,
@@ -243,7 +243,7 @@ const Calendar = () => {
         return;
       }
 
-      await createEvent(
+      await createCalDavEvent(
         updatedEvent as InitialForm,
         false,
         undefined,

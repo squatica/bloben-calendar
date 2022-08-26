@@ -9,6 +9,7 @@ interface ChakraInputProps extends InputProps {
   ref?: any;
   width?: number;
   onKeyPress?: any;
+  id?: string;
 }
 const ChakraInput = (props: ChakraInputProps) => {
   const [store] = useContext(Context);
@@ -39,6 +40,7 @@ const ChakraInput = (props: ChakraInputProps) => {
 
   return (
     <Input
+      id={props.id}
       ref={ref}
       size={size || 'md'}
       type={type || 'text'}

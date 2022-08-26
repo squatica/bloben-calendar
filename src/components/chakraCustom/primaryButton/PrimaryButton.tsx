@@ -1,7 +1,7 @@
 import { ButtonProps } from '@chakra-ui/button/dist/declarations/src/button';
 import { Context } from '../../../context/store';
-import { useContext } from 'react';
 import ButtonBase from '../buttonBase/ButtonBase';
+import React, { useContext } from 'react';
 
 interface PrimaryButtonProps extends ButtonProps {
   isSecondary?: boolean;

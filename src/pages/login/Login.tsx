@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import {
   Button,
   Center,
@@ -11,13 +10,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Context } from '../../context/store';
-import { TOAST_STATUS } from '../../types/enums';
-import { createToast, getHostname } from '../../utils/common';
+import { handleLogin } from './loginHelper';
 import ChakraInput from '../../components/chakraCustom/ChakraInput';
 import PrimaryButton from '../../components/chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useState } from 'react';
-import Separator from 'components/separator/Separator';
-import UserApi from '../../api/UserApi';
+import Separator from '../../components/separator/Separator';
 import VersionFooter from '../../components/versionFooter/VersionFooter';
 
 const Login = () => {
@@ -47,31 +44,8 @@ const Login = () => {
     }
   };
 
-  const handleLogin = async (): Promise<void> => {
-    setIsLoading(true);
-
-    const apiUrl = `${getHostname()}/api`;
-
-    window.localStorage.setItem('apiUrl', apiUrl);
-    window.env.apiUrl = apiUrl;
-
-    try {
-      const response: AxiosResponse = await UserApi.login(apiUrl, {
-        username,
-        password,
-      });
-
-      setIsLoading(false);
-
-      if (response.data.isLogged && !response.data.isTwoFactorEnabled) {
-        setContext('isLogged', true);
-      }
-    } catch (e) {
-      // @ts-ignore
-      toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
-      setIsLoading(false);
-    }
-  };
+  const login = () =>
+    handleLogin(username, password, setIsLoading, setContext, toast);
 
   return (
     <div
@@ -95,6 +69,7 @@ const Login = () => {
         <FormControl id="username" size="2xl">
           <FormLabel size="2xl">Username</FormLabel>
           <ChakraInput
+            id={'login-username'}
             size={'lg'}
             name={'username'}
             value={username}
@@ -114,7 +89,7 @@ const Login = () => {
               onChange={onChange}
               onKeyPress={(e: any) => {
                 if (e.key === 'Enter' || e.keyCode == 13) {
-                  handleLogin();
+                  login();
                 }
               }}
             />
@@ -132,7 +107,7 @@ const Login = () => {
         </FormControl>
         <Separator height={40} />
         <Center flexDirection={'column'}>
-          <PrimaryButton isLoading={isLoading} onClick={handleLogin}>
+          <PrimaryButton isLoading={isLoading} onClick={login}>
             Login
           </PrimaryButton>
           <Separator height={80} />
