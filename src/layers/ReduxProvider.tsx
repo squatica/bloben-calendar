@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { debug } from '../utils/debug';
 import { saveState } from '../redux/localstorage';
 import LocalForage from '../utils/LocalForage';
-import rootReducer, { initialReduxState } from 'redux/reducers';
+import rootReducer, { initialReduxState } from '../redux/reducers';
 
 export let reduxStore: any;
 

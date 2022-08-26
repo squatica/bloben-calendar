@@ -1,4 +1,4 @@
-import { EvaIcons } from 'components/eva-icons';
+import { EvaIcons } from '../../eva-icons';
 import React from 'react';
 
 import './Spinner.scss';
