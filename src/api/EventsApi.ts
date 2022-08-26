@@ -28,8 +28,10 @@ export default {
     isDark?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
     const dateNow = DateTime.now();
-    const rangeFrom = dateNow.minus({ week: 1 }).toUTC().toString();
-    const rangeTo = dateNow.plus({ week: 1 }).toUTC().toString();
+    const startOfMonth = dateNow.set({ day: 1 });
+    const endOfMonth = dateNow.set({ day: dateNow.daysInMonth });
+    const rangeFrom = startOfMonth.minus({ week: 1 }).toUTC().toString();
+    const rangeTo = endOfMonth.plus({ week: 1 }).toUTC().toString();
 
     return Axios.get(
       `/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
