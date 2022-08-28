@@ -4,8 +4,10 @@ import { Context } from '../../../context/store';
 import { EvaIcons } from 'components/eva-icons';
 import { SETTINGS_PATHS } from '../../../types/enums';
 import { parseCssDark } from 'utils/common';
+import { useNavigate } from 'react-router-dom';
 import CalendarIcon from '../../../components/eva-icons/calendar';
 import Email from '../../../components/eva-icons/email';
+import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import PersonAddIcon from '../../../components/eva-icons/person-add';
 import PersonIcon from '../../../components/eva-icons/person';
 import React, { useContext } from 'react';
@@ -19,15 +21,19 @@ export interface SettingsButtonProps {
   selected: string;
 }
 export const SettingsButton = (props: SettingsButtonProps) => {
+  const [store] = useContext(Context);
+  const { isMobile } = store;
+
   return (
     <Button
       _focus={{ boxShadow: 'none' }}
       leftIcon={props.icon}
-      variant={props.selected === props.path ? 'solid' : 'ghost'}
+      variant={props.selected === props.path && !isMobile ? 'solid' : 'ghost'}
       onClick={props.onClick}
+      style={{ background: isMobile ? 'transparent' : undefined }}
       isFullWidth={true}
       justifyContent={'flex-start'}
-      fontSize={14}
+      fontSize={isMobile ? 16 : 14}
     >
       {props.text}
     </Button>
@@ -44,8 +50,15 @@ const SettingsMenu = (props: SettingsMenuProps) => {
   const [store] = useContext(Context);
   const { isMobile } = store;
 
+  const navigate = useNavigate();
+
+  const handleClose = () => navigate('/calendar');
+
   return (
     <div className={'SettingsMenu__wrapper'}>
+      {isMobile ? (
+        <MobilePageHeader title={'Settings'} handleClose={handleClose} />
+      ) : null}
       <Stack
         direction="column"
         spacing={1}
