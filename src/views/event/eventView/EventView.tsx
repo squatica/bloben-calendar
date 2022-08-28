@@ -15,7 +15,6 @@ import { Context } from 'context/store';
 import { DeleteRepeatedCalDavEventRequest } from '../../../bloben-interface/event/event';
 import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from 'bloben-interface/enums';
 import { EvaIcons } from 'components/eva-icons';
-import { MARGIN_LEFT_EVENT_VIEW_ITEM } from '../../../types/constants';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
@@ -52,18 +51,35 @@ const EventDates = (props: EventDatesProps) => {
   const { event } = props;
 
   const [store] = useContext(Context);
-  const { isDark } = store;
+  const { isDark, isMobile } = store;
 
   const humanDate: any = formatEventDate(event);
   const { dates, time } = humanDate;
 
-  return (
+  return !isMobile ? (
     <Stack direction={'row'} align={'center'}>
       <FormIcon desktopVisible isDark={isDark}>
         <EvaIcons.Clock className={'EventDetail-icon'} />
       </FormIcon>
-      <Text style={{ marginLeft: MARGIN_LEFT_EVENT_VIEW_ITEM }}>{dates}</Text>
+      <Text>{dates}</Text>
       {event.allDay ? null : <Text>{time}</Text>}
+    </Stack>
+  ) : (
+    <Stack direction={'column'} align={'flex-start'}>
+      <Stack direction={'row'} align={'center'}>
+        <FormIcon allVisible isDark={isDark}>
+          <EvaIcons.Clock className={'EventDetail-icon'} />
+        </FormIcon>
+        <Text>{dates}</Text>
+      </Stack>
+      {!event.allDay ? (
+        <Stack direction={'row'} align={'center'}>
+          <FormIcon hidden isDark={isDark}>
+            <EvaIcons.Clock className={'EventDetail-icon'} />
+          </FormIcon>
+          <Text>{time}</Text>
+        </Stack>
+      ) : null}
     </Stack>
   );
 };
