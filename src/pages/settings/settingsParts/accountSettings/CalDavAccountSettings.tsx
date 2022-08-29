@@ -45,7 +45,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import CalDavAccountApi from '../../../../api/CalDavAccountApi';
 import CalDavAccountModal from 'components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Separator from '../../../../components/separator/Separator';
 
 const renderCalDavAccounts = (
@@ -196,6 +196,7 @@ const CalDavAccountSettings = () => {
       setIsLoading(false);
     }
   };
+  const leastDestructiveRef = useRef(null);
 
   return calDavAccounts.length ? (
     <>
@@ -239,7 +240,7 @@ const CalDavAccountSettings = () => {
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={undefined}
+        leastDestructiveRef={leastDestructiveRef}
         isCentered={true}
       >
         <AlertDialogOverlay>
@@ -253,7 +254,11 @@ const CalDavAccountSettings = () => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button _focus={{ boxShadow: 'none' }} onClick={onModalClose}>
+              <Button
+                ref={leastDestructiveRef}
+                _focus={{ boxShadow: 'none' }}
+                onClick={onModalClose}
+              >
                 Cancel
               </Button>
               <Button

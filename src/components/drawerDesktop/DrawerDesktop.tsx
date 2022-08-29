@@ -38,7 +38,7 @@ const renderAccountCalendars = (
           variant={'ghost'}
           onClick={() => handleClick(item)}
           key={item.url}
-          isFullWidth={true}
+          width={'full'}
           style={{
             justifyContent: 'flex-start',
           }}
@@ -102,7 +102,7 @@ const renderWebcalCalendars = (
           key={item.url}
           variant={'ghost'}
           onClick={() => handleClick(item)}
-          isFullWidth={true}
+          width={'full'}
           style={{
             justifyContent: 'flex-start',
           }}

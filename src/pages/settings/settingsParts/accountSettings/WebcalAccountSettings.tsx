@@ -35,7 +35,7 @@ import {
   getTableSize,
   getTableTitlePaddingLeft,
 } from '../../../../types/constants';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Separator from '../../../../components/separator/Separator';
 import WebcalCalendarApi from '../../../../api/WebcalCalendarApi';
 import WebcalModal from '../../../../components/accountSelectionModal/webcalModal/WebcalModal';
@@ -166,6 +166,8 @@ const CalDavAccountSettings = () => {
     }
   };
 
+  const leastDestructiveRef = useRef(null);
+
   return webcalCalendars.length ? (
     <>
       <Heading size={'md'} paddingLeft={paddingLeft}>
@@ -186,7 +188,7 @@ const CalDavAccountSettings = () => {
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={undefined}
+        leastDestructiveRef={leastDestructiveRef}
         isCentered={true}
       >
         <AlertDialogOverlay>
@@ -200,7 +202,11 @@ const CalDavAccountSettings = () => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button _focus={{ boxShadow: 'none' }} onClick={onModalClose}>
+              <Button
+                ref={leastDestructiveRef}
+                _focus={{ boxShadow: 'none' }}
+                onClick={onModalClose}
+              >
                 Cancel
               </Button>
               <Button

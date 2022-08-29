@@ -1,4 +1,4 @@
-import { ButtonProps } from '@chakra-ui/button/dist/declarations/src/button';
+import { ButtonProps } from '@chakra-ui/react';
 import { Context } from '../../../context/store';
 import ButtonBase from '../buttonBase/ButtonBase';
 import React, { useContext } from 'react';

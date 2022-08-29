@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   ChakraProvider,
+  ColorModeProvider,
   ComponentStyleConfig,
   extendTheme,
 } from '@chakra-ui/react';
@@ -58,11 +59,13 @@ const App = () => (
         <StorageProvider>
           <ContextProvider>
             <ReduxProvider>
-              <ThemeProvider>
-                <BrowserProvider>
-                  <RouterProvider />
-                </BrowserProvider>
-              </ThemeProvider>
+              <ColorModeProvider options={{ initialColorMode: 'light' }}>
+                <ThemeProvider>
+                  <BrowserProvider>
+                    <RouterProvider />
+                  </BrowserProvider>
+                </ThemeProvider>
+              </ColorModeProvider>
             </ReduxProvider>
           </ContextProvider>
         </StorageProvider>

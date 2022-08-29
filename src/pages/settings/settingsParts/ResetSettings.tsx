@@ -12,7 +12,7 @@ import { debug } from '../../../utils/debug';
 import { initialReduxState } from '../../../redux/reducers';
 import { replace } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 import SettingsCard from '../settingsCard/SettingsCard';
 
@@ -35,6 +35,8 @@ const ResetSettings = () => {
     window.location.replace('/');
   };
 
+  const leastDestructiveRef = useRef(null);
+
   return (
     <>
       <SettingsCard title={'Reset storage'}>
@@ -48,7 +50,6 @@ const ResetSettings = () => {
           colorScheme="red"
           onClick={openPreDeleteModal}
           ml={3}
-          isFullWidth={false}
           width={150}
         >
           Reset storage
@@ -58,7 +59,7 @@ const ResetSettings = () => {
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onDeleteModalClose}
-        leastDestructiveRef={undefined}
+        leastDestructiveRef={leastDestructiveRef}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -72,6 +73,7 @@ const ResetSettings = () => {
 
             <AlertDialogFooter>
               <Button
+                ref={leastDestructiveRef}
                 _focus={{ boxShadow: 'none' }}
                 onClick={onDeleteModalClose}
               >

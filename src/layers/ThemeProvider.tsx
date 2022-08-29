@@ -36,7 +36,7 @@ const AuthProvider = (props: any) => {
     dispatch({ type, payload });
   };
 
-  const { setColorMode } = useColorMode();
+  const colorMode = useColorMode();
 
   useEffect(() => {
     const newValue =
@@ -44,7 +44,7 @@ const AuthProvider = (props: any) => {
         ? checkIfIsDarkThemeTime(themeSettings)
         : handleIsDarkTheme(themeSettings);
     setContext('isDark', newValue);
-    setColorMode(newValue ? 'dark' : 'light');
+    colorMode?.setColorMode(newValue ? 'dark' : 'light');
     window.localStorage.isDark = newValue;
   }, []);
 
@@ -54,7 +54,7 @@ const AuthProvider = (props: any) => {
         ? checkIfIsDarkThemeTime(themeSettings)
         : handleIsDarkTheme(themeSettings);
     setContext('isDark', newValue);
-    setColorMode(newValue ? 'dark' : 'light');
+    colorMode?.setColorMode(newValue ? 'dark' : 'light');
     window.localStorage.isDark = newValue;
   }, [JSON.stringify(themeSettings)]);
 

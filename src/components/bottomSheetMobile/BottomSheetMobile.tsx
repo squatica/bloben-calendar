@@ -84,7 +84,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
               }
               variant={'ghost'}
               onClick={handleOpenSettings}
-              isFullWidth={true}
+              width={'full'}
               justifyContent={'flex-start'}
               fontSize={14}
             >
@@ -99,7 +99,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
               }
               variant={'ghost'}
               onClick={handleLogout}
-              isFullWidth={true}
+              width={'full'}
               justifyContent={'flex-start'}
               fontSize={14}
             >
@@ -116,7 +116,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   variant={
                     selectedView === CalendarView.AGENDA ? 'solid' : 'ghost'
                   }
-                  isFullWidth={true}
+                  width={'full'}
                   style={viewButtonStyle}
                   fontWeight={
                     selectedView === CalendarView.AGENDA ? 'bold' : 'normal'
@@ -133,7 +133,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   }
                   size={'md'}
                   style={viewButtonStyle}
-                  isFullWidth={true}
+                  width={'full'}
                   fontWeight={
                     selectedView === CalendarView.DAY ? 'bold' : 'normal'
                   }
@@ -149,9 +149,8 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   fontWeight={
                     selectedView === CalendarView.THREE_DAYS ? 'bold' : 'normal'
                   }
-                  width={24}
                   style={viewButtonStyle}
-                  isFullWidth={true}
+                  width={'full'}
                   size={'md'}
                   onClick={() => setSelectedView(CalendarView.THREE_DAYS)}
                 >
@@ -164,7 +163,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   }
                   size={'md'}
                   style={viewButtonStyle}
-                  isFullWidth={true}
+                  width={'full'}
                   fontWeight={
                     selectedView === CalendarView.WEEK ? 'bold' : 'normal'
                   }
@@ -179,7 +178,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   }
                   style={viewButtonStyle}
                   size={'md'}
-                  isFullWidth={true}
+                  width={'full'}
                   fontWeight={
                     selectedView === CalendarView.MONTH ? 'bold' : 'normal'
                   }

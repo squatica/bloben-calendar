@@ -285,7 +285,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       }
                       variant={'ghost'}
                       onClick={handleOpenSettings}
-                      isFullWidth={true}
+                      width={'full'}
                       justifyContent={'flex-start'}
                       fontSize={14}
                     >
@@ -305,7 +305,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                         }
                         variant={'ghost'}
                         onClick={() => openVersionModal(true)}
-                        isFullWidth={true}
+                        width={'full'}
                         justifyContent={'flex-start'}
                         fontSize={14}
                       >
@@ -325,7 +325,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       }
                       variant={'ghost'}
                       onClick={handleLogout}
-                      isFullWidth={true}
+                      width={'full'}
                       justifyContent={'flex-start'}
                       fontSize={14}
                     >

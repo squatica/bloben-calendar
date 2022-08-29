@@ -154,7 +154,7 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
                 <Button
                   variant={'ghost'}
                   onClick={duplicateMultiple}
-                  isFullWidth={true}
+                  width={'full'}
                   style={{
                     justifyContent: 'flex-start',
                   }}

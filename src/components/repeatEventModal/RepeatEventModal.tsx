@@ -52,7 +52,7 @@ const RadioItem = (props: {
       bg={'transparent'}
       color={isDark ? 'gray.200' : 'gray.800'}
       onClick={() => handleSelect(thisValue)}
-      isFullWidth={true}
+      width={'full'}
       style={{ justifyContent: 'flex-start', alignItems: 'center' }}
     >
       {isChecked ? (

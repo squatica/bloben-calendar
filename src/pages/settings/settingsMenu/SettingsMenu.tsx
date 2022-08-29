@@ -31,7 +31,7 @@ export const SettingsButton = (props: SettingsButtonProps) => {
       variant={props.selected === props.path && !isMobile ? 'solid' : 'ghost'}
       onClick={props.onClick}
       style={{ background: isMobile ? 'transparent' : undefined }}
-      isFullWidth={true}
+      width={'full'}
       justifyContent={'flex-start'}
       fontSize={isMobile ? 16 : 14}
     >

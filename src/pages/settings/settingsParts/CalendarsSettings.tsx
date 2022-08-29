@@ -42,7 +42,7 @@ import { setCalendarSettings } from '../../../redux/actions';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 
 const renderAccountCalendars = (
@@ -278,6 +278,8 @@ const CalendarsSettings = () => {
     }
   };
 
+  const leastDestructiveRef = useRef(null);
+
   return (
     <>
       {isMobile ? <MobilePageHeader title={'Calendars'} /> : null}
@@ -293,7 +295,7 @@ const CalendarsSettings = () => {
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={undefined}
+        leastDestructiveRef={leastDestructiveRef}
         isCentered={true}
       >
         <AlertDialogOverlay>
@@ -305,7 +307,11 @@ const CalendarsSettings = () => {
             <AlertDialogBody>Do you want to delete calendar?</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button _focus={{ boxShadow: 'none' }} onClick={onModalClose}>
+              <Button
+                ref={leastDestructiveRef}
+                _focus={{ boxShadow: 'none' }}
+                onClick={onModalClose}
+              >
                 Cancel
               </Button>
               <Button
