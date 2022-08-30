@@ -1,4 +1,4 @@
-import { generateRandomSimpleString } from '../utils/common';
+import { generateRandomSimpleString, isDev } from '../utils/common';
 import axios from 'axios';
 
 const headers: any = {
@@ -13,7 +13,7 @@ export const config: any = {
   withCredentials: true,
 };
 
-if (process.env.REACT_APP_NODE_ENV === 'development') {
+if (isDev()) {
   if (generateRandomSimpleString) {
     headers['X-Real-IP'] = generateRandomSimpleString();
   }

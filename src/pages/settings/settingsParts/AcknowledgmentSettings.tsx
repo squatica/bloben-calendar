@@ -1,5 +1,5 @@
 import { Box, Link, Text } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { getSize } from '../../../types/constants';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext } from 'react';
@@ -7,7 +7,7 @@ import Separator from '../../../components/separator/Separator';
 import SettingsCard from '../settingsCard/SettingsCard';
 
 const HelpSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
   const size = getSize(isMobile);
 

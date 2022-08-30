@@ -21,6 +21,8 @@ export interface StoreContext {
     hasSystemConfig: boolean;
     hasCustomConfig: boolean;
     mailto: string | null;
+    imap: any;
+    smtp: any;
   };
   isSyncingServer: boolean;
   serverSettings: GetServerSettingsUser;
@@ -47,6 +49,8 @@ const initialContext: StoreContext = {
     hasCustomConfig: false,
     hasSystemConfig: false,
     mailto: null,
+    imap: null,
+    smtp: null,
   },
   isSyncingServer: false,
   serverSettings: {

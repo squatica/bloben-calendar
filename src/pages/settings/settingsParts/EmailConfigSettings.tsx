@@ -1,11 +1,11 @@
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 
 import { Box, Heading, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 import { getSize } from '../../../types/constants';
 import { refreshUserData } from '../../../redux/functions/user';
-import ButtonBase from 'components/chakraCustom/buttonBase/ButtonBase';
+import ButtonBase from '../../../components/chakraCustom/buttonBase/ButtonBase';
 import EmailConfigModal from '../../../components/emailConfigModal/EmailConfigModal';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
@@ -17,7 +17,7 @@ const EmailConfigSettings = () => {
   const [modalOpen, openModal] = useState<boolean>(false);
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

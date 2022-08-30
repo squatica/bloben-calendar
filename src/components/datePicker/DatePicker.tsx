@@ -6,7 +6,7 @@ import { AppSettings, ReduxState } from '../../types/interface';
 import { DateTime } from 'luxon';
 import { calculateMonthDays } from '../../utils/dates';
 import { useSelector } from 'react-redux';
-import { useWidth } from 'utils/layout';
+import { useWidth } from '../../utils/layout';
 import DateInput from './dateInput/DateInput';
 import MiniCalendar from './miniCalendar/MiniCalendar';
 

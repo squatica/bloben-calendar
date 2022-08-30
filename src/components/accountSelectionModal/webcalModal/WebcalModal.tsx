@@ -25,7 +25,7 @@ import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { map } from 'lodash';
 import Alarms from '../../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import ChakraInput from '../../chakraCustom/ChakraInput';
-import ModalNew from 'components/modalNew/ModalNew';
+import ModalNew from '../../../components/modalNew/ModalNew';
 import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../../separator/Separator';

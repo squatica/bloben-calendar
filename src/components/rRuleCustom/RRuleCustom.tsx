@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+// @ts-ignore
 import RRuleGenerator from '../../lib/reactRruleGenerator/index';
 import React from 'react';
 

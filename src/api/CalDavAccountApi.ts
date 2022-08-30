@@ -5,7 +5,7 @@ import {
   GetCalDavAccountResponse,
   UpdateCalDavAccountRequest,
 } from '../bloben-interface/calDavAccount/calDavAccount';
-import Axios from 'lib/Axios';
+import Axios from '../lib/Axios';
 
 export default {
   createCalDavAccount: async (

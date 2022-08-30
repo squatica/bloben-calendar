@@ -1,13 +1,13 @@
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { Link, Text } from '@chakra-ui/react';
 import ChakraModal from '../chakraCustom/ChakraModal';
 import React, { useContext } from 'react';
-import Separator from 'components/separator/Separator';
+import Separator from '../../components/separator/Separator';
 interface NewVersionModalProps {
   handleClose: any;
 }
 const NewVersionModal = (props: NewVersionModalProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { version, isDark } = store;
 

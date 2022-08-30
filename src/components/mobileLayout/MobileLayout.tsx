@@ -1,4 +1,4 @@
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { useContext } from 'react';
 
 interface MobileLayoutProps {
@@ -7,7 +7,7 @@ interface MobileLayoutProps {
 const MobileLayout = (props: MobileLayoutProps) => {
   const { children } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
 
   return isMobile ? children : null;

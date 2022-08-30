@@ -28,7 +28,7 @@ import { createToast } from '../../../utils/common';
 import { useDispatch } from 'react-redux';
 import CalDavAccountApi from '../../../api/CalDavAccountApi';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
-import ChakraInput from 'components/chakraCustom/ChakraInput';
+import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 import ModalNew from '../../modalNew/ModalNew';
 import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';

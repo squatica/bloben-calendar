@@ -9,7 +9,7 @@ import {
   InputRightElement,
   useToast,
 } from '@chakra-ui/react';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { handleLogin } from './loginHelper';
 import ChakraInput from '../../components/chakraCustom/ChakraInput';
 import PrimaryButton from '../../components/chakraCustom/primaryButton/PrimaryButton';
@@ -24,7 +24,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [store, dispatch] = useContext(Context);
+  const [store, dispatch]: [StoreContext, any] = useContext(Context);
 
   const { isMobile } = store;
 

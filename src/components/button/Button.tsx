@@ -1,7 +1,7 @@
 import './Button.scss';
 import React from 'react';
 
-import { parseCssDark } from 'utils/common';
+import { parseCssDark } from '../../utils/common';
 import ButtonBase from './buttonBase/ButtonBase';
 
 type ButtonType =

@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 
 import './MiniCalendarHeader.scss';
 
-import { Context } from '../../../../context/store';
+import { Context, StoreContext } from '../../../../context/store';
 import { DateTime } from 'luxon';
-import { EvaIcons } from 'components/eva-icons';
+import { EvaIcons } from '../../../eva-icons';
 import { parseCssDark } from '../../../../utils/common';
 import ButtonIcon from '../../../button/buttonIcon/ButtonIcon';
 
@@ -16,7 +16,7 @@ interface MiniCalendarHeaderProps {
 const MiniCalendarHeader = (props: MiniCalendarHeaderProps) => {
   const { selectedDate, subOneMonth, addOneMonth } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isDark } = store;
 

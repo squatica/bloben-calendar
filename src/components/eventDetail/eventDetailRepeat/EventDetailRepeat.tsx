@@ -9,8 +9,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Context } from 'context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { RRule } from 'rrule';
 import { repeatOptions } from './EventDetailRepeatUtils';
 import ChakraModal from '../../chakraCustom/ChakraModal';
@@ -51,7 +51,7 @@ const EventDetailRepeat = (props: EventDetailRepeatProps) => {
 
   const [isCustomOpen, openCustomMenu] = useState(false);
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const selectOption = (item: any) => {

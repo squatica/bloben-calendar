@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { Stack } from '@chakra-ui/react';
 import { map } from 'lodash';
 import { parseHtml } from '../../../utils/parserHtml';
@@ -61,7 +61,7 @@ interface EventDetailNotesProps {
 const EventDetailNotes = (props: EventDetailNotesProps) => {
   const { value, handleChange, disabled } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   return (

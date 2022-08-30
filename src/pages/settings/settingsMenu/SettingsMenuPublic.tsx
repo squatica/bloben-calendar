@@ -1,10 +1,10 @@
 import './SettingsMenu.scss';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../../components/eva-icons';
 import { SETTINGS_PATHS } from '../../../types/enums';
 import { SettingsButton } from './SettingsMenu';
 import { Stack } from '@chakra-ui/react';
-import { parseCssDark } from 'utils/common';
+import { parseCssDark } from '../../../utils/common';
 import React, { useContext } from 'react';
 
 interface SettingsMenuPublicProps {
@@ -14,7 +14,7 @@ interface SettingsMenuPublicProps {
 const SettingsMenuPublic = (props: SettingsMenuPublicProps) => {
   const { setSelected, selected } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
 
   return (

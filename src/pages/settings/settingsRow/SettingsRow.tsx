@@ -1,5 +1,5 @@
 import './SettingsRow.scss';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { parseCssDark } from '../../../utils/common';
 import React, { useContext } from 'react';
 
@@ -8,7 +8,7 @@ interface SettingsRowProps {
   children: any;
 }
 const SettingsRow = (props: SettingsRowProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   return (
     <div className={'SettingsRow__container'}>

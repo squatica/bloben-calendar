@@ -1,5 +1,5 @@
 import './Modal.scss';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { parseCssDark } from '../../utils/common';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 
@@ -12,7 +12,7 @@ interface ModalProps {
   noOverflow?: boolean;
 }
 const Modal = (props: ModalProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { e, handleClose, noOverflow } = props;
   const [isVisible, setVisible] = useState(false);

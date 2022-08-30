@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 
 import { GetSharedLinkPublicResponse } from '../bloben-interface/public/SharedLinkPublic';
 import { SearchEventsResponse } from '../bloben-interface/event/event';
-import Axios from 'lib/Axios';
+import Axios from '../lib/Axios';
 
 export default {
   getPublicCalendars: async (id: string): Promise<AxiosResponse<any>> => {

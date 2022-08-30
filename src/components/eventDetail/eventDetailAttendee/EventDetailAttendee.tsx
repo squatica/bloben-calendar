@@ -22,14 +22,14 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { SearchCardDavContactResponse } from '../../../bloben-interface/cardDavContact/cardDavContact';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast, parseCssDark } from '../../../utils/common';
 import { filter, map } from 'lodash';
 import CardDavContactApi from '../../../api/CardDavContactApi';
-import ChakraInput from 'components/chakraCustom/ChakraInput';
+import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 import OrganizerResponseRow from '../../organizerResponseRow/OrganizerResponseRow';
 import TrashIcon from '../../eva-icons/trash';
@@ -234,7 +234,7 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
     handleClose,
   } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const [searchResult, setSearchResult] = useState<any>([]);

@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import './EventDetail.scss';
 
 import { CalDavCalendar } from '../../../types/interface';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
 import { Stack } from '@chakra-ui/react';
 import { filter } from 'lodash';
@@ -15,7 +15,7 @@ import EventDetailDates from '../../../components/eventDetail/eventDetailDates/E
 import EventDetailLocation from '../../../components/eventDetail/eventDetailLocation/EventDetailLocation';
 import EventDetailNotes from '../../../components/eventDetail/eventDetailNotes/EventDetailNotes';
 import EventDetailRepeat from '../../../components/eventDetail/eventDetailRepeat/EventDetailRepeat';
-import EventDetailTitle from 'components/eventDetail/eventDetailTitle/EventDetailTitle';
+import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/EventDetailTitle';
 
 interface EventDetailProps {
   summary: string;
@@ -53,7 +53,7 @@ interface EventDetailProps {
   disabledAttendeeChange?: boolean;
 }
 const EventDetail = (props: EventDetailProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const {
     summary,

@@ -1,8 +1,7 @@
-/* eslint-disable react/no-children-prop */
 import React, { useContext } from 'react';
 
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { Stack, Text } from '@chakra-ui/react';
 import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
 import ChakraInput from '../../chakraCustom/ChakraInput';
@@ -17,7 +16,7 @@ interface EventDetailTitleProps {
 const EventDetailTitle = (props: EventDetailTitleProps) => {
   const { isNewEvent, value, handleChange, disabled } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   return (

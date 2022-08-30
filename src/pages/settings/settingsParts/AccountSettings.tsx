@@ -1,8 +1,8 @@
-import { ACCOUNT_TYPE } from 'types/enums';
+import { ACCOUNT_TYPE } from '../../../types/enums';
 import { Button, Center } from '@chakra-ui/react';
 
-import { Context } from '../../../context/store';
-import AccountSelectionModal from 'components/accountSelectionModal/AccountSelectionModal';
+import { Context, StoreContext } from '../../../context/store';
+import AccountSelectionModal from '../../../components/accountSelectionModal/AccountSelectionModal';
 import CalDavAccountModal from '../../../components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import CalDavAccountSettings from './accountSettings/CalDavAccountSettings';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
@@ -12,7 +12,7 @@ import WebcalAccountSettings from './accountSettings/WebcalAccountSettings';
 import WebcalModal from '../../../components/accountSelectionModal/webcalModal/WebcalModal';
 
 const AccountSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
 
   const [newAccountModalOpen, openNewAccountModal] =

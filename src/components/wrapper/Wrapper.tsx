@@ -1,5 +1,5 @@
 import './Wrapper.scss';
-import { parseCssDark } from 'utils/common';
+import { parseCssDark } from '../../utils/common';
 import React from 'react';
 
 interface WrapperProps {

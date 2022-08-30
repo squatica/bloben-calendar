@@ -1,9 +1,9 @@
 import '../styles/index.css';
 import { cloneDeep, set } from 'lodash';
-import End from './End/index';
+import End from './End';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import Repeat from './Repeat/index';
+import Repeat from './Repeat';
 import computeRRuleFromString from '../utils/computeRRule/fromString/computeRRule';
 import computeRRuleToString from '../utils/computeRRule/toString/computeRRule';
 import configureInitialState from '../utils/configureInitialState';

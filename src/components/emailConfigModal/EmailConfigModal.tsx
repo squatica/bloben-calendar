@@ -5,11 +5,11 @@ import {
   Heading,
   useToast,
 } from '@chakra-ui/react';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
 import ChakraInput from '../chakraCustom/ChakraInput';
-import ModalNew from 'components/modalNew/ModalNew';
+import ModalNew from '../../components/modalNew/ModalNew';
 import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
@@ -36,7 +36,7 @@ const initialState: any = {
 const EmailConfigModal = (props: EmailConfigModalProps) => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

@@ -11,10 +11,8 @@ LocalForage.setDriver(localForage.INDEXEDDB)
     return;
   })
   .catch((error) => {
-    if (process.env.NODE_ENV !== 'test') {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+    // eslint-disable-next-line no-console
+    console.log(error);
   });
 
 export default LocalForage;

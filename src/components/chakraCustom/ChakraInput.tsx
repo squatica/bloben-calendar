@@ -1,4 +1,4 @@
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { Input, InputProps } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 
@@ -12,7 +12,7 @@ interface ChakraInputProps extends InputProps {
   id?: string;
 }
 const ChakraInput = (props: ChakraInputProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const {

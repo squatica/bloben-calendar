@@ -1,4 +1,4 @@
-import { Context } from '../context/store';
+import { Context, StoreContext } from '../context/store';
 import { getLocalTimezone } from '../utils/common';
 import {
   setCaldavAccounts,
@@ -18,7 +18,7 @@ import UserEmailConfigApi from '../api/UserEmailConfigApi';
 import WebcalCalendarApi from '../api/WebcalCalendarApi';
 
 const SyncLayer = (props: any) => {
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

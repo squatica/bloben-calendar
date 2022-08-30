@@ -15,7 +15,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { EvaIcons } from '../../eva-icons';
 import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
@@ -125,7 +125,7 @@ interface AlarmsProps {
 const Alarms = (props: AlarmsProps) => {
   const { alarms, addAlarm, removeAlarm, updateAlarm } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isDark } = store;
   //

@@ -13,8 +13,8 @@ import HelpSettings from './settings/settingsParts/HelpSettings';
 import Main from './main/Main';
 import Settings from './settings/Settings';
 import SharedCalendarsSettings from './settings/settingsParts/SharedCalendarsSettings';
-import SocketioProvider from 'layers/SocketioProvider';
-import SyncLayer from 'layers/SyncLayer';
+import SocketioProvider from '../layers/SocketioProvider';
+import SyncLayer from '../layers/SyncLayer';
 import Toast from '../components/toast/Toast';
 
 const AppRouter = () => {

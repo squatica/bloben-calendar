@@ -1,5 +1,5 @@
 import './MobilePageHeader.scss';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { ITEM_SIZE } from '../../types/enums';
 import { IconButton, Text } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
@@ -13,7 +13,7 @@ interface MobilePageHeaderProps {
 }
 
 const MobilePageHeader = (props: MobilePageHeaderProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const { handleClose, title } = props;

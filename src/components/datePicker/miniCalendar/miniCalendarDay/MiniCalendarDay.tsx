@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 
 import './MiniCalendarDay.scss';
 
-import { Context } from '../../../../context/store';
+import { Context, StoreContext } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
 import ButtonBase from '../../../button/buttonBase/ButtonBase';
-import LuxonHelper from 'utils/LuxonHelper';
+import LuxonHelper from '../../../../utils/LuxonHelper';
 
 interface MiniCalendarDayProps {
   item: any;
@@ -32,7 +32,7 @@ const MiniCalendarDay = (props: MiniCalendarDayProps) => {
     ? LuxonHelper.isSameDay(item, selectedDate)
     : false;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isDark } = store;
 

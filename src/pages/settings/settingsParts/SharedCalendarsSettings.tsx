@@ -21,7 +21,7 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { GetSharedCalendarsResponse } from '../../../bloben-interface/calendar/shared/calendarShared';
 import { ITEM_SIZE, TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
@@ -116,7 +116,7 @@ const SharedCalendarItem = (props: {
 };
 
 const SharedCalendarsSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
   const toast = useToast();
 

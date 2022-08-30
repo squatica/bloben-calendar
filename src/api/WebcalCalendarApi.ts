@@ -6,7 +6,7 @@ import {
   PatchWebcalCalendarRequest,
 } from '../bloben-interface/webcalCalendar/webcalCalendar';
 
-import Axios from 'lib/Axios';
+import Axios from '../lib/Axios';
 
 export default {
   createWebcalCalendar: async (

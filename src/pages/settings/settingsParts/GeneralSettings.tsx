@@ -19,7 +19,7 @@ import {
   PatchCalendarSettingsRequest,
 } from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { CalendarView } from 'kalend';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import {
   DEFAULT_TIME_SETTINGS,
   THEME_SETTINGS,
@@ -36,7 +36,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import ChakraInput from '../../../components/chakraCustom/ChakraInput';
-import ChakraTimezoneSelect from 'components/chakraCustom/ChakraTimezoneSelect';
+import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext, useEffect, useState } from 'react';
 import SettingsRow from '../settingsRow/SettingsRow';
@@ -48,7 +48,7 @@ const menuStyle: any = {
 };
 
 const GeneralSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isMobile } = store;
 

@@ -2,7 +2,7 @@ import './Header.scss';
 import { useSelector } from 'react-redux';
 import React, { useContext } from 'react';
 
-import { Context } from 'context/store';
+import { Context, StoreContext } from '../../context/store';
 import { IconButton, Spinner } from '@chakra-ui/react';
 import MenuIcon from '../eva-icons/menu';
 import RefreshIcon from '../eva-icons/refresh';
@@ -20,7 +20,7 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { handleDrawerIconClick, hasHeaderShadow, isDrawerExpanded } = props;
 
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const { isDark, isMobile, isSyncing } = store;
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });

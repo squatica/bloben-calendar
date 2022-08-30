@@ -1,6 +1,6 @@
 import { Button, Menu, MenuButton, MenuList, Text } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import DatePicker from 'components/datePicker/DatePicker';
+import DatePicker from '../../../../../components/datePicker/DatePicker';
 import React from 'react';
 
 const EndOnDate = (props: {

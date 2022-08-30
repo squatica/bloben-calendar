@@ -24,13 +24,13 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import { ITEM_SIZE, TOAST_STATUS } from 'types/enums';
+import { ITEM_SIZE, TOAST_STATUS } from '../../../../types/enums';
 import { ReduxState } from '../../../../types/interface';
 import { WebcalCalendar } from '../../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../../utils/common';
 import { useSelector } from 'react-redux';
 
-import { Context } from '../../../../context/store';
+import { Context, StoreContext } from '../../../../context/store';
 import {
   getTableSize,
   getTableTitlePaddingLeft,
@@ -93,7 +93,7 @@ const renderWebcalCalendars = (
 };
 
 const CalDavAccountSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
   const toast = useToast();
 

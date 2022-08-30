@@ -1,5 +1,5 @@
 import { ButtonProps } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import ButtonBase from '../buttonBase/ButtonBase';
 import React, { useContext } from 'react';
 
@@ -49,7 +49,7 @@ const getHoverStyle = (isSecondary: boolean | undefined, isDark: boolean) => {
 };
 
 const PrimaryButton = (props: PrimaryButtonProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const hoverColors = getHoverStyle(props.isSecondary, isDark);

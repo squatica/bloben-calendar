@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import './ButtonIcon.scss';
-import { parseCssDark } from 'utils/common';
+import { parseCssDark } from '../../../utils/common';
 
 type ButtonIconSize = 'small' | 'normal' | 'big' | 'full';
 
