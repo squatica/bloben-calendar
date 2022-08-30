@@ -11,27 +11,27 @@ export default {
   createCalDavAccount: async (
     data: CreateCalDavAccountRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.post('/v1/caldav-accounts', data);
+    return Axios.post('/app/v1/caldav-accounts', data);
   },
   updateCalDavAccount: async (
     id: string,
     data: UpdateCalDavAccountRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.put(`/v1/caldav-accounts/${id}`, data);
+    return Axios.put(`/app/v1/caldav-accounts/${id}`, data);
   },
   getCalDavAccount: async (
     id: string
   ): Promise<AxiosResponse<GetCalDavAccountResponse>> => {
-    return Axios.get(`/v1/caldav-accounts/${id}`);
+    return Axios.get(`/app/v1/caldav-accounts/${id}`);
   },
   getCalDavAccounts: async (): Promise<
     AxiosResponse<GetCalDavAccountResponse[]>
   > => {
-    return Axios.get(`/v1/caldav-accounts/`);
+    return Axios.get(`/app/v1/caldav-accounts/`);
   },
   deleteCalDavAccount: async (
     id: string
   ): Promise<AxiosResponse<GetCalDavAccountResponse>> => {
-    return Axios.delete(`/v1/caldav-accounts/${id}`);
+    return Axios.delete(`/app/v1/caldav-accounts/${id}`);
   },
 };

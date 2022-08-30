@@ -10,12 +10,12 @@ export default {
   update: async (
     data: UpdateUserEmailConfigRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.patch('/v1/users/email-config', data);
+    return Axios.patch('/app/v1/users/email-config', data);
   },
   get: async (): Promise<AxiosResponse<GetUserEmailConfigResponse>> => {
-    return Axios.get('/v1/users/email-config');
+    return Axios.get('/app/v1/users/email-config');
   },
   delete: async (): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.delete('/v1/users/email-config');
+    return Axios.delete('/app/v1/users/email-config');
   },
 };

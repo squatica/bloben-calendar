@@ -14,7 +14,7 @@ export default {
     isDark?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
     return Axios.get(
-      `/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
+      `/app/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
         isDark || false
       }`
     );
@@ -22,7 +22,7 @@ export default {
   getCachedEvents: async (
     isDark?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
-    return Axios.get(`/v1/events?isDark=${isDark || false}`);
+    return Axios.get(`/app/v1/events?isDark=${isDark || false}`);
   },
   getEventsOnInit: async (
     isDark?: boolean
@@ -34,7 +34,7 @@ export default {
     const rangeTo = endOfMonth.plus({ week: 1 }).toUTC().toString();
 
     return Axios.get(
-      `/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
+      `/app/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
         isDark || false
       }`
     );
@@ -42,13 +42,13 @@ export default {
   searchEvents: async (
     summary: string
   ): Promise<AxiosResponse<SearchEventsResponse[]>> => {
-    return Axios.get(`/v1/events/search?summary=${summary}`);
+    return Axios.get(`/app/v1/events/search?summary=${summary}`);
   },
   getEvent: async (
     id: string,
     type: EVENT_TYPE,
     isDark: boolean
   ): Promise<AxiosResponse<GetEventResponse>> => {
-    return Axios.get(`/v1/events/${id}?type=${type}&isDark=${isDark}`);
+    return Axios.get(`/app/v1/events/${id}?type=${type}&isDark=${isDark}`);
   },
 };

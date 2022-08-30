@@ -10,31 +10,31 @@ import Axios from 'lib/Axios';
 
 export default {
   getCalDavCalendars: async (): Promise<AxiosResponse<GetCalDavCalendar[]>> => {
-    return Axios.get(`/v1/caldav-calendars?component=VEVENT`);
+    return Axios.get(`/app/v1/caldav-calendars?component=VEVENT`);
   },
   syncCalDavCalendars: async (): Promise<AxiosResponse<void>> => {
-    return Axios.post(`/v1/caldav-calendars/sync`);
+    return Axios.post(`/app/v1/caldav-calendars/sync`);
   },
   createCalendar: async (
     data: CreateCalDavCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.post(`/v1/caldav-calendars`, data);
+    return Axios.post(`/app/v1/caldav-calendars`, data);
   },
   updateCalendar: async (
     id: string,
     data: UpdateCalDavCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.put(`/v1/caldav-calendars/${id}`, data);
+    return Axios.put(`/app/v1/caldav-calendars/${id}`, data);
   },
   patchCalendar: async (
     id: string,
     data: PatchCalDavCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.patch(`/v1/caldav-calendars/${id}`, data);
+    return Axios.patch(`/app/v1/caldav-calendars/${id}`, data);
   },
   deleteCalendar: async (
     id: string
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.delete(`/v1/caldav-calendars/${id}`);
+    return Axios.delete(`/app/v1/caldav-calendars/${id}`);
   },
 };

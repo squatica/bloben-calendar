@@ -10,9 +10,9 @@ export default {
   patch: async (
     data: PatchCalendarSettingsRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.patch('/v1/calendar-settings', data);
+    return Axios.patch('/app/v1/calendar-settings', data);
   },
   get: async (): Promise<AxiosResponse<CalendarSettingsResponse>> => {
-    return Axios.get('/v1/calendar-settings');
+    return Axios.get('/app/v1/calendar-settings');
   },
 };

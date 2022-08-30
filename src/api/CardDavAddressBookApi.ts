@@ -5,6 +5,6 @@ import Axios from '../lib/Axios';
 
 export default {
   getAll: async (): Promise<AxiosResponse<GetCardDavAddressBooks[]>> => {
-    return Axios.get(`/v1/carddav/address-books`);
+    return Axios.get(`/app/v1/carddav/address-books`);
   },
 };

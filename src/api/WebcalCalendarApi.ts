@@ -12,28 +12,28 @@ export default {
   createWebcalCalendar: async (
     data: CreateWebcalCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.post(`/v1/webcal/calendars`, data);
+    return Axios.post(`/app/v1/webcal/calendars`, data);
   },
   updateWebcalCalendar: async (
     id: string,
     data: CreateWebcalCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.put(`/v1/webcal/calendars/${id}`, data);
+    return Axios.put(`/app/v1/webcal/calendars/${id}`, data);
   },
   getWebcalCalendars: async (): Promise<
     AxiosResponse<GetWebcalCalendarsResponse[]>
   > => {
-    return Axios.get('/v1/webcal/calendars');
+    return Axios.get('/app/v1/webcal/calendars');
   },
   patchCalendar: async (
     id: string,
     data: PatchWebcalCalendarRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.patch(`/v1/webcal/calendars/${id}`, data);
+    return Axios.patch(`/app/v1/webcal/calendars/${id}`, data);
   },
   deleteWebcalCalendar: async (
     id: string
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.delete(`/v1/webcal/calendars/${id}`);
+    return Axios.delete(`/app/v1/webcal/calendars/${id}`);
   },
 };
