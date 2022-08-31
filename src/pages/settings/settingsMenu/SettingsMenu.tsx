@@ -131,6 +131,19 @@ const SettingsMenu = (props: SettingsMenuProps) => {
         />
         <SettingsButton
           selected={selected}
+          path={SETTINGS_PATHS.SECURITY}
+          onClick={() => {
+            setSelected(SETTINGS_PATHS.SECURITY);
+          }}
+          text={'Security'}
+          icon={
+            <EvaIcons.Lock
+              className={parseCssDark('SettingsMenu__icon', store.isDark)}
+            />
+          }
+        />
+        <SettingsButton
+          selected={selected}
           path={SETTINGS_PATHS.EMAIL_CONFIG}
           onClick={() => {
             setSelected(SETTINGS_PATHS.EMAIL_CONFIG);

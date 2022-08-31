@@ -11,6 +11,7 @@ import EmailConfigSettings from './settings/settingsParts/EmailConfigSettings';
 import GeneralSettings from './settings/settingsParts/GeneralSettings';
 import HelpSettings from './settings/settingsParts/HelpSettings';
 import Main from './main/Main';
+import SecuritySettings from './settings/settingsParts/SecuritySettings';
 import Settings from './settings/Settings';
 import SharedCalendarsSettings from './settings/settingsParts/SharedCalendarsSettings';
 import SocketioProvider from '../layers/SocketioProvider';
@@ -47,6 +48,10 @@ const AppRouter = () => {
           <Route
             path={SETTINGS_PATHS.CONTACTS}
             element={<ContactsSettings />}
+          />
+          <Route
+            path={SETTINGS_PATHS.SECURITY}
+            element={<SecuritySettings />}
           />
         </Routes>
         <Toast />
