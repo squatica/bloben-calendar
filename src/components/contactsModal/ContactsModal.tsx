@@ -6,7 +6,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { GetCardDavContactsResponse } from '../../bloben-interface/cardDavContact/cardDavContact';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, parseCssDark } from '../../utils/common';
@@ -73,7 +73,7 @@ const ContactsModal = (props: ContactsModalProps) => {
   const { handleClose, addressBookID } = props;
   const toast = useToast();
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const [contacts, setContacts] = useState<GetCardDavContactsResponse[]>([]);

@@ -13,7 +13,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { CalendarView } from 'kalend';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { checkHasNewVersion, parseCssDark } from '../../utils/common';
 import { initialReduxState } from '../../redux/reducers';
 import { replace } from '../../redux/actions';
@@ -47,7 +47,7 @@ interface CalendarHeaderProps {
 const CalendarHeader = (props: CalendarHeaderProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

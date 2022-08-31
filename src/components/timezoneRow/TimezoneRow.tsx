@@ -1,5 +1,5 @@
-import { Context } from 'context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../context/store';
+import { EvaIcons } from '../eva-icons';
 import { parseCssDark, parseTimezoneText } from '../../utils/common';
 import ButtonBase from '../button/buttonBase/ButtonBase';
 import React, { useContext } from 'react';
@@ -11,7 +11,7 @@ interface TimezoneRowProps {
 const TimezoneRow = (props: TimezoneRowProps) => {
   const { timezone, openTimezoneModal } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   return (

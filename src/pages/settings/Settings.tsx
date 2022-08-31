@@ -1,7 +1,7 @@
 import './Settings.scss';
 import React, { useContext, useState } from 'react';
 
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { Flex } from '@chakra-ui/react';
 import { SETTINGS_PATHS } from '../../types/enums';
 import { parseCssDark } from '../../utils/common';
@@ -29,7 +29,7 @@ interface SettingsProps {
 }
 const Settings = (props: SettingsProps) => {
   const { isPublic } = props;
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

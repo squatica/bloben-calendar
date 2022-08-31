@@ -1,4 +1,4 @@
-import { Context } from '../../../../context/store';
+import { Context, StoreContext } from '../../../../context/store';
 import React, { useContext } from 'react';
 
 import '../../EventDetail.scss';
@@ -20,7 +20,7 @@ export const EditEventRepeatValueDropdown = (
 ) => {
   const { label, handleOpen, value, style } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isDark } = store;
 

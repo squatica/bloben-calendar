@@ -6,7 +6,7 @@ import {
   UpdateCalDavCalendarRequest,
 } from '../bloben-interface/calDavCalendar/calDavCalendar';
 import { GetCalDavCalendar } from '../bloben-interface/calDavCalendar/calDavCalendar';
-import Axios from 'lib/Axios';
+import Axios from '../lib/Axios';
 
 export default {
   getCalDavCalendars: async (): Promise<AxiosResponse<GetCalDavCalendar[]>> => {

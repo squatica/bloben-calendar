@@ -1,9 +1,9 @@
 import { Button, Spinner, Text } from '@chakra-ui/react';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { useContext } from 'react';
 
 const Toast = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   return (
     <>

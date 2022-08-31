@@ -7,7 +7,7 @@ import {
   PostSendSharedCalendarInviteRequest,
   PostSharedLinkRequest,
 } from '../bloben-interface/calendar/shared/calendarShared';
-import Axios from 'lib/Axios';
+import Axios from '../lib/Axios';
 
 export default {
   postSharedCalendar: async (

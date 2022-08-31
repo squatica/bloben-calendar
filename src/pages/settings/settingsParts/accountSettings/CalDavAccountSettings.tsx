@@ -25,9 +25,9 @@ import {
   CalDavEvent,
   ReduxState,
 } from '../../../../types/interface';
-import { Context } from '../../../../context/store';
+import { Context, StoreContext } from '../../../../context/store';
 import { DAV_ACCOUNT_TYPE } from '../../../../bloben-interface/enums';
-import { TOAST_STATUS } from 'types/enums';
+import { TOAST_STATUS } from '../../../../types/enums';
 import { createToast } from '../../../../utils/common';
 import {
   deleteCaldavAccount,
@@ -44,7 +44,7 @@ import {
 } from '../../../../types/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import CalDavAccountApi from '../../../../api/CalDavAccountApi';
-import CalDavAccountModal from 'components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
+import CalDavAccountModal from '../../../../components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import React, { useContext, useRef, useState } from 'react';
 import Separator from '../../../../components/separator/Separator';
 
@@ -88,7 +88,7 @@ const renderCalDavAccounts = (
 };
 
 const CalDavAccountSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
 
   const [editModalVisible, setEditModalVisible] = useState(false);

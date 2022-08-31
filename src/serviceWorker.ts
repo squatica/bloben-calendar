@@ -28,7 +28,7 @@ interface Config {
 
 export function register(config?: Config) {
   if (
-    process.env.REACT_APP_NODE_ENV !== 'local' &&
+    import.meta.env.VITE_APP_NODE_ENV !== 'local' &&
     'serviceWorker' in navigator
   ) {
     // The URL constructor is available in all browsers that support SW.

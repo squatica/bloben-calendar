@@ -45,7 +45,7 @@ const reconnect = (clientSessionId: string, setContext: any) => {
 };
 
 const SocketioProvider = (props: any) => {
-  const [store, dispatch] = useContext(Context);
+  const [store, dispatch]: [StoreContext, any] = useContext(Context);
 
   const { isLogged } = store as StoreContext;
 

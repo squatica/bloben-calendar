@@ -1,4 +1,4 @@
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { InputProps } from '@chakra-ui/react';
 import { Textarea } from '@chakra-ui/react';
 import React, { useContext } from 'react';
@@ -14,7 +14,7 @@ interface ChakraTextAreaProps extends InputProps {
   rows?: number;
 }
 const ChakraTextArea = (props: ChakraTextAreaProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const {

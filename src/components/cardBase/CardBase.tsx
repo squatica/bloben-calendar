@@ -1,6 +1,6 @@
 import './CardBase.scss';
 
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { parseCssDark } from '../../utils/common';
 import React, { useContext } from 'react';
 
@@ -11,7 +11,7 @@ interface CardBaseProps {
 
 const CardBase = (props: CardBaseProps) => {
   const { children, style } = props;
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   return (
     <div

@@ -3,7 +3,7 @@ import '../calendar/Calendar.scss';
 import 'kalend/dist/styles/index.css';
 import { CALENDAR_VIEW } from 'kalend-layout';
 import { CalDavEvent, QueryRange, ReduxState } from '../../types/interface';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../bloben-interface/enums';
 
@@ -116,7 +116,7 @@ const PublicCalendar = (props: PublicCalendarProps) => {
 
   const hasEmailConfigRef = useRef(false);
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   useEffect(() => {
     hasEmailConfigRef.current =

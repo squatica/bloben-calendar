@@ -10,8 +10,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { CalDavCalendar, ReduxState } from '../../../types/interface';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../../components/eva-icons';
 import { colors } from '../../../utils/colors';
 import { useSelector } from 'react-redux';
 import CircleFill from '../../eva-icons/circle-fill';
@@ -42,7 +42,7 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
   const calendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
   );
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const renderedCalendar = renderCalendars(calendars, selectCalendar);

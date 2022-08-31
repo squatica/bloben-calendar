@@ -1,7 +1,7 @@
 import { Button, Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import { CALENDAR_VIEW, CalendarView } from 'kalend';
 import { CSS_CLASSES, DRAWER_PATH } from '../../types/enums';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { initialReduxState } from '../../redux/reducers';
 import { parseCssDark } from '../../utils/common';
 import { replace } from '../../redux/actions';
@@ -26,7 +26,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
   const { isBottomSheetOpen, onClose, setSelectedView, selectedView } = props;
 
   const dispatch = useDispatch();
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

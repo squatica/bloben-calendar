@@ -33,7 +33,7 @@ import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 
 import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
 import { filter } from 'lodash';
 import { getTableSize } from '../../../types/constants';
@@ -182,7 +182,7 @@ const renderCalDavAccountCalendars = (
 };
 
 const CalendarsSettings = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
   const toast = useToast();
   const dispatch = useDispatch();

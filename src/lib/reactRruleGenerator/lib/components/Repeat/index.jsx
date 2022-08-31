@@ -1,10 +1,10 @@
 import { Flex, FormControl, FormLabel, Select } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React from 'react';
-import RepeatDaily from './Daily/index';
-import RepeatMonthly from './Monthly/index';
-import RepeatWeekly from './Weekly/index';
-import RepeatYearly from './Yearly/index';
+import RepeatDaily from './Daily';
+import RepeatMonthly from './Monthly';
+import RepeatWeekly from './Weekly';
+import RepeatYearly from './Yearly';
 import Separator from '../../../../../components/separator/Separator';
 import translateLabel from '../../utils/translateLabel';
 

@@ -6,7 +6,7 @@ import { createToast } from '../../utils/common';
 import { filter, map } from 'lodash';
 import CalDavEventsApi from '../../api/CalDavEventsApi';
 import DatePicker from '../datePicker/DatePicker';
-import ModalNew from 'components/modalNew/ModalNew';
+import ModalNew from '../../components/modalNew/ModalNew';
 import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useState } from 'react';
 import SendInviteModal from '../sendInviteModalModal/SendInviteModal';

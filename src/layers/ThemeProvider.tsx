@@ -1,4 +1,4 @@
-import { Context } from '../context/store';
+import { Context, StoreContext } from '../context/store';
 import { DateTime } from 'luxon';
 import { ReduxState } from '../types/interface';
 import { THEME_SETTINGS, ThemeSettings } from '../redux/reducers/themeSettings';
@@ -27,7 +27,7 @@ const checkIfIsDarkThemeTime = (themeSettings: ThemeSettings) => {
 };
 
 const AuthProvider = (props: any) => {
-  const [, dispatch] = useContext(Context);
+  const [, dispatch]: [StoreContext, any] = useContext(Context);
   const themeSettings: ThemeSettings = useSelector(
     (state: ReduxState) => state.themeSettings
   );

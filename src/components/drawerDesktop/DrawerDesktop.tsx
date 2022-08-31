@@ -5,8 +5,8 @@ import {
   CalDavCalendar,
   ReduxState,
 } from '../../types/interface';
-import { Context } from '../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../context/store';
+import { EvaIcons } from '../../components/eva-icons';
 import { WebcalCalendar } from '../../redux/reducers/webcalCalendars';
 import { getAccountCalendars } from '../../utils/tsdavHelper';
 import { getBaseUrl } from '../../utils/parser';
@@ -119,7 +119,7 @@ const renderWebcalCalendars = (
 };
 
 const CalDavDrawer = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isDark } = store;
   const calDavAccounts: CalDavAccount[] = useSelector(
@@ -180,7 +180,7 @@ const CalDavDrawer = () => {
 };
 
 const DrawerDesktop = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isDark } = store;
   return (

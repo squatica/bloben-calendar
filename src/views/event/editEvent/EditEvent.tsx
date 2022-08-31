@@ -12,6 +12,7 @@ import {
   updateAlarm,
 } from '../../../utils/common';
 
+// @ts-ignore
 import { stateReducer } from '../../../utils/reducer/baseReducer';
 import EventDetail from '../eventDetail/EventDetail';
 
@@ -22,8 +23,8 @@ import {
   ReduxState,
   User,
 } from '../../../types/interface';
-import { Context } from 'context/store';
-import { DatetimeParser, parseToDateTime } from 'utils/datetimeParser';
+import { Context, StoreContext } from '../../../context/store';
+import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 
@@ -49,7 +50,7 @@ import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
-import Separator from 'components/separator/Separator';
+import Separator from '../../../components/separator/Separator';
 
 interface EditEventProps {
   handleClose: any;
@@ -76,14 +77,17 @@ const EditEvent = (props: EditEventProps) => {
 
   const [eventState] = useReducer(stateReducer, initialState);
 
-  const [form, dispatchForm] = useReducer(stateReducer, initialFormState);
+  const [form, dispatchForm]: any = useReducer(
+    stateReducer,
+    initialFormState as any
+  );
   const [calendar, setCalendar] = useState(null as any);
   const [isSaving, setIsSaving] = useState(false);
   const [repeatChangeValue, setRepeatChangeValue] = useState<any>(null);
   const [wasSimpleEvent, setWasSimpleEvent] = useState(true);
   const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
 
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -115,7 +119,7 @@ const EditEvent = (props: EditEventProps) => {
   const { isNewEvent, newEventTime, handleClose, event, isDuplicatingEvent } =
     props;
 
-  const { isStartDateValid } = eventState;
+  const { isStartDateValid } = eventState as unknown as any;
 
   const {
     summary,
@@ -132,7 +136,7 @@ const EditEvent = (props: EditEventProps) => {
     organizer,
     rRule,
     color,
-  } = form;
+  } = form as any;
 
   const showRepeatEventModal =
     checkIfHasRepeatPreAction(form) &&
@@ -284,7 +288,7 @@ const EditEvent = (props: EditEventProps) => {
     await handleSaveEvent(
       showEmailInviteModal,
       openEmailInviteModal,
-      form,
+      form as any,
       isNewEvent,
       calendar,
       handleClose,

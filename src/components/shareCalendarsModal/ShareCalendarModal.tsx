@@ -26,7 +26,7 @@ import CalendarSharedApi from '../../api/CalendarSharedApi';
 import ChakraInput from '../chakraCustom/ChakraInput';
 import ChakraModal from '../chakraCustom/ChakraModal';
 import DatePicker from '../datePicker/DatePicker';
-import ModalNew from 'components/modalNew/ModalNew';
+import ModalNew from '../modalNew/ModalNew';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
 import SettingsRow from '../../pages/settings/settingsRow/SettingsRow';

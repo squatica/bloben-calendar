@@ -1,5 +1,5 @@
 import './ModalNew.scss';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { Heading, IconButton } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
 import CrossIcon from '../eva-icons/cross';
@@ -17,7 +17,7 @@ interface ModalNewProps {
   title?: string;
 }
 const ModalNew = (props: ModalNewProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { handleClose, preventCloseOnBackdrop, width } = props;
 

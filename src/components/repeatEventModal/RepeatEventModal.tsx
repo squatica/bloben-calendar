@@ -1,5 +1,5 @@
 import { Button, Flex, Spacer, Text } from '@chakra-ui/react';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../bloben-interface/enums';
 import ModalNew from '../modalNew/ModalNew';
 import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
@@ -41,7 +41,7 @@ const RadioItem = (props: {
   type: REPEAT_MODAL_TYPE;
   handleSelect: any;
 }) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
   const { value, thisValue, handleSelect, type } = props;
   const isChecked = value === thisValue;

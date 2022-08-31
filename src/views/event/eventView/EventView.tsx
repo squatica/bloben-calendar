@@ -11,10 +11,13 @@ import {
 } from '../../../types/interface';
 import { createToast, formatEventDate } from '../../../utils/common';
 
-import { Context } from 'context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { DeleteRepeatedCalDavEventRequest } from '../../../bloben-interface/event/event';
-import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from 'bloben-interface/enums';
-import { EvaIcons } from 'components/eva-icons';
+import {
+  EVENT_TYPE,
+  REPEATED_EVENT_CHANGE_TYPE,
+} from '../../../bloben-interface/enums';
+import { EvaIcons } from '../../../components/eva-icons';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
@@ -29,7 +32,7 @@ import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/E
 import FormIcon from '../../../components/formIcon/FormIcon';
 import HeaderModal from '../../../components/headerModal/HeaderModal';
 import ICalHelper from '../../../utils/ICalHelper';
-import Modal from 'components/modal/Modal';
+import Modal from '../../../components/modal/Modal';
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
@@ -50,7 +53,7 @@ interface EventDatesProps {
 const EventDates = (props: EventDatesProps) => {
   const { event } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark, isMobile } = store;
 
   const humanDate: any = formatEventDate(event);
@@ -96,7 +99,7 @@ interface EventViewProps {
 const EventView = (props: EventViewProps) => {
   const toast = useToast();
 
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -182,7 +185,6 @@ const EventView = (props: EventViewProps) => {
       });
       if (response.status === 200 || response.status === 204) {
         setContext('syncSequence', store.syncSequence + 1);
-
         toast(createToast('Event deleted'));
 
         handleClose();
@@ -298,10 +300,6 @@ const EventView = (props: EventViewProps) => {
     }
   };
 
-  useEffect(() => {
-    loadEvent();
-    getCalendar();
-  }, [store.webcalEvents]);
   useEffect(() => {
     loadEvent();
     getCalendar();

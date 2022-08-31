@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
 import './VersionFooter.scss';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { parseCssDark } from '../../utils/common';
 
 const VersionFooter = () => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { version, isDark } = store;
 
@@ -16,7 +16,7 @@ const VersionFooter = () => {
       >{`Docker image version ${version.dockerImageVersion}`}</p>
       <p
         className={parseCssDark('VersionFooter__text', isDark)}
-      >{`Calendar version ${process.env.REACT_APP_VERSION}`}</p>
+      >{`Calendar version ${import.meta.env.VITE_APP_VERSION}`}</p>
       <p
         className={parseCssDark('VersionFooter__text', isDark)}
       >{`Api version ${version.apiVersion}`}</p>

@@ -1,5 +1,5 @@
 import { CalDavEvent } from '../types/interface';
-import { Context } from '../context/store';
+import { Context, StoreContext } from '../context/store';
 import { GetSharedLinkPublicResponse } from '../bloben-interface/public/SharedLinkPublic';
 import { getHostname } from '../utils/common';
 import { useContext, useEffect, useState } from 'react';
@@ -17,7 +17,7 @@ const getQueryID = () => {
 const Public = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_store, dispatch] = useContext(Context);
+  const [, dispatch]: [StoreContext, any] = useContext(Context);
 
   const [events, setEvents] = useState<CalDavEvent[]>([]);
   const [settings, setSettings] = useState<GetSharedLinkPublicResponse | null>(

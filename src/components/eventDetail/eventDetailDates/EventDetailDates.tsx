@@ -12,13 +12,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
-import { parseToDateTime } from 'utils/datetimeParser';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
+import { parseToDateTime } from '../../../utils/datetimeParser';
 import { useWidth } from '../../../utils/layout';
 import DatePicker from '../../datePicker/DatePicker';
 import FormIcon from '../../formIcon/FormIcon';
-import LuxonHelper from 'utils/LuxonHelper';
+import LuxonHelper from '../../../utils/LuxonHelper';
 import TimePicker from '../../timePicker/TimePicker';
 
 const SIDE_MARGIN = 24;
@@ -52,7 +52,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
     setForm,
   } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark, isMobile } = store;
 
   const width: number = useWidth();

@@ -1,9 +1,9 @@
 import './SettingsMenu.scss';
 import { Button, Stack } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../../components/eva-icons';
 import { SETTINGS_PATHS } from '../../../types/enums';
-import { parseCssDark } from 'utils/common';
+import { parseCssDark } from '../../../utils/common';
 import { useNavigate } from 'react-router-dom';
 import CalendarIcon from '../../../components/eva-icons/calendar';
 import Email from '../../../components/eva-icons/email';
@@ -21,7 +21,7 @@ export interface SettingsButtonProps {
   selected: string;
 }
 export const SettingsButton = (props: SettingsButtonProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
 
   return (
@@ -47,7 +47,7 @@ interface SettingsMenuProps {
 const SettingsMenu = (props: SettingsMenuProps) => {
   const { setSelected, selected } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isMobile } = store;
 
   const navigate = useNavigate();
