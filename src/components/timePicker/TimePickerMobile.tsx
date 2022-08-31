@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import React, { useContext, useEffect } from 'react';
 
 import './TimePickerMobile.scss';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { parseCssDark } from '../../utils/common';
-import { parseToDateTime } from 'utils/datetimeParser';
+import { parseToDateTime } from '../../utils/datetimeParser';
 import { useWidth } from '../../utils/layout';
 import ButtonBase from '../button/buttonBase/ButtonBase';
 
@@ -88,7 +88,7 @@ interface TimePickerViewProps {
 const TimePickerView = (props: TimePickerViewProps) => {
   const { selectedDate, selectMinute, selectHour, width, timezone } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
 
   const { isMobile, isDark } = store;
 

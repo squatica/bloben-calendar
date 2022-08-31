@@ -10,7 +10,7 @@ import {
   ReduxState,
 } from '../../types/interface';
 import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
 import {
   EVENT_TYPE,
@@ -120,7 +120,7 @@ const Calendar = () => {
   const wasInitRef: any = useRef(false);
   const hasEmailConfigRef = useRef(false);
 
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };

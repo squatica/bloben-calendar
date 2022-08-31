@@ -1,7 +1,7 @@
 import { Button, Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import { CALENDAR_VIEW, CalendarView } from 'kalend';
 import { CSS_CLASSES, DRAWER_PATH } from '../../types/enums';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { initialReduxState } from '../../redux/reducers';
 import { parseCssDark } from '../../utils/common';
 import { replace } from '../../redux/actions';
@@ -13,7 +13,7 @@ import PersonIcon from '../eva-icons/person';
 import React, { useContext } from 'react';
 import Separator from '../separator/Separator';
 import SettingsIcon from '../eva-icons/settings';
-import UserApi from '../../api/UserApi';
+import UserApi from '../../api/AuthApi';
 
 interface BottomSheetMobileProps {
   isBottomSheetOpen: boolean;
@@ -26,13 +26,9 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
   const { isBottomSheetOpen, onClose, setSelectedView, selectedView } = props;
 
   const dispatch = useDispatch();
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
-  };
-
-  const handleOpenSettings = () => {
-    setContext('settingsOpen', true);
   };
 
   const handleLogout = async () => {
@@ -41,6 +37,10 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
     dispatch(replace(initialReduxState));
     navigate('/calendar');
     setContext('isLogged', false);
+  };
+
+  const handleOpenSettings = () => {
+    navigate('/calendar/settings');
   };
 
   const viewButtonStyle: any = {
@@ -84,7 +84,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
               }
               variant={'ghost'}
               onClick={handleOpenSettings}
-              isFullWidth={true}
+              width={'full'}
               justifyContent={'flex-start'}
               fontSize={14}
             >
@@ -99,7 +99,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
               }
               variant={'ghost'}
               onClick={handleLogout}
-              isFullWidth={true}
+              width={'full'}
               justifyContent={'flex-start'}
               fontSize={14}
             >
@@ -116,7 +116,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   variant={
                     selectedView === CalendarView.AGENDA ? 'solid' : 'ghost'
                   }
-                  isFullWidth={true}
+                  width={'full'}
                   style={viewButtonStyle}
                   fontWeight={
                     selectedView === CalendarView.AGENDA ? 'bold' : 'normal'
@@ -133,7 +133,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   }
                   size={'md'}
                   style={viewButtonStyle}
-                  isFullWidth={true}
+                  width={'full'}
                   fontWeight={
                     selectedView === CalendarView.DAY ? 'bold' : 'normal'
                   }
@@ -149,9 +149,8 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   fontWeight={
                     selectedView === CalendarView.THREE_DAYS ? 'bold' : 'normal'
                   }
-                  width={24}
                   style={viewButtonStyle}
-                  isFullWidth={true}
+                  width={'full'}
                   size={'md'}
                   onClick={() => setSelectedView(CalendarView.THREE_DAYS)}
                 >
@@ -164,7 +163,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   }
                   size={'md'}
                   style={viewButtonStyle}
-                  isFullWidth={true}
+                  width={'full'}
                   fontWeight={
                     selectedView === CalendarView.WEEK ? 'bold' : 'normal'
                   }
@@ -179,7 +178,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
                   }
                   style={viewButtonStyle}
                   size={'md'}
-                  isFullWidth={true}
+                  width={'full'}
                   fontWeight={
                     selectedView === CalendarView.MONTH ? 'bold' : 'normal'
                   }

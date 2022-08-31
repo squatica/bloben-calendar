@@ -1,4 +1,4 @@
-@import '~styles/colors';
+
 
 $ICON_SIZE: 22px;
 
@@ -16,8 +16,8 @@ $ICON_SIZE: 22px;
   }
 
   @media (max-width: 750px) {
-    width: 50px;
-    //padding: 0 8px 0 8px;
+    width: 30px;
+    justify-content: flex-start;
   }
 
   &-desktop-visible {

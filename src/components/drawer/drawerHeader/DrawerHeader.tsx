@@ -21,7 +21,7 @@ const DrawerHeader = (props: DrawerHeaderProps) => {
         style={{ fontWeight: calendarSelected ? 'bold' : 'normal' }}
         variant={calendarSelected ? 'solid' : 'ghost'}
         onClick={() => setSelected(DRAWER_PATH.CALENDAR)}
-        isFullWidth={true}
+        width={'full'}
         fontSize={14}
       >
         Calendar

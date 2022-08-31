@@ -5,7 +5,6 @@ import { ColorModeScript } from '@chakra-ui/react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import React from 'react';
-import theme from './theme';
 
 declare global {
   interface Window {
@@ -25,7 +24,7 @@ const root = createRoot(container! as HTMLElement);
 // disable strict mode because of rerenders
 root.render(
   <>
-    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <ColorModeScript initialColorMode={'light'} />
     <App />
   </>
 );

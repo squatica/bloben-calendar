@@ -1,6 +1,5 @@
 import './ButtonBase.scss';
-import { Button } from '@chakra-ui/react';
-import { ButtonProps } from '@chakra-ui/button/dist/declarations/src/button';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import { useState } from 'react';
 
 interface ButtonBaseProps extends ButtonProps {

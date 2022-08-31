@@ -14,7 +14,7 @@ const Main = () => {
   const navigate = useNavigate();
   const [selected] = useState<DRAWER_PATH>(DRAWER_PATH.CALENDAR);
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { settingsOpen, isMobile } = store as StoreContext;
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Main = () => {
           {calendarSelected ? <Calendar /> : null}
         </div>
       </div>
-      <Settings />
+      {!isMobile ? <Settings /> : null}
     </div>
   );
 };

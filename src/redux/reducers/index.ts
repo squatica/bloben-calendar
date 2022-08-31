@@ -1,5 +1,6 @@
 import { Reducer, combineReducers } from 'redux';
 
+import { ROLE } from '../../bloben-interface/enums';
 import { ReduxState } from '../../types/interface';
 import baseDateRange, { initBaseDateRange } from './baseDateRange';
 import cachedEvents from './cachedEvents';
@@ -30,6 +31,8 @@ export const initialReduxState: ReduxState = {
   user: {
     username: '',
     id: '',
+    isTwoFactorEnabled: false,
+    role: ROLE.DEMO,
   },
   calendarSettings: defaultCalendarSettings,
   themeSettings: initThemeSettings,

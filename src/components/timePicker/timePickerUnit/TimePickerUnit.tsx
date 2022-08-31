@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 
 import './TimePickerUnit.scss';
 
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { parseCssDark } from '../../../utils/common';
 import ButtonBase from '../../button/buttonBase/ButtonBase';
 
@@ -17,7 +17,7 @@ interface TimePickerUnitProps {
 const TimePickerUnit = (props: TimePickerUnitProps) => {
   const { selectedDate, selectValue, value, keyPrefix, id } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   // const key = `${keyPrefix}_${value}`;

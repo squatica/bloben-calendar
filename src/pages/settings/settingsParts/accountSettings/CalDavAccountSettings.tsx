@@ -25,8 +25,9 @@ import {
   CalDavEvent,
   ReduxState,
 } from '../../../../types/interface';
+import { Context, StoreContext } from '../../../../context/store';
 import { DAV_ACCOUNT_TYPE } from '../../../../bloben-interface/enums';
-import { TOAST_STATUS } from 'types/enums';
+import { TOAST_STATUS } from '../../../../types/enums';
 import { createToast } from '../../../../utils/common';
 import {
   deleteCaldavAccount,
@@ -36,28 +37,39 @@ import {
 import { filter, forEach } from 'lodash';
 import { getAccountCalendars } from '../../../../utils/tsdavHelper';
 import { getBaseUrl } from '../../../../utils/parser';
+import {
+  getSize,
+  getTableSize,
+  getTableTitlePaddingLeft,
+} from '../../../../types/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import CalDavAccountApi from '../../../../api/CalDavAccountApi';
-import CalDavAccountModal from 'components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
-import React, { useState } from 'react';
+import CalDavAccountModal from '../../../../components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
+import React, { useContext, useRef, useState } from 'react';
 import Separator from '../../../../components/separator/Separator';
 
 const renderCalDavAccounts = (
   calDavAccounts: CalDavAccount[],
   handleEdit: any,
   openPreDeleteModal: any,
-  type: DAV_ACCOUNT_TYPE
+  type: DAV_ACCOUNT_TYPE,
+  isMobile: boolean
 ) => {
+  const size = getTableSize(isMobile);
   return filter(calDavAccounts, (item) => item.accountType === type).map(
     (item) => {
       return (
         <Tbody key={item.principalUrl}>
           <Tr>
             <Td>{item.username}</Td>
-            <Td>{getBaseUrl(item.principalUrl || '')}</Td>
+            {!isMobile ? <Td>{getBaseUrl(item.principalUrl || '')}</Td> : null}
             <Td>
               <Menu>
-                <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+                <MenuButton
+                  as={Button}
+                  _focus={{ boxShadow: 'none' }}
+                  size={size}
+                >
                   Actions
                 </MenuButton>
                 <MenuList>
@@ -76,6 +88,9 @@ const renderCalDavAccounts = (
 };
 
 const CalDavAccountSettings = () => {
+  const [store]: [StoreContext] = useContext(Context);
+  const { isMobile } = store;
+
   const [editModalVisible, setEditModalVisible] = useState(false);
 
   const toast = useToast();
@@ -116,18 +131,23 @@ const CalDavAccountSettings = () => {
     setEditModalVisible(false);
   };
 
+  const tableSize = getSize(isMobile);
+  const paddingLeft = getTableTitlePaddingLeft(isMobile);
+
   const calDavAccountsRendered = renderCalDavAccounts(
     calDavAccounts,
     handleEdit,
     openPreDeleteModal,
-    DAV_ACCOUNT_TYPE.CALDAV
+    DAV_ACCOUNT_TYPE.CALDAV,
+    isMobile
   );
 
   const cardDavAccountsRendered = renderCalDavAccounts(
     calDavAccounts,
     handleEdit,
     openPreDeleteModal,
-    DAV_ACCOUNT_TYPE.CARDDAV
+    DAV_ACCOUNT_TYPE.CARDDAV,
+    isMobile
   );
 
   const handleDeleteAccount = async () => {
@@ -176,20 +196,21 @@ const CalDavAccountSettings = () => {
       setIsLoading(false);
     }
   };
+  const leastDestructiveRef = useRef(null);
 
   return calDavAccounts.length ? (
     <>
       {calDavAccountsRendered.length ? (
         <>
-          <Heading size={'md'} paddingLeft={6}>
+          <Heading size={'md'} paddingLeft={paddingLeft}>
             CalDAV
           </Heading>
           <Separator height={8} />
-          <Table variant="simple" size={'md'}>
+          <Table variant="simple" size={tableSize}>
             <Thead>
               <Tr>
                 <Th>Username</Th>
-                <Th>Domain</Th>
+                {!isMobile ? <Th>Domain</Th> : null}
                 <Th>Action</Th>
               </Tr>
             </Thead>
@@ -200,15 +221,15 @@ const CalDavAccountSettings = () => {
       ) : null}
       {cardDavAccountsRendered.length ? (
         <>
-          <Heading size={'md'} paddingLeft={6}>
+          <Heading size={'md'} paddingLeft={paddingLeft}>
             CardDAV
           </Heading>
           <Separator height={8} />
-          <Table variant="simple" size={'md'}>
+          <Table variant="simple" size={tableSize}>
             <Thead>
               <Tr>
                 <Th>Username</Th>
-                <Th>Domain</Th>
+                {!isMobile ? <Th>Domain</Th> : null}
                 <Th>Action</Th>
               </Tr>
             </Thead>
@@ -219,7 +240,7 @@ const CalDavAccountSettings = () => {
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={undefined}
+        leastDestructiveRef={leastDestructiveRef}
         isCentered={true}
       >
         <AlertDialogOverlay>
@@ -233,7 +254,11 @@ const CalDavAccountSettings = () => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button _focus={{ boxShadow: 'none' }} onClick={onModalClose}>
+              <Button
+                ref={leastDestructiveRef}
+                _focus={{ boxShadow: 'none' }}
+                onClick={onModalClose}
+              >
                 Cancel
               </Button>
               <Button

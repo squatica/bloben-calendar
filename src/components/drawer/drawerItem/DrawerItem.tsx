@@ -46,7 +46,7 @@ const DrawerItem = (props: DrawerItemProps) => {
       // colorScheme="whiteAlpha"
       variant="ghost"
       onClick={handleClick}
-      isFullWidth
+      width={'full'}
       justifyContent={'flex-start'}
       fontWeight={400}
       leftIcon={

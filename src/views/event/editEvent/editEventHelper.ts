@@ -1,4 +1,4 @@
-import { CalDavCalendar, User } from '../../../types/interface';
+import { CalDavCalendar } from '../../../types/interface';
 import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
 import { DateTime } from 'luxon';
 import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
@@ -6,6 +6,7 @@ import {
   EVENT_TYPE,
   REPEATED_EVENT_CHANGE_TYPE,
 } from '../../../bloben-interface/enums';
+import { GetAccountResponse } from '../../../bloben-interface/user/user';
 import { OnNewEventClickData } from 'kalend';
 import {
   PARTSTAT_ACCEPTED,
@@ -417,7 +418,7 @@ export const initNewEventOnMount = (
   setForm: any,
   setCalendar: any,
   store: StoreContext,
-  user: User,
+  user: GetAccountResponse,
   newEventTime: NewEventTime
 ): void => {
   const defaultCalendarID = settings.defaultCalendarID;

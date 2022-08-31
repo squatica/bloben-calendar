@@ -1,4 +1,4 @@
-import { Context } from '../../../../context/store';
+import { Context, StoreContext } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
 import ButtonBase from '../../../button/buttonBase/ButtonBase';
 import React, { useContext } from 'react';
@@ -12,7 +12,7 @@ interface RepeatValueButtonProps {
 const EventDetailRepeatValueButton = (props: RepeatValueButtonProps) => {
   const { label, handleClick, value, style } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   return (

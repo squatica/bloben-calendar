@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
 import { Button, Stack } from '@chakra-ui/react';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { LOCATION_PROVIDER } from '../../../bloben-interface/enums';
 import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
 import ChakraInput from '../../chakraCustom/ChakraInput';
@@ -21,13 +21,14 @@ interface LocationButtonProps {
 }
 const LocationButton = (props: LocationButtonProps) => {
   const { location } = props;
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { serverSettings } = store;
 
   return (
     <Button
       variant={'ghost'}
-      style={{ fontWeight: 'normal' }}
+      style={{ fontWeight: 'normal', padding: 0 }}
+      justifyContent={'flex-start'}
       onClick={() => {
         window.open(
           parseLink(location, serverSettings.locationProvider),
@@ -48,7 +49,7 @@ interface EventDetailLocationProps {
 const EventDetailLocation = (props: EventDetailLocationProps) => {
   const { value, handleChange, disabled } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   return (

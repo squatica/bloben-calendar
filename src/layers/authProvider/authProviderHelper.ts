@@ -1,6 +1,6 @@
 import { getHostname } from '../../utils/common';
 import { setUser } from '../../redux/actions';
-import UserApi from '../../api/UserApi';
+import AuthApi from '../../api/AuthApi';
 
 export const checkLogin = async (
   setContext: any,
@@ -22,17 +22,12 @@ export const checkLogin = async (
   }
 
   try {
-    const response = await UserApi.getAccount();
+    const response = await AuthApi.getAccount();
 
-    if (response.data.userID) {
+    if (response.data.id) {
       setContext('isLogged', true);
       setContext('isAppStarting', false);
-      reduxDispatch(
-        setUser({
-          id: response.data.userID,
-          username: response.data.username,
-        })
-      );
+      reduxDispatch(setUser(response.data));
     } else {
       setContext('isAppStarting', false);
     }

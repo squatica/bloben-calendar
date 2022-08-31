@@ -10,6 +10,7 @@ import GeneralSettings from '../settingsParts/GeneralSettings';
 import HelpSettings from '../settingsParts/HelpSettings';
 import React from 'react';
 import ResetSettings from '../settingsParts/ResetSettings';
+import SecuritySettings from '../settingsParts/SecuritySettings';
 import SharedCalendarsSettings from '../settingsParts/SharedCalendarsSettings';
 
 interface SettingsContentProps {
@@ -35,6 +36,7 @@ const SettingsContent = (props: SettingsContentProps) => {
       ) : null}
       {selected === SETTINGS_PATHS.ABOUT ? <AboutSettings /> : null}
       {selected === SETTINGS_PATHS.CONTACTS ? <ContactsSettings /> : null}
+      {selected === SETTINGS_PATHS.SECURITY ? <SecuritySettings /> : null}
     </div>
   );
 };

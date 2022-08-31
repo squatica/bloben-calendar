@@ -1,6 +1,6 @@
 import './FormIcon.scss';
 
-import { parseCssDark } from 'utils/common';
+import { parseCssDark } from '../../utils/common';
 import React, { ReactElement } from 'react';
 
 interface FormIconProps {

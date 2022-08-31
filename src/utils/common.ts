@@ -683,8 +683,10 @@ export const checkEventInRange = (
 
 export const getApiBaseUrl = (url: string) => url.slice(0, url.indexOf('/api'));
 
+export const isDev = () => window && window.location?.port === '3001';
+
 export const getHostname = () => {
-  if (process.env.REACT_APP_NODE_ENV === 'development') {
+  if (isDev()) {
     return 'http://localhost:8080';
   } else {
     return `${window.location.protocol}//${window.location.hostname}`;

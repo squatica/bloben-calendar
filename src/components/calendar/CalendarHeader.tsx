@@ -13,7 +13,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { CalendarView } from 'kalend';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { checkHasNewVersion, parseCssDark } from '../../utils/common';
 import { initialReduxState } from '../../redux/reducers';
 import { replace } from '../../redux/actions';
@@ -31,7 +31,7 @@ import RefreshIcon from '../eva-icons/refresh';
 import SearchIcon from '../eva-icons/search';
 import Separator from '../separator/Separator';
 import SettingsIcon from '../eva-icons/settings';
-import UserApi from '../../api/UserApi';
+import UserApi from '../../api/AuthApi';
 
 interface CalendarHeaderProps {
   kalendRef: any;
@@ -47,7 +47,7 @@ interface CalendarHeaderProps {
 const CalendarHeader = (props: CalendarHeaderProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -285,7 +285,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       }
                       variant={'ghost'}
                       onClick={handleOpenSettings}
-                      isFullWidth={true}
+                      width={'full'}
                       justifyContent={'flex-start'}
                       fontSize={14}
                     >
@@ -305,7 +305,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                         }
                         variant={'ghost'}
                         onClick={() => openVersionModal(true)}
-                        isFullWidth={true}
+                        width={'full'}
                         justifyContent={'flex-start'}
                         fontSize={14}
                       >
@@ -325,7 +325,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       }
                       variant={'ghost'}
                       onClick={handleLogout}
-                      isFullWidth={true}
+                      width={'full'}
                       justifyContent={'flex-start'}
                       fontSize={14}
                     >

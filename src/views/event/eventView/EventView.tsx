@@ -11,11 +11,13 @@ import {
 } from '../../../types/interface';
 import { createToast, formatEventDate } from '../../../utils/common';
 
-import { Context } from 'context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { DeleteRepeatedCalDavEventRequest } from '../../../bloben-interface/event/event';
-import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from 'bloben-interface/enums';
-import { EvaIcons } from 'components/eva-icons';
-import { MARGIN_LEFT_EVENT_VIEW_ITEM } from '../../../types/constants';
+import {
+  EVENT_TYPE,
+  REPEATED_EVENT_CHANGE_TYPE,
+} from '../../../bloben-interface/enums';
+import { EvaIcons } from '../../../components/eva-icons';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
@@ -30,7 +32,7 @@ import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/E
 import FormIcon from '../../../components/formIcon/FormIcon';
 import HeaderModal from '../../../components/headerModal/HeaderModal';
 import ICalHelper from '../../../utils/ICalHelper';
-import Modal from 'components/modal/Modal';
+import Modal from '../../../components/modal/Modal';
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
@@ -51,19 +53,36 @@ interface EventDatesProps {
 const EventDates = (props: EventDatesProps) => {
   const { event } = props;
 
-  const [store] = useContext(Context);
-  const { isDark } = store;
+  const [store]: [StoreContext] = useContext(Context);
+  const { isDark, isMobile } = store;
 
   const humanDate: any = formatEventDate(event);
   const { dates, time } = humanDate;
 
-  return (
+  return !isMobile ? (
     <Stack direction={'row'} align={'center'}>
       <FormIcon desktopVisible isDark={isDark}>
         <EvaIcons.Clock className={'EventDetail-icon'} />
       </FormIcon>
-      <Text style={{ marginLeft: MARGIN_LEFT_EVENT_VIEW_ITEM }}>{dates}</Text>
+      <Text>{dates}</Text>
       {event.allDay ? null : <Text>{time}</Text>}
+    </Stack>
+  ) : (
+    <Stack direction={'column'} align={'flex-start'}>
+      <Stack direction={'row'} align={'center'}>
+        <FormIcon allVisible isDark={isDark}>
+          <EvaIcons.Clock className={'EventDetail-icon'} />
+        </FormIcon>
+        <Text>{dates}</Text>
+      </Stack>
+      {!event.allDay ? (
+        <Stack direction={'row'} align={'center'}>
+          <FormIcon hidden isDark={isDark}>
+            <EvaIcons.Clock className={'EventDetail-icon'} />
+          </FormIcon>
+          <Text>{time}</Text>
+        </Stack>
+      ) : null}
     </Stack>
   );
 };
@@ -80,7 +99,7 @@ interface EventViewProps {
 const EventView = (props: EventViewProps) => {
   const toast = useToast();
 
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -166,7 +185,6 @@ const EventView = (props: EventViewProps) => {
       });
       if (response.status === 200 || response.status === 204) {
         setContext('syncSequence', store.syncSequence + 1);
-
         toast(createToast('Event deleted'));
 
         handleClose();
@@ -285,10 +303,6 @@ const EventView = (props: EventViewProps) => {
   useEffect(() => {
     loadEvent();
     getCalendar();
-  }, [store.webcalEvents]);
-  useEffect(() => {
-    loadEvent();
-    getCalendar();
   }, [JSON.stringify(props.data)]);
 
   const showDeleteEventModal =
@@ -314,14 +328,14 @@ const EventView = (props: EventViewProps) => {
       event &&
       event.id ? (
         <Modal e={currentE} handleClose={handleClose} maxHeight={'42%'}>
-          <>
+          <div style={{ padding: isMobile ? 8 : 0 }}>
             {event.type === EVENT_TYPE.CALDAV && !disabledEdit ? (
               <HeaderModal
                 isMobile={isMobile}
                 isDark={isDark}
                 hasHeaderShadow={false}
                 onClose={handleClose}
-                goBack={handleClose}
+                goBack={isMobile ? undefined : handleClose}
                 handleEdit={
                   event.type === EVENT_TYPE.CALDAV ? handleEdit : null
                 }
@@ -356,7 +370,7 @@ const EventView = (props: EventViewProps) => {
                 handleClose={handleClose}
               />
             ) : null}
-          </>
+          </div>
         </Modal>
       ) : null}
     </>

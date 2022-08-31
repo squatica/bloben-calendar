@@ -1,9 +1,7 @@
-/* eslint-disable react/no-children-prop */
 import React, { useContext } from 'react';
 
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
-import { MARGIN_LEFT_EVENT_VIEW_ITEM } from '../../../types/constants';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { Stack, Text } from '@chakra-ui/react';
 import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
 import ChakraInput from '../../chakraCustom/ChakraInput';
@@ -18,7 +16,7 @@ interface EventDetailTitleProps {
 const EventDetailTitle = (props: EventDetailTitleProps) => {
   const { isNewEvent, value, handleChange, disabled } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   return (
@@ -27,11 +25,7 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
         <EvaIcons.Note color={'transparent'} fill={'transparent'} />
       </FormIcon>
       {disabled ? (
-        <Text
-          size={'md'}
-          fontWeight={'bold'}
-          style={{ marginLeft: MARGIN_LEFT_EVENT_VIEW_ITEM }}
-        >
+        <Text size={'md'} fontWeight={'bold'}>
           {parseEventString(value)}
         </Text>
       ) : (

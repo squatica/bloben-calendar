@@ -1,15 +1,15 @@
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { checkLogin } from './authProviderHelper';
 import { getHostname, parseCssDark } from '../../utils/common';
 import { useDispatch } from 'react-redux';
 import AppRouter from '../../pages/Router';
 import GeneralApi from '../../api/GeneralApi';
-import Login from 'pages/login/Login';
+import Login from '../../pages/login/Login';
 import React, { useContext, useEffect } from 'react';
 
 const AuthProvider = () => {
   const reduxDispatch = useDispatch();
-  const [store, dispatch] = useContext(Context);
+  const [store, dispatch]: [StoreContext, any] = useContext(Context);
   const { isLogged } = store;
 
   const setContext = (type: string, payload: any) => {

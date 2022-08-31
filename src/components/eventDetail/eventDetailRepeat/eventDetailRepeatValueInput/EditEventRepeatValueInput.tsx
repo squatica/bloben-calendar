@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import '../../EventDetail.scss';
 import './EditEventRepeatValueInput.scss';
 
-import { Context } from '../../../../context/store';
-import { parseCssDark } from 'utils/common';
+import { Context, StoreContext } from '../../../../context/store';
+import { parseCssDark } from '../../../../utils/common';
 import ChakraInput from '../../../chakraCustom/ChakraInput';
 
 interface EditEventRepeatValueInputProps {
@@ -18,7 +18,7 @@ interface EditEventRepeatValueInputProps {
 const EditEventRepeatValueInput = (props: EditEventRepeatValueInputProps) => {
   const { defaultValue, type, name, value, onChange, style } = props;
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const handleChange = (e: any) => {

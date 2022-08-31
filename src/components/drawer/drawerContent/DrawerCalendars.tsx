@@ -4,7 +4,7 @@ import {
   CalDavCalendar,
   ReduxState,
 } from '../../../types/interface';
-import { Context } from '../../../context/store';
+import { Context, StoreContext } from '../../../context/store';
 import { DRAWER_PATH } from '../../../types/enums';
 import { Divider } from '@chakra-ui/react';
 import { getAccountCalendars } from '../../../utils/tsdavHelper';
@@ -59,7 +59,7 @@ interface DrawerContentProps {
   path: DRAWER_PATH;
 }
 const DrawerCalendars = (props: DrawerContentProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const calDavAccounts: CalDavAccount[] = useSelector(

@@ -1,5 +1,5 @@
 import './MobileNavbar.scss';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { Flex, IconButton, Spacer } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
 import CalendarIcon from '../eva-icons/calendar';
@@ -14,7 +14,7 @@ interface MobileNavbarProps {
   openBottomSheet: any;
 }
 const MobileNavbar = (props: MobileNavbarProps) => {
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { kalendRef, openBottomSheet } = props;
 
   const goForward = () => {

@@ -1,10 +1,11 @@
 import './Settings.scss';
 import React, { useContext, useState } from 'react';
 
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { Flex } from '@chakra-ui/react';
 import { SETTINGS_PATHS } from '../../types/enums';
 import { parseCssDark } from '../../utils/common';
+import { useNavigate } from 'react-router-dom';
 import ModalNew from '../../components/modalNew/ModalNew';
 import SettingsContent from './settingsContent/SettingsContent';
 import SettingsContentPublic from './settingsContent/SettingsContentPublic';
@@ -28,7 +29,7 @@ interface SettingsProps {
 }
 const Settings = (props: SettingsProps) => {
   const { isPublic } = props;
-  const [store, dispatchContext] = useContext(Context);
+  const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatchContext({ type, payload });
   };
@@ -38,23 +39,19 @@ const Settings = (props: SettingsProps) => {
     getInitialSettingsPath(isMobile, isPublic)
   );
 
+  const navigate = useNavigate();
+
+  const navigateMobile = (path: string) => navigate(`/calendar${path}`);
+
   const handleClose = () => setContext('settingsOpen', false);
 
   return isMobile ? (
     <Flex>
-      {store.settingsOpen ? (
-        <div className={parseCssDark('Settings__wrapper', store.isDark)}>
-          {selected === '' ? (
-            <>
-              <SettingsMenu setSelected={setSelected} selected={selected} />
-            </>
-          ) : (
-            <SettingsContent selected={selected} />
-          )}
-        </div>
-      ) : (
-        <div />
-      )}
+      <div className={parseCssDark('Settings__wrapper', store.isDark)}>
+        <SettingsMenu setSelected={navigateMobile} selected={selected} />
+        {/*<SettingsContentRouter />*/}
+      </div>
+      <div />
     </Flex>
   ) : store.settingsOpen ? (
     <ModalNew handleClose={handleClose} className={'SettingsModal'}>

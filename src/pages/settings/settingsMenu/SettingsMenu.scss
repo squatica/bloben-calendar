@@ -1,4 +1,4 @@
-@import '~styles/colors';
+
 
 .SettingsMenu__wrapper {
   height: 100%;
@@ -14,6 +14,7 @@
   @media (max-width: 750px) {
     width: 100%;
     align-items: flex-start;
+    padding: 0;
   }
 }
 

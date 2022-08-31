@@ -33,7 +33,7 @@ import { map } from 'lodash';
 import Alarms from '../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import CalDavCalendarApi from '../../api/CalDavCalendarApi';
 import ChakraInput from '../chakraCustom/ChakraInput';
-import ModalNew from 'components/modalNew/ModalNew';
+import ModalNew from '../../components/modalNew/ModalNew';
 import React, { useEffect, useReducer, useState } from 'react';
 import Separator from '../separator/Separator';
 import StateReducer from '../../utils/state-reducer';

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import './SearchModal.scss';
 import { Button, Text, useToast } from '@chakra-ui/react';
-import { Context } from '../../context/store';
+import { Context, StoreContext } from '../../context/store';
 import { SearchEventsResponse } from '../../bloben-interface/event/event';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, formatEventDate, parseCssDark } from '../../utils/common';
@@ -67,7 +67,7 @@ const SearchModal = (props: SearchModalProps) => {
 
   const [searchText, setSearchText] = useState('');
   const [results, setResults] = useState<SearchEventsResponse[]>([]);
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const { handleClose, handleClick, sharedCalendarID } = props;

@@ -13,15 +13,15 @@ export default {
     url: string,
     data: LoginRequest
   ): Promise<AxiosResponse<LoginResponse>> => {
-    return axios.post(`${url}/v1/users/login`, data, config);
+    return axios.post(`${url}/app/v1/auth/login`, data, config);
   },
   getSession: async (): Promise<AxiosResponse<GetSessionResponse>> => {
-    return Axios.get('/v1/users/login');
+    return Axios.get('/app/v1/auth/login');
   },
   getAccount: async (): Promise<AxiosResponse<GetAccountResponse>> => {
-    return Axios.get('/v1/users/account');
+    return Axios.get('/app/v1/auth/account');
   },
   logout: async (): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.get('/v1/users/logout');
+    return Axios.get('/app/v1/auth/logout');
   },
 };

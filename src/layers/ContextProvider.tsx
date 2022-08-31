@@ -1,15 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 
-import { Context } from '../context/store';
+import { Context, StoreContext } from '../context/store';
 import {
   DARK_THEME,
   LIGHT_THEME,
   SYSTEM_THEME,
   changeTheme,
-} from 'utils/changeTheme';
+} from '../utils/changeTheme';
 import { DESKTOP_MIN_WIDTH } from '../types/constants';
-import { parseCssDark } from 'utils/common';
-import { useWidth } from 'utils/layout';
+import { parseCssDark } from '../utils/common';
+import { useWidth } from '../utils/layout';
 import LoadingScreen from '../components/loadingScreen/LoadingScreen';
 
 interface ContextProviderProps {
@@ -21,7 +21,7 @@ interface ContextProviderProps {
  * @constructor
  */
 const ContextProvider = (props: ContextProviderProps) => {
-  const [store, dispatch] = useContext(Context);
+  const [store, dispatch]: [StoreContext, any] = useContext(Context);
 
   const { isDark } = store;
 

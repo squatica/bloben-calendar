@@ -12,19 +12,19 @@ export default {
   search: async (
     text: string
   ): Promise<AxiosResponse<SearchCardDavContactResponse>> => {
-    return Axios.get(`/v1/carddav/contacts/search?text=${text}`);
+    return Axios.get(`/app/v1/carddav/contacts/search?text=${text}`);
   },
   getAll: async (
     addressBookID: string
   ): Promise<AxiosResponse<GetCardDavContactsResponse[]>> => {
-    return Axios.get(`/v1/carddav/contacts?addressBookID=${addressBookID}`);
+    return Axios.get(`/app/v1/carddav/contacts?addressBookID=${addressBookID}`);
   },
   delete: async (id: string): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.delete(`/v1/carddav/contacts/${id}`);
+    return Axios.delete(`/app/v1/carddav/contacts/${id}`);
   },
   create: async (
     data: CreateCardDavContactRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.post(`/v1/carddav/contacts`, data);
+    return Axios.post(`/app/v1/carddav/contacts`, data);
   },
 };

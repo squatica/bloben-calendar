@@ -10,9 +10,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { CalDavCalendar, ReduxState } from '../../../types/interface';
-import { Context } from '../../../context/store';
-import { EvaIcons } from 'components/eva-icons';
-import { MARGIN_LEFT_EVENT_VIEW_ITEM } from '../../../types/constants';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../../components/eva-icons';
 import { colors } from '../../../utils/colors';
 import { useSelector } from 'react-redux';
 import CircleFill from '../../eva-icons/circle-fill';
@@ -43,14 +42,14 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
   const calendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
   );
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const renderedCalendar = renderCalendars(calendars, selectCalendar);
 
   return (
     <Stack direction={'row'} align={'center'}>
-      <FormIcon desktopVisible isDark={isDark}>
+      <FormIcon allVisible isDark={isDark}>
         {disabled ? (
           <EvaIcons.CircleFill
             style={{
@@ -103,7 +102,6 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
         <Text
           style={{
             fontWeight: 'normal',
-            marginLeft: MARGIN_LEFT_EVENT_VIEW_ITEM,
           }}
         >
           {calendar.displayName}

@@ -10,7 +10,7 @@ import { createToast } from '../../utils/common';
 import { TOAST_STATUS } from '../../types/enums';
 import CardDavContactApi from '../../api/CardDavContactApi';
 import ChakraInput from '../chakraCustom/ChakraInput';
-import ModalNew from 'components/modalNew/ModalNew';
+import ModalNew from '../../components/modalNew/ModalNew';
 import React, { useState } from 'react';
 import Separator from '../separator/Separator';
 

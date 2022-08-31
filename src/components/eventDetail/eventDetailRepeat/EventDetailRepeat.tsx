@@ -9,8 +9,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Context } from 'context/store';
-import { EvaIcons } from 'components/eva-icons';
+import { Context, StoreContext } from '../../../context/store';
+import { EvaIcons } from '../../eva-icons';
 import { RRule } from 'rrule';
 import { repeatOptions } from './EventDetailRepeatUtils';
 import ChakraModal from '../../chakraCustom/ChakraModal';
@@ -23,14 +23,8 @@ interface RepeatSelectedValueProps {
 export const RepeatSelectedValue = (props: RepeatSelectedValueProps) => {
   const { value } = props;
 
-  const [store] = useContext(Context);
-  const { isDark } = store;
-
   return (
     <>
-      <FormIcon isDark={isDark}>
-        <EvaIcons.Refresh />
-      </FormIcon>
       <Text>{value}</Text>
     </>
   );
@@ -57,7 +51,7 @@ const EventDetailRepeat = (props: EventDetailRepeatProps) => {
 
   const [isCustomOpen, openCustomMenu] = useState(false);
 
-  const [store] = useContext(Context);
+  const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const selectOption = (item: any) => {
@@ -92,7 +86,7 @@ const EventDetailRepeat = (props: EventDetailRepeatProps) => {
 
   return disabledRRule ? null : (
     <Stack direction={'row'} align={'center'}>
-      <FormIcon desktopVisible isDark={isDark}>
+      <FormIcon allVisible isDark={isDark}>
         <EvaIcons.Refresh className={'EventDetail-icon'} />
       </FormIcon>
       <Menu>

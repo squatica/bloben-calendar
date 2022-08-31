@@ -1,6 +1,6 @@
 import './EventDates.scss';
-import { parseToDateTime } from 'utils/datetimeParser';
-import LuxonHelper from 'utils/LuxonHelper';
+import { parseToDateTime } from '../../../utils/datetimeParser';
+import LuxonHelper from '../../../utils/LuxonHelper';
 import React from 'react';
 
 interface EventDatesProps {

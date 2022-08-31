@@ -45,7 +45,7 @@ const reconnect = (clientSessionId: string, setContext: any) => {
 };
 
 const SocketioProvider = (props: any) => {
-  const [store, dispatch] = useContext(Context);
+  const [store, dispatch]: [StoreContext, any] = useContext(Context);
 
   const { isLogged } = store as StoreContext;
 
@@ -69,7 +69,7 @@ const SocketioProvider = (props: any) => {
       };
       // create socketSessionId and save in server memory
       const response: AxiosResponse<any> = await Axios.post(
-        `${APP_API_VERSION_1}/socket`,
+        `/app${APP_API_VERSION_1}/socket`,
         data
       );
 

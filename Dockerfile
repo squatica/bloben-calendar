@@ -11,6 +11,6 @@ ENV NODE_ENV production
 RUN npm run build
 
 WORKDIR /usr/app
-RUN cp -r ./tmp/build ./calendar/
+RUN cp -r ./tmp/dist ./calendar/
 
 RUN rm -r ./tmp

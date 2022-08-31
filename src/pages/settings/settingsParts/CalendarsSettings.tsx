@@ -33,12 +33,16 @@ import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 
 import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { Context, StoreContext } from '../../../context/store';
 import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
 import { filter } from 'lodash';
+import { getTableSize } from '../../../types/constants';
+
 import { setCalendarSettings } from '../../../redux/actions';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
-import React, { useState } from 'react';
+import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
+import React, { useContext, useRef, useState } from 'react';
 import Separator from '../../../components/separator/Separator';
 
 const renderAccountCalendars = (
@@ -48,8 +52,10 @@ const renderAccountCalendars = (
   handleHide: any,
   openPreDeleteModal: any,
   setDefaultCalendar: any,
-  defaultCalendarID: string | null
+  defaultCalendarID: string | null,
+  isMobile: boolean
 ) => {
+  const size = getTableSize(isMobile);
   return calDavCalendars.map((calDavCalendar) => {
     return (
       <Flex
@@ -58,7 +64,7 @@ const renderAccountCalendars = (
         marginBottom={3}
         alignItems={'center'}
       >
-        <Flex width={150}>
+        <Flex width={isMobile ? 120 : 150}>
           <Text>
             {calDavCalendar.displayName}{' '}
             {calDavCalendar.isHidden ? '(hidden)' : ''}
@@ -71,7 +77,7 @@ const renderAccountCalendars = (
               key={component}
               borderRadius={10}
               padding={1}
-              size={'xs'}
+              size={'sm'}
               marginRight={2}
             >
               {component}
@@ -80,7 +86,7 @@ const renderAccountCalendars = (
         </Flex>
         <Spacer />
         <Menu>
-          <MenuButton as={Button} _focus={{ boxShadow: 'none' }}>
+          <MenuButton as={Button} _focus={{ boxShadow: 'none' }} size={size}>
             Actions
           </MenuButton>
           <MenuList>
@@ -112,8 +118,10 @@ const renderCalDavAccountCalendars = (
   handleEdit: any,
   openPreDeleteModal: any,
   setDefaultCalendar: any,
-  defaultCalendarID: string | null
+  defaultCalendarID: string | null,
+  isMobile: boolean
 ) => {
+  const size = getTableSize(isMobile);
   return filter(
     calDavAccounts,
     (item) => item.accountType === DAV_ACCOUNT_TYPE.CALDAV
@@ -138,14 +146,15 @@ const renderCalDavAccountCalendars = (
       handleHide,
       openPreDeleteModal,
       setDefaultCalendar,
-      defaultCalendarID
+      defaultCalendarID,
+      isMobile
     );
 
     return (
       <Flex
         direction={'column'}
         key={calDavAccount.id}
-        style={{ marginBottom: 16 }}
+        style={{ marginBottom: 16, padding: isMobile ? 12 : 0 }}
       >
         <Flex direction={'row'} alignItems={'center'}>
           <Heading size={'md'}>
@@ -157,6 +166,7 @@ const renderCalDavAccountCalendars = (
           <Button
             _focus={{ boxShadow: 'none' }}
             colorScheme={'pink'}
+            size={size}
             onClick={() => {
               handleAddCalendar(calDavAccount);
             }}
@@ -172,6 +182,8 @@ const renderCalDavAccountCalendars = (
 };
 
 const CalendarsSettings = () => {
+  const [store]: [StoreContext] = useContext(Context);
+  const { isMobile } = store;
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -241,7 +253,8 @@ const CalendarsSettings = () => {
     handleEdit,
     openPreDeleteModal,
     handleSetDefaultCalendar,
-    settings.defaultCalendarID
+    settings.defaultCalendarID,
+    isMobile
   );
 
   const handleDeleteCalendar = async () => {
@@ -265,9 +278,12 @@ const CalendarsSettings = () => {
     }
   };
 
+  const leastDestructiveRef = useRef(null);
+
   return (
     <>
-      <Separator height={24} />
+      {isMobile ? <MobilePageHeader title={'Calendars'} /> : null}
+      {!isMobile ? <Separator height={24} /> : null}
       <Flex direction={'column'}>{renderedCalendars}</Flex>
       {isModalOpen ? (
         <AddCalendarModal
@@ -279,7 +295,7 @@ const CalendarsSettings = () => {
       <AlertDialog
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={undefined}
+        leastDestructiveRef={leastDestructiveRef}
         isCentered={true}
       >
         <AlertDialogOverlay>
@@ -291,7 +307,11 @@ const CalendarsSettings = () => {
             <AlertDialogBody>Do you want to delete calendar?</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button _focus={{ boxShadow: 'none' }} onClick={onModalClose}>
+              <Button
+                ref={leastDestructiveRef}
+                _focus={{ boxShadow: 'none' }}
+                onClick={onModalClose}
+              >
                 Cancel
               </Button>
               <Button
