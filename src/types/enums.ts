@@ -66,6 +66,7 @@ export enum SETTINGS_PATHS {
   ACKNOWLEDGMENTS = '/settings/acknowledgments',
   SHARED_CALENDARS = '/settings/shared-calendars',
   CONTACTS = '/settings/contacts',
+  SECURITY = '/settings/security',
 }
 
 export enum SYNC_TYPE {

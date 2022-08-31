@@ -1,13 +1,14 @@
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, getHostname } from '../../utils/common';
-import UserApi from '../../api/UserApi';
+import UserApi from '../../api/AuthApi';
 
 export const handleLogin = async (
   username: string,
   password: string,
   setIsLoading: any,
   setContext: any,
-  toast: any
+  toast: any,
+  setTwoFactorVisible?: any
 ): Promise<void> => {
   setIsLoading(true);
 
@@ -26,6 +27,8 @@ export const handleLogin = async (
 
     if (response.data.isLogged && !response.data.isTwoFactorEnabled) {
       setContext('isLogged', true);
+    } else if (response.data?.isTwoFactorEnabled) {
+      setTwoFactorVisible(true);
     }
   } catch (e: any) {
     setContext('isLogged', false);

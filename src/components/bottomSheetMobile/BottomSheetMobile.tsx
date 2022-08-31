@@ -13,7 +13,7 @@ import PersonIcon from '../eva-icons/person';
 import React, { useContext } from 'react';
 import Separator from '../separator/Separator';
 import SettingsIcon from '../eva-icons/settings';
-import UserApi from '../../api/UserApi';
+import UserApi from '../../api/AuthApi';
 
 interface BottomSheetMobileProps {
   isBottomSheetOpen: boolean;

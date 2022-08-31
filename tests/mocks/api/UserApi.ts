@@ -5,7 +5,7 @@ import {
   LoginResponse,
 } from '../../../src/bloben-interface/user/user';
 import { ROLE } from '../../../src/bloben-interface/enums';
-import UserApi from '../../../src/api/UserApi';
+import UserApi from '../../../src/api/AuthApi';
 
 export const mockUserApi = () => {
   UserApi.login = async (url: string, data: LoginRequest) => {
@@ -36,7 +36,7 @@ export const mockUserApi = () => {
       status: 200,
       data: {
         username: 'tester',
-        userID: '12345',
+        id: '12345',
         role: ROLE.USER,
       },
     } as AxiosResponse<GetAccountResponse>;
