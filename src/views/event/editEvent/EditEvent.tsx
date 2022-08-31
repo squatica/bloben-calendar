@@ -21,7 +21,6 @@ import {
   CalDavCalendar,
   CalDavEvent,
   ReduxState,
-  User,
 } from '../../../types/interface';
 import { Context, StoreContext } from '../../../context/store';
 import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
@@ -70,7 +69,7 @@ const EditEvent = (props: EditEventProps) => {
   const calDavCalendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
   );
-  const user: User = useSelector((state: ReduxState) => state.user);
+  const user = useSelector((state: ReduxState) => state.user);
   const settings: CalendarSettingsResponse = useSelector(
     (state: ReduxState) => state.calendarSettings
   );

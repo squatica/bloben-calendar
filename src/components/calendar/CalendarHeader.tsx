@@ -31,7 +31,7 @@ import RefreshIcon from '../eva-icons/refresh';
 import SearchIcon from '../eva-icons/search';
 import Separator from '../separator/Separator';
 import SettingsIcon from '../eva-icons/settings';
-import UserApi from '../../api/UserApi';
+import UserApi from '../../api/AuthApi';
 
 interface CalendarHeaderProps {
   kalendRef: any;

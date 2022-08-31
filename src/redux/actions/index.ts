@@ -2,16 +2,16 @@ import {
   CalDavAccount,
   CalDavCalendar,
   CalDavEvent,
-  User,
 } from '../../types/interface';
 import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
+import { GetAccountResponse } from '../../bloben-interface/user/user';
 import { GetEventResponse } from '../../bloben-interface/event/event';
 import { OnPageChangeData } from 'kalend';
 import { SettingsLocal } from '../reducers/settingsLocal';
 import { ThemeSettings } from '../reducers/themeSettings';
 import { WebcalCalendar } from '../reducers/webcalCalendars';
 
-export const setUser = (data: User) => {
+export const setUser = (data: GetAccountResponse) => {
   return {
     type: 'SET_USER',
     payload: data,
