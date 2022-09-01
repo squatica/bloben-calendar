@@ -1,12 +1,12 @@
 import { AxiosResponse } from 'axios';
 
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   GetSharedCalendarResponse,
   GetSharedCalendarsResponse,
   PostSendSharedCalendarInviteRequest,
   PostSharedLinkRequest,
-} from '../bloben-interface/calendar/shared/calendarShared';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

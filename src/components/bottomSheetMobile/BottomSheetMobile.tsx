@@ -2,6 +2,7 @@ import { Button, Divider, Flex, Heading, Stack } from '@chakra-ui/react';
 import { CALENDAR_VIEW, CalendarView } from 'kalend';
 import { CSS_CLASSES, DRAWER_PATH } from '../../types/enums';
 import { Context, StoreContext } from '../../context/store';
+import { EvaIcons, Separator } from 'bloben-components';
 import { initialReduxState } from '../../redux/reducers';
 import { parseCssDark } from '../../utils/common';
 import { replace } from '../../redux/actions';
@@ -9,10 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import BottomSheet from 'bottom-sheet-react';
 import DrawerCalendars from '../drawer/drawerContent/DrawerCalendars';
-import PersonIcon from '../eva-icons/person';
 import React, { useContext } from 'react';
-import Separator from '../separator/Separator';
-import SettingsIcon from '../eva-icons/settings';
 import UserApi from '../../api/AuthApi';
 
 interface BottomSheetMobileProps {
@@ -78,7 +76,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
             <Button
               _focus={{ boxShadow: 'none' }}
               leftIcon={
-                <SettingsIcon
+                <EvaIcons.Settings
                   className={parseCssDark('SettingsMenu__icon', store.isDark)}
                 />
               }
@@ -93,7 +91,7 @@ const BottomSheetMobile = (props: BottomSheetMobileProps) => {
             <Button
               _focus={{ boxShadow: 'none' }}
               leftIcon={
-                <PersonIcon
+                <EvaIcons.Person
                   className={parseCssDark('SettingsMenu__icon', store.isDark)}
                 />
               }

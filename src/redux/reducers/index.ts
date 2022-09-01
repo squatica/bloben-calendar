@@ -1,6 +1,6 @@
 import { Reducer, combineReducers } from 'redux';
 
-import { ROLE } from '../../bloben-interface/enums';
+import { ROLE } from '../../enums';
 import { ReduxState } from '../../types/interface';
 import baseDateRange, { initBaseDateRange } from './baseDateRange';
 import cachedEvents from './cachedEvents';

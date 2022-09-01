@@ -9,7 +9,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "./src/styles/colors.scss";`,
+        additionalData: `@import "./node_modules/bloben-components/styles/colors.scss";`,
       },
     },
   },

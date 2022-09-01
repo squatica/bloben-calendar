@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import './TimeInput.scss';
 
+import { ChakraInput } from 'bloben-components';
 import { DateTime } from 'luxon';
 import { validateHour, validateMinute } from './TimeInputUtils';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 
 const TIME_MAX_LENGTH = 2;
 const MINUTE = 'minute';

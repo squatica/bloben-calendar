@@ -9,13 +9,10 @@ import {
   QueryRange,
   ReduxState,
 } from '../../types/interface';
-import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse } from 'bloben-interface';
 import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
-import {
-  EVENT_TYPE,
-  REPEATED_EVENT_CHANGE_TYPE,
-} from '../../bloben-interface/enums';
+import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../enums';
 import {
   InitialForm,
   createCalDavEvent,

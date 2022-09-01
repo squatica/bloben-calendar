@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { Flex, Select, Text } from '@chakra-ui/react';
 import { MONTHS } from '../../../constants/index';
-import Separator from '../../../../../../components/separator/Separator';
+import { Separator } from 'bloben-components';
 import numericalFieldHandler from '../../../utils/numericalFieldHandler';
 import translateLabel from '../../../utils/translateLabel';
 

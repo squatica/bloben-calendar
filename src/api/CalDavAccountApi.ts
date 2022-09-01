@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   CreateCalDavAccountRequest,
   GetCalDavAccountResponse,
   UpdateCalDavAccountRequest,
-} from '../bloben-interface/calDavAccount/calDavAccount';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

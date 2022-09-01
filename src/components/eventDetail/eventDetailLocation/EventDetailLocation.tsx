@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 
 import { Button, Stack } from '@chakra-ui/react';
+import { ChakraInput, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
-import { LOCATION_PROVIDER } from '../../../bloben-interface/enums';
+import { LOCATION_PROVIDER } from '../../../enums';
 import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 
 const parseLink = (link: string, locationProvider: LOCATION_PROVIDER) => {

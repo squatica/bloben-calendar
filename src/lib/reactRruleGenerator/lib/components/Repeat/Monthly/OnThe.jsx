@@ -3,7 +3,7 @@ import React from 'react';
 
 import { DAYS } from '../../../constants/index';
 import { Flex, Select, Text } from '@chakra-ui/react';
-import Separator from '../../../../../../components/separator/Separator';
+import { Separator } from 'bloben-components';
 import translateLabel from '../../../utils/translateLabel';
 
 const RepeatMonthlyOnThe = ({

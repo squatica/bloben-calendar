@@ -13,7 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { parseToDateTime } from '../../../utils/datetimeParser';
 import { useWidth } from '../../../utils/layout';
 import DatePicker from '../../datePicker/DatePicker';

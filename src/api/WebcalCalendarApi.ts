@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   CreateWebcalCalendarRequest,
   GetWebcalCalendarsResponse,
   PatchWebcalCalendarRequest,
-} from '../bloben-interface/webcalCalendar/webcalCalendar';
+} from 'bloben-interface';
 
 import Axios from '../lib/Axios';
 

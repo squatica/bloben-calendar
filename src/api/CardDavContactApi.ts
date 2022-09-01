@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
 
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   CreateCardDavContactRequest,
   GetCardDavContactsResponse,
   SearchCardDavContactResponse,
-} from '../bloben-interface/cardDavContact/cardDavContact';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import {
   CalendarSettingsResponse,
+  CommonResponse,
   PatchCalendarSettingsRequest,
-} from '../bloben-interface/calendarSettings/calendarSettings';
-import { CommonResponse } from '../bloben-interface/interface';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

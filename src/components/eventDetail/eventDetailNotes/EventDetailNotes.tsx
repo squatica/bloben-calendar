@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 
+import { ChakraTextArea, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
 import { Stack } from '@chakra-ui/react';
 import { map } from 'lodash';
 import { parseHtml } from '../../../utils/parserHtml';
-import ChakraTextArea from '../../chakraCustom/ChakraTextArea';
 import FormIcon from '../../formIcon/FormIcon';
 import ResizeTextarea from 'react-textarea-autosize';
 

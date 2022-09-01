@@ -1,9 +1,9 @@
 import { Flex, Input, Text } from '@chakra-ui/react';
+import { Separator } from 'bloben-components';
 import PropTypes from 'prop-types';
 import React from 'react';
 import RepeatMonthlyOn from './On';
 import RepeatMonthlyOnThe from './OnThe';
-import Separator from '../../../../../../components/separator/Separator';
 import numericalFieldHandler from '../../../utils/numericalFieldHandler';
 import translateLabel from '../../../utils/translateLabel';
 

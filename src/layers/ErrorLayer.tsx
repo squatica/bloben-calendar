@@ -1,8 +1,6 @@
 /* eslint-disable */
 import { ErrorBoundary } from 'react-error-boundary';
-import ChakraModal from '../components/chakraCustom/ChakraModal';
 import React from 'react';
-import PrimaryButton from '../components/chakraCustom/primaryButton/PrimaryButton';
 
 const formatStackTrace = (stackTrace: string) => {
   if (stackTrace.length <= 300) {
@@ -17,7 +15,6 @@ const ErrorFallback = (props: any) => {
   const { error, resetErrorBoundary } = props;
 
   return (
-    // <ChakraModal handleClose={resetErrorBoundary} isOpen={true}>
     <>
       <p>Something went wrong:</p>
       <br />
@@ -25,7 +22,6 @@ const ErrorFallback = (props: any) => {
       <br />
       <button onClick={resetErrorBoundary}>Try again</button>
     </>
-    // </ChakraModal>
   );
 };
 

@@ -8,7 +8,7 @@ import {
   Stack,
   Tooltip,
 } from '@chakra-ui/react';
-import { EvaIcons } from '../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { parseCssDark } from '../../utils/common';
 import ButtonIcon from '../button/buttonIcon/ButtonIcon';
 import React, { useEffect, useState } from 'react';

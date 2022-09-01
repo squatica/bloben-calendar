@@ -22,7 +22,7 @@ import {
   setExternalEventID,
   updateRepeatedEvent,
 } from '../../../../src/views/event/editEvent/editEventHelper';
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../../src/bloben-interface/enums';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../../src/enums';
 import { StoreContext } from '../../../../src/context/store';
 import { mockCalDavEventApi } from '../../../mocks/api/CalDavEventApi';
 import assert from 'assert';

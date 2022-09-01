@@ -15,11 +15,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { ChakraInput, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
-import TrashIcon from '../../eva-icons/trash';
 
 const renderAlarms = (
   alarms: AppAlarm[],
@@ -102,7 +100,7 @@ const renderAlarms = (
           variant={'ghost'}
           aria-label="Menu"
           background={'transparent'}
-          icon={<TrashIcon className={'AttendeeIcon'} />}
+          icon={<EvaIcons.Trash className={'AttendeeIcon'} />}
           isRound
           size={'xs'}
           autoFocus={false}

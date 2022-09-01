@@ -1,10 +1,4 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Heading,
   Menu,
@@ -30,13 +24,13 @@ import { WebcalCalendar } from '../../../../redux/reducers/webcalCalendars';
 import { createToast } from '../../../../utils/common';
 import { useSelector } from 'react-redux';
 
+import { Alert, Separator } from 'bloben-components';
 import { Context, StoreContext } from '../../../../context/store';
 import {
   getTableSize,
   getTableTitlePaddingLeft,
 } from '../../../../types/constants';
-import React, { useContext, useRef, useState } from 'react';
-import Separator from '../../../../components/separator/Separator';
+import React, { useContext, useState } from 'react';
 import WebcalCalendarApi from '../../../../api/WebcalCalendarApi';
 import WebcalModal from '../../../../components/accountSelectionModal/webcalModal/WebcalModal';
 
@@ -166,8 +160,6 @@ const CalDavAccountSettings = () => {
     }
   };
 
-  const leastDestructiveRef = useRef(null);
-
   return webcalCalendars.length ? (
     <>
       <Heading size={'md'} paddingLeft={paddingLeft}>
@@ -185,43 +177,16 @@ const CalDavAccountSettings = () => {
         </Thead>
         {webcalCalendarsRendered}
       </Table>
-      <AlertDialog
+
+      <Alert
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={leastDestructiveRef}
-        isCentered={true}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Webcal calendar
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Do you want to delete webcal calendar?
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                ref={leastDestructiveRef}
-                _focus={{ boxShadow: 'none' }}
-                onClick={onModalClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                isLoading={isLoading}
-                colorScheme="red"
-                onClick={handleDelete}
-                ml={3}
-              >
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        header={'Delete Webcal calendar'}
+        body={'Do you want to delete webcal calendar?'}
+        submitText={'Delete'}
+        isLoading={isLoading}
+        onSubmit={handleDelete}
+      />
       {editModalVisible ? (
         <WebcalModal
           handleClose={onModalClose}

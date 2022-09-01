@@ -1,4 +1,11 @@
 import {
+  ChakraInput,
+  ChakraTextArea,
+  EvaIcons,
+  PrimaryButton,
+  Separator,
+} from 'bloben-components';
+import {
   Flex,
   FormLabel,
   IconButton,
@@ -7,14 +14,9 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { filter } from 'lodash';
-import ChakraInput from '../chakraCustom/ChakraInput';
-import ChakraTextArea from '../chakraCustom/ChakraTextArea';
-import CrossIcon from '../eva-icons/cross';
 import ModalNew from '../modalNew/ModalNew';
-import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
-import Separator from '../separator/Separator';
 
 interface EmailModalModalProps {
   handleClose: any;
@@ -104,7 +106,7 @@ const EmailModal = (props: EmailModalModalProps) => {
                     variant={'ghost'}
                     aria-label="Remove recipient"
                     background={'transparent'}
-                    icon={<CrossIcon className={'AttendeeIcon'} />}
+                    icon={<EvaIcons.Cross className={'AttendeeIcon'} />}
                     isRound
                     size={'xs'}
                     autoFocus={false}

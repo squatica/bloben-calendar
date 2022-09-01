@@ -1,6 +1,6 @@
-import { GetServerSettingsUser } from '../bloben-interface/serverSettings/serverSettings';
-import { GetVersion } from '../bloben-interface/version/version';
-import { LOCATION_PROVIDER } from '../bloben-interface/enums';
+import { BlobenComponentsProvider } from 'bloben-components';
+import { GetServerSettingsUser, GetVersion } from 'bloben-interface';
+import { LOCATION_PROVIDER } from '../enums';
 import React, { createContext, useEffect, useReducer } from 'react';
 import Reducer from './reducer';
 
@@ -75,7 +75,11 @@ const StoreProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <Context.Provider value={[store, dispatch]}>{children}</Context.Provider>
+    <Context.Provider value={[store, dispatch]}>
+      <BlobenComponentsProvider isDark={store.isDark} isMobile={store.isMobile}>
+        {children}
+      </BlobenComponentsProvider>
+    </Context.Provider>
   );
 };
 

@@ -1,8 +1,8 @@
 import './DrawerHeader.scss';
 import { Button } from '@chakra-ui/react';
 import { DRAWER_PATH } from '../../../types/enums';
+import { Separator } from 'bloben-components';
 import React from 'react';
-import Separator from '../../separator/Separator';
 
 interface DrawerHeaderProps {
   selected: DRAWER_PATH;

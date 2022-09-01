@@ -5,14 +5,12 @@ import {
   Heading,
   useToast,
 } from '@chakra-ui/react';
+import { ChakraInput, PrimaryButton, Separator } from 'bloben-components';
 import { Context, StoreContext } from '../../context/store';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
-import ChakraInput from '../chakraCustom/ChakraInput';
 import ModalNew from '../../components/modalNew/ModalNew';
-import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
-import Separator from '../separator/Separator';
 import StateReducer from '../../utils/state-reducer';
 import UserEmailConfigApi from '../../api/UserEmailConfigApi';
 

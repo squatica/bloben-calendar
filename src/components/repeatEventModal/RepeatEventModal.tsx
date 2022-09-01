@@ -1,10 +1,8 @@
 import { Button, Flex, Spacer, Text } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../context/store';
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../bloben-interface/enums';
+import { EvaIcons, PrimaryButton } from 'bloben-components';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../enums';
 import ModalNew from '../modalNew/ModalNew';
-import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
-import RadioOff from '../eva-icons/radio-off';
-import RadioOn from '../eva-icons/radio-on';
 import React, { useContext, useState } from 'react';
 
 export enum REPEAT_MODAL_TYPE {
@@ -56,14 +54,14 @@ const RadioItem = (props: {
       style={{ justifyContent: 'flex-start', alignItems: 'center' }}
     >
       {isChecked ? (
-        <RadioOn
+        <EvaIcons.RadioOn
           style={{
             fill: isDark ? 'whitesmoke' : 'pink.500',
             width: 20,
           }}
         />
       ) : (
-        <RadioOff
+        <EvaIcons.RadioOff
           style={{
             fill: isDark ? 'whitesmoke' : 'gray',
             width: 20,

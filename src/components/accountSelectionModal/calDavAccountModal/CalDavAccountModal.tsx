@@ -1,3 +1,4 @@
+import {} from 'bloben-components';
 import {
   Button,
   Center,
@@ -18,7 +19,8 @@ import {
   CalDavAccountModalInitialState,
   calDavAccountModalState,
 } from './CalDavAccountModalHelper';
-import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
+import { ChakraInput, PrimaryButton, Separator } from 'bloben-components';
+import { DAV_ACCOUNT_TYPE } from '../../../enums';
 import { TOAST_STATUS } from '../../../types/enums';
 import {
   addToCaldavAccounts,
@@ -28,11 +30,8 @@ import { createToast } from '../../../utils/common';
 import { useDispatch } from 'react-redux';
 import CalDavAccountApi from '../../../api/CalDavAccountApi';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
-import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 import ModalNew from '../../modalNew/ModalNew';
-import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
-import Separator from '../../separator/Separator';
 import StateReducer from '../../../utils/state-reducer';
 
 interface CalDavAccountModalProps {

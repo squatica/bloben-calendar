@@ -12,12 +12,9 @@ import {
 import { createToast, formatEventDate } from '../../../utils/common';
 
 import { Context, StoreContext } from '../../../context/store';
-import { DeleteRepeatedCalDavEventRequest } from '../../../bloben-interface/event/event';
-import {
-  EVENT_TYPE,
-  REPEATED_EVENT_CHANGE_TYPE,
-} from '../../../bloben-interface/enums';
-import { EvaIcons } from '../../../components/eva-icons';
+import { DeleteRepeatedCalDavEventRequest } from 'bloben-interface';
+import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
+import { EvaIcons } from 'bloben-components';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';

@@ -8,14 +8,13 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
+import { ChakraModal, Separator } from 'bloben-components';
 import { ReduxState } from '../../types/interface';
 import { authenticator } from 'otplib';
 import { refreshUserData } from '../../redux/functions/user';
 import { useSelector } from 'react-redux';
-import ChakraModal from '../chakraCustom/ChakraModal';
 import QRCode from 'qrcode';
 import React, { useEffect, useState } from 'react';
-import Separator from '../separator/Separator';
 import TwoFactorAuthApi from '../../api/TwoFactorAuth.api';
 
 interface TwoFactorSetupProps {

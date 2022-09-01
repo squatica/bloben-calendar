@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   CreateCalDavCalendarRequest,
+  GetCalDavCalendar,
   PatchCalDavCalendarRequest,
   UpdateCalDavCalendarRequest,
-} from '../bloben-interface/calDavCalendar/calDavCalendar';
-import { GetCalDavCalendar } from '../bloben-interface/calDavCalendar/calDavCalendar';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {
