@@ -1,8 +1,7 @@
+import { ChakraModal, Separator } from 'bloben-components';
 import { Context, StoreContext } from '../../context/store';
 import { Link, Text } from '@chakra-ui/react';
-import ChakraModal from '../chakraCustom/ChakraModal';
 import React, { useContext } from 'react';
-import Separator from '../../components/separator/Separator';
 interface NewVersionModalProps {
   handleClose: any;
 }

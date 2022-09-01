@@ -16,7 +16,6 @@ import Settings from './settings/Settings';
 import SharedCalendarsSettings from './settings/settingsParts/SharedCalendarsSettings';
 import SocketioProvider from '../layers/SocketioProvider';
 import SyncLayer from '../layers/SyncLayer';
-import Toast from '../components/toast/Toast';
 
 const AppRouter = () => {
   return (
@@ -54,7 +53,6 @@ const AppRouter = () => {
             element={<SecuritySettings />}
           />
         </Routes>
-        <Toast />
       </SyncLayer>
     </SocketioProvider>
   );

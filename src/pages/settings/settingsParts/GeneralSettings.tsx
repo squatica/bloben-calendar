@@ -17,8 +17,9 @@ import {
 import {
   CalendarSettingsResponse,
   PatchCalendarSettingsRequest,
-} from '../../../bloben-interface/calendarSettings/calendarSettings';
+} from 'bloben-interface';
 import { CalendarView } from 'kalend';
+import { ChakraInput, SettingsRow } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
 import {
   DEFAULT_TIME_SETTINGS,
@@ -35,11 +36,9 @@ import {
 } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
-import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext, useEffect, useState } from 'react';
-import SettingsRow from '../settingsRow/SettingsRow';
 
 const menuStyle: any = {
   width: '100%',

@@ -1,5 +1,5 @@
-import { GetAccountResponse } from '../../bloben-interface/user/user';
-import { ROLE } from '../../bloben-interface/enums';
+import { GetAccountResponse } from 'bloben-interface';
+import { ROLE } from '../../enums';
 
 const user = (
   state: GetAccountResponse = {

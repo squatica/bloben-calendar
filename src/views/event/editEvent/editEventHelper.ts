@@ -1,12 +1,8 @@
 import { CalDavCalendar } from '../../../types/interface';
-import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse, GetAccountResponse } from 'bloben-interface';
 import { DateTime } from 'luxon';
 import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
-import {
-  EVENT_TYPE,
-  REPEATED_EVENT_CHANGE_TYPE,
-} from '../../../bloben-interface/enums';
-import { GetAccountResponse } from '../../../bloben-interface/user/user';
+import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { OnNewEventClickData } from 'kalend';
 import {
   PARTSTAT_ACCEPTED,

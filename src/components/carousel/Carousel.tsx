@@ -1,5 +1,5 @@
 import './Carousel.scss';
-import { EvaIcons } from '../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { useEffect, useState } from 'react';
 const SCREEN_PORTION = 6;
 

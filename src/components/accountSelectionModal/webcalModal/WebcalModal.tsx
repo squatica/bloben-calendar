@@ -19,16 +19,14 @@ import {
   PopoverTrigger,
   useToast,
 } from '@chakra-ui/react';
+import { ChakraInput, PrimaryButton, Separator } from 'bloben-components';
 import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { map } from 'lodash';
 import Alarms from '../../eventDetail/eventDetailAlarm/EventDetailAlarm';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 import ModalNew from '../../../components/modalNew/ModalNew';
-import PrimaryButton from '../../chakraCustom/primaryButton/PrimaryButton';
 import React, { useEffect, useReducer, useState } from 'react';
-import Separator from '../../separator/Separator';
 import StateReducer from '../../../utils/state-reducer';
 import Utils from './WebcalModal.utils';
 import WebcalCalendarApi from '../../../api/WebcalCalendarApi';

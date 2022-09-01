@@ -27,15 +27,14 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { CalDavAccount, CalDavCalendar } from '../../types/interface';
+import { ChakraInput, Separator } from 'bloben-components';
 import { HexColorPicker } from 'react-colorful';
 import { TOAST_STATUS } from '../../types/enums';
 import { map } from 'lodash';
 import Alarms from '../eventDetail/eventDetailAlarm/EventDetailAlarm';
 import CalDavCalendarApi from '../../api/CalDavCalendarApi';
-import ChakraInput from '../chakraCustom/ChakraInput';
 import ModalNew from '../../components/modalNew/ModalNew';
 import React, { useEffect, useReducer, useState } from 'react';
-import Separator from '../separator/Separator';
 import StateReducer from '../../utils/state-reducer';
 import Utils from './AddCalendarModal.utils';
 

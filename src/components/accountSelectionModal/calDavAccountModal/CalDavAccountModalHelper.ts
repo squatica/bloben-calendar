@@ -1,4 +1,4 @@
-import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
+import { DAV_ACCOUNT_TYPE } from '../../../enums';
 
 export interface CalDavAccountModalInitialState {
   username: string;

@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 
 import './SearchModal.scss';
 import { Button, Text, useToast } from '@chakra-ui/react';
+import { ChakraInput } from 'bloben-components';
 import { Context, StoreContext } from '../../context/store';
-import { SearchEventsResponse } from '../../bloben-interface/event/event';
+import { SearchEventsResponse } from 'bloben-interface';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, formatEventDate, parseCssDark } from '../../utils/common';
-import ChakraInput from '../chakraCustom/ChakraInput';
 import EventsApi from '../../api/EventsApi';
 import PublicApi from '../../api/PublicApi';
 

@@ -3,11 +3,8 @@ import { useSelector } from 'react-redux';
 import React, { useContext } from 'react';
 
 import { Context, StoreContext } from '../../context/store';
+import { EvaIcons, Separator } from 'bloben-components';
 import { IconButton, Spinner } from '@chakra-ui/react';
-import MenuIcon from '../eva-icons/menu';
-import RefreshIcon from '../eva-icons/refresh';
-import Separator from '../separator/Separator';
-import SettingsIcon from '../eva-icons/settings';
 
 interface HeaderProps {
   title?: string;
@@ -53,7 +50,7 @@ const Header = (props: HeaderProps) => {
           _focus={{ boxShadow: 'none' }}
           aria-label="Drawer"
           variant={'ghost'}
-          icon={<MenuIcon />}
+          icon={<EvaIcons.Menu />}
           isRound
           size={'sm'}
           autoFocus={false}
@@ -68,7 +65,7 @@ const Header = (props: HeaderProps) => {
             _focus={{ boxShadow: 'none' }}
             variant={'ghost'}
             aria-label="Refresh"
-            icon={<RefreshIcon />}
+            icon={<EvaIcons.Refresh />}
             isRound
             size={'sm'}
             autoFocus={false}
@@ -80,7 +77,7 @@ const Header = (props: HeaderProps) => {
           _focus={{ boxShadow: 'none' }}
           variant={'ghost'}
           aria-label="Open settings"
-          icon={<SettingsIcon />}
+          icon={<EvaIcons.Settings />}
           isRound
           size={'sm'}
           autoFocus={false}

@@ -5,7 +5,7 @@ import { CALENDAR_VIEW } from 'kalend-layout';
 import { CalDavEvent, QueryRange, ReduxState } from '../../types/interface';
 import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
-import { EVENT_TYPE } from '../../bloben-interface/enums';
+import { EVENT_TYPE } from '../../enums';
 
 import { SettingsLocal } from '../../redux/reducers/settingsLocal';
 import { TOAST_STATUS } from '../../types/enums';

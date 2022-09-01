@@ -1,10 +1,9 @@
 import { Box, Link, Text } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
+import { Separator, SettingsCard } from 'bloben-components';
 import { getSize } from '../../../types/constants';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext } from 'react';
-import Separator from '../../../components/separator/Separator';
-import SettingsCard from '../settingsCard/SettingsCard';
 
 const HelpSettings = () => {
   const [store]: [StoreContext] = useContext(Context);

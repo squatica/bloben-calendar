@@ -1,5 +1,5 @@
 import { Context, StoreContext } from '../../context/store';
-import { EvaIcons } from '../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { parseCssDark, parseTimezoneText } from '../../utils/common';
 import ButtonBase from '../button/buttonBase/ButtonBase';
 import React, { useContext } from 'react';

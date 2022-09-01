@@ -5,7 +5,7 @@ import './EventDetail.scss';
 
 import { CalDavCalendar } from '../../../types/interface';
 import { Context, StoreContext } from '../../../context/store';
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { Stack } from '@chakra-ui/react';
 import { filter } from 'lodash';
 import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/EventDetailAlarm';

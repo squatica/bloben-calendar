@@ -1,14 +1,14 @@
 import { AxiosResponse } from 'axios';
 
 import {
+  CommonResponse,
   EnableTwoFactorRequest,
   GetTwoFactorSecretResponse,
   LoginWithTwoFactorAdminResponse,
   LoginWithTwoFactorRequest,
-} from '../bloben-interface/2fa/2fa';
+} from 'bloben-interface';
 
 import { APP_API_VERSION_1 } from '../types/constants';
-import { CommonResponse } from '../bloben-interface/interface';
 import Axios, { config } from '../lib/Axios';
 
 const V1_BASE_PATH = `/app${APP_API_VERSION_1}/auth/two-factor`;

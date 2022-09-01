@@ -1,10 +1,5 @@
+import { Alert, Separator } from 'bloben-components';
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Heading,
   Menu,
@@ -26,7 +21,7 @@ import {
   ReduxState,
 } from '../../../../types/interface';
 import { Context, StoreContext } from '../../../../context/store';
-import { DAV_ACCOUNT_TYPE } from '../../../../bloben-interface/enums';
+import { DAV_ACCOUNT_TYPE } from '../../../../enums';
 import { TOAST_STATUS } from '../../../../types/enums';
 import { createToast } from '../../../../utils/common';
 import {
@@ -45,8 +40,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import CalDavAccountApi from '../../../../api/CalDavAccountApi';
 import CalDavAccountModal from '../../../../components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
-import React, { useContext, useRef, useState } from 'react';
-import Separator from '../../../../components/separator/Separator';
+import React, { useContext, useState } from 'react';
 
 const renderCalDavAccounts = (
   calDavAccounts: CalDavAccount[],
@@ -196,7 +190,6 @@ const CalDavAccountSettings = () => {
       setIsLoading(false);
     }
   };
-  const leastDestructiveRef = useRef(null);
 
   return calDavAccounts.length ? (
     <>
@@ -237,43 +230,16 @@ const CalDavAccountSettings = () => {
           </Table>
         </>
       ) : null}
-      <AlertDialog
+
+      <Alert
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={leastDestructiveRef}
-        isCentered={true}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Account
-            </AlertDialogHeader>
+        header={'Delete Account'}
+        body={'Do you want to delete your account?'}
+        submitText={'Delete'}
+        onSubmit={handleDeleteAccount}
+      />
 
-            <AlertDialogBody>
-              Do you want to delete your account?
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                ref={leastDestructiveRef}
-                _focus={{ boxShadow: 'none' }}
-                onClick={onModalClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                isLoading={isLoading}
-                colorScheme="red"
-                onClick={handleDeleteAccount}
-                ml={3}
-              >
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
       {editModalVisible ? (
         <CalDavAccountModal
           handleClose={onModalClose}

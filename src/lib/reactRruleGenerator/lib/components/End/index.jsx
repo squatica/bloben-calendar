@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Flex, FormControl, FormLabel, Select } from '@chakra-ui/react';
-import Separator from '../../../../../components/separator/Separator';
+import { Separator } from 'bloben-components';
 import translateLabel from '../../utils/translateLabel';
 
 const End = ({

@@ -14,23 +14,15 @@ import {
 } from '@chakra-ui/react';
 import { CalendarView } from 'kalend';
 import { Context, StoreContext } from '../../context/store';
+import { EvaIcons, Separator } from 'bloben-components';
 import { checkHasNewVersion, parseCssDark } from '../../utils/common';
 import { initialReduxState } from '../../redux/reducers';
 import { replace } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ChevronLeft from '../eva-icons/chevron-left';
-import ChevronRight from '../eva-icons/chevron-right';
-import CircleFill from '../eva-icons/circle-fill';
-import MenuIcon from '../eva-icons/menu';
 import NewVersionModal from '../newVersionModal/NewVersionModal';
-import PersonIcon from '../eva-icons/person';
 import React, { useContext, useState } from 'react';
 import RedCircle from '../redCircle/RedCircle';
-import RefreshIcon from '../eva-icons/refresh';
-import SearchIcon from '../eva-icons/search';
-import Separator from '../separator/Separator';
-import SettingsIcon from '../eva-icons/settings';
 import UserApi from '../../api/AuthApi';
 
 interface CalendarHeaderProps {
@@ -107,7 +99,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               variant={'ghost'}
               aria-label="Drawer"
               icon={
-                <MenuIcon
+                <EvaIcons.Menu
                   className={parseCssDark('HeaderModal__icon', store.isDark)}
                 />
               }
@@ -205,7 +197,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               variant={'ghost'}
               aria-label="Search"
               icon={
-                <SearchIcon
+                <EvaIcons.Search
                   className={parseCssDark('HeaderModal__icon', store.isDark)}
                 />
               }
@@ -223,7 +215,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 variant={'ghost'}
                 aria-label="Refresh"
                 icon={
-                  <RefreshIcon
+                  <EvaIcons.Refresh
                     className={parseCssDark('HeaderModal__icon', store.isDark)}
                   />
                 }
@@ -240,7 +232,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                   variant={'ghost'}
                   aria-label="Settings"
                   icon={
-                    <SettingsIcon
+                    <EvaIcons.Settings
                       className={parseCssDark(
                         'HeaderModal__icon',
                         store.isDark
@@ -261,7 +253,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                     aria-label="Settings"
                     isRound
                     icon={
-                      <SettingsIcon
+                      <EvaIcons.Settings
                         className={parseCssDark(
                           'HeaderModal__icon',
                           store.isDark
@@ -276,7 +268,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       as={Button}
                       _focus={{ boxShadow: 'none' }}
                       leftIcon={
-                        <SettingsIcon
+                        <EvaIcons.Settings
                           className={parseCssDark(
                             'SettingsMenu__icon',
                             store.isDark
@@ -296,7 +288,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                         as={Button}
                         _focus={{ boxShadow: 'none' }}
                         leftIcon={
-                          <CircleFill
+                          <EvaIcons.CircleFill
                             className={parseCssDark(
                               'SettingsMenu__icon-red',
                               store.isDark
@@ -316,7 +308,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                       as={Button}
                       _focus={{ boxShadow: 'none' }}
                       leftIcon={
-                        <PersonIcon
+                        <EvaIcons.Person
                           className={parseCssDark(
                             'SettingsMenu__icon',
                             store.isDark
@@ -362,7 +354,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 variant={'ghost'}
                 aria-label="Refresh"
                 icon={
-                  <RefreshIcon
+                  <EvaIcons.Refresh
                     className={parseCssDark('HeaderModal__icon', store.isDark)}
                   />
                 }
@@ -392,7 +384,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 _focus={{ boxShadow: 'none' }}
                 aria-label="Go back calendar"
                 icon={
-                  <ChevronLeft
+                  <EvaIcons.ChevronLeft
                     className={parseCssDark('HeaderModal__icon', store.isDark)}
                   />
                 }
@@ -405,7 +397,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
                 _focus={{ boxShadow: 'none' }}
                 aria-label="Go forward calendar"
                 icon={
-                  <ChevronRight
+                  <EvaIcons.ChevronRight
                     className={parseCssDark('HeaderModal__icon', store.isDark)}
                   />
                 }

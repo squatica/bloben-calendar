@@ -16,6 +16,12 @@ import {
 } from '@chakra-ui/react';
 import { CalDavCalendar, ReduxState } from '../../types/interface';
 import { CalendarView } from 'kalend';
+import {
+  ChakraInput,
+  ChakraModal,
+  Separator,
+  SettingsRow,
+} from 'bloben-components';
 import { DateTime } from 'luxon';
 import { TOAST_STATUS } from '../../types/enums';
 import { WebcalCalendar } from '../../redux/reducers/webcalCalendars';
@@ -23,13 +29,9 @@ import { createToast } from '../../utils/common';
 import { map } from 'lodash';
 import { useSelector } from 'react-redux';
 import CalendarSharedApi from '../../api/CalendarSharedApi';
-import ChakraInput from '../chakraCustom/ChakraInput';
-import ChakraModal from '../chakraCustom/ChakraModal';
 import DatePicker from '../datePicker/DatePicker';
 import ModalNew from '../modalNew/ModalNew';
 import React, { useEffect, useReducer, useState } from 'react';
-import Separator from '../separator/Separator';
-import SettingsRow from '../../pages/settings/settingsRow/SettingsRow';
 import StateReducer from '../../utils/state-reducer';
 import Utils from './ShareCalendarModal.utls';
 

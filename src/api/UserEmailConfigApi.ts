@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   GetUserEmailConfigResponse,
   UpdateUserEmailConfigRequest,
-} from '../bloben-interface/userEmailConfig/userEmailConfig';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

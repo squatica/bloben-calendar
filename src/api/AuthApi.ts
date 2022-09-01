@@ -1,10 +1,10 @@
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   GetAccountResponse,
   GetSessionResponse,
   LoginRequest,
   LoginResponse,
-} from '../bloben-interface/user/user';
+} from 'bloben-interface';
 import Axios, { config } from '../lib/Axios';
 import axios, { AxiosResponse } from 'axios';
 

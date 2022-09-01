@@ -1,8 +1,8 @@
 import './ModalNew.scss';
 import { Context, StoreContext } from '../../context/store';
+import { EvaIcons } from 'bloben-components';
 import { Heading, IconButton } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
-import CrossIcon from '../eva-icons/cross';
 import React, { useContext } from 'react';
 
 interface ModalNewProps {
@@ -55,7 +55,7 @@ const ModalNew = (props: ModalNewProps) => {
               aria-label="Close"
               background={'transparent'}
               icon={
-                <CrossIcon
+                <EvaIcons.Cross
                   className={parseCssDark('ModalNew__icon', store.isDark)}
                 />
               }

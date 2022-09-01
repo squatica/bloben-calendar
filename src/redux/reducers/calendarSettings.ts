@@ -1,5 +1,5 @@
 import { CALENDAR_VIEW } from 'kalend-layout';
-import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse } from 'bloben-interface';
 import { getLocalTimezone } from '../../utils/common';
 
 export const defaultCalendarSettings = {

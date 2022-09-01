@@ -8,13 +8,12 @@ import {
   Button,
   Text,
 } from '@chakra-ui/react';
+import { Separator, SettingsCard } from 'bloben-components';
 import { debug } from '../../../utils/debug';
 import { initialReduxState } from '../../../redux/reducers';
 import { replace } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
 import React, { useRef, useState } from 'react';
-import Separator from '../../../components/separator/Separator';
-import SettingsCard from '../settingsCard/SettingsCard';
 
 const ResetSettings = () => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);

@@ -6,17 +6,15 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { ChakraModal, EvaIcons, Separator } from 'bloben-components';
 import { Context, StoreContext } from '../../context/store';
-import { GetCardDavContactsResponse } from '../../bloben-interface/cardDavContact/cardDavContact';
+import { GetCardDavContactsResponse } from 'bloben-interface';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, parseCssDark } from '../../utils/common';
 import { forEach } from 'lodash';
 import AddContactModal from '../addContactModal/AddContactModal';
 import CardDavContactApi from '../../api/CardDavContactApi';
-import ChakraModal from '../chakraCustom/ChakraModal';
 import React, { useContext, useEffect, useState } from 'react';
-import Separator from '../separator/Separator';
-import TrashIcon from '../eva-icons/trash';
 
 const formatEmails = (emails: string[]) => {
   let result = '';
@@ -53,7 +51,9 @@ const renderContacts = (
           variant={'ghost'}
           aria-label="Search"
           icon={
-            <TrashIcon className={parseCssDark('HeaderModal__icon', isDark)} />
+            <EvaIcons.Trash
+              className={parseCssDark('HeaderModal__icon', isDark)}
+            />
           }
           isRound
           size={'sm'}

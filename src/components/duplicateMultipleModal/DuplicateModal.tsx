@@ -1,16 +1,15 @@
 import { Center, useToast } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { EventResult } from '../../bloben-interface/event/event';
+import { EventResult } from 'bloben-interface';
+import { PrimaryButton, Separator } from 'bloben-components';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
 import { filter, map } from 'lodash';
 import CalDavEventsApi from '../../api/CalDavEventsApi';
 import DatePicker from '../datePicker/DatePicker';
 import ModalNew from '../../components/modalNew/ModalNew';
-import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useState } from 'react';
 import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
-import Separator from '../separator/Separator';
 
 const formatWarningMessage = (
   selectedDays: string[],

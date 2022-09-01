@@ -3,9 +3,12 @@ import {
   CalDavCalendar,
   CalDavEvent,
 } from '../../types/interface';
-import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
-import { GetAccountResponse } from '../../bloben-interface/user/user';
-import { GetEventResponse } from '../../bloben-interface/event/event';
+import {
+  CalendarSettingsResponse,
+  GetAccountResponse,
+  GetEventResponse,
+} from 'bloben-interface';
+
 import { OnPageChangeData } from 'kalend';
 import { SettingsLocal } from '../reducers/settingsLocal';
 import { ThemeSettings } from '../reducers/themeSettings';

@@ -1,4 +1,4 @@
-import { EvaIcons } from '../../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import React from 'react';
 
 import './Spinner.scss';

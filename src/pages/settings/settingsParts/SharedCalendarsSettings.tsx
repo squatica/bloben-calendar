@@ -22,15 +22,15 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
-import { GetSharedCalendarsResponse } from '../../../bloben-interface/calendar/shared/calendarShared';
+import { GetSharedCalendarsResponse } from 'bloben-interface';
 import { ITEM_SIZE, TOAST_STATUS } from '../../../types/enums';
+import { Separator } from 'bloben-components';
 import { createToast } from '../../../utils/common';
 import { getSize } from '../../../types/constants';
 import CalendarSharedApi from '../../../api/CalendarSharedApi';
 import EmailModal from '../../../components/emailModal/EmailModal';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext, useEffect, useState } from 'react';
-import Separator from '../../../components/separator/Separator';
 import ShareCalendarModal from '../../../components/shareCalendarsModal/ShareCalendarModal';
 
 const formatSharableLink = (id: string) => {

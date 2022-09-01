@@ -1,6 +1,6 @@
 import './Warning.scss';
 import { Context, StoreContext } from '../../context/store';
-import { EvaIcons } from '../../components/eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { Text } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
 import React, { useContext } from 'react';

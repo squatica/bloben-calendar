@@ -4,7 +4,7 @@ import {
   LoginRequest,
   LoginResponse,
 } from '../../../src/bloben-interface/user/user';
-import { ROLE } from '../../../src/bloben-interface/enums';
+import { ROLE } from '../../../src/enums';
 import UserApi from '../../../src/api/AuthApi';
 
 export const mockUserApi = () => {

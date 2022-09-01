@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import './DateInput.scss';
 
+import { ChakraInput } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
 import { DateTime } from 'luxon';
 import {
@@ -10,7 +11,6 @@ import {
   validateMonth,
   validateYear,
 } from './DateInputUtils';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 
 const DAY_MAX_LENGTH = 2;
 const MONTH_MAX_LENGTH = 2;

@@ -1,4 +1,4 @@
-import { ALARM_TYPE } from '../bloben-interface/enums';
+import { ALARM_TYPE } from '../enums';
 import { CalDavEventObj } from './davHelper';
 import { CalendarView } from 'kalend';
 import { DateTime } from 'luxon';

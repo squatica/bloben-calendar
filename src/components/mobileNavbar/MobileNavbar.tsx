@@ -1,13 +1,9 @@
 import './MobileNavbar.scss';
 import { Context, StoreContext } from '../../context/store';
+import { EvaIcons, Separator } from 'bloben-components';
 import { Flex, IconButton, Spacer } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
-import CalendarIcon from '../eva-icons/calendar';
-import ChevronLeft from '../eva-icons/chevron-left';
-import ChevronRight from '../eva-icons/chevron-right';
-import MenuIcon from '../eva-icons/menu';
 import React, { useContext } from 'react';
-import Separator from '../separator/Separator';
 
 interface MobileNavbarProps {
   kalendRef: any;
@@ -42,7 +38,7 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               variant={'ghost'}
               aria-label="Menu"
               icon={
-                <ChevronLeft
+                <EvaIcons.ChevronLeft
                   className={parseCssDark('MobileNavbar__icon', store.isDark)}
                 />
               }
@@ -57,7 +53,7 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               variant={'ghost'}
               aria-label="Menu"
               icon={
-                <ChevronRight
+                <EvaIcons.ChevronRight
                   className={parseCssDark('MobileNavbar__icon', store.isDark)}
                 />
               }
@@ -74,7 +70,7 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               variant={'ghost'}
               aria-label="Today"
               icon={
-                <CalendarIcon
+                <EvaIcons.Calendar
                   className={parseCssDark('MobileNavbar__icon', store.isDark)}
                 />
               }
@@ -88,7 +84,7 @@ const MobileNavbar = (props: MobileNavbarProps) => {
               variant={'ghost'}
               aria-label="Menu"
               icon={
-                <MenuIcon
+                <EvaIcons.Menu
                   className={parseCssDark('MobileNavbar__icon', store.isDark)}
                 />
               }

@@ -1,7 +1,7 @@
 import './DrawerItem.scss';
 import { AppSettings, ReduxState } from '../../../types/interface';
 import { Button } from '@chakra-ui/react';
-import { EvaIcons } from '../../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { updateSettings } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';

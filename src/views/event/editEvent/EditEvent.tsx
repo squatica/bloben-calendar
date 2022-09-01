@@ -27,7 +27,7 @@ import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 
-import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse } from 'bloben-interface';
 import {
   checkIfHasRepeatPreAction,
   handleSaveEvent,
@@ -41,15 +41,15 @@ import {
   validateDate,
 } from './editEventHelper';
 
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
+import { PrimaryButton, Separator } from 'bloben-components';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { map } from 'lodash';
 import ModalNew from '../../../components/modalNew/ModalNew';
-import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
+
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
-import Separator from '../../../components/separator/Separator';
 
 interface EditEventProps {
   handleClose: any;

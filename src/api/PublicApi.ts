@@ -1,7 +1,9 @@
 import { AxiosResponse } from 'axios';
 
-import { GetSharedLinkPublicResponse } from '../bloben-interface/public/SharedLinkPublic';
-import { SearchEventsResponse } from '../bloben-interface/event/event';
+import {
+  GetSharedLinkPublicResponse,
+  SearchEventsResponse,
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

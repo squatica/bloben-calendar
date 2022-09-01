@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 
+import { ChakraInput, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
 import { Stack, Text } from '@chakra-ui/react';
 import { parseEventString } from '../eventDetailNotes/EventDetailNotes';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 
 interface EventDetailTitleProps {
