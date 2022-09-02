@@ -1,6 +1,6 @@
 import { getHostname } from '../../utils/common';
 import { setUser } from '../../redux/actions';
-import AuthApi from '../../api/AuthApi';
+import ProfileApi from '../../api/ProfileApi';
 
 export const checkLogin = async (
   setContext: any,
@@ -22,7 +22,7 @@ export const checkLogin = async (
   }
 
   try {
-    const response = await AuthApi.getAccount();
+    const response = await ProfileApi.getProfile();
 
     if (response.data.id) {
       setContext('isLogged', true);

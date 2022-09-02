@@ -5,8 +5,8 @@ import {
 } from '../../types/interface';
 import {
   CalendarSettingsResponse,
-  GetAccountResponse,
   GetEventResponse,
+  GetProfileResponse,
 } from 'bloben-interface';
 
 import { OnPageChangeData } from 'kalend';
@@ -14,7 +14,7 @@ import { SettingsLocal } from '../reducers/settingsLocal';
 import { ThemeSettings } from '../reducers/themeSettings';
 import { WebcalCalendar } from '../reducers/webcalCalendars';
 
-export const setUser = (data: GetAccountResponse) => {
+export const setUser = (data: GetProfileResponse) => {
   return {
     type: 'SET_USER',
     payload: data,
