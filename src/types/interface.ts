@@ -1,6 +1,6 @@
 import { Alarm } from 'ical-js-parser';
 import { CALDAV_OBJ_TYPE } from './enums';
-import { CalendarSettingsResponse, GetAccountResponse } from 'bloben-interface';
+import { CalendarSettingsResponse, GetProfileResponse } from 'bloben-interface';
 
 import { DAV_ACCOUNT_TYPE } from '../enums';
 import { OnPageChangeData } from 'kalend';
@@ -82,7 +82,7 @@ export interface ReduxState {
   webcalCalendars: WebcalCalendar[];
   cachedEvents: any[];
   syncLog: SyncLog;
-  user: GetAccountResponse;
+  user: GetProfileResponse;
   calendarSettings: CalendarSettingsResponse;
   themeSettings: ThemeSettings;
   settingsLocal: SettingsLocal;

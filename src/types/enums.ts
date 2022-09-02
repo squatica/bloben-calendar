@@ -105,3 +105,71 @@ export enum ITEM_SIZE {
   MEDIUM = 'md',
   LARGE = 'lg',
 }
+
+export const allowedLanguages: { label: string; value: string }[] = [
+  { label: 'English', value: 'en' },
+  {
+    label: 'Czech',
+    value: 'cs',
+  },
+  {
+    label: 'Chinese',
+    value: 'zh',
+  },
+  {
+    label: 'German',
+    value: 'de',
+  },
+  {
+    label: 'Dutch',
+    value: 'nl',
+  },
+  {
+    label: 'Estonian',
+    value: 'et',
+  },
+  {
+    label: 'French',
+    value: 'fr',
+  },
+  {
+    label: 'Italian',
+    value: 'it',
+  },
+  {
+    label: 'Korean',
+    value: 'ko',
+  },
+  {
+    label: 'Norwegian',
+    value: 'no',
+  },
+  {
+    label: 'Polish',
+    value: 'pl',
+  },
+  {
+    label: 'Portuguese',
+    value: 'pt',
+  },
+  {
+    label: 'Slovak',
+    value: 'sk',
+  },
+  {
+    label: 'Swedish',
+    value: 'sw',
+  },
+  {
+    label: 'Spanish',
+    value: 'es',
+  },
+  {
+    label: 'Slovenian',
+    value: 'sl',
+  },
+  {
+    label: 'Hungarian',
+    value: 'hu',
+  },
+];

@@ -33,6 +33,7 @@ export const initialReduxState: ReduxState = {
     id: '',
     isTwoFactorEnabled: false,
     role: ROLE.DEMO,
+    language: 'en',
   },
   calendarSettings: defaultCalendarSettings,
   themeSettings: initThemeSettings,

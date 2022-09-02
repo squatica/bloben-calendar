@@ -1,5 +1,5 @@
 import { CalDavCalendar } from '../../../types/interface';
-import { CalendarSettingsResponse, GetAccountResponse } from 'bloben-interface';
+import { CalendarSettingsResponse, GetProfileResponse } from 'bloben-interface';
 import { DateTime } from 'luxon';
 import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
 import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
@@ -414,7 +414,7 @@ export const initNewEventOnMount = (
   setForm: any,
   setCalendar: any,
   store: StoreContext,
-  user: GetAccountResponse,
+  user: GetProfileResponse,
   newEventTime: NewEventTime
 ): void => {
   const defaultCalendarID = settings.defaultCalendarID;
