@@ -23,6 +23,7 @@ import { TOAST_STATUS } from '../../types/enums';
 import {
   checkIfIsInRange,
   createToast,
+  getLocalTimezone,
   getSyncRange,
   parseCssDark,
 } from '../../utils/common';
@@ -228,6 +229,7 @@ const Calendar = () => {
             await createCalDavEvent(
               updatedEvent as InitialForm,
               false,
+              settings.timezone || getLocalTimezone(),
               undefined,
               undefined,
               prevEvent,
@@ -243,6 +245,7 @@ const Calendar = () => {
       await createCalDavEvent(
         updatedEvent as InitialForm,
         false,
+        settings.timezone || getLocalTimezone(),
         undefined,
         undefined,
         prevEvent

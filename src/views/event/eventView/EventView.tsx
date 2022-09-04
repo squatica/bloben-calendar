@@ -9,7 +9,11 @@ import {
   CalDavEvent,
   ReduxState,
 } from '../../../types/interface';
-import { createToast, formatEventDate } from '../../../utils/common';
+import {
+  createToast,
+  formatEventDate,
+  getLocalTimezone,
+} from '../../../utils/common';
 
 import { Context, StoreContext } from '../../../context/store';
 import { DeleteRepeatedCalDavEventRequest } from 'bloben-interface';
@@ -53,7 +57,10 @@ const EventDates = (props: EventDatesProps) => {
   const [store]: [StoreContext] = useContext(Context);
   const { isDark, isMobile } = store;
 
-  const humanDate: any = formatEventDate(event);
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const timezone = settings.timezone || getLocalTimezone();
+
+  const humanDate: any = formatEventDate(event, timezone);
   const { dates, time } = humanDate;
 
   return !isMobile ? (
@@ -110,6 +117,9 @@ const EventView = (props: EventViewProps) => {
   } = props;
 
   const { isDark, isMobile } = store;
+
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const timezone = settings.timezone || getLocalTimezone();
 
   // const [isOrganizer, setIsOrganizer] = useState(false);
   const [event, setEvent] = useState(null as any);
@@ -216,22 +226,25 @@ const EventView = (props: EventViewProps) => {
             calendar.id,
             event.url
           );
-          iCalString = new ICalHelper({
-            ...event,
-            startAt: originalEvent.data.startAt,
-            endAt: originalEvent.data.endAt,
-            timezoneStart: originalEvent.data.timezoneStart,
-            externalID: newEventExternalID,
-            rRule: originalEvent.data.rRule,
-            recurrenceID: {
-              value: event.startAt,
-              timezone: event.timezoneStartAt,
+          iCalString = new ICalHelper(
+            {
+              ...event,
+              startAt: originalEvent.data.startAt,
+              endAt: originalEvent.data.endAt,
+              timezoneStart: originalEvent.data.timezoneStart,
+              externalID: newEventExternalID,
+              rRule: originalEvent.data.rRule,
+              recurrenceID: {
+                value: event.startAt,
+                timezone: event.timezoneStartAt,
+              },
+              exdates: [
+                ...event.exdates,
+                { value: event.startAt, timezone: event.timezoneStartAt },
+              ],
             },
-            exdates: [
-              ...event.exdates,
-              { value: event.startAt, timezone: event.timezoneStartAt },
-            ],
-          }).parseTo();
+            timezone
+          ).parseTo();
 
           body = {
             calendarID: calendar.id,

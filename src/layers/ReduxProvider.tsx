@@ -7,7 +7,7 @@ import { saveState } from '../redux/localstorage';
 import LocalForage from '../utils/LocalForage';
 import rootReducer, { initialReduxState } from '../redux/reducers';
 
-export let reduxStore: any;
+export let reduxStore: any = createStore(rootReducer, initialReduxState);
 
 interface ReduxProviderProps {
   isStorageLoaded?: boolean;

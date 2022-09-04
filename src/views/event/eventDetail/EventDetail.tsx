@@ -38,7 +38,6 @@ interface EventDetailProps {
   handleChangeDateFrom: any;
   handleChangeDateTill: any;
   timezoneStartAt: string;
-  setStartTimezone: any;
   selectCalendar: any;
   organizer: any;
   attendees: any[];
@@ -70,7 +69,6 @@ const EventDetail = (props: EventDetailProps) => {
     handleChangeDateFrom,
     handleChangeDateTill,
     timezoneStartAt,
-    setStartTimezone,
     selectCalendar,
     addAttendee,
     removeAttendee,
@@ -110,7 +108,6 @@ const EventDetail = (props: EventDetailProps) => {
         handleChangeDateFrom={handleChangeDateFrom}
         handleChangeDateTill={handleChangeDateTill}
         allDay={allDay}
-        setStartTimezone={setStartTimezone}
       />
       <EventDetailRepeat
         isRepeated={isRepeated}

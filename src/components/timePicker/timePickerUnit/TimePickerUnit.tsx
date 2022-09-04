@@ -13,14 +13,13 @@ interface TimePickerUnitProps {
   value: string;
   keyPrefix: string;
   id: string;
+  timezone: string;
 }
 const TimePickerUnit = (props: TimePickerUnitProps) => {
-  const { selectedDate, selectValue, value, keyPrefix, id } = props;
+  const { selectedDate, selectValue, value, keyPrefix, id, timezone } = props;
 
   const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
-
-  // const key = `${keyPrefix}_${value}`;
 
   const isSelected: boolean =
     // @ts-ignore
@@ -28,7 +27,7 @@ const TimePickerUnit = (props: TimePickerUnitProps) => {
 
   const onClick = () => {
     const timeValues: string[] = value.split(':');
-    let newDate: DateTime = DateTime.fromISO(selectedDate);
+    let newDate: DateTime = DateTime.fromISO(selectedDate).setZone(timezone);
 
     newDate = newDate.set({
       hour: Number(timeValues[0]),
