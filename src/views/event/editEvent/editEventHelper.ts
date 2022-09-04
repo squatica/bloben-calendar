@@ -222,7 +222,7 @@ export const createCalDavEvent = async (
   const calendarChanged = didCalendarChange(
     isNewEvent,
     isDuplicatingEvent,
-    originalEvent?.calendarID,
+    originalEvent,
     eventCalendar
   );
 
