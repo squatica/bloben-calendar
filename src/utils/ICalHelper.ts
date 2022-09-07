@@ -83,7 +83,7 @@ class ICalHelper {
   recurrenceID?: any;
   [key: string]: any;
 
-  constructor(event: IcalHelperInterface) {
+  constructor(event: IcalHelperInterface, timezone: string) {
     const {
       externalID,
       createdAt,
@@ -110,13 +110,13 @@ class ICalHelper {
     this.dtstart = {
       value: allDay
         ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
-        : formatIcalDate(startAt, timezoneStartAt),
+        : formatIcalDate(startAt, timezone),
       timezone: allDay ? undefined : timezoneStartAt,
     };
     this.dtend = {
       value: allDay
         ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
-        : formatIcalDate(endAt, timezoneStartAt),
+        : formatIcalDate(endAt, timezone),
       timezone: allDay ? undefined : timezoneStartAt,
     };
     this.uid = externalID ? externalID : v4();
@@ -157,8 +157,8 @@ class ICalHelper {
     if (recurrenceID) {
       this.recurrenceId = {
         value:
-          formatIcalDate(recurrenceID?.value, timezoneStartAt) ||
-          formatIcalDate(recurrenceID, timezoneStartAt),
+          formatIcalDate(recurrenceID?.value, timezone) ||
+          formatIcalDate(recurrenceID, timezone),
         timezone: allDay ? undefined : timezoneStartAt,
       };
     }

@@ -150,8 +150,8 @@ export const findItemCalendar = (item: any) => {
 export const didCalendarChange = (
   isNewEvent: boolean,
   isDuplicatingEvent: boolean | undefined,
-  originalEvent: any,
-  eventCalendar: any
+  originalEvent: { calendarID: string },
+  eventCalendar: CalDavCalendar
 ) => {
   return (
     !isNewEvent &&
@@ -203,6 +203,7 @@ export const setExternalEventID = (
 export const createCalDavEvent = async (
   formInitial: InitialForm,
   isNewEvent: boolean,
+  timezone: string,
   calendar?: CalDavCalendar,
   handleClose?: any,
   originalEvent?: any,
@@ -211,14 +212,13 @@ export const createCalDavEvent = async (
   isDuplicatingEvent?: boolean
 ) => {
   const form = handleAllDayStatus(formInitial);
-
   const eventCalendar: CalDavCalendar =
     calendar || findItemCalendar(originalEvent);
 
   const calendarChanged = didCalendarChange(
     isNewEvent,
     isDuplicatingEvent,
-    originalEvent?.calendarID,
+    originalEvent,
     eventCalendar
   );
 
@@ -237,10 +237,13 @@ export const createCalDavEvent = async (
     isDuplicatingEvent
   );
 
-  const iCalString: string = new ICalHelper({
-    ...form,
-    externalID: newEventExternalID,
-  }).parseTo();
+  const iCalString: string = new ICalHelper(
+    {
+      ...form,
+      externalID: newEventExternalID,
+    },
+    timezone
+  ).parseTo();
 
   debug(iCalString);
 
@@ -435,10 +438,10 @@ export const initNewEventOnMount = (
   if (!thisCalendar) {
     return;
   }
-  const timezoneFromCalendar: string = getLocalTimezone();
+  const timezone: string = settings.timezone || getLocalTimezone();
 
-  setForm('timezoneStartAt', timezoneFromCalendar);
-  setForm('timezoneEndAt', timezoneFromCalendar);
+  setForm('timezoneStartAt', timezone);
+  setForm('timezoneEndAt', timezone);
   setCalendar(thisCalendar);
 
   if (thisCalendar.alarms) {
@@ -474,17 +477,11 @@ export const initNewEventOnMount = (
 
     setForm(
       'startAt',
-      formatAllDayHeaderEventDate(
-        newEventTime.startAt as string,
-        timezoneFromCalendar
-      )
+      formatAllDayHeaderEventDate(newEventTime.startAt as string, timezone)
     );
     setForm(
       'endAt',
-      formatAllDayHeaderEventDate(
-        newEventTime.endAt as string,
-        timezoneFromCalendar
-      )
+      formatAllDayHeaderEventDate(newEventTime.endAt as string, timezone)
     );
   } else {
     setForm('startAt', newEventTime.startAt);
@@ -608,7 +605,8 @@ export const loadCalendar = (
 
   if (isNewEvent) {
     const timezoneFromCalendar: string = parseCalendarTimezone(
-      thisCalendar.timezone
+      thisCalendar.timezone,
+      settings
     );
 
     setForm('timezoneStartAt', timezoneFromCalendar);
@@ -649,15 +647,17 @@ export const validateDate = (
  * @param setCalendar
  * @param startAt
  * @param endAt
+ * @param settings
  */
 export const handleSelectCalendar = (
   calendarObj: any,
   setForm: any,
   setCalendar: any,
   startAt: string,
-  endAt: string
+  endAt: string,
+  settings: CalendarSettingsResponse
 ) => {
-  const localTimezone = parseCalendarTimezone(calendarObj.timezone);
+  const localTimezone = parseCalendarTimezone(calendarObj.timezone, settings);
 
   setForm('startAt', DatetimeParser(startAt, localTimezone));
   setForm('endAt', DatetimeParser(endAt, localTimezone));
@@ -692,6 +692,7 @@ export const handleSaveEvent = async (
   calendar: any,
   handleClose: any,
   event: any,
+  timezone: string,
   isDuplicatingEvent: boolean | undefined,
   setContext: any,
   store: StoreContext,
@@ -707,6 +708,7 @@ export const handleSaveEvent = async (
           await createCalDavEvent(
             form,
             isNewEvent,
+            timezone,
             calendar,
             handleClose,
             event,
@@ -743,6 +745,7 @@ export const handleSaveEvent = async (
     await createCalDavEvent(
       form,
       isNewEvent,
+      timezone,
       calendar,
       handleClose,
       event,
@@ -761,7 +764,9 @@ export const handleSaveEvent = async (
       )
     );
   } catch (e: any) {
-    toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+    if (toast) {
+      toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+    }
     setIsSaving(false);
   }
 };

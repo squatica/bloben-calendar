@@ -7,6 +7,7 @@ interface ChakraTimezoneSelectProps {
   onSelect: any;
   value: string;
   size?: ITEM_SIZE;
+  isDisabled?: boolean;
 }
 const ChakraTimezoneSelect = (props: ChakraTimezoneSelectProps) => {
   const [zones, setZones] = useState<any>([]);
@@ -21,15 +22,18 @@ const ChakraTimezoneSelect = (props: ChakraTimezoneSelectProps) => {
   }, []);
 
   return (
-    <Select
-      id="timezone-select"
-      name="timezones"
-      options={zones ? zones : []}
-      value={{ label: props.value, value: props.value }}
-      closeMenuOnSelect={true}
-      onChange={props.onSelect}
-      size={props.size}
-    />
+    <div style={{ width: '100%' }}>
+      <Select
+        id="timezone-select"
+        name="timezones"
+        options={zones ? zones : []}
+        value={{ label: props.value, value: props.value }}
+        closeMenuOnSelect={true}
+        onChange={props.onSelect}
+        size={props.size}
+        isDisabled={props.isDisabled}
+      />
+    </div>
   );
 };
 
