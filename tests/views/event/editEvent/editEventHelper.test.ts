@@ -214,8 +214,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.sendInvite, undefined);
       assert.equal(result.inviteMessage, undefined);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[13], 'SEQUENCE:0');
     });
 
@@ -262,8 +262,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, calendar.id);
       assert.equal(result.sendInvite, undefined);
       assert.equal(result.inviteMessage, undefined);
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -300,8 +300,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, calendar.id);
       assert.equal(result.sendInvite, true);
       assert.equal(result.inviteMessage, 'Invite');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -326,8 +326,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.inviteMessage, undefined);
       assert.equal(result.etag, originalEvent.etag);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[7], 'UID:external_123');
     });
 
@@ -368,8 +368,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, calendar.id);
       assert.equal(result.sendInvite, true);
       assert.equal(result.inviteMessage, 'Invite');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -415,8 +415,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, 'new_cal_1');
       assert.equal(result.sendInvite, true);
       assert.equal(result.inviteMessage, 'Invite');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -450,8 +450,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.etag, originalEvent.etag);
       assert.notEqual(result.externalID, originalEvent.id);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[7], 'UID:external_123');
     });
 
@@ -475,8 +475,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.inviteMessage, undefined);
       assert.notEqual(result.externalID, originalEvent.id);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T160000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T180000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.notEqual(icalResult[7], 'UID:external_123');
     });
   });

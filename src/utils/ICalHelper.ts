@@ -3,7 +3,7 @@ import ICalParser from 'ical-js-parser';
 import { DateTime } from 'luxon';
 import { InitialForm } from '../views/event/editEvent/editEventHelper';
 import { forEach, map } from 'lodash';
-import { formatAppAlarm } from './common';
+import { formatAppAlarm, getLocalTimezone } from './common';
 import { v4 } from 'uuid';
 import LuxonHelper, { ICAL_FORMAT } from './LuxonHelper';
 
@@ -111,13 +111,17 @@ class ICalHelper {
       value: allDay
         ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
         : formatIcalDate(startAt, timezone),
-      timezone: allDay ? undefined : timezoneStartAt,
+      timezone: allDay
+        ? undefined
+        : timezoneStartAt || timezone || getLocalTimezone(),
     };
     this.dtend = {
       value: allDay
         ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
         : formatIcalDate(endAt, timezone),
-      timezone: allDay ? undefined : timezoneStartAt,
+      timezone: allDay
+        ? undefined
+        : timezoneStartAt || timezone || getLocalTimezone(),
     };
     this.uid = externalID ? externalID : v4();
     if (attendees?.length) {
