@@ -1,7 +1,7 @@
 import '../button/buttonBase/ButtonBase.scss';
 import './Calendar.scss';
 import 'kalend/dist/styles/index.css';
-import { CALENDAR_VIEW } from 'kalend-layout';
+import { CALENDAR_VIEW } from 'kalend/common/enums';
 import {
   CalDavAccount,
   CalDavCalendar,
