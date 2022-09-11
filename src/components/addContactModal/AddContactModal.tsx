@@ -7,12 +7,11 @@ import {
 } from '@chakra-ui/react';
 import { createToast } from '../../utils/common';
 
+import { ChakraInput, Separator } from 'bloben-components';
 import { TOAST_STATUS } from '../../types/enums';
 import CardDavContactApi from '../../api/CardDavContactApi';
-import ChakraInput from '../chakraCustom/ChakraInput';
 import ModalNew from '../../components/modalNew/ModalNew';
 import React, { useState } from 'react';
-import Separator from '../separator/Separator';
 
 interface AddContactModalProps {
   handleClose: any;

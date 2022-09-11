@@ -4,7 +4,7 @@ import './MiniCalendarHeader.scss';
 
 import { Context, StoreContext } from '../../../../context/store';
 import { DateTime } from 'luxon';
-import { EvaIcons } from '../../../eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { parseCssDark } from '../../../../utils/common';
 import ButtonIcon from '../../../button/buttonIcon/ButtonIcon';
 

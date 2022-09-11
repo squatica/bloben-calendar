@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/react';
+import { Separator } from 'bloben-components';
 import PropTypes from 'prop-types';
 import React from 'react';
 import RepeatYearlyOn from './On';
 import RepeatYearlyOnThe from './OnThe';
-import Separator from '../../../../../../components/separator/Separator';
 
 const RepeatYearly = ({
   id,

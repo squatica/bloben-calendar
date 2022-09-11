@@ -1,8 +1,7 @@
 import './SettingsMenu.scss';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../../components/eva-icons';
+import { EvaIcons, SettingsButton } from 'bloben-components';
 import { SETTINGS_PATHS } from '../../../types/enums';
-import { SettingsButton } from './SettingsMenu';
 import { Stack } from '@chakra-ui/react';
 import { parseCssDark } from '../../../utils/common';
 import React, { useContext } from 'react';

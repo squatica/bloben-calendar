@@ -9,15 +9,16 @@ import {
   CalDavEvent,
   ReduxState,
 } from '../../../types/interface';
-import { createToast, formatEventDate } from '../../../utils/common';
+import {
+  createToast,
+  formatEventDate,
+  getLocalTimezone,
+} from '../../../utils/common';
 
 import { Context, StoreContext } from '../../../context/store';
-import { DeleteRepeatedCalDavEventRequest } from '../../../bloben-interface/event/event';
-import {
-  EVENT_TYPE,
-  REPEATED_EVENT_CHANGE_TYPE,
-} from '../../../bloben-interface/enums';
-import { EvaIcons } from '../../../components/eva-icons';
+import { DeleteRepeatedCalDavEventRequest } from 'bloben-interface';
+import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
+import { EvaIcons } from 'bloben-components';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
@@ -56,7 +57,10 @@ const EventDates = (props: EventDatesProps) => {
   const [store]: [StoreContext] = useContext(Context);
   const { isDark, isMobile } = store;
 
-  const humanDate: any = formatEventDate(event);
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const timezone = settings.timezone || getLocalTimezone();
+
+  const humanDate: any = formatEventDate(event, timezone);
   const { dates, time } = humanDate;
 
   return !isMobile ? (
@@ -113,6 +117,9 @@ const EventView = (props: EventViewProps) => {
   } = props;
 
   const { isDark, isMobile } = store;
+
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const timezone = settings.timezone || getLocalTimezone();
 
   // const [isOrganizer, setIsOrganizer] = useState(false);
   const [event, setEvent] = useState(null as any);
@@ -219,22 +226,25 @@ const EventView = (props: EventViewProps) => {
             calendar.id,
             event.url
           );
-          iCalString = new ICalHelper({
-            ...event,
-            startAt: originalEvent.data.startAt,
-            endAt: originalEvent.data.endAt,
-            timezoneStart: originalEvent.data.timezoneStart,
-            externalID: newEventExternalID,
-            rRule: originalEvent.data.rRule,
-            recurrenceID: {
-              value: event.startAt,
-              timezone: event.timezoneStartAt,
+          iCalString = new ICalHelper(
+            {
+              ...event,
+              startAt: originalEvent.data.startAt,
+              endAt: originalEvent.data.endAt,
+              timezoneStart: originalEvent.data.timezoneStart,
+              externalID: newEventExternalID,
+              rRule: originalEvent.data.rRule,
+              recurrenceID: {
+                value: event.startAt,
+                timezone: event.timezoneStartAt,
+              },
+              exdates: [
+                ...event.exdates,
+                { value: event.startAt, timezone: event.timezoneStartAt },
+              ],
             },
-            exdates: [
-              ...event.exdates,
-              { value: event.startAt, timezone: event.timezoneStartAt },
-            ],
-          }).parseTo();
+            timezone
+          ).parseTo();
 
           body = {
             calendarID: calendar.id,

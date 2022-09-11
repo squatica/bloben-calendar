@@ -9,11 +9,11 @@ import {
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../context/store';
 import { Heading } from '@chakra-ui/react';
+import { Separator } from 'bloben-components';
 import { setUser } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
-import AuthApi from '../../api/AuthApi';
+import ProfileApi from '../../api/ProfileApi';
 import React, { useContext, useState } from 'react';
-import Separator from '../separator/Separator';
 import TwoFactorAuthApi from '../../api/TwoFactorAuth.api';
 
 interface TwoFactorLoginProps {
@@ -48,7 +48,7 @@ const TwoFactorLogin = (props: TwoFactorLoginProps) => {
       });
 
       if (response.data.isLogged && response.data.isTwoFactorEnabled) {
-        const userResponse = await AuthApi.getAccount();
+        const userResponse = await ProfileApi.getProfile();
 
         setContext('isLogged', true);
 

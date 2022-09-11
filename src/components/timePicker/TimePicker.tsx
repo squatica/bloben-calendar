@@ -14,7 +14,7 @@ interface TimePickerViewProps {
   timezone: string;
 }
 const TimePickerView = (props: TimePickerViewProps) => {
-  const { selectedDate, selectTime } = props;
+  const { selectedDate, selectTime, timezone } = props;
 
   const preventDefault = (e: any): void => {
     e.preventDefault();
@@ -28,8 +28,16 @@ const TimePickerView = (props: TimePickerViewProps) => {
       // style={containerStyle}
       onClick={preventDefault}
     >
-      <TimeInput selectedDate={selectedDate} selectDate={selectTime} />
-      <TimePickerList selectedDate={selectedDate} selectTime={selectTime} />
+      <TimeInput
+        selectedDate={selectedDate}
+        selectDate={selectTime}
+        timezone={timezone}
+      />
+      <TimePickerList
+        selectedDate={selectedDate}
+        selectTime={selectTime}
+        timezone={timezone}
+      />
     </div>
   );
 };

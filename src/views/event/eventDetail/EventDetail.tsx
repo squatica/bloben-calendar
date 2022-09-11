@@ -5,7 +5,7 @@ import './EventDetail.scss';
 
 import { CalDavCalendar } from '../../../types/interface';
 import { Context, StoreContext } from '../../../context/store';
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { Stack } from '@chakra-ui/react';
 import { filter } from 'lodash';
 import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/EventDetailAlarm';
@@ -38,7 +38,6 @@ interface EventDetailProps {
   handleChangeDateFrom: any;
   handleChangeDateTill: any;
   timezoneStartAt: string;
-  setStartTimezone: any;
   selectCalendar: any;
   organizer: any;
   attendees: any[];
@@ -70,7 +69,6 @@ const EventDetail = (props: EventDetailProps) => {
     handleChangeDateFrom,
     handleChangeDateTill,
     timezoneStartAt,
-    setStartTimezone,
     selectCalendar,
     addAttendee,
     removeAttendee,
@@ -110,7 +108,6 @@ const EventDetail = (props: EventDetailProps) => {
         handleChangeDateFrom={handleChangeDateFrom}
         handleChangeDateTill={handleChangeDateTill}
         allDay={allDay}
-        setStartTimezone={setStartTimezone}
       />
       <EventDetailRepeat
         isRepeated={isRepeated}

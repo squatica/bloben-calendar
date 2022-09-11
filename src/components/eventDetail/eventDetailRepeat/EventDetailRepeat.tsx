@@ -9,11 +9,10 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { ChakraModal, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
 import { RRule } from 'rrule';
 import { repeatOptions } from './EventDetailRepeatUtils';
-import ChakraModal from '../../chakraCustom/ChakraModal';
 import FormIcon from '../../formIcon/FormIcon';
 import RRuleCustom from '../../rRuleCustom/RRuleCustom';
 

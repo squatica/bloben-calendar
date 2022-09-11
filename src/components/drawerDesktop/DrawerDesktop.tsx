@@ -6,7 +6,7 @@ import {
   ReduxState,
 } from '../../types/interface';
 import { Context, StoreContext } from '../../context/store';
-import { EvaIcons } from '../../components/eva-icons';
+import { EvaIcons } from 'bloben-components';
 import { WebcalCalendar } from '../../redux/reducers/webcalCalendars';
 import { getAccountCalendars } from '../../utils/tsdavHelper';
 import { getBaseUrl } from '../../utils/parser';

@@ -1,12 +1,13 @@
-import { GetAccountResponse } from '../../bloben-interface/user/user';
-import { ROLE } from '../../bloben-interface/enums';
+import { GetProfileResponse } from 'bloben-interface';
+import { ROLE } from '../../enums';
 
 const user = (
-  state: GetAccountResponse = {
+  state: GetProfileResponse = {
     username: '',
     id: '',
     isTwoFactorEnabled: false,
     role: ROLE.DEMO,
+    language: 'en',
   },
   action: any
 ) => {

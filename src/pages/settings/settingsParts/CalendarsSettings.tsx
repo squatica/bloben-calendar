@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Flex,
   Heading,
@@ -32,18 +26,18 @@ import AddCalendarModal from '../../../components/addCalenarModal/AddCalendarMod
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 
-import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse } from 'bloben-interface';
 import { Context, StoreContext } from '../../../context/store';
-import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
+import { DAV_ACCOUNT_TYPE } from '../../../enums';
 import { filter } from 'lodash';
 import { getTableSize } from '../../../types/constants';
 
+import { Alert, Separator } from 'bloben-components';
 import { setCalendarSettings } from '../../../redux/actions';
 import CalDavCalendarApi from '../../../api/CalDavCalendarApi';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
-import React, { useContext, useRef, useState } from 'react';
-import Separator from '../../../components/separator/Separator';
+import React, { useContext, useState } from 'react';
 
 const renderAccountCalendars = (
   account: CalDavAccount,
@@ -278,8 +272,6 @@ const CalendarsSettings = () => {
     }
   };
 
-  const leastDestructiveRef = useRef(null);
-
   return (
     <>
       {isMobile ? <MobilePageHeader title={'Calendars'} /> : null}
@@ -292,41 +284,15 @@ const CalendarsSettings = () => {
         />
       ) : null}
 
-      <AlertDialog
+      <Alert
         isOpen={deleteModalVisible}
         onClose={onModalClose}
-        leastDestructiveRef={leastDestructiveRef}
-        isCentered={true}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Calendar
-            </AlertDialogHeader>
-
-            <AlertDialogBody>Do you want to delete calendar?</AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                ref={leastDestructiveRef}
-                _focus={{ boxShadow: 'none' }}
-                onClick={onModalClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                isLoading={isLoading}
-                colorScheme="red"
-                onClick={handleDeleteCalendar}
-                ml={3}
-              >
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        header={'Delete Calendar'}
+        body={'Do you want to delete calendar?'}
+        submitText={'Delete'}
+        onSubmit={handleDeleteCalendar}
+        isLoading={isLoading}
+      />
 
       {editModalVisible && calendarInFocus ? (
         <AddCalendarModal

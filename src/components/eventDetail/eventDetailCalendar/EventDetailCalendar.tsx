@@ -11,13 +11,11 @@ import {
 } from '@chakra-ui/react';
 import { CalDavCalendar, ReduxState } from '../../../types/interface';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../../components/eva-icons';
+import { EvaIcons, Separator } from 'bloben-components';
 import { colors } from '../../../utils/colors';
 import { useSelector } from 'react-redux';
-import CircleFill from '../../eva-icons/circle-fill';
 import FormIcon from '../../formIcon/FormIcon';
 import React, { useContext } from 'react';
-import Separator from '../../separator/Separator';
 
 const renderCalendars = (data: CalDavCalendar[], selectCalendar: any) => {
   return data.map((item) => {
@@ -84,7 +82,7 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
                   key={item}
                   onClick={() => props.setForm('color', item)}
                 >
-                  <CircleFill
+                  <EvaIcons.CircleFill
                     style={{
                       fill: item,
                       filter: isDark ? 'saturate(60%) brightness(120%)' : '',

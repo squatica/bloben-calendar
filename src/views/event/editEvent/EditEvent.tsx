@@ -8,6 +8,7 @@ import {
   addAlarm,
   createToast,
   formatAppAlarm,
+  getLocalTimezone,
   removeAlarm,
   updateAlarm,
 } from '../../../utils/common';
@@ -27,7 +28,7 @@ import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
 import { Flex, Spacer, useToast } from '@chakra-ui/react';
 import { TOAST_STATUS } from '../../../types/enums';
 
-import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse } from 'bloben-interface';
 import {
   checkIfHasRepeatPreAction,
   handleSaveEvent,
@@ -41,15 +42,15 @@ import {
   validateDate,
 } from './editEventHelper';
 
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../bloben-interface/enums';
+import { PrimaryButton, Separator } from 'bloben-components';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { map } from 'lodash';
 import ModalNew from '../../../components/modalNew/ModalNew';
-import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
+
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
-import Separator from '../../../components/separator/Separator';
 
 interface EditEventProps {
   handleClose: any;
@@ -213,17 +214,13 @@ const EditEvent = (props: EditEventProps) => {
     setForm('attendees', updatedAttendees);
   };
 
-  const setStartTimezone = (value: string) => {
-    setForm('timezoneStartAt', value);
-    setForm('timezoneEndAt', value);
-  };
-
   /**
    * Validate startAt date before change
    * @param dateValue
    */
   const handleChangeDateFrom = (dateValue: DateTime | string) => {
-    setForm('startAt', DatetimeParser(dateValue, timezoneStartAt));
+    const timezoneBase = settings.timezone || getLocalTimezone();
+    setForm('startAt', DatetimeParser(dateValue, timezoneBase));
 
     const isDateValid: boolean = validateDate(
       'startAt',
@@ -233,15 +230,15 @@ const EditEvent = (props: EditEventProps) => {
     );
 
     if (!isDateValid) {
-      const originalDateTill = parseToDateTime(endAt, timezoneStartAt);
+      const originalDateTill = parseToDateTime(endAt, timezoneBase);
       setForm(
         'endAt',
         DatetimeParser(
-          parseToDateTime(dateValue, timezoneStartAt).set({
+          parseToDateTime(dateValue, timezoneBase).set({
             hour: originalDateTill.hour,
             minute: originalDateTill.minute,
           }),
-          timezoneStartAt
+          timezoneBase
         )
       );
     }
@@ -252,6 +249,8 @@ const EditEvent = (props: EditEventProps) => {
    * @param dateValue
    */
   const handleChangeDateTill = (dateValue: any) => {
+    const timezoneBase = settings.timezone || getLocalTimezone();
+
     const isDateValid: boolean = validateDate(
       'endAt',
       startAt,
@@ -260,7 +259,7 @@ const EditEvent = (props: EditEventProps) => {
     );
 
     if (isDateValid) {
-      setForm('endAt', DatetimeParser(dateValue, timezoneStartAt));
+      setForm('endAt', DatetimeParser(dateValue, timezoneBase));
     } else {
       toast(createToast('Invalid date', TOAST_STATUS.ERROR));
     }
@@ -280,7 +279,14 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   const selectCalendar = (calendarObj: any) => {
-    handleSelectCalendar(calendarObj, setForm, setCalendar, startAt, endAt);
+    handleSelectCalendar(
+      calendarObj,
+      setForm,
+      setCalendar,
+      startAt,
+      endAt,
+      settings
+    );
   };
 
   const saveEvent = async () => {
@@ -292,6 +298,7 @@ const EditEvent = (props: EditEventProps) => {
       calendar,
       handleClose,
       props.event,
+      settings.timezone || getLocalTimezone(),
       isDuplicatingEvent,
       setContext,
       store,
@@ -416,7 +423,6 @@ const EditEvent = (props: EditEventProps) => {
                     removeAlarm={removeAlarmEvent}
                     updateAlarm={updateAlarmEvent}
                     timezoneStartAt={timezoneStartAt}
-                    setStartTimezone={setStartTimezone}
                     selectCalendar={selectCalendar}
                     attendees={attendees}
                     addAttendee={addAttendee}

@@ -17,10 +17,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ITEM_SIZE, TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 
-import { CalendarSettingsResponse } from '../../../bloben-interface/calendarSettings/calendarSettings';
+import {
+  CalendarSettingsResponse,
+  GetCardDavAddressBooks,
+} from 'bloben-interface';
 import { Context, StoreContext } from '../../../context/store';
-import { DAV_ACCOUNT_TYPE } from '../../../bloben-interface/enums';
-import { GetCardDavAddressBooks } from '../../../bloben-interface/cardDavAddressBook/cardDavAddressBook';
+import { DAV_ACCOUNT_TYPE } from '../../../enums';
+import { PrimaryButton, Separator } from 'bloben-components';
 import { filter } from 'lodash';
 import { getSize } from '../../../types/constants';
 import { setCalendarSettings } from '../../../redux/actions';
@@ -28,9 +31,7 @@ import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
 import CardDavAddressBookApi from '../../../api/CardDavAddressBookApi';
 import ContactsModal from '../../../components/contactsModal/ContactsModal';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
-import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useEffect, useState } from 'react';
-import Separator from '../../../components/separator/Separator';
 
 const renderAccountAddressBooks = (
   account: CalDavAccount,

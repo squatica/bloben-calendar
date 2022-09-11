@@ -1,7 +1,7 @@
 import '../button/buttonBase/ButtonBase.scss';
 import './Calendar.scss';
 import 'kalend/dist/styles/index.css';
-import { CALENDAR_VIEW } from 'kalend-layout';
+import { CALENDAR_VIEW } from 'kalend/common/enums';
 import {
   CalDavAccount,
   CalDavCalendar,
@@ -9,13 +9,10 @@ import {
   QueryRange,
   ReduxState,
 } from '../../types/interface';
-import { CalendarSettingsResponse } from '../../bloben-interface/calendarSettings/calendarSettings';
+import { CalendarSettingsResponse } from 'bloben-interface';
 import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
-import {
-  EVENT_TYPE,
-  REPEATED_EVENT_CHANGE_TYPE,
-} from '../../bloben-interface/enums';
+import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../enums';
 import {
   InitialForm,
   createCalDavEvent,
@@ -26,6 +23,7 @@ import { TOAST_STATUS } from '../../types/enums';
 import {
   checkIfIsInRange,
   createToast,
+  getLocalTimezone,
   getSyncRange,
   parseCssDark,
 } from '../../utils/common';
@@ -231,6 +229,7 @@ const Calendar = () => {
             await createCalDavEvent(
               updatedEvent as InitialForm,
               false,
+              settings.timezone || getLocalTimezone(),
               undefined,
               undefined,
               prevEvent,
@@ -246,6 +245,7 @@ const Calendar = () => {
       await createCalDavEvent(
         updatedEvent as InitialForm,
         false,
+        settings.timezone || getLocalTimezone(),
         undefined,
         undefined,
         prevEvent

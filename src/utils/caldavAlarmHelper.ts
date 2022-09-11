@@ -1,4 +1,4 @@
-import { ALARM_TYPE } from '../bloben-interface/enums';
+import { ALARM_TYPE } from '../enums';
 import { AppAlarm } from './common';
 import { DateTime } from 'luxon';
 import { forEach } from 'lodash';

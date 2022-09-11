@@ -2,7 +2,7 @@ import {
   CreateCalDavEventRequest,
   UpdateCalDavEventRequest,
   UpdateRepeatedCalDavEventRequest,
-} from '../../../src/bloben-interface/event/event';
+} from 'bloben-interface';
 import CalDavEventsApi from '../../../src/api/CalDavEventsApi';
 
 export const mockCalDavEventApi = () => {

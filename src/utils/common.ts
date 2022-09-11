@@ -1,4 +1,4 @@
-import { ALARM_TYPE } from '../bloben-interface/enums';
+import { ALARM_TYPE } from '../enums';
 import { CalDavEventObj } from './davHelper';
 import { CalendarView } from 'kalend';
 import { DateTime } from 'luxon';
@@ -9,6 +9,7 @@ import { parseToDateTime } from './datetimeParser';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
 
+import { CalendarSettingsResponse } from 'bloben-interface';
 import { THEME_SETTINGS, ThemeSettings } from '../redux/reducers/themeSettings';
 import { parseToAlarmTrigger } from './caldavAlarmHelper';
 import _, { forEach } from 'lodash';
@@ -30,18 +31,19 @@ export const formatTimestampToDate = (dateObj: any): string =>
     ? dateObj.toFormat('dd-MM-yyyy')
     : DateTime.fromISO(dateObj).toFormat('dd-MM-yyyy');
 
-export const getLocalTimezone = (): string =>
-  // Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone ||
-  DateTime.now().zoneName;
+export const getLocalTimezone = (): string => DateTime.now().zoneName;
 
-export const parseCalendarTimezone = (timezone: string): string => {
+export const parseCalendarTimezone = (
+  timezone: string,
+  settings: CalendarSettingsResponse
+): string => {
   if (
     !timezone ||
     timezone.length === 0 ||
     timezone === ' ' ||
     !timezone.includes('/')
   ) {
-    return getLocalTimezone();
+    return settings.timezone || getLocalTimezone();
   }
 
   return timezone;
@@ -198,26 +200,21 @@ export const parseTimezoneText = (zone: string): string => {
   return zone;
 };
 
-export const formatEventDate = (event: any) => {
-  const { startAt, endAt, timezoneStartAt } = event;
+export const formatEventDate = (event: any, timezone: string) => {
+  const { startAt, endAt } = event;
 
   const isSameDay: boolean = LuxonHelper.isSameDay(startAt, endAt);
 
-  const dateFromString: string = parseToDateTime(
-    startAt,
-    timezoneStartAt
-  ).toFormat(`d LLL ${isSameDay ? 'yyyy' : ''}`);
+  const dateFromString: string = parseToDateTime(startAt, timezone).toFormat(
+    `d LLL ${isSameDay ? 'yyyy' : ''}`
+  );
   const dateToString: string = !isSameDay
-    ? ` - ${parseToDateTime(endAt, timezoneStartAt).toFormat('d LLL yyyy')}`
+    ? ` - ${parseToDateTime(endAt, timezone).toFormat('d LLL yyyy')}`
     : '';
   const dates = `${dateFromString}${dateToString}`;
 
-  const timeFrom: string = parseToDateTime(startAt, timezoneStartAt).toFormat(
-    'HH:mm'
-  );
-  const timeTo: string = parseToDateTime(endAt, timezoneStartAt).toFormat(
-    'HH:mm'
-  );
+  const timeFrom: string = parseToDateTime(startAt, timezone).toFormat('HH:mm');
+  const timeTo: string = parseToDateTime(endAt, timezone).toFormat('HH:mm');
   const time = `${timeFrom} - ${timeTo}`;
 
   return {

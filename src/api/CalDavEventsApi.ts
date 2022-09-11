@@ -1,15 +1,15 @@
 import { AxiosResponse } from 'axios';
-import { CommonResponse } from '../bloben-interface/interface';
 import {
+  CommonResponse,
   CreateCalDavEventRequest,
   DeleteCalDavEventRequest,
   DeleteRepeatedCalDavEventRequest,
   DuplicateMultipleCalDavEventsBody,
+  GetCaldavEventResponse,
   UpdateCalDavEventRequest,
   UpdatePartstatStatusRequest,
   UpdateRepeatedCalDavEventRequest,
-} from '../bloben-interface/event/event';
-import { GetCaldavEventResponse } from '../bloben-interface/caldavEvent/caldavEvent';
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

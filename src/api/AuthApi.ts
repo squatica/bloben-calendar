@@ -1,10 +1,9 @@
-import { CommonResponse } from '../bloben-interface/interface';
 import {
-  GetAccountResponse,
+  CommonResponse,
   GetSessionResponse,
   LoginRequest,
   LoginResponse,
-} from '../bloben-interface/user/user';
+} from 'bloben-interface';
 import Axios, { config } from '../lib/Axios';
 import axios, { AxiosResponse } from 'axios';
 
@@ -17,9 +16,6 @@ export default {
   },
   getSession: async (): Promise<AxiosResponse<GetSessionResponse>> => {
     return Axios.get('/app/v1/auth/login');
-  },
-  getAccount: async (): Promise<AxiosResponse<GetAccountResponse>> => {
-    return Axios.get('/app/v1/auth/account');
   },
   logout: async (): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.get('/app/v1/auth/logout');

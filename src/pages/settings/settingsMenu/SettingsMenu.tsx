@@ -1,44 +1,12 @@
 import './SettingsMenu.scss';
-import { Button, Stack } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../../components/eva-icons';
+import { EvaIcons, SettingsButton } from 'bloben-components';
 import { SETTINGS_PATHS } from '../../../types/enums';
+import { Stack } from '@chakra-ui/react';
 import { parseCssDark } from '../../../utils/common';
 import { useNavigate } from 'react-router-dom';
-import CalendarIcon from '../../../components/eva-icons/calendar';
-import Email from '../../../components/eva-icons/email';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
-import PersonAddIcon from '../../../components/eva-icons/person-add';
-import PersonIcon from '../../../components/eva-icons/person';
 import React, { useContext } from 'react';
-import SettingsIcon from '../../../components/eva-icons/settings';
-
-export interface SettingsButtonProps {
-  onClick: any;
-  icon: any;
-  text: string;
-  path: SETTINGS_PATHS;
-  selected: string;
-}
-export const SettingsButton = (props: SettingsButtonProps) => {
-  const [store]: [StoreContext] = useContext(Context);
-  const { isMobile } = store;
-
-  return (
-    <Button
-      _focus={{ boxShadow: 'none' }}
-      leftIcon={props.icon}
-      variant={props.selected === props.path && !isMobile ? 'solid' : 'ghost'}
-      onClick={props.onClick}
-      style={{ background: isMobile ? 'transparent' : undefined }}
-      width={'full'}
-      justifyContent={'flex-start'}
-      fontSize={isMobile ? 16 : 14}
-    >
-      {props.text}
-    </Button>
-  );
-};
 
 interface SettingsMenuProps {
   setSelected: any;
@@ -72,7 +40,7 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           }}
           text={'Accounts'}
           icon={
-            <PersonIcon
+            <EvaIcons.Person
               className={parseCssDark('SettingsMenu__icon', store.isDark)}
             />
           }
@@ -85,7 +53,7 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           }}
           text={'Calendars'}
           icon={
-            <CalendarIcon
+            <EvaIcons.Calendar
               className={parseCssDark('SettingsMenu__icon', store.isDark)}
             />
           }
@@ -98,7 +66,7 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           }}
           text={'Shared Calendars'}
           icon={
-            <PersonAddIcon
+            <EvaIcons.PersonAddIcon
               className={parseCssDark('SettingsMenu__icon', store.isDark)}
             />
           }
@@ -124,7 +92,7 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           }}
           text={'General'}
           icon={
-            <SettingsIcon
+            <EvaIcons.Settings
               className={parseCssDark('SettingsMenu__icon', store.isDark)}
             />
           }
@@ -150,7 +118,7 @@ const SettingsMenu = (props: SettingsMenuProps) => {
           }}
           text={'Email'}
           icon={
-            <Email
+            <EvaIcons.Email
               className={parseCssDark('SettingsMenu__icon', store.isDark)}
             />
           }

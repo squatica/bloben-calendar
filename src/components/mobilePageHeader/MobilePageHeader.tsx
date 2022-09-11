@@ -1,10 +1,10 @@
 import './MobilePageHeader.scss';
 import { Context, StoreContext } from '../../context/store';
+import { EvaIcons } from 'bloben-components';
 import { ITEM_SIZE } from '../../types/enums';
 import { IconButton, Text } from '@chakra-ui/react';
 import { parseCssDark } from '../../utils/common';
 import { useNavigate } from 'react-router-dom';
-import ArrowBack from '../eva-icons/arrow-back';
 import React, { useContext } from 'react';
 
 interface MobilePageHeaderProps {
@@ -28,7 +28,7 @@ const MobilePageHeader = (props: MobilePageHeaderProps) => {
         variant={'ghost'}
         aria-label="Go back"
         icon={
-          <ArrowBack
+          <EvaIcons.ArrowBack
             className={parseCssDark('HeaderModal__icon', store.isDark)}
           />
         }

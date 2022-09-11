@@ -4,7 +4,11 @@ import './TimePickerList.scss';
 import { DateTime } from 'luxon';
 import TimePickerUnit from '../timePickerUnit/TimePickerUnit';
 
-const renderTimePickerUnits = (selectedDate: string, selectTime: any) => {
+const renderTimePickerUnits = (
+  selectedDate: string,
+  selectTime: any,
+  timezone: string
+) => {
   const timeUnits: string[] = [];
   const idRefs: string[] = [];
   for (let i = 0; i < 24; i++) {
@@ -30,6 +34,7 @@ const renderTimePickerUnits = (selectedDate: string, selectTime: any) => {
       value={String(timeUnit)}
       selectedDate={selectedDate}
       selectValue={selectTime}
+      timezone={timezone}
     />
   ));
 };
@@ -37,14 +42,19 @@ const renderTimePickerUnits = (selectedDate: string, selectTime: any) => {
 interface TimePickerViewProps {
   selectedDate: any;
   selectTime: any;
+  timezone: string;
 }
 const TimePickerList = (props: TimePickerViewProps) => {
-  const { selectedDate, selectTime } = props;
+  const { selectedDate, selectTime, timezone } = props;
 
-  const timePickerUnits: any = renderTimePickerUnits(selectedDate, selectTime);
+  const timePickerUnits: any = renderTimePickerUnits(
+    selectedDate,
+    selectTime,
+    timezone
+  );
 
   useEffect(() => {
-    const dateRef: DateTime = DateTime.fromISO(selectedDate);
+    const dateRef: DateTime = DateTime.fromISO(selectedDate).setZone(timezone);
     const hourEl: any = document.getElementById(`${dateRef.hour}_00`);
     const minuteEl: any = document.getElementById(`minute_${dateRef.minute}`);
 

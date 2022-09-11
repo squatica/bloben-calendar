@@ -33,6 +33,7 @@ window.env = {};
 export const mochaHooks = function () {
   return {
     async beforeEach() {
+      // mockReduxStore();
       // @ts-ignore
       // noinspection JSConstantReassignment
       global.window = {

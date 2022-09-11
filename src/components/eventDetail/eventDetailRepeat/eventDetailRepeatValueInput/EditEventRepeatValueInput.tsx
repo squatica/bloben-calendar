@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import '../../EventDetail.scss';
 import './EditEventRepeatValueInput.scss';
 
+import { ChakraInput } from 'bloben-components';
 import { Context, StoreContext } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
-import ChakraInput from '../../../chakraCustom/ChakraInput';
 
 interface EditEventRepeatValueInputProps {
   defaultValue?: any;

@@ -13,12 +13,19 @@ import {
   NumberInputStepper,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import {
   CalendarSettingsResponse,
   PatchCalendarSettingsRequest,
-} from '../../../bloben-interface/calendarSettings/calendarSettings';
+} from 'bloben-interface';
 import { CalendarView } from 'kalend';
+import {
+  ChakraInput,
+  SettingsRow,
+  createToast,
+  createToastError,
+} from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
 import {
   DEFAULT_TIME_SETTINGS,
@@ -26,8 +33,11 @@ import {
   ThemeSettings,
 } from '../../../redux/reducers/themeSettings';
 import { ReduxState } from '../../../types/interface';
+import { allowedLanguages } from '../../../types/enums';
 import { capitalStart } from '../../../utils/common';
 import { getSize } from '../../../types/constants';
+import { keyBy, map } from 'lodash';
+import { refreshUserData } from '../../../redux/functions/user';
 import {
   setCalendarSettings,
   setSettings,
@@ -35,11 +45,10 @@ import {
 } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CalendarSettingsApi from '../../../api/CalendarSettingsApi';
-import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 import ChakraTimezoneSelect from '../../../components/chakraCustom/ChakraTimezoneSelect';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
+import ProfileApi from '../../../api/ProfileApi';
 import React, { useContext, useEffect, useState } from 'react';
-import SettingsRow from '../settingsRow/SettingsRow';
 
 const menuStyle: any = {
   width: '100%',
@@ -48,6 +57,7 @@ const menuStyle: any = {
 };
 
 const GeneralSettings = () => {
+  const toast = useToast();
   const [store]: [StoreContext] = useContext(Context);
 
   const { isMobile } = store;
@@ -59,6 +69,7 @@ const GeneralSettings = () => {
   const themeSettings: ThemeSettings = useSelector(
     (state: ReduxState) => state.themeSettings
   );
+  const user = useSelector((state: ReduxState) => state.user);
   const [hourHeightValue, setHourHeightValue] = useState(settings.hourHeight);
   const [themeTimeSettings, setThemeTimeSettings] = useState(
     DEFAULT_TIME_SETTINGS
@@ -128,6 +139,20 @@ const GeneralSettings = () => {
     dispatch(setThemeSettings(newSettings));
   };
 
+  const handleUpdateLanguage = async (value: string) => {
+    try {
+      const response = await ProfileApi.patchProfile({
+        language: value,
+      });
+
+      toast(createToast(response?.data?.message));
+
+      await refreshUserData();
+    } catch (e) {
+      toast(createToastError(e));
+    }
+  };
+
   const onChangeTimeSettingsTheme = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -168,6 +193,7 @@ const GeneralSettings = () => {
   };
 
   const tableSize = getSize(isMobile);
+  const keyedLanguages = keyBy(allowedLanguages, 'value');
 
   return (
     <>
@@ -401,6 +427,30 @@ const GeneralSettings = () => {
             </Stack>
           </SettingsRow>
         ) : null}
+        <SettingsRow title={'Language for requests'}>
+          <Menu>
+            <MenuButton
+              as={Button}
+              style={menuStyle}
+              _focus={{ boxShadow: 'none' }}
+              size={tableSize}
+            >
+              {keyedLanguages[user.language]?.label}
+            </MenuButton>
+            <MenuList maxHeight={120} style={{ overflowY: 'scroll' }}>
+              {map(allowedLanguages, (language) => {
+                return (
+                  <MenuItem
+                    minH="40px"
+                    onClick={() => handleUpdateLanguage(language.value)}
+                  >
+                    <span>{language.label}</span>
+                  </MenuItem>
+                );
+              })}
+            </MenuList>
+          </Menu>
+        </SettingsRow>
       </Box>
     </>
   );

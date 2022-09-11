@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import './TimeInput.scss';
 
+import { ChakraInput } from 'bloben-components';
 import { DateTime } from 'luxon';
 import { validateHour, validateMinute } from './TimeInputUtils';
-import ChakraInput from '../../chakraCustom/ChakraInput';
 
 const TIME_MAX_LENGTH = 2;
 const MINUTE = 'minute';
@@ -14,8 +14,8 @@ interface TimeValues {
   hour: string;
   minute: string;
 }
-const getTimeValues = (date: string): TimeValues => {
-  const dateTime: DateTime = DateTime.fromISO(date);
+const getTimeValues = (date: string, timezone: string): TimeValues => {
+  const dateTime: DateTime = DateTime.fromISO(date).setZone(timezone);
 
   return {
     hour: String(dateTime.hour),
@@ -26,9 +26,10 @@ const getTimeValues = (date: string): TimeValues => {
 interface TimeInputProps {
   selectedDate: string;
   selectDate: any;
+  timezone: string;
 }
 const TimeInput = (props: TimeInputProps) => {
-  const { selectedDate, selectDate } = props;
+  const { selectedDate, selectDate, timezone } = props;
 
   const minuteRef: any = useRef(null);
   const hourRef: any = useRef(null);
@@ -75,7 +76,7 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   const onBlur = () => {
-    let newDate: DateTime = DateTime.fromISO(selectedDate);
+    let newDate: DateTime = DateTime.fromISO(selectedDate).setZone(timezone);
 
     newDate = newDate.set({ hour, minute });
 
@@ -108,7 +109,7 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   const setTimeValues = (): void => {
-    const timeValues: TimeValues = getTimeValues(selectedDate);
+    const timeValues: TimeValues = getTimeValues(selectedDate, timezone);
     formatTime(HOUR, timeValues.hour);
     formatTime(MINUTE, timeValues.minute);
   };

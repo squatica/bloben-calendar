@@ -2,12 +2,12 @@ import { ACCOUNT_TYPE } from '../../../types/enums';
 import { Button, Center } from '@chakra-ui/react';
 
 import { Context, StoreContext } from '../../../context/store';
+import { Separator } from 'bloben-components';
 import AccountSelectionModal from '../../../components/accountSelectionModal/AccountSelectionModal';
 import CalDavAccountModal from '../../../components/accountSelectionModal/calDavAccountModal/CalDavAccountModal';
 import CalDavAccountSettings from './accountSettings/CalDavAccountSettings';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext, useState } from 'react';
-import Separator from '../../../components/separator/Separator';
 import WebcalAccountSettings from './accountSettings/WebcalAccountSettings';
 import WebcalModal from '../../../components/accountSelectionModal/webcalModal/WebcalModal';
 

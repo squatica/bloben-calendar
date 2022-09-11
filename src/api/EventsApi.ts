@@ -1,10 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { DateTime } from 'luxon';
-import { EVENT_TYPE } from '../bloben-interface/enums';
-import {
-  GetEventResponse,
-  SearchEventsResponse,
-} from '../bloben-interface/event/event';
+import { EVENT_TYPE } from '../enums';
+import { GetEventResponse, SearchEventsResponse } from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {

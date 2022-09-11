@@ -22,9 +22,10 @@ import {
   setExternalEventID,
   updateRepeatedEvent,
 } from '../../../../src/views/event/editEvent/editEventHelper';
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../../src/bloben-interface/enums';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../../src/enums';
 import { StoreContext } from '../../../../src/context/store';
 import { mockCalDavEventApi } from '../../../mocks/api/CalDavEventApi';
+import { reduxStore } from '../../../../src/layers/ReduxProvider';
 import assert from 'assert';
 
 describe(`[VIEWS] Edit event helper`, function () {
@@ -95,9 +96,18 @@ describe(`[VIEWS] Edit event helper`, function () {
       const result = didCalendarChange(
         false,
         false,
-        { calendarID: 1 },
-        { id: 2 }
+        { calendarID: '1' },
+        { id: '2' }
       );
+
+      reduxStore.dispatch({
+        type: 'SET_CALDAV_CALENDARS',
+        payload: [
+          {
+            id: '2',
+          },
+        ],
+      });
 
       assert.equal(result, true);
     });
@@ -194,6 +204,7 @@ describe(`[VIEWS] Edit event helper`, function () {
       const result = (await createCalDavEvent(
         form,
         true,
+        'Europe/Berlin',
         calendar
       )) as unknown as CreateCalDavEventRequest;
 
@@ -203,8 +214,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.sendInvite, undefined);
       assert.equal(result.inviteMessage, undefined);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[13], 'SEQUENCE:0');
     });
 
@@ -212,6 +223,7 @@ describe(`[VIEWS] Edit event helper`, function () {
       const result = (await createCalDavEvent(
         { ...form, allDay: true },
         true,
+        'Europe/Berlin',
         calendar
       )) as unknown as CreateCalDavEventRequest;
 
@@ -241,6 +253,7 @@ describe(`[VIEWS] Edit event helper`, function () {
           },
         },
         true,
+        'Europe/Berlin',
         calendar
       )) as unknown as CreateCalDavEventRequest;
 
@@ -249,8 +262,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, calendar.id);
       assert.equal(result.sendInvite, undefined);
       assert.equal(result.inviteMessage, undefined);
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -274,6 +287,7 @@ describe(`[VIEWS] Edit event helper`, function () {
           },
         },
         true,
+        'Europe/Berlin',
         calendar,
         undefined,
         undefined,
@@ -286,8 +300,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, calendar.id);
       assert.equal(result.sendInvite, true);
       assert.equal(result.inviteMessage, 'Invite');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -299,6 +313,7 @@ describe(`[VIEWS] Edit event helper`, function () {
       const result = (await createCalDavEvent(
         form,
         false,
+        'Europe/Berlin',
         calendar,
         undefined,
         originalEvent
@@ -311,12 +326,20 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.inviteMessage, undefined);
       assert.equal(result.etag, originalEvent.etag);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[7], 'UID:external_123');
     });
 
     it('update event with attendees with invite', async () => {
+      reduxStore.dispatch({
+        type: 'SET_CALDAV_CALENDARS',
+        payload: [
+          {
+            id: calendar.id,
+          },
+        ],
+      });
       const result = (await createCalDavEvent(
         {
           ...form,
@@ -332,6 +355,7 @@ describe(`[VIEWS] Edit event helper`, function () {
           },
         },
         false,
+        'Europe/Berlin',
         calendar,
         undefined,
         originalEvent,
@@ -344,8 +368,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, calendar.id);
       assert.equal(result.sendInvite, true);
       assert.equal(result.inviteMessage, 'Invite');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -354,6 +378,15 @@ describe(`[VIEWS] Edit event helper`, function () {
     });
 
     it('update event with attendees with invite with calendar changed', async () => {
+      reduxStore.dispatch({
+        type: 'SET_CALDAV_CALENDARS',
+        payload: [
+          {
+            id: 'new_cal_1',
+          },
+        ],
+      });
+
       const result = (await createCalDavEvent(
         {
           ...form,
@@ -369,6 +402,7 @@ describe(`[VIEWS] Edit event helper`, function () {
           },
         },
         false,
+        'Europe/Berlin',
         { ...calendar, id: 'new_cal_1' },
         undefined,
         originalEvent,
@@ -381,8 +415,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.calendarID, 'new_cal_1');
       assert.equal(result.sendInvite, true);
       assert.equal(result.inviteMessage, 'Invite');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[8], 'ATTENDEE;CN=tester:mailto:hello@bloben.com');
       assert.equal(
         icalResult[9],
@@ -391,9 +425,18 @@ describe(`[VIEWS] Edit event helper`, function () {
     });
 
     it('update simple event with new calendar', async () => {
+      reduxStore.dispatch({
+        type: 'SET_CALDAV_CALENDARS',
+        payload: [
+          {
+            id: 'new_cal_1',
+          },
+        ],
+      });
       const result = (await createCalDavEvent(
         form,
         false,
+        'Europe/Berlin',
         { ...calendar, id: 'new_cal_1' },
         undefined,
         originalEvent
@@ -407,8 +450,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.etag, originalEvent.etag);
       assert.notEqual(result.externalID, originalEvent.id);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.equal(icalResult[7], 'UID:external_123');
     });
 
@@ -416,6 +459,7 @@ describe(`[VIEWS] Edit event helper`, function () {
       const result = (await createCalDavEvent(
         form,
         false,
+        'Europe/Berlin',
         calendar,
         undefined,
         originalEvent,
@@ -431,8 +475,8 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(result.inviteMessage, undefined);
       assert.notEqual(result.externalID, originalEvent.id);
       assert.equal(icalResult[0], 'BEGIN:VCALENDAR');
-      assert.equal(icalResult[5], 'DTSTART:20220805T140000Z');
-      assert.equal(icalResult[6], 'DTEND:20220805T160000Z');
+      assert.equal(icalResult[5], 'DTSTART;TZID=Europe/Berlin:20220805T160000');
+      assert.equal(icalResult[6], 'DTEND;TZID=Europe/Berlin:20220805T180000');
       assert.notEqual(icalResult[7], 'UID:external_123');
     });
   });
@@ -703,7 +747,14 @@ describe(`[VIEWS] Edit event helper`, function () {
     });
 
     it('should set calendar', async () => {
-      handleSelectCalendar(calendarObj, setForm, setCalendar, startAt, endAt);
+      handleSelectCalendar(
+        calendarObj,
+        setForm,
+        setCalendar,
+        startAt,
+        endAt,
+        {}
+      );
 
       assert.equal(form.startAt.slice(0, 10), '2022-08-05');
       assert.equal(form.endAt.slice(0, 10), '2022-08-05');
@@ -778,6 +829,7 @@ describe(`[VIEWS] Edit event helper`, function () {
         {
           id: 1,
         },
+        'Europe/Berlin',
         false,
         emptyFunc,
         { syncSequence: 1 } as StoreContext,
@@ -801,6 +853,7 @@ describe(`[VIEWS] Edit event helper`, function () {
         {
           id: 1,
         },
+        'Europe/Berlin',
         false,
         emptyFunc,
         { syncSequence: 1 } as StoreContext,

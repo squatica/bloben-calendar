@@ -22,17 +22,15 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { ChakraInput, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
-import { SearchCardDavContactResponse } from '../../../bloben-interface/cardDavContact/cardDavContact';
+import { SearchCardDavContactResponse } from 'bloben-interface';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast, parseCssDark } from '../../../utils/common';
 import { filter, map } from 'lodash';
 import CardDavContactApi from '../../../api/CardDavContactApi';
-import ChakraInput from '../../../components/chakraCustom/ChakraInput';
 import FormIcon from '../../formIcon/FormIcon';
 import OrganizerResponseRow from '../../organizerResponseRow/OrganizerResponseRow';
-import TrashIcon from '../../eva-icons/trash';
 import Validator from '../../../utils/Validator';
 
 const SearchResult = (props: {
@@ -193,7 +191,7 @@ const renderAttendees = (
             variant={'ghost'}
             aria-label="Menu"
             background={'transparent'}
-            icon={<TrashIcon className={'AttendeeIcon'} />}
+            icon={<EvaIcons.Trash className={'AttendeeIcon'} />}
             isRound
             size={'xs'}
             autoFocus={false}

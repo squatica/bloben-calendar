@@ -1,10 +1,8 @@
+import { ChakraTextArea, PrimaryButton, Separator } from 'bloben-components';
 import { Flex, Spacer } from '@chakra-ui/react';
-import ChakraTextArea from '../chakraCustom/ChakraTextArea';
 import ModalNew from '../modalNew/ModalNew';
-import PrimaryButton from '../chakraCustom/primaryButton/PrimaryButton';
 import React, { useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
-import Separator from '../separator/Separator';
 import Warning from '../warning/Warning';
 
 interface SendInviteModalProps {

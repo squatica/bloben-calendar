@@ -1,5 +1,6 @@
 import { checkLogin } from '../../src/layers/authProvider/authProviderHelper';
-import { mockUserApi, mockUserApiFail } from '../mocks/api/UserApi';
+import { mockProfileApi, mockProfileApiFail } from '../mocks/api/ProfileApi';
+import { mockUserApi } from '../mocks/api/UserApi';
 import assert from 'assert';
 
 describe(`[LAYERS] AuthProvider`, function () {
@@ -39,7 +40,7 @@ describe(`[LAYERS] AuthProvider`, function () {
   });
 
   it('Should handle failed authenticated status', async () => {
-    mockUserApiFail();
+    mockProfileApiFail();
 
     // @ts-ignore
     global.window.env.apiUrl = 'http://localhost';
@@ -77,6 +78,7 @@ describe(`[LAYERS] AuthProvider`, function () {
 
   it('Should handle successful authenticated status', async () => {
     mockUserApi();
+    mockProfileApi();
 
     // @ts-ignore
     global.window.env.apiUrl = 'http://localhost';

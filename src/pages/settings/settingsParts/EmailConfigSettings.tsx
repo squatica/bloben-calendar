@@ -1,16 +1,14 @@
 import { Context, StoreContext } from '../../../context/store';
 
 import { Box, Heading, Text, useToast } from '@chakra-ui/react';
+import { ButtonBase, PrimaryButton, Separator } from 'bloben-components';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast } from '../../../utils/common';
 import { getSize } from '../../../types/constants';
 import { refreshUserData } from '../../../redux/functions/user';
-import ButtonBase from '../../../components/chakraCustom/buttonBase/ButtonBase';
 import EmailConfigModal from '../../../components/emailConfigModal/EmailConfigModal';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
-import PrimaryButton from '../../../components/chakraCustom/primaryButton/PrimaryButton';
 import React, { useContext, useEffect, useState } from 'react';
-import Separator from '../../../components/separator/Separator';
 import UserEmailConfigApi from '../../../api/UserEmailConfigApi';
 
 const EmailConfigSettings = () => {

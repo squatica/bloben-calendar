@@ -1,8 +1,8 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
+import { Separator } from 'bloben-components';
 import { toPairs } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Separator from '../../../../../../components/separator/Separator';
 import numericalFieldHandler from '../../../utils/numericalFieldHandler';
 import translateLabel from '../../../utils/translateLabel';
 

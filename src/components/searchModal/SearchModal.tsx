@@ -2,11 +2,18 @@ import React, { useContext, useState } from 'react';
 
 import './SearchModal.scss';
 import { Button, Text, useToast } from '@chakra-ui/react';
+import { ChakraInput } from 'bloben-components';
 import { Context, StoreContext } from '../../context/store';
-import { SearchEventsResponse } from '../../bloben-interface/event/event';
+import { ReduxState } from '../../types/interface';
+import { SearchEventsResponse } from 'bloben-interface';
 import { TOAST_STATUS } from '../../types/enums';
-import { createToast, formatEventDate, parseCssDark } from '../../utils/common';
-import ChakraInput from '../chakraCustom/ChakraInput';
+import {
+  createToast,
+  formatEventDate,
+  getLocalTimezone,
+  parseCssDark,
+} from '../../utils/common';
+import { useSelector } from 'react-redux';
 import EventsApi from '../../api/EventsApi';
 import PublicApi from '../../api/PublicApi';
 
@@ -17,7 +24,10 @@ interface SearchItemProps {
 const SearchItem = (props: SearchItemProps) => {
   const { item, onClick } = props;
 
-  const eventDate = formatEventDate(item);
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const timezone = settings.timezone || getLocalTimezone();
+
+  const eventDate = formatEventDate(item, timezone);
 
   return (
     <Button

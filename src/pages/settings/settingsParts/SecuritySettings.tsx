@@ -1,24 +1,14 @@
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, useToast } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
 import { ReduxState } from '../../../types/interface';
 
 import { getSize } from '../../../types/constants';
 
+import { Alert, SettingsRow } from 'bloben-components';
 import { refreshUserData } from '../../../redux/functions/user';
 import { useSelector } from 'react-redux';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
-import React, { useContext, useRef, useState } from 'react';
-import SettingsRow from '../settingsRow/SettingsRow';
+import React, { useContext, useState } from 'react';
 import TwoFactorAuthApi from '../../../api/TwoFactorAuth.api';
 import TwoFactorSetup from '../../../components/2FA/TwoFactorSetup';
 
@@ -61,8 +51,6 @@ const SecuritySettings = () => {
     }
   };
 
-  const leastDestructiveRef = useRef(null);
-
   return (
     <>
       {isMobile ? <MobilePageHeader title={'General settings'} /> : null}
@@ -86,42 +74,14 @@ const SecuritySettings = () => {
         <TwoFactorSetup handleClose={() => openTwoFactorModal(false)} />
       ) : null}
 
-      <AlertDialog
+      <Alert
         isOpen={deleteModalVisible}
         onClose={() => openDeleteModal(false)}
-        leastDestructiveRef={leastDestructiveRef}
-        isCentered={true}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Two factor authentication
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Do you want to disable two factor authentication?
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                ref={leastDestructiveRef}
-                _focus={{ boxShadow: 'none' }}
-                onClick={() => openDeleteModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                colorScheme="red"
-                onClick={handleDisable2FA}
-                ml={3}
-              >
-                Disable
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        header={'Two factor authentication'}
+        body={' Do you want to disable two factor authentication?'}
+        submitText={'Disable'}
+        onSubmit={handleDisable2FA}
+      />
     </>
   );
 };

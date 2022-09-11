@@ -13,10 +13,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
-import { EvaIcons } from '../../eva-icons';
+import { EvaIcons } from 'bloben-components';
+import { ReduxState } from '../../../types/interface';
+import { getLocalTimezone } from '../../../utils/common';
 import { parseToDateTime } from '../../../utils/datetimeParser';
+import { useSelector } from 'react-redux';
 import { useWidth } from '../../../utils/layout';
 import DatePicker from '../../datePicker/DatePicker';
+import EventDetailTimezone from '../eventDetailTimezone/EventDetailTimezone';
 import FormIcon from '../../formIcon/FormIcon';
 import LuxonHelper from '../../../utils/LuxonHelper';
 import TimePicker from '../../timePicker/TimePicker';
@@ -37,7 +41,6 @@ interface EventDetailDatesProps {
   endDate: string;
   timezoneEndAt: string;
   allDay: boolean;
-  setStartTimezone: any;
   setForm: any;
 }
 const EventDetailDates = (props: EventDetailDatesProps) => {
@@ -47,7 +50,6 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
     handleChangeDateFrom,
     handleChangeDateTill,
     endDate,
-    timezoneEndAt,
     allDay,
     setForm,
   } = props;
@@ -55,24 +57,25 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
   const [store]: [StoreContext] = useContext(Context);
   const { isDark, isMobile } = store;
 
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const timezone = settings.timezone || getLocalTimezone();
+
   const width: number = useWidth();
 
-  const startDateFormatted: string = formatDate(startDate, timezoneStartAt);
-  const startTimeFormatted: string = formatTime(startDate, timezoneStartAt);
-  const endDateFormatted: string = formatDate(endDate, timezoneEndAt);
-  const endTimeFormatted: string = formatTime(endDate, timezoneEndAt);
+  const startDateFormatted: string = formatDate(startDate, timezone);
+  const startTimeFormatted: string = formatTime(startDate, timezone);
+  const endDateFormatted: string = formatDate(endDate, timezone);
+  const endTimeFormatted: string = formatTime(endDate, timezone);
 
-  const startDateString: string = LuxonHelper.setTimezone(
-    startDate,
-    timezoneStartAt
-  );
-  const endDateString: string = LuxonHelper.setTimezone(
-    endDate,
-    timezoneStartAt
-  );
+  const startDateString: string = LuxonHelper.setTimezone(startDate, timezone);
+  const endDateString: string = LuxonHelper.setTimezone(endDate, timezone);
   const pickerWidth: number = isMobile ? width - 60 : 250;
 
   const handleSetAllDay = () => {
+    if (allDay) {
+      setForm('timezoneStartAt', timezone);
+      setForm('timezoneEndAt', timezone);
+    }
     setForm('allDay', !allDay);
   };
 
@@ -122,7 +125,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                 <MenuList style={{ width: 150 }}>
                   <TimePicker
                     width={150}
-                    timezone={timezoneStartAt}
+                    timezone={timezone}
                     selectTime={handleChangeDateFrom}
                     selectedDate={startDateString}
                   />
@@ -164,7 +167,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                 <MenuList>
                   <TimePicker
                     width={pickerWidth}
-                    timezone={timezoneStartAt}
+                    timezone={timezone}
                     selectTime={handleChangeDateTill}
                     selectedDate={endDateString}
                   />
@@ -174,10 +177,17 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
           </Stack>
         </Stack>
       </Stack>
+      <EventDetailTimezone
+        timezone={timezoneStartAt}
+        selectTimezone={(item: { label: string; value: string }) => {
+          setForm('timezoneStartAt', item.value);
+          setForm('timezoneEndAt', item.value);
+        }}
+        isDisabled={allDay}
+      />
       <Stack direction={'row'} align={'center'} style={{ width: '100%' }}>
         <FormIcon allVisible hidden isDark={isDark}>
           <div />
-          {/*<EvaIcons.Clock className={'EventDetail-icon'} />*/}
         </FormIcon>
         <Stack
           direction={'row'}
