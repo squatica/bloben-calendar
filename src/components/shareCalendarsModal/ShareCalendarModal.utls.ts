@@ -1,4 +1,4 @@
-import { CALENDAR_VIEW } from 'kalend-layout';
+import { CALENDAR_VIEW } from 'kalend/common/enums';
 
 export default {
   state: {

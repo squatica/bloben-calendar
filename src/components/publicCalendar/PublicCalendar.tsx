@@ -1,7 +1,7 @@
 import '../button/buttonBase/ButtonBase.scss';
 import '../calendar/Calendar.scss';
 import 'kalend/dist/styles/index.css';
-import { CALENDAR_VIEW } from 'kalend-layout';
+import { CALENDAR_VIEW } from 'kalend/common/enums';
 import { CalDavEvent, QueryRange, ReduxState } from '../../types/interface';
 import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
