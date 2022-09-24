@@ -307,6 +307,8 @@ const EditEvent = (props: EditEventProps) => {
       handleUpdateRepeatedEvent,
       toast
     );
+
+    handleClose();
   };
 
   const handleUpdateRepeatedEvent = async () => {
@@ -352,9 +354,9 @@ const EditEvent = (props: EditEventProps) => {
           type={REPEAT_MODAL_TYPE.UPDATE}
           handleClose={handleClose}
           title={''}
-          handleClick={(value: REPEATED_EVENT_CHANGE_TYPE) =>
-            setRepeatChangeValue(value)
-          }
+          handleClick={(value: REPEATED_EVENT_CHANGE_TYPE) => {
+            setRepeatChangeValue(value);
+          }}
         />
       ) : null}
       {emailInviteModalVisible ? (

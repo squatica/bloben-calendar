@@ -6,12 +6,11 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/" # Location of package manifests
+    directory: "/"
     schedule:
       interval: "monthly"
 
   - package-ecosystem: "docker"
     directory: "/"
-    # Check for updates once a week
     schedule:
       interval: "monthly"

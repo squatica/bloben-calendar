@@ -180,6 +180,8 @@ const EventView = (props: EventViewProps) => {
         },
       });
 
+      openDeleteModal(false);
+
       return;
     }
 
@@ -308,6 +310,8 @@ const EventView = (props: EventViewProps) => {
         createToast(e.response?.data?.message || e.message, TOAST_STATUS.ERROR)
       );
     }
+
+    openDeleteModal(false);
   };
 
   useEffect(() => {
