@@ -307,8 +307,6 @@ const EditEvent = (props: EditEventProps) => {
       handleUpdateRepeatedEvent,
       toast
     );
-
-    handleClose();
   };
 
   const handleUpdateRepeatedEvent = async () => {
