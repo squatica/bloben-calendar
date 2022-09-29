@@ -18,7 +18,7 @@
     "@emotion/styled": "11.10.4",
     "axios": "0.27.2",
     "bloben-components": "0.0.4",
-    "bloben-interface": "0.0.6",
+    "bloben-interface": "0.0.7",
     "bottom-sheet-react": "0.1.27",
     "browserify-fs": "1.0.0",
     "buffer": "6.0.3",
