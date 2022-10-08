@@ -1,30 +1,24 @@
 /* tslint:disable:no-magic-numbers */
-import React, { useContext } from 'react';
-
-import './EventDetail.scss';
+import React from 'react';
 
 import { CalDavCalendar } from '../../../types/interface';
-import { Context, StoreContext } from '../../../context/store';
 import { EVENT_TYPE } from 'bloben-interface/enums';
+import { FLOATING_DATETIME } from 'kalend/layout/constants';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { Stack } from '@chakra-ui/react';
-import { filter } from 'lodash';
 import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/EventDetailAlarm';
-import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
 import EventDetailDates from '../../../components/eventDetail/eventDetailDates/EventDetailDates';
-import EventDetailLocation from '../../../components/eventDetail/eventDetailLocation/EventDetailLocation';
 import EventDetailNotes from '../../../components/eventDetail/eventDetailNotes/EventDetailNotes';
 import EventDetailRepeat from '../../../components/eventDetail/eventDetailRepeat/EventDetailRepeat';
 import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/EventDetailTitle';
 
-interface EventDetailProps {
+interface TaskDetailProps {
   summary: string;
   handleChange: any;
   calendar: CalDavCalendar;
-  location: string;
   startDate: string;
-  endDate: string;
+  // endDate: string;
   isRepeated: boolean;
   isStartDateValid?: any;
   description: string;
@@ -37,50 +31,29 @@ interface EventDetailProps {
   updateAlarm: any;
   isNewEvent: boolean;
   handleChangeDateFrom: any;
-  handleChangeDateTill: any;
-  timezoneStartAt: string;
+  // handleChangeDateTill: any;
   selectCalendar: any;
-  organizer: any;
-  attendees: any[];
-  addAttendee: any;
-  removeAttendee: any;
-  makeOptional?: any;
   form?: any;
-  updateAttendee?: any;
-  color?: string;
   repeatChangeValue?: REPEATED_EVENT_CHANGE_TYPE;
   disabledRRule?: boolean;
-  disabledAttendeeChange?: boolean;
 }
-const EventDetail = (props: EventDetailProps) => {
-  const [store]: [StoreContext] = useContext(Context);
-
+const TaskDetail = (props: TaskDetailProps) => {
   const {
     summary,
     handleChange,
     calendar,
-    location,
     startDate,
-    endDate,
     isRepeated,
     description,
     allDay,
     setForm,
     isNewEvent,
     handleChangeDateFrom,
-    handleChangeDateTill,
-    timezoneStartAt,
     selectCalendar,
-    addAttendee,
-    removeAttendee,
-    attendees,
     form,
-    updateAttendee,
-    color,
     alarms,
     repeatChangeValue,
     disabledRRule,
-    disabledAttendeeChange,
   } = props;
 
   return (
@@ -89,27 +62,25 @@ const EventDetail = (props: EventDetailProps) => {
         isNewEvent={isNewEvent}
         value={summary}
         handleChange={handleChange}
+        placeholder={'Task title'}
       />
       <EventDetailCalendar
         calendar={calendar}
         selectCalendar={selectCalendar}
-        color={color}
         setForm={setForm}
         disabled={
           repeatChangeValue === REPEATED_EVENT_CHANGE_TYPE.THIS_AND_FUTURE ||
           repeatChangeValue === REPEATED_EVENT_CHANGE_TYPE.SINGLE
         }
-        type={EVENT_TYPE.EVENT}
+        type={EVENT_TYPE.TASK}
       />
       <EventDetailDates
         startDate={startDate}
         setForm={setForm}
-        timezoneStartAt={timezoneStartAt}
-        endDate={endDate}
-        timezoneEndAt={timezoneStartAt}
         handleChangeDateFrom={handleChangeDateFrom}
-        handleChangeDateTill={handleChangeDateTill}
         allDay={allDay}
+        timezoneStartAt={FLOATING_DATETIME}
+        hideTimezone={true}
       />
       <EventDetailRepeat
         isRepeated={isRepeated}
@@ -117,29 +88,15 @@ const EventDetail = (props: EventDetailProps) => {
         form={form}
         disabledRRule={disabledRRule}
       />
-      {store?.emailConfig?.hasSystemConfig ||
-      store?.emailConfig?.hasCustomConfig ? (
-        <EventDetailAttendee
-          addAttendee={addAttendee}
-          removeAttendee={removeAttendee}
-          updateAttendee={updateAttendee}
-          attendees={filter(
-            attendees,
-            (item) => item.mailto !== form.organizer?.mailto
-          )}
-          disabledAttendeeChange={disabledAttendeeChange}
-        />
-      ) : null}
       <EventDetailAlarm
         alarms={alarms}
         addAlarm={props.addAlarm}
         removeAlarm={props.removeAlarm}
         updateAlarm={props.updateAlarm}
       />
-      <EventDetailLocation handleChange={handleChange} value={location} />
       <EventDetailNotes handleChange={handleChange} value={description} />
     </Stack>
   );
 };
 
-export default EventDetail;
+export default TaskDetail;

@@ -3,6 +3,7 @@ import { CALDAV_OBJ_TYPE } from './enums';
 import { CalendarSettingsResponse, GetProfileResponse } from 'bloben-interface';
 
 import { DAV_ACCOUNT_TYPE } from '../enums';
+import { EVENT_TYPE, SOURCE_TYPE } from 'bloben-interface/enums';
 import { OnPageChangeData } from 'kalend';
 import { SettingsLocal } from '../redux/reducers/settingsLocal';
 import { ThemeSettings } from '../redux/reducers/themeSettings';
@@ -59,6 +60,9 @@ export interface CalDavEvent {
   internalID?: string;
   url: string;
   calendarUrl: string;
+  type: EVENT_TYPE;
+  sourceType: SOURCE_TYPE;
+  [key: string]: any;
 }
 
 export interface AppSettings {

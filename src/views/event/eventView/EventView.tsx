@@ -15,14 +15,20 @@ import {
   getLocalTimezone,
 } from '../../../utils/common';
 
+import { AxiosResponse } from 'axios';
+import { CalendarEvent } from 'kalend';
+import {
+  CommonResponse,
+  DeleteRepeatedCalDavEventRequest,
+} from 'bloben-interface';
 import { Context, StoreContext } from '../../../context/store';
-import { DeleteRepeatedCalDavEventRequest } from 'bloben-interface';
-import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
-import { EvaIcons } from 'bloben-components';
+import { EVENT_TYPE, SOURCE_TYPE, TASK_STATUS } from 'bloben-interface/enums';
+import { EvaIcons, createToastError } from 'bloben-components';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { Stack, Text, useToast } from '@chakra-ui/react';
-import { TOAST_STATUS } from '../../../types/enums';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { calendarByEvent } from '../../../utils/tsdavHelper';
+import { parseTimezone } from '../../../utils/dates';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
 import EventDetailAttendee from '../../../components/eventDetail/eventDetailAttendee/EventDetailAttendee';
@@ -33,11 +39,13 @@ import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/E
 import FormIcon from '../../../components/formIcon/FormIcon';
 import HeaderModal from '../../../components/headerModal/HeaderModal';
 import ICalHelper from '../../../utils/ICalHelper';
+import ICalHelperTasks from '../../../utils/ICalHelperTasks';
 import Modal from '../../../components/modal/Modal';
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
+import TasksApi from '../../../api/TasksApi';
 
 export const checkIfHasRepeatPreAction = (event: any) => {
   return (
@@ -48,7 +56,7 @@ export const checkIfHasRepeatPreAction = (event: any) => {
 };
 
 interface EventDatesProps {
-  event: CalDavEvent;
+  event: CalendarEvent;
   isSmall?: boolean;
 }
 const EventDates = (props: EventDatesProps) => {
@@ -58,7 +66,7 @@ const EventDates = (props: EventDatesProps) => {
   const { isDark, isMobile } = store;
 
   const settings = useSelector((state: ReduxState) => state.calendarSettings);
-  const timezone = settings.timezone || getLocalTimezone();
+  const timezone = parseTimezone(event.timezoneStartAt, settings.timezone);
 
   const humanDate: any = formatEventDate(event, timezone);
   const { dates, time } = humanDate;
@@ -169,14 +177,25 @@ const EventView = (props: EventViewProps) => {
     if (showEmailInviteModal) {
       openEmailInviteModal({
         call: async (sendInvite?: boolean, inviteMessage?: string) => {
-          await CalDavEventsApi.deleteEvent({
-            calendarID: calendar.id,
-            url: event.url,
-            etag: event.etag,
-            id: event.id,
-            sendInvite,
-            inviteMessage,
-          });
+          if (event.type === EVENT_TYPE.TASK) {
+            await TasksApi.delete({
+              calendarID: calendar.id,
+              url: event.url,
+              etag: event.etag,
+              id: event.id,
+              sendInvite,
+              inviteMessage,
+            });
+          } else {
+            await CalDavEventsApi.deleteEvent({
+              calendarID: calendar.id,
+              url: event.url,
+              etag: event.etag,
+              id: event.id,
+              sendInvite,
+              inviteMessage,
+            });
+          }
         },
       });
 
@@ -186,20 +205,31 @@ const EventView = (props: EventViewProps) => {
     }
 
     try {
-      const response = await CalDavEventsApi.deleteEvent({
-        calendarID: calendar.id,
-        url: event.url,
-        etag: event.etag,
-        id: event.id,
-      });
+      let response: AxiosResponse<CommonResponse>;
+
+      if (event.type === EVENT_TYPE.TASK) {
+        response = await TasksApi.delete({
+          calendarID: calendar.id,
+          url: event.url,
+          etag: event.etag,
+          id: event.id,
+        });
+      } else {
+        response = await CalDavEventsApi.deleteEvent({
+          calendarID: calendar.id,
+          url: event.url,
+          etag: event.etag,
+          id: event.id,
+        });
+      }
       if (response.status === 200 || response.status === 204) {
         setContext('syncSequence', store.syncSequence + 1);
-        toast(createToast('Event deleted'));
+        toast(createToast(response.data.message));
 
         handleClose();
       }
     } catch (e: any) {
-      toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+      toast(createToastError(e));
     }
   };
 
@@ -306,9 +336,7 @@ const EventView = (props: EventViewProps) => {
         handleClose();
       }
     } catch (e: any) {
-      toast(
-        createToast(e.response?.data?.message || e.message, TOAST_STATUS.ERROR)
-      );
+      toast(createToastError(e));
     }
 
     openDeleteModal(false);
@@ -321,6 +349,40 @@ const EventView = (props: EventViewProps) => {
 
   const showDeleteEventModal =
     checkIfHasRepeatPreAction(event) && deleteModalOpen;
+
+  const handleCheckTask = async () => {
+    toast({ ...createToast('Updating'), id: 'taskCheck', isClosable: false });
+    try {
+      const externalID = event.externalID;
+      const iCalString: string = new ICalHelperTasks(
+        {
+          ...event,
+          status: event.status === 'COMPLETED' ? 'NEEDS-ACTION' : 'COMPLETED',
+        },
+        settings.timezone
+      ).parseTo();
+
+      const response = await TasksApi.update({
+        iCalString,
+        calendarID: event.calendarID,
+        externalID,
+        id: event.id,
+        etag: event.etag,
+        url: event.url,
+        prevEvent: null,
+      });
+
+      toast.close('taskCheck');
+      toast(createToast(response?.data?.message));
+      handleClose();
+    } catch (e) {
+      toast.close('taskCheck');
+      toast({ ...createToastError(e), id: 'checkTask' });
+    }
+  };
+
+  const isTask = event?.type === EVENT_TYPE.TASK;
+
   return (
     <>
       {emailInviteModalVisible ? (
@@ -343,7 +405,7 @@ const EventView = (props: EventViewProps) => {
       event.id ? (
         <Modal e={currentE} handleClose={handleClose} maxHeight={'42%'}>
           <div style={{ padding: isMobile ? 8 : 0 }}>
-            {event.type === EVENT_TYPE.CALDAV && !disabledEdit ? (
+            {event.sourceType === SOURCE_TYPE.CALDAV && !disabledEdit ? (
               <HeaderModal
                 isMobile={isMobile}
                 isDark={isDark}
@@ -351,12 +413,16 @@ const EventView = (props: EventViewProps) => {
                 onClose={handleClose}
                 goBack={isMobile ? undefined : handleClose}
                 handleEdit={
-                  event.type === EVENT_TYPE.CALDAV ? handleEdit : null
+                  event.sourceType === SOURCE_TYPE.CALDAV ? handleEdit : null
                 }
                 handleDelete={
-                  event.type === EVENT_TYPE.CALDAV ? deleteEvent : null
+                  event.sourceType === SOURCE_TYPE.CALDAV ? deleteEvent : null
                 }
-                duplicateMultiple={() => openDuplicateModal(event)}
+                duplicateMultiple={
+                  !isTask ? () => openDuplicateModal(event) : undefined
+                }
+                handleCheckTask={isTask ? () => handleCheckTask() : undefined}
+                isTaskChecked={event.status === TASK_STATUS.COMPLETED}
               />
             ) : null}
             <EventDetailTitle
@@ -366,7 +432,11 @@ const EventView = (props: EventViewProps) => {
             />
             <EventDates event={event} isSmall={false} />
             {calendar && calendar?.displayName ? (
-              <EventDetailCalendar calendar={calendar} disabled />
+              <EventDetailCalendar
+                calendar={calendar}
+                disabled
+                type={event.type}
+              />
             ) : null}
 
             {event.location?.length > 0 ? (

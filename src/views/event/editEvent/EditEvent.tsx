@@ -44,13 +44,19 @@ import {
 
 import { PrimaryButton, Separator } from 'bloben-components';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
-import { map } from 'lodash';
+import { filter, map } from 'lodash';
 import ModalNew from '../../../components/modalNew/ModalNew';
 
+import { CALDAV_COMPONENTS, EVENT_TYPE } from 'bloben-interface/enums';
+import { handleSaveTask } from './editTaskHelper';
+import ButtonStack, {
+  eventTypeItems,
+} from '../../../components/buttonStack/ButtonStack';
 import RepeatEventModal, {
   REPEAT_MODAL_TYPE,
 } from '../../../components/repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
+import TaskDetail from '../taskDetail/TaskDetail';
 
 interface EditEventProps {
   handleClose: any;
@@ -67,7 +73,7 @@ const EditEvent = (props: EditEventProps) => {
   const toast = useToast();
 
   // Redux state
-  const calDavCalendars: CalDavCalendar[] = useSelector(
+  const calDavCalendarsRedux: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
   );
   const user = useSelector((state: ReduxState) => state.user);
@@ -86,6 +92,31 @@ const EditEvent = (props: EditEventProps) => {
   const [repeatChangeValue, setRepeatChangeValue] = useState<any>(null);
   const [wasSimpleEvent, setWasSimpleEvent] = useState(true);
   const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
+  const [type, setType] = useState<EVENT_TYPE>(EVENT_TYPE.EVENT);
+  const [calDavCalendars, setCalDavCalendars] =
+    useState<CalDavCalendar[]>(calDavCalendarsRedux);
+
+  const filterCalendars = (eventType?: EVENT_TYPE) => {
+    if (eventType) {
+      setType(eventType);
+    }
+    const typeValue = eventType || type;
+    if (typeValue === EVENT_TYPE.EVENT) {
+      const result = filter(calDavCalendarsRedux, (calendar) =>
+        calendar.components.includes(CALDAV_COMPONENTS.VEVENT)
+      );
+      setCalDavCalendars(result);
+    } else {
+      const result = filter(calDavCalendarsRedux, (calendar) =>
+        calendar.components.includes(CALDAV_COMPONENTS.VTODO)
+      );
+      setCalDavCalendars(result);
+    }
+  };
+
+  useEffect(() => {
+    filterCalendars();
+  }, [type]);
 
   const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -161,6 +192,7 @@ const EditEvent = (props: EditEventProps) => {
         newEventTime
       );
     } else {
+      filterCalendars(event?.type);
       loadEvent(event, setForm, setWasSimpleEvent);
     }
   }, [isNewEvent]);
@@ -290,23 +322,43 @@ const EditEvent = (props: EditEventProps) => {
   };
 
   const saveEvent = async () => {
-    await handleSaveEvent(
-      showEmailInviteModal,
-      openEmailInviteModal,
-      form as any,
-      isNewEvent,
-      calendar,
-      handleClose,
-      props.event,
-      settings.timezone || getLocalTimezone(),
-      isDuplicatingEvent,
-      setContext,
-      store,
-      wasSimpleEvent,
-      setIsSaving,
-      handleUpdateRepeatedEvent,
-      toast
-    );
+    if (type === EVENT_TYPE.EVENT) {
+      await handleSaveEvent(
+        showEmailInviteModal,
+        openEmailInviteModal,
+        form as any,
+        isNewEvent,
+        calendar,
+        handleClose,
+        props.event,
+        settings.timezone || getLocalTimezone(),
+        isDuplicatingEvent,
+        setContext,
+        store,
+        wasSimpleEvent,
+        setIsSaving,
+        handleUpdateRepeatedEvent,
+        toast
+      );
+    } else {
+      await handleSaveTask(
+        showEmailInviteModal,
+        openEmailInviteModal,
+        form as any,
+        isNewEvent,
+        calendar,
+        handleClose,
+        props.event,
+        settings.timezone || getLocalTimezone(),
+        isDuplicatingEvent,
+        setContext,
+        store,
+        wasSimpleEvent,
+        setIsSaving,
+        handleUpdateRepeatedEvent,
+        toast
+      );
+    }
   };
 
   const handleUpdateRepeatedEvent = async () => {
@@ -370,20 +422,30 @@ const EditEvent = (props: EditEventProps) => {
           preventCloseOnBackdrop={true}
           closeButton={true}
           footer={
-            <Flex direction={'row'} style={{ marginTop: 2 }}>
+            <>
+              <ButtonStack
+                style={{ marginLeft: 16 }}
+                items={eventTypeItems}
+                onClick={setType}
+                selectedValue={type}
+                disabled={!isNewEvent}
+              />
               <Spacer />
-              <PrimaryButton isSecondary onClick={handleClose}>
-                Cancel
-              </PrimaryButton>
-              <Separator width={6} />
-              <PrimaryButton
-                onClick={saveEvent}
-                disabled={isSaving}
-                isLoading={isSaving}
-              >
-                Save
-              </PrimaryButton>
-            </Flex>
+              <Flex direction={'row'} style={{ marginTop: 2 }}>
+                <Spacer />
+                <PrimaryButton isSecondary onClick={handleClose}>
+                  Cancel
+                </PrimaryButton>
+                <Separator width={6} />
+                <PrimaryButton
+                  onClick={saveEvent}
+                  disabled={isSaving}
+                  isLoading={isSaving}
+                >
+                  Save
+                </PrimaryButton>
+              </Flex>
+            </>
           }
         >
           <>
@@ -392,7 +454,10 @@ const EditEvent = (props: EditEventProps) => {
               style={{ overflowY: 'auto', overflowX: 'hidden' }}
             >
               <Flex direction={'column'} style={{ paddingRight: 8 }}>
-                {calendar?.url && startAt && endAt ? (
+                {type === EVENT_TYPE.EVENT &&
+                calendar?.url &&
+                startAt &&
+                endAt ? (
                   <EventDetail
                     isNewEvent={isNewEvent}
                     calendar={calendar}
@@ -431,6 +496,35 @@ const EditEvent = (props: EditEventProps) => {
                     color={color || calendar.color}
                     // makeOptional={makeOptional}
                     organizer={organizer}
+                    form={form}
+                  />
+                ) : (
+                  <div />
+                )}
+                {type === EVENT_TYPE.TASK && calendar?.url && startAt ? (
+                  <TaskDetail
+                    isNewEvent={isNewEvent}
+                    calendar={calendar}
+                    summary={summary}
+                    description={description}
+                    startDate={startAt}
+                    rRule={rRule}
+                    repeatChangeValue={repeatChangeValue}
+                    isRepeated={isRepeated}
+                    handleChange={handleChange}
+                    disabledRRule={
+                      !wasSimpleEvent &&
+                      repeatChangeValue !== REPEATED_EVENT_CHANGE_TYPE.ALL
+                    }
+                    allDay={allDay}
+                    setForm={setForm}
+                    handleChangeDateFrom={handleChangeDateFrom}
+                    isStartDateValid={isStartDateValid}
+                    alarms={alarms}
+                    addAlarm={addAlarmEvent}
+                    removeAlarm={removeAlarmEvent}
+                    updateAlarm={updateAlarmEvent}
+                    selectCalendar={selectCalendar}
                     form={form}
                   />
                 ) : (

@@ -7,6 +7,7 @@ import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../enums';
 
+import { SOURCE_TYPE } from 'bloben-interface/enums';
 import { SettingsLocal } from '../../redux/reducers/settingsLocal';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast, getSyncRange, parseCssDark } from '../../utils/common';
@@ -192,7 +193,7 @@ const PublicCalendar = (props: PublicCalendarProps) => {
 
   const handleSearchClick = async (
     id: string,
-    type: EVENT_TYPE,
+    type: SOURCE_TYPE,
     isDark: boolean
   ) => {
     try {

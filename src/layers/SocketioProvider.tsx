@@ -5,14 +5,20 @@ import React, { useContext, useEffect } from 'react';
 
 import { APP_API_VERSION_1, SOCKET_AUTH_PREFIX } from '../types/constants';
 import { Context, StoreContext } from '../context/store';
+import { ReduxState } from '../types/interface';
 import { WEBSOCKET_TRANSPORT } from '../types/enums';
 import { getApiBaseUrl } from '../utils/common';
 import { processSocketMsg } from '../utils/websocket';
+import { useSelector } from 'react-redux';
 import Axios from '../lib/Axios';
 
 export let SocketIO: any = null;
 
-const reconnect = (clientSessionId: string, setContext: any) => {
+const reconnect = (
+  clientSessionId: string,
+  setContext: any,
+  showTasks: boolean
+) => {
   // eslint-disable-next-line no-undef
   const wsPath = window.env.apiUrl;
 
@@ -31,7 +37,7 @@ const reconnect = (clientSessionId: string, setContext: any) => {
     return;
   });
   SocketIO.on('sync', (data: any) => {
-    processSocketMsg(data, setContext);
+    processSocketMsg(data, setContext, showTasks);
   });
 
   // @ts-ignore
@@ -46,6 +52,7 @@ const reconnect = (clientSessionId: string, setContext: any) => {
 
 const SocketioProvider = (props: any) => {
   const [store, dispatch]: [StoreContext, any] = useContext(Context);
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
 
   const { isLogged } = store as StoreContext;
 
@@ -74,7 +81,7 @@ const SocketioProvider = (props: any) => {
       );
 
       if (response?.status === 200) {
-        reconnect(clientSessionId, setContext);
+        reconnect(clientSessionId, setContext, settings.showTasks);
       }
     } catch (e) {
       // eslint-disable-next-line no-console

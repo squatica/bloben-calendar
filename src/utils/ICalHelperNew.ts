@@ -3,47 +3,13 @@ import ICalParser from 'ical-js-parser';
 import { DateTime } from 'luxon';
 import { forEach, map } from 'lodash';
 import { formatAppAlarm } from './common';
+import { getKnownProps } from './ICalHelper';
 import { v4 } from 'uuid';
 import LuxonHelper from './LuxonHelper';
 
 export type CalendarMethod = 'REQUEST' | 'REPLY';
 export const CALENDAR_REQUEST_METHOD: CalendarMethod = 'REQUEST';
 export const CALENDAR_REPLY_METHOD: CalendarMethod = 'REPLY';
-
-/**
- * Remove undefined props
- */
-const getKnownProps = (item: any, type = 'VEVENT') => {
-  const result: any = {};
-  // Strip any methods
-  const clone: any = JSON.parse(JSON.stringify(item));
-
-  result['begin'] = type;
-
-  let index = 0;
-  let hasEnd = false;
-
-  for (const [key, value] of Object.entries(clone)) {
-    index += 1;
-    if (index === 1) {
-      if (key !== 'begin') {
-        result['begin'] = type;
-      }
-    }
-    if (value) {
-      result[key] = value;
-    }
-    if (key === 'end') {
-      hasEnd = true;
-    }
-  }
-
-  if (!hasEnd) {
-    result['end'] = type;
-  }
-
-  return result;
-};
 
 interface ICalHelperEvent {
   dtstart: any;
