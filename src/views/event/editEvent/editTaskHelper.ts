@@ -3,14 +3,16 @@ import { CalendarSettingsResponse, GetProfileResponse } from 'bloben-interface';
 import { DateTime } from 'luxon';
 import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
 import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
-import { OnNewEventClickData } from 'kalend';
 import {
-  PARTSTAT_ACCEPTED,
-  ROLE_REQ,
-  RSVP_TRUE,
-} from '../../../utils/AttendeeUtils';
+  InitialForm,
+  didCalendarChange,
+  findItemCalendar,
+  handleAllDayStatus,
+  setExternalEventID,
+} from './editEventHelper';
+import { OnNewEventClickData } from 'kalend';
+
 import { StoreContext } from '../../../context/store';
-import { TASK_STATUS } from 'bloben-interface/enums';
 import { TOAST_STATUS } from '../../../types/enums';
 import {
   createToast,
@@ -18,192 +20,16 @@ import {
   parseCalendarTimezone,
 } from '../../../utils/common';
 import { debug } from '../../../utils/debug';
-import { find, map } from 'lodash';
+import { formatIcalDate } from '../../../utils/ICalHelper';
+import { map } from 'lodash';
 import { parseIcalAlarmToAppAlarm } from '../../../utils/caldavAlarmHelper';
-import { reduxStore } from '../../../layers/ReduxProvider';
 import { v4 } from 'uuid';
 import CalDavEventsApi from '../../../api/CalDavEventsApi';
-import ICalHelper, { formatIcalDate } from '../../../utils/ICalHelper';
+import ICalHelperTasks from '../../../utils/ICalHelperTasks';
 import LuxonHelper from '../../../utils/LuxonHelper';
+import TasksApi from '../../../api/TasksApi';
 
-export interface InitialForm {
-  prevItem: any;
-  id: string;
-  summary: string;
-  location: string;
-  description: string;
-  calendarUrl: string | null;
-  timezone: string | null;
-  allDay: boolean;
-  startAt: string;
-  timezoneStartAt: string | null;
-  endAt: string;
-  timezoneEndAt: string | null;
-  color: string | null;
-  isRepeated: boolean;
-  alarms: any[];
-  createdAt: string;
-  updatedAt: string;
-  sequence: string;
-  organizer: any;
-  rRule: string;
-  props: any;
-  valarms: any;
-  attendees: any;
-  exdates: any;
-  recurrenceID: any;
-  status: null | TASK_STATUS;
-}
-
-export const initialFormState: InitialForm = {
-  prevItem: {},
-  id: '',
-  summary: '',
-  location: ``,
-  description: ``,
-  calendarUrl: null,
-  timezone: null,
-  allDay: false,
-  startAt: DateTime.local().toString(),
-  timezoneStartAt: null,
-  endAt: DateTime.local().plus({ hours: 1 }).toString(),
-  timezoneEndAt: null,
-  color: null,
-  isRepeated: false,
-  alarms: [],
-  createdAt: DateTime.local().toString(),
-  updatedAt: DateTime.local().toString(),
-  organizer: null,
-  sequence: '0',
-  rRule: '',
-  props: null,
-  valarms: [],
-  attendees: [],
-  exdates: [],
-  recurrenceID: null,
-  status: null,
-};
-
-export const initialState: any = {
-  modalIsOpen: false,
-  hasChanged: false,
-  isStartDateValid: true,
-  isEndDateValid: true,
-};
-
-export const initialRRulState: any = {
-  freq: 'none',
-  wkst: '',
-  count: null,
-  interval: '1',
-  until: null,
-  dtstart: '',
-  dtend: '',
-  text: '',
-};
-
-/**
- * Format dates for all day event
- * @param form
- */
-export const handleAllDayStatus = (form: InitialForm): InitialForm => {
-  if (form.allDay) {
-    form.startAt = parseToDateTime(form.startAt, 'floating')
-      .set({
-        hour: 0,
-        minute: 0,
-        second: 0,
-      })
-      .toString();
-    form.endAt = parseToDateTime(form.endAt, 'floating')
-      .set({
-        hour: 0,
-        minute: 0,
-        second: 0,
-      })
-      .toString();
-
-    form.timezoneStartAt = 'floating';
-    form.timezoneEndAt = 'floating';
-  }
-
-  return form;
-};
-
-export const findItemCalendar = (item: any) => {
-  const state = reduxStore.getState();
-  const itemCalendar: CalDavCalendar = state.calDavCalendars.filter(
-    (calendarItem: CalDavCalendar) => calendarItem.id === item?.calendarID
-  )[0];
-
-  if (!itemCalendar) {
-    throw Error('No calendar found');
-  }
-
-  return itemCalendar;
-};
-
-/**
- * Check if calendar was changed
- * @param isNewEvent
- * @param isDuplicatingEvent
- * @param originalEvent
- * @param eventCalendar
- */
-export const didCalendarChange = (
-  isNewEvent: boolean,
-  isDuplicatingEvent: boolean | undefined,
-  originalEvent: { calendarID: string },
-  eventCalendar: CalDavCalendar
-) => {
-  return (
-    !isNewEvent &&
-    !isDuplicatingEvent &&
-    originalEvent?.calendarID !== eventCalendar.id
-  );
-};
-
-/**
- * Create organizer attendee if not included
- * @param form
- */
-export const createOrganizerAttendee = (form: InitialForm) => {
-  // check if exists
-  const organizerAttendee = find(
-    form.attendees,
-    (attendee) => attendee.mailto === form.organizer.mailto
-  );
-
-  if (!organizerAttendee) {
-    return {
-      CN: form.organizer.CN,
-      mailto: form.organizer.mailto,
-      ROLE: ROLE_REQ,
-      RSVP: RSVP_TRUE,
-      PARTSTAT: PARTSTAT_ACCEPTED,
-    };
-  }
-
-  return null;
-};
-
-/**
- * Use existing external id or issue new one
- * @param originalEvent
- * @param isDuplicatingEvent
- */
-export const setExternalEventID = (
-  originalEvent: any,
-  isDuplicatingEvent: boolean | undefined
-) => {
-  if (originalEvent?.externalID && !isDuplicatingEvent) {
-    return originalEvent.externalID;
-  }
-
-  return v4();
-};
-
-export const createCalDavEvent = async (
+export const createCalDavTask = async (
   formInitial: InitialForm,
   isNewEvent: boolean,
   timezone: string,
@@ -225,22 +51,13 @@ export const createCalDavEvent = async (
     eventCalendar
   );
 
-  // add organizer as attendee
-  if (form.attendees?.length && form.organizer) {
-    const organizerAttendee = createOrganizerAttendee(form);
-
-    if (organizerAttendee) {
-      form.attendees = [...form.attendees, organizerAttendee];
-    }
-  }
-
   // use issued id or create for new event
   const newEventExternalID: string = setExternalEventID(
     originalEvent,
     isDuplicatingEvent
   );
 
-  const iCalString: string = new ICalHelper(
+  const iCalString: string = new ICalHelperTasks(
     {
       ...form,
       externalID: newEventExternalID,
@@ -253,7 +70,7 @@ export const createCalDavEvent = async (
   let response;
 
   if (isNewEvent || isDuplicatingEvent) {
-    response = await CalDavEventsApi.createEvent({
+    response = await TasksApi.create({
       calendarID: eventCalendar.id,
       iCalString,
       externalID: newEventExternalID,
@@ -262,7 +79,7 @@ export const createCalDavEvent = async (
     });
   } else {
     if (calendarChanged) {
-      response = await CalDavEventsApi.updateEvent({
+      response = await TasksApi.update({
         calendarID: eventCalendar.id,
         iCalString,
         externalID: newEventExternalID,
@@ -279,7 +96,7 @@ export const createCalDavEvent = async (
         inviteMessage,
       });
     } else {
-      response = await CalDavEventsApi.updateEvent({
+      response = await TasksApi.update({
         calendarID: eventCalendar.id,
         iCalString,
         id: originalEvent.id,
@@ -515,7 +332,6 @@ export const isEventKnownProp = (prop: string) => {
     'exdates',
     'recurrenceID',
     'organizer',
-    'status',
   ];
 
   return knownProps.includes(prop);
@@ -688,7 +504,7 @@ export const handleSelectCalendar = (
  * @param handleUpdateRepeatedEvent
  * @param toast
  */
-export const handleSaveEvent = async (
+export const handleSaveTask = async (
   showEmailInviteModal: any,
   openEmailInviteModal: any,
   form: InitialForm,
@@ -709,7 +525,7 @@ export const handleSaveEvent = async (
     if (showEmailInviteModal) {
       openEmailInviteModal({
         call: async (sendInvite?: boolean, inviteMessage?: string) => {
-          await createCalDavEvent(
+          await createCalDavTask(
             form,
             isNewEvent,
             timezone,
@@ -746,7 +562,7 @@ export const handleSaveEvent = async (
 
     setIsSaving(true);
 
-    await createCalDavEvent(
+    await createCalDavTask(
       form,
       isNewEvent,
       timezone,
@@ -773,4 +589,93 @@ export const handleSaveEvent = async (
     }
     setIsSaving(false);
   }
+};
+
+export const createTask = async (
+  formInitial: InitialForm,
+  isNewEvent: boolean,
+  timezone: string,
+  calendar?: CalDavCalendar,
+  handleClose?: any,
+  originalEvent?: any,
+  sendInvite?: boolean,
+  inviteMessage?: string,
+  isDuplicatingEvent?: boolean
+) => {
+  const form = handleAllDayStatus(formInitial);
+  const eventCalendar: CalDavCalendar =
+    calendar || findItemCalendar(originalEvent);
+
+  const calendarChanged = didCalendarChange(
+    isNewEvent,
+    isDuplicatingEvent,
+    originalEvent,
+    eventCalendar
+  );
+
+  // use issued id or create for new event
+  const newEventExternalID: string = setExternalEventID(
+    originalEvent,
+    isDuplicatingEvent
+  );
+
+  const iCalString: string = new ICalHelperTasks(
+    {
+      ...form,
+      externalID: newEventExternalID,
+    },
+    timezone
+  ).parseTo();
+
+  debug(iCalString);
+
+  let response;
+
+  if (isNewEvent || isDuplicatingEvent) {
+    response = await TasksApi.create({
+      calendarID: eventCalendar.id,
+      iCalString,
+      externalID: newEventExternalID,
+      sendInvite,
+      inviteMessage,
+    });
+  } else {
+    if (calendarChanged) {
+      response = await TasksApi.update({
+        calendarID: eventCalendar.id,
+        iCalString,
+        externalID: newEventExternalID,
+        id: originalEvent.id,
+        url: originalEvent.url,
+        etag: originalEvent.etag,
+        prevEvent: {
+          externalID: originalEvent.externalID,
+          id: originalEvent.id,
+          url: originalEvent.url,
+          etag: originalEvent.etag,
+        },
+        sendInvite,
+        inviteMessage,
+      });
+    } else {
+      response = await TasksApi.update({
+        calendarID: eventCalendar.id,
+        iCalString,
+        id: originalEvent.id,
+        externalID: originalEvent.externalID,
+        url: originalEvent.url,
+        etag: originalEvent.etag,
+        prevEvent: null,
+        sendInvite,
+        inviteMessage,
+      });
+    }
+  }
+
+  // Close modal
+  if (handleClose) {
+    handleClose();
+  }
+
+  return response;
 };

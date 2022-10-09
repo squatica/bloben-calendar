@@ -1,5 +1,7 @@
 import { DateTime, Interval } from 'luxon';
+import { FLOATING_DATETIME } from 'kalend/layout/constants';
 import { forEach } from 'lodash';
+import { getLocalTimezone } from './common';
 import { parseToDateTime } from './datetimeParser';
 
 export const checkOverlappingEvents = (eventA: any, eventB: any): boolean => {
@@ -137,4 +139,15 @@ export const calculateMonthDays = (
   }
 
   return monthDays;
+};
+
+export const parseTimezone = (
+  eventTimezone: string | undefined,
+  systemTimezone: string
+) => {
+  if (eventTimezone === FLOATING_DATETIME) {
+    return eventTimezone;
+  }
+
+  return systemTimezone || getLocalTimezone();
 };

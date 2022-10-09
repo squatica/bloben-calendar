@@ -1,6 +1,7 @@
 import '../button/buttonBase/ButtonBase.scss';
 import './Calendar.scss';
 import 'kalend/dist/styles/index.css';
+import { CALENDAR_EVENT_TYPE } from 'kalend/common/interface';
 import { CALENDAR_VIEW } from 'kalend/common/enums';
 import {
   CalDavAccount,
@@ -12,12 +13,13 @@ import {
 import { CalendarSettingsResponse } from 'bloben-interface';
 import { Context, StoreContext } from '../../context/store';
 import { DateTime } from 'luxon';
-import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../enums';
+import { EVENT_TYPE, SOURCE_TYPE } from 'bloben-interface/enums';
 import {
   InitialForm,
   createCalDavEvent,
   updateRepeatedEvent,
 } from '../../views/event/editEvent/editEventHelper';
+import { REPEATED_EVENT_CHANGE_TYPE } from '../../enums';
 import { SettingsLocal } from '../../redux/reducers/settingsLocal';
 import { TOAST_STATUS } from '../../types/enums';
 import {
@@ -27,6 +29,8 @@ import {
   getSyncRange,
   parseCssDark,
 } from '../../utils/common';
+import { createTask } from '../../views/event/editEvent/editTaskHelper';
+import { createToastError } from 'bloben-components';
 import { reduxStore } from '../../layers/ReduxProvider';
 import { setCalendarDaysRange, setLocalSettings } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -156,7 +160,8 @@ const Calendar = () => {
         const rangeEventsResponse = await EventsApi.getEvents(
           kalendState?.current?.range.rangeFrom, // range.rangeFrom,
           kalendState?.current?.range.rangeTo, //range.rangeTo
-          store.isDark
+          store.isDark,
+          settings.showTasks
         );
 
         toast.closeAll();
@@ -242,16 +247,27 @@ const Calendar = () => {
         return;
       }
 
-      await createCalDavEvent(
-        updatedEvent as InitialForm,
-        false,
-        settings.timezone || getLocalTimezone(),
-        undefined,
-        undefined,
-        prevEvent
-      );
+      if (prevEvent.type === CALENDAR_EVENT_TYPE.TASK) {
+        await createTask(
+          updatedEvent as InitialForm,
+          false,
+          settings.timezone || getLocalTimezone(),
+          undefined,
+          undefined,
+          prevEvent
+        );
+      } else {
+        await createCalDavEvent(
+          updatedEvent as InitialForm,
+          false,
+          settings.timezone || getLocalTimezone(),
+          undefined,
+          undefined,
+          prevEvent
+        );
+      }
     } catch (e: any) {
-      toast(createToast(e.response?.data?.message, TOAST_STATUS.ERROR));
+      toast(createToastError(e));
     }
   };
 
@@ -331,7 +347,7 @@ const Calendar = () => {
 
   const handleSearchClick = async (
     id: string,
-    type: EVENT_TYPE,
+    type: SOURCE_TYPE,
     isDark: boolean
   ) => {
     try {
@@ -382,7 +398,11 @@ const Calendar = () => {
             onEventDragFinish={onDraggingFinish}
             // disabledViews={settings.disabledViews}
             draggingDisabledConditions={{
-              type: EVENT_TYPE.WEBCAL,
+              type: SOURCE_TYPE.WEBCAL,
+            }}
+            resizeDisabledConditions={{
+              sourceType: SOURCE_TYPE.WEBCAL,
+              type: EVENT_TYPE.TASK,
             }}
             // onSelectView={() => {}}
             onPageChange={onPageChange}

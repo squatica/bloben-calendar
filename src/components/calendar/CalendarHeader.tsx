@@ -10,9 +10,7 @@ import {
   MenuList,
   Spacer,
   Spinner,
-  Stack,
 } from '@chakra-ui/react';
-import { CalendarView } from 'kalend';
 import { Context, StoreContext } from '../../context/store';
 import { EvaIcons, Separator } from 'bloben-components';
 import { checkHasNewVersion, parseCssDark } from '../../utils/common';
@@ -20,6 +18,7 @@ import { initialReduxState } from '../../redux/reducers';
 import { replace } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import ButtonStack, { calendarHeaderItems } from '../buttonStack/ButtonStack';
 import NewVersionModal from '../newVersionModal/NewVersionModal';
 import React, { useContext, useState } from 'react';
 import RedCircle from '../redCircle/RedCircle';
@@ -109,87 +108,11 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               style={{ marginLeft: 18 }}
             />
           ) : null}
-          <Center margin={'0 auto'}>
-            <Stack
-              spacing={0}
-              direction={'row'}
-              border={store.isDark ? '' : 'solid 0.4px #E2E8F0'}
-              borderRadius={4}
-            >
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                variant={
-                  selectedView === CalendarView.AGENDA ? 'solid' : 'ghost'
-                }
-                fontSize={12}
-                width={20}
-                fontWeight={
-                  selectedView === CalendarView.AGENDA ? 'bold' : 'normal'
-                }
-                size={'sm'}
-                onClick={() => setSelectedView(CalendarView.AGENDA)}
-              >
-                Agenda
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                variant={selectedView === CalendarView.DAY ? 'solid' : 'ghost'}
-                fontSize={12}
-                size={'sm'}
-                width={20}
-                fontWeight={
-                  selectedView === CalendarView.DAY ? 'bold' : 'normal'
-                }
-                onClick={() => setSelectedView(CalendarView.DAY)}
-              >
-                Day
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                variant={
-                  selectedView === CalendarView.THREE_DAYS ? 'solid' : 'ghost'
-                }
-                fontWeight={
-                  selectedView === CalendarView.THREE_DAYS ? 'bold' : 'normal'
-                }
-                width={24}
-                fontSize={12}
-                size={'sm'}
-                onClick={() => setSelectedView(CalendarView.THREE_DAYS)}
-              >
-                Three days
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                variant={selectedView === CalendarView.WEEK ? 'solid' : 'ghost'}
-                fontSize={12}
-                size={'sm'}
-                width={24}
-                fontWeight={
-                  selectedView === CalendarView.WEEK ? 'bold' : 'normal'
-                }
-                onClick={() => setSelectedView(CalendarView.WEEK)}
-              >
-                Week
-              </Button>
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                variant={
-                  selectedView === CalendarView.MONTH ? 'solid' : 'ghost'
-                }
-                fontSize={12}
-                width={24}
-                size={'sm'}
-                fontWeight={
-                  selectedView === CalendarView.MONTH ? 'bold' : 'normal'
-                }
-                onClick={() => setSelectedView(CalendarView.MONTH)}
-              >
-                Month
-              </Button>
-            </Stack>
-            <Spacer />
-          </Center>
+          <ButtonStack
+            items={calendarHeaderItems}
+            onClick={setSelectedView}
+            selectedValue={selectedView}
+          />
           <Flex>
             <Separator width={20} height={0} />
             <IconButton

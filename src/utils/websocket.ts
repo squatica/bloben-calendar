@@ -39,8 +39,8 @@ const handleCalendars = (msg: any) => {
   }
 };
 
-const handleSyncCalDavEvents = async (isDark?: boolean) => {
-  const response = await EventsApi.getEventsOnInit(isDark);
+const handleSyncCalDavEvents = async (showTasks: boolean, isDark?: boolean) => {
+  const response = await EventsApi.getEventsOnInit(showTasks, isDark);
 
   reduxStore.dispatch(setCaldavEvents(response.data));
 };
@@ -72,6 +72,7 @@ const handleNotifications = (data: { title: string; body: string }) => {
 export const processSocketMsg = async (
   msg: any,
   setContext: any,
+  showTasks: boolean,
   isDark?: boolean
 ) => {
   const msgData: any = JSON.parse(msg);
@@ -85,7 +86,7 @@ export const processSocketMsg = async (
   }
 
   if (msgData.type === 'CALDAV_EVENTS') {
-    await handleSyncCalDavEvents(isDark);
+    await handleSyncCalDavEvents(showTasks, isDark);
   }
 
   if (msgData.type === 'CALDAV_CALENDARS') {

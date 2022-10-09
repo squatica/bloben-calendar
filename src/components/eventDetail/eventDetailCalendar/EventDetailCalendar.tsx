@@ -9,10 +9,12 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { CALDAV_COMPONENTS, EVENT_TYPE } from 'bloben-interface/enums';
 import { CalDavCalendar, ReduxState } from '../../../types/interface';
 import { Context, StoreContext } from '../../../context/store';
 import { EvaIcons, Separator } from 'bloben-components';
 import { colors } from '../../../utils/colors';
+import { filter } from 'lodash';
 import { useSelector } from 'react-redux';
 import FormIcon from '../../formIcon/FormIcon';
 import React, { useContext } from 'react';
@@ -33,9 +35,10 @@ interface EventDetailCalendarProps {
   disabled?: boolean;
   color?: string;
   setForm?: any;
+  type: EVENT_TYPE;
 }
 const EventDetailCalendar = (props: EventDetailCalendarProps) => {
-  const { calendar, selectCalendar, disabled } = props;
+  const { calendar, selectCalendar, disabled, type = EVENT_TYPE.EVENT } = props;
 
   const calendars: CalDavCalendar[] = useSelector(
     (state: ReduxState) => state.calDavCalendars
@@ -43,7 +46,15 @@ const EventDetailCalendar = (props: EventDetailCalendarProps) => {
   const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
-  const renderedCalendar = renderCalendars(calendars, selectCalendar);
+  const calendarsFiltered = filter(calendars, (calendar) =>
+    calendar.components.includes(
+      type === EVENT_TYPE.EVENT
+        ? CALDAV_COMPONENTS.VEVENT
+        : CALDAV_COMPONENTS.VTODO
+    )
+  );
+
+  const renderedCalendar = renderCalendars(calendarsFiltered, selectCalendar);
 
   return (
     <Stack direction={'row'} align={'center'}>

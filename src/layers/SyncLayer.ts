@@ -30,7 +30,10 @@ const SyncLayer = (props: any) => {
     const calDavAccountsResponse = await CalDavAccountApi.getCalDavAccounts();
     const calDavCalendarsResponse =
       await CalDavCalendarApi.getCalDavCalendars();
-    const calDavEventsResponse = await EventsApi.getEventsOnInit(store.isDark);
+    const calDavEventsResponse = await EventsApi.getEventsOnInit(
+      calendarSettingsResponse.data.showTasks,
+      store.isDark
+    );
     const webcalCalendarsResponse =
       await WebcalCalendarApi.getWebcalCalendars();
 
