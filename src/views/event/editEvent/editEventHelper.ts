@@ -10,6 +10,7 @@ import {
   RSVP_TRUE,
 } from '../../../utils/AttendeeUtils';
 import { StoreContext } from '../../../context/store';
+import { TASK_STATUS } from 'bloben-interface/enums';
 import { TOAST_STATUS } from '../../../types/enums';
 import {
   createToast,
@@ -51,6 +52,7 @@ export interface InitialForm {
   attendees: any;
   exdates: any;
   recurrenceID: any;
+  status: null | TASK_STATUS;
 }
 
 export const initialFormState: InitialForm = {
@@ -79,6 +81,7 @@ export const initialFormState: InitialForm = {
   attendees: [],
   exdates: [],
   recurrenceID: null,
+  status: null,
 };
 
 export const initialState: any = {
@@ -512,6 +515,7 @@ export const isEventKnownProp = (prop: string) => {
     'exdates',
     'recurrenceID',
     'organizer',
+    'status',
   ];
 
   return knownProps.includes(prop);

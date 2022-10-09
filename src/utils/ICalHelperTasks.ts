@@ -14,7 +14,6 @@ export const CALENDAR_REPLY_METHOD: CalendarMethod = 'REPLY';
 
 interface IcalHelperInterface extends InitialForm {
   externalID: string;
-  status?: string;
 }
 
 class ICalHelper {
@@ -78,7 +77,9 @@ class ICalHelper {
       this.alarms = valarms;
     }
 
-    this.status = status;
+    if (status) {
+      this.status = status;
+    }
 
     if (recurrenceID) {
       this.recurrenceId = {
