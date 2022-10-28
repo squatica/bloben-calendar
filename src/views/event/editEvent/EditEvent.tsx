@@ -44,10 +44,11 @@ import {
 
 import { PrimaryButton, Separator } from 'bloben-components';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
-import { filter, map } from 'lodash';
+import { filter, find, map } from 'lodash';
 import ModalNew from '../../../components/modalNew/ModalNew';
 
 import { CALDAV_COMPONENTS, EVENT_TYPE } from 'bloben-interface/enums';
+import { FLOATING_DATETIME } from 'kalend/layout/constants';
 import { handleSaveTask } from './editTaskHelper';
 import ButtonStack, {
   eventTypeItems,
@@ -67,6 +68,7 @@ interface EditEventProps {
   wasInitRef?: any;
   currentE: any;
   isDuplicatingEvent?: boolean;
+  isTask?: boolean;
 }
 
 const EditEvent = (props: EditEventProps) => {
@@ -101,22 +103,36 @@ const EditEvent = (props: EditEventProps) => {
       setType(eventType);
     }
     const typeValue = eventType || type;
+
+    let result;
+
     if (typeValue === EVENT_TYPE.EVENT) {
-      const result = filter(calDavCalendarsRedux, (calendar) =>
+      result = filter(calDavCalendarsRedux, (calendar) =>
         calendar.components.includes(CALDAV_COMPONENTS.VEVENT)
       );
       setCalDavCalendars(result);
     } else {
-      const result = filter(calDavCalendarsRedux, (calendar) =>
+      result = filter(calDavCalendarsRedux, (calendar) =>
         calendar.components.includes(CALDAV_COMPONENTS.VTODO)
       );
       setCalDavCalendars(result);
+    }
+
+    // select calendar
+    if (!calendar || !find(result, (item) => item.id === calendar.id)) {
+      selectCalendar(result[0]);
     }
   };
 
   useEffect(() => {
     filterCalendars();
   }, [type]);
+
+  useEffect(() => {
+    if (props.isTask) {
+      setType(EVENT_TYPE.TASK);
+    }
+  }, []);
 
   const [store, dispatchContext]: [StoreContext, any] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -251,7 +267,10 @@ const EditEvent = (props: EditEventProps) => {
    * @param dateValue
    */
   const handleChangeDateFrom = (dateValue: DateTime | string) => {
-    const timezoneBase = settings.timezone || getLocalTimezone();
+    const timezoneBase =
+      type === EVENT_TYPE.TASK
+        ? FLOATING_DATETIME
+        : settings.timezone || getLocalTimezone();
     setForm('startAt', DatetimeParser(dateValue, timezoneBase));
 
     const isDateValid: boolean = validateDate(

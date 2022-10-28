@@ -106,6 +106,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
               autoFocus={false}
               onClick={handleOpenDrawer}
               style={{ marginLeft: 18 }}
+              disabled={selectedView === 'tasks'}
             />
           ) : null}
           <ButtonStack
@@ -254,118 +255,98 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
           </Flex>
         </Flex>
       ) : null}
-      <Flex
-        direction={'row'}
-        paddingTop={isMobile ? 0 : 3}
-        paddingBottom={3}
-        paddingLeft={isMobile ? 0 : 8}
-        flex={1}
-        // paddingRight={14}
-      >
-        <Center>
-          <Heading as="h3" size="lg">
-            {selectedDate}
-          </Heading>
-        </Center>
-        <Spacer />
-        {isMobile ? (
-          <>
-            <Flex flex="1" justifyContent={'flex-end '}>
-              <Spacer />
-              <IconButton
-                _focus={{ boxShadow: 'none' }}
-                variant={'ghost'}
-                aria-label="Refresh"
-                icon={
-                  <EvaIcons.Refresh
-                    className={parseCssDark('HeaderModal__icon', store.isDark)}
-                  />
-                }
-                isRound
-                // size={"sm"}
-                autoFocus={false}
-                onClick={handleRefresh}
-              />
+      {selectedView !== 'tasks' ? (
+        <Flex
+          direction={'row'}
+          paddingTop={isMobile ? 0 : 3}
+          paddingBottom={3}
+          paddingLeft={isMobile ? 0 : 8}
+          flex={1}
+          // paddingRight={14}
+        >
+          <Center>
+            <Heading as="h3" size="lg">
+              {selectedDate}
+            </Heading>
+          </Center>
+          <Spacer />
+          {isMobile ? (
+            <>
+              <Flex flex="1" justifyContent={'flex-end '}>
+                <Spacer />
+                <IconButton
+                  _focus={{ boxShadow: 'none' }}
+                  variant={'ghost'}
+                  aria-label="Refresh"
+                  icon={
+                    <EvaIcons.Refresh
+                      className={parseCssDark(
+                        'HeaderModal__icon',
+                        store.isDark
+                      )}
+                    />
+                  }
+                  isRound
+                  // size={"sm"}
+                  autoFocus={false}
+                  onClick={handleRefresh}
+                />
+              </Flex>
+            </>
+          ) : null}
+          {!isMobile ? (
+            <Flex flex="1" justifyContent={'flex-end'}>
+              <Separator width={12} height={0} />
+              <Center w="100px">
+                <Button
+                  _focus={{ boxShadow: 'none' }}
+                  variant={'solid'}
+                  fontSize={14}
+                  onClick={goToday}
+                >
+                  Today
+                </Button>
+              </Center>
+              <Center w="50px">
+                <IconButton
+                  _focus={{ boxShadow: 'none' }}
+                  aria-label="Go back calendar"
+                  icon={
+                    <EvaIcons.ChevronLeft
+                      className={parseCssDark(
+                        'HeaderModal__icon',
+                        store.isDark
+                      )}
+                    />
+                  }
+                  isRound
+                  onClick={goBack}
+                />
+              </Center>
+              <Center w="50px">
+                <IconButton
+                  _focus={{ boxShadow: 'none' }}
+                  aria-label="Go forward calendar"
+                  icon={
+                    <EvaIcons.ChevronRight
+                      className={parseCssDark(
+                        'HeaderModal__icon',
+                        store.isDark
+                      )}
+                    />
+                  }
+                  isRound
+                  onClick={goForward}
+                />
+              </Center>
+              <Center></Center>
             </Flex>
-          </>
-        ) : null}
-        {!isMobile ? (
-          <Flex flex="1" justifyContent={'flex-end'}>
-            <Separator width={12} height={0} />
-            <Center w="100px">
-              <Button
-                _focus={{ boxShadow: 'none' }}
-                variant={'solid'}
-                fontSize={14}
-                onClick={goToday}
-              >
-                Today
-              </Button>
-            </Center>
-            <Center w="50px">
-              <IconButton
-                _focus={{ boxShadow: 'none' }}
-                aria-label="Go back calendar"
-                icon={
-                  <EvaIcons.ChevronLeft
-                    className={parseCssDark('HeaderModal__icon', store.isDark)}
-                  />
-                }
-                isRound
-                onClick={goBack}
-              />
-            </Center>
-            <Center w="50px">
-              <IconButton
-                _focus={{ boxShadow: 'none' }}
-                aria-label="Go forward calendar"
-                icon={
-                  <EvaIcons.ChevronRight
-                    className={parseCssDark('HeaderModal__icon', store.isDark)}
-                  />
-                }
-                isRound
-                onClick={goForward}
-              />
-            </Center>
-            <Center>
-              {/*<Menu>*/}
-              {/*  <MenuButton*/}
-              {/*    as={Button}*/}
-              {/*    _focus={{ boxShadow: "none" }}*/}
-              {/*    variant={"solid"}*/}
-              {/*    fontSize={14}*/}
-              {/*  >*/}
-              {/*    {formatCalendarView(selectedView)}*/}
-              {/*  </MenuButton>*/}
-              {/*  <MenuList zIndex={9991}>*/}
-              {/*    <MenuItem onClick={() => setSelectedView(CalendarView.AGENDA)}>*/}
-              {/*      Agenda*/}
-              {/*    </MenuItem>*/}
-              {/*    <MenuItem onClick={() => setSelectedView(CalendarView.DAY)}>*/}
-              {/*      Day*/}
-              {/*    </MenuItem>*/}
-              {/*    <MenuItem*/}
-              {/*      onClick={() => setSelectedView(CalendarView.THREE_DAYS)}*/}
-              {/*    >*/}
-              {/*      Three days*/}
-              {/*    </MenuItem>*/}
-              {/*    <MenuItem onClick={() => setSelectedView(CalendarView.WEEK)}>*/}
-              {/*      Week*/}
-              {/*    </MenuItem>*/}
-              {/*    <MenuItem onClick={() => setSelectedView(CalendarView.MONTH)}>*/}
-              {/*      Month*/}
-              {/*    </MenuItem>*/}
-              {/*  </MenuList>*/}
-              {/*</Menu>*/}
-            </Center>
-          </Flex>
-        ) : null}
-
-        {versionModalOpen ? (
-          <NewVersionModal handleClose={() => openVersionModal(false)} />
-        ) : null}
-      </Flex>
+          ) : null}
+        </Flex>
+      ) : null}
+      {versionModalOpen ? (
+        <NewVersionModal handleClose={() => openVersionModal(false)} />
+      ) : null}
     </Flex>
   );
 };

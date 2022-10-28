@@ -50,10 +50,15 @@ class ICalHelper {
       status,
     } = event;
 
-    this.dtstart = {
-      value: allDay ? DateTime.fromISO(startAt).toFormat('yyyyMMdd') : startAt,
-      timezone: undefined,
-    };
+    if (startAt) {
+      this.dtstart = {
+        value: allDay
+          ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
+          : startAt,
+        timezone: undefined,
+      };
+    }
+
     this.uid = externalID ? externalID : v4();
 
     this.created = LuxonHelper.toUtcString(createdAt);

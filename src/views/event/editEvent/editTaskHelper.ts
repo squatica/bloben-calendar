@@ -13,6 +13,7 @@ import {
 import { OnNewEventClickData } from 'kalend';
 
 import { StoreContext } from '../../../context/store';
+import { TASK_STATUS } from 'bloben-interface/enums';
 import { TOAST_STATUS } from '../../../types/enums';
 import {
   createToast,
@@ -28,6 +29,32 @@ import CalDavEventsApi from '../../../api/CalDavEventsApi';
 import ICalHelperTasks from '../../../utils/ICalHelperTasks';
 import LuxonHelper from '../../../utils/LuxonHelper';
 import TasksApi from '../../../api/TasksApi';
+
+export const checkTask = async (task: any, calendar?: CalDavCalendar) => {
+  const eventCalendar: CalDavCalendar = calendar || findItemCalendar(task);
+
+  const iCalString: string = new ICalHelperTasks({
+    ...task,
+    status:
+      task.status === TASK_STATUS.COMPLETED
+        ? TASK_STATUS.NEEDS_ACTION
+        : TASK_STATUS.COMPLETED,
+  }).parseTo();
+
+  debug(iCalString);
+
+  const response = await TasksApi.update({
+    calendarID: eventCalendar.id,
+    iCalString,
+    externalID: task.externalID,
+    id: task.id,
+    url: task.url,
+    etag: task.etag,
+    prevEvent: null,
+  });
+
+  return response;
+};
 
 export const createCalDavTask = async (
   formInitial: InitialForm,
