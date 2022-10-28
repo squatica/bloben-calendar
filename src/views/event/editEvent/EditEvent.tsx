@@ -126,6 +126,19 @@ const EditEvent = (props: EditEventProps) => {
 
   useEffect(() => {
     filterCalendars();
+
+    // handle different date because of timezone change
+    if (type === EVENT_TYPE.TASK) {
+      const startDate = DateTime.fromISO(newEventTime.startAt, {
+        zone: 'UTC',
+      }).set({
+        hour: newEventTime.hour,
+      });
+      setForm('startAt', startDate.toString());
+      setForm('rRule', '');
+      setForm('isRepeated', false);
+      setForm('attendees', []);
+    }
   }, [type]);
 
   useEffect(() => {

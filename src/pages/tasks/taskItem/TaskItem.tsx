@@ -8,9 +8,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { CalDavTask } from 'bloben-interface';
+
 import { Context, StoreContext } from '../../../context/store';
 import { EvaIcons, createToast, createToastError } from 'bloben-components';
 import { checkTask } from '../../../views/event/editEvent/editTaskHelper';
+import { parseCssDark } from '../../../utils/common';
 import React, { useContext, useEffect, useState } from 'react';
 
 interface TaskItemProps {
@@ -20,10 +22,11 @@ interface TaskItemProps {
 }
 const TaskItem = (props: TaskItemProps) => {
   const [store]: [StoreContext] = useContext(Context);
-  const { isMobile } = store;
+  const { isMobile, isDark } = store;
 
   const toast = useToast();
   const [summary, setSummary] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const { item, handleOpen, refreshData } = props;
 
@@ -32,15 +35,18 @@ const TaskItem = (props: TaskItemProps) => {
   }, []);
 
   const handleCheckTask = async (item: any) => {
-    toast({ ...createToast('Saving'), isClosable: false, id: 'saving' });
+    setIsSaving(true);
     try {
       const response = await checkTask(item);
 
-      toast.close('saving');
       toast(createToast(response?.data?.message));
+
       await refreshData(item);
+
+      setIsSaving(false);
     } catch (e) {
-      toast.close('saving');
+      setIsSaving(false);
+
       toast(createToastError(e));
     }
   };
@@ -66,10 +72,21 @@ const TaskItem = (props: TaskItemProps) => {
           background={'transparent'}
           aria-label="Check"
           icon={
-            item.status === 'COMPLETED' ? (
-              <EvaIcons.SquareCheck className={'TaskItem_check_icon-checked'} />
+            isSaving ? (
+              <EvaIcons.Loader
+                className={`${parseCssDark(
+                  'TaskItem_check_icon-checked Spinner-icon',
+                  isDark
+                )} rotate`}
+              />
+            ) : item.status === 'COMPLETED' ? (
+              <EvaIcons.SquareCheck
+                className={parseCssDark('TaskItem_check_icon-checked', isDark)}
+              />
             ) : (
-              <EvaIcons.Square className={'TaskItem_check_icon'} />
+              <EvaIcons.Square
+                className={parseCssDark('TaskItem_check_icon', isDark)}
+              />
             )
           }
           marginRight={4}

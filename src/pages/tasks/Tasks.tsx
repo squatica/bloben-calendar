@@ -107,10 +107,6 @@ const TasksPage = () => {
     setPage(value);
   };
 
-  const handleOpen = (item: CalDavTask) => {
-    setEditingEventOpen(item);
-  };
-
   const closeEventView = () => {
     setEventViewOpen(null);
   };
@@ -190,16 +186,6 @@ const TasksPage = () => {
         </Flex>
       </Flex>
 
-      {isEventViewOpen ? (
-        <EventView
-          data={isEventViewOpen}
-          handleClose={closeEventView}
-          openEditEventModal={handleOpen}
-          currentE={null}
-          // openDuplicateModal={openDuplicateModal}
-        />
-      ) : null}
-
       {isEditingEventOpen ? (
         <EditEvent
           isNewEvent={false}
@@ -217,6 +203,7 @@ const TasksPage = () => {
           openEditEventModal={openEditingEvent}
           currentE={currentE}
           openDuplicateModal={openDuplicateModal}
+          refreshData={refreshData}
         />
       ) : null}
       {isRepeatModalOpen ? (

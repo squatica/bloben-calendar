@@ -106,6 +106,7 @@ interface EventViewProps {
   currentE: any;
   disabledEdit?: boolean;
   openDuplicateModal?: any;
+  refreshData?: any;
 }
 
 const EventView = (props: EventViewProps) => {
@@ -122,6 +123,7 @@ const EventView = (props: EventViewProps) => {
     currentE,
     disabledEdit,
     openDuplicateModal,
+    refreshData,
   } = props;
 
   const { isDark, isMobile } = store;
@@ -160,6 +162,10 @@ const EventView = (props: EventViewProps) => {
 
   const handleEdit = (duplicateEvent?: boolean) => {
     openEditEventModal(event, duplicateEvent);
+
+    if (refreshData) {
+      refreshData(event);
+    }
     handleClose();
   };
 
@@ -214,6 +220,10 @@ const EventView = (props: EventViewProps) => {
           etag: event.etag,
           id: event.id,
         });
+
+        if (refreshData) {
+          refreshData(event);
+        }
       } else {
         response = await CalDavEventsApi.deleteEvent({
           calendarID: calendar.id,
@@ -333,6 +343,9 @@ const EventView = (props: EventViewProps) => {
 
         toast(createToast('Event deleted'));
 
+        if (refreshData) {
+          refreshData(event);
+        }
         handleClose();
       }
     } catch (e: any) {
@@ -374,6 +387,10 @@ const EventView = (props: EventViewProps) => {
 
       toast.close('taskCheck');
       toast(createToast(response?.data?.message));
+      if (refreshData) {
+        refreshData(event);
+      }
+
       handleClose();
     } catch (e) {
       toast.close('taskCheck');

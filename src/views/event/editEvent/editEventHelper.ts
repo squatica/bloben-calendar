@@ -1,3 +1,4 @@
+import { CALENDAR_EVENT_TYPE } from 'kalend/common/interface';
 import { CalDavCalendar } from '../../../types/interface';
 import { CalendarSettingsResponse, GetProfileResponse } from 'bloben-interface';
 import { DateTime } from 'luxon';
@@ -421,7 +422,8 @@ export const initNewEventOnMount = (
   setCalendar: any,
   store: StoreContext,
   user: GetProfileResponse,
-  newEventTime: NewEventTime
+  newEventTime: NewEventTime,
+  type?: CALENDAR_EVENT_TYPE
 ): void => {
   const defaultCalendarID = settings.defaultCalendarID;
   const defaultCalendar = defaultCalendarID
@@ -487,6 +489,11 @@ export const initNewEventOnMount = (
       formatAllDayHeaderEventDate(newEventTime.endAt as string, timezone)
     );
   } else {
+    if (type === CALENDAR_EVENT_TYPE.TASK) {
+      setForm('timezoneStartAt', 'floating');
+      setForm('timezoneEndAt', 'floating');
+    }
+
     setForm('startAt', newEventTime.startAt);
     setForm('endAt', newEventTime.endAt);
   }
