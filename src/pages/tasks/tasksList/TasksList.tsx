@@ -5,7 +5,6 @@ import TaskItem from '../taskItem/TaskItem';
 
 const renderTasks = (
   tasks: CalDavTask[],
-  handleCheck: any,
   handleOpen: any,
   refreshData: any
 ) => {
@@ -14,7 +13,6 @@ const renderTasks = (
       <TaskItem
         key={item.id}
         item={item}
-        handleCheck={handleCheck}
         handleOpen={handleOpen}
         refreshData={refreshData}
       />
@@ -29,14 +27,7 @@ interface TasksListProps {
 }
 const TasksList = (props: TasksListProps) => {
   const { handleOpen, refreshData } = props;
-  const tasks = renderTasks(
-    props.tasks,
-    () => {
-      return;
-    },
-    handleOpen,
-    refreshData
-  );
+  const tasks = renderTasks(props.tasks, handleOpen, refreshData);
 
   const height = useHeight();
 

@@ -621,7 +621,7 @@ export const handleSaveTask = async (
 export const createTask = async (
   formInitial: InitialForm,
   isNewEvent: boolean,
-  timezone: string,
+  timezone: string | undefined,
   calendar?: CalDavCalendar,
   handleClose?: any,
   originalEvent?: any,
