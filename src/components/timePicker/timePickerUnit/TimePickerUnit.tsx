@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import './TimePickerUnit.scss';
 
 import { Context, StoreContext } from '../../../context/store';
+import { FLOATING_DATETIME, UTC_TIMEZONE } from 'kalend/layout/constants';
 import { parseCssDark } from '../../../utils/common';
 import ButtonBase from '../../button/buttonBase/ButtonBase';
 
@@ -27,7 +28,13 @@ const TimePickerUnit = (props: TimePickerUnitProps) => {
 
   const onClick = () => {
     const timeValues: string[] = value.split(':');
-    let newDate: DateTime = DateTime.fromISO(selectedDate).setZone(timezone);
+    let newDate: DateTime = DateTime.fromISO(selectedDate);
+
+    if (timezone !== FLOATING_DATETIME) {
+      newDate.setZone(timezone);
+    } else {
+      newDate = DateTime.fromISO(selectedDate, { zone: UTC_TIMEZONE });
+    }
 
     newDate = newDate.set({
       hour: Number(timeValues[0]),

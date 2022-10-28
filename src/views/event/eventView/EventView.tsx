@@ -430,7 +430,9 @@ const EventView = (props: EventViewProps) => {
               value={event.summary}
               disabled={true}
             />
-            <EventDates event={event} isSmall={false} />
+            {event.startAt ? (
+              <EventDates event={event} isSmall={false} />
+            ) : null}
             {calendar && calendar?.displayName ? (
               <EventDetailCalendar
                 calendar={calendar}

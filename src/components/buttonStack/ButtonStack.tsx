@@ -17,6 +17,10 @@ export const eventTypeItems = [
 
 export const calendarHeaderItems = [
   {
+    label: 'Tasks',
+    value: 'tasks',
+  },
+  {
     label: 'Agenda',
     value: CalendarView.AGENDA,
   },

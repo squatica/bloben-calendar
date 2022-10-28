@@ -118,7 +118,7 @@ const LuxonHelper = {
   toUtc: (date: DateTime): string => date.toUTC().toISO(),
   setTimezone: (dateString: string, timezone: string): string =>
     timezone === 'floating'
-      ? dateString
+      ? DateTime.fromISO(dateString).toUTC().toString()
       : DateTime.fromISO(dateString).setZone(timezone).toString(),
   toHumanDate: (dateString: string): string =>
     DateTime.fromISO(dateString).toFormat('d LLL yyyy hh:mm'),
