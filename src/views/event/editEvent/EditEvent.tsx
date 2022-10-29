@@ -128,7 +128,7 @@ const EditEvent = (props: EditEventProps) => {
     filterCalendars();
 
     // handle different date because of timezone change
-    if (type === EVENT_TYPE.TASK) {
+    if (type === EVENT_TYPE.TASK && newEventTime) {
       const startDate = DateTime.fromISO(newEventTime.startAt, {
         zone: 'UTC',
       }).set({
