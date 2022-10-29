@@ -1,0 +1,11 @@
+.TaskItem_check_icon {
+  fill: $GRAY_800;
+  width: 25px;
+  height: 25px;
+
+  &-checked {
+    @extend .TaskItem_check_icon;
+    fill: $GRAY_500;
+  }
+}
+

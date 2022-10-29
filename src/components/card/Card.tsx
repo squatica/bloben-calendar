@@ -9,13 +9,14 @@ interface CardProps {
   title?: string;
   className?: string;
   titleClassName?: string;
+  style?: any;
 }
 
 const Card = (props: CardProps) => {
-  const { title, children, titleClassName, isDark } = props;
+  const { title, children, titleClassName, isDark, style } = props;
 
   return (
-    <div className={'CardContainer'}>
+    <div className={'CardContainer'} style={style}>
       {title ? (
         <CardTitle isDark={isDark} title={title} className={titleClassName} />
       ) : null}

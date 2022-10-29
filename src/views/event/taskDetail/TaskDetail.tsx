@@ -10,7 +10,6 @@ import EventDetailAlarm from '../../../components/eventDetail/eventDetailAlarm/E
 import EventDetailCalendar from '../../../components/eventDetail/eventDetailCalendar/EventDetailCalendar';
 import EventDetailDates from '../../../components/eventDetail/eventDetailDates/EventDetailDates';
 import EventDetailNotes from '../../../components/eventDetail/eventDetailNotes/EventDetailNotes';
-import EventDetailRepeat from '../../../components/eventDetail/eventDetailRepeat/EventDetailRepeat';
 import EventDetailTitle from '../../../components/eventDetail/eventDetailTitle/EventDetailTitle';
 
 interface TaskDetailProps {
@@ -43,6 +42,7 @@ const TaskDetail = (props: TaskDetailProps) => {
     handleChange,
     calendar,
     startDate,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isRepeated,
     description,
     allDay,
@@ -50,9 +50,11 @@ const TaskDetail = (props: TaskDetailProps) => {
     isNewEvent,
     handleChangeDateFrom,
     selectCalendar,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     form,
     alarms,
     repeatChangeValue,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     disabledRRule,
   } = props;
 
@@ -82,12 +84,12 @@ const TaskDetail = (props: TaskDetailProps) => {
         timezoneStartAt={FLOATING_DATETIME}
         hideTimezone={true}
       />
-      <EventDetailRepeat
-        isRepeated={isRepeated}
-        setForm={setForm}
-        form={form}
-        disabledRRule={disabledRRule}
-      />
+      {/*<EventDetailRepeat*/}
+      {/*  isRepeated={isRepeated}*/}
+      {/*  setForm={setForm}*/}
+      {/*  form={form}*/}
+      {/*  disabledRRule={disabledRRule}*/}
+      {/*/>*/}
       <EventDetailAlarm
         alarms={alarms}
         addAlarm={props.addAlarm}

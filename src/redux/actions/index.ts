@@ -4,6 +4,7 @@ import {
   CalDavEvent,
 } from '../../types/interface';
 import {
+  CalDavTask,
   CalendarSettingsResponse,
   GetEventResponse,
   GetProfileResponse,
@@ -182,6 +183,13 @@ export const setThemeSettings = (data: ThemeSettings) => {
 export const setLocalSettings = (data: SettingsLocal) => {
   return {
     type: 'SET_LOCAL_SETTINGS',
+    payload: data,
+  };
+};
+
+export const setCalDavTasks = (data: CalDavTask[]) => {
+  return {
+    type: 'SET_CALDAV_TASKS',
     payload: data,
   };
 };

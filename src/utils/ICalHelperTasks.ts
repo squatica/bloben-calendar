@@ -39,6 +39,7 @@ class ICalHelper {
       startAt,
       summary,
       description,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       rRule,
       props,
       allDay,
@@ -50,21 +51,26 @@ class ICalHelper {
       status,
     } = event;
 
-    this.dtstart = {
-      value: allDay ? DateTime.fromISO(startAt).toFormat('yyyyMMdd') : startAt,
-      timezone: undefined,
-    };
+    if (startAt) {
+      this.dtstart = {
+        value: allDay
+          ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
+          : startAt,
+        timezone: undefined,
+      };
+    }
+
     this.uid = externalID ? externalID : v4();
 
     this.created = LuxonHelper.toUtcString(createdAt);
     this.dtstamp = DateTime.local().toUTC().toString();
     this.description = description;
     this.lastModified = LuxonHelper.toUtcString(updatedAt);
-    this.rrule =
-      rRule && rRule !== ''
-        ? // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          rRule
-        : undefined;
+    // this.rrule =
+    //   rRule && rRule !== ''
+    //     ? // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //       rRule
+    //     : undefined;
     this.summary = summary;
     this.status = 'NEEDS-ACTION';
     // this.sequence = sequence;

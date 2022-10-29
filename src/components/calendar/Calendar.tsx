@@ -60,6 +60,7 @@ import RepeatEventModal, {
 } from '../repeatEventModal/RepeatEventModal';
 import SearchModal from '../searchModal/SearchModal';
 import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
+import TasksPage from '../../pages/tasks/Tasks';
 
 const parseHourHeight = (hourHeightSetting: number): number => {
   const element = document.querySelector('.Kalend__Calendar__table');
@@ -96,7 +97,7 @@ const Calendar = () => {
     (state: ReduxState) => state.calDavCalendars
   );
   const kalendRef: any = useRef();
-  const [selectedView, setSelectedView] = useState(settings.defaultView);
+  const [selectedView, setSelectedView] = useState<any>(settings.defaultView);
   const [selectedDate, setSelectedDate] = useState(
     DateTime.now().toFormat('MMMM yyyy')
   );
@@ -363,6 +364,15 @@ const Calendar = () => {
     openSearchModal(false);
   };
 
+  const handleChangeView = (view: string) => {
+    if (view === 'tasks') {
+      setSelectedView('tasks');
+    } else {
+      // @ts-ignore
+      setSelectedView(view);
+    }
+  };
+
   return (
     <div className={'Main__content__row'}>
       {settingsLocal.drawerOpen ? <DrawerDesktop /> : null}
@@ -379,12 +389,12 @@ const Calendar = () => {
           kalendRef={kalendRef}
           selectedDate={selectedDate}
           selectedView={selectedView}
-          setSelectedView={setSelectedView}
+          setSelectedView={handleChangeView}
           handleRefresh={handleRefresh}
           handleOpenDrawer={handleOpenDrawer}
           openSearchModal={() => openSearchModal(true)}
         />
-        {settings.defaultView ? (
+        {settings.defaultView && selectedView !== 'tasks' ? (
           <Kalend
             kalendRef={kalendRef}
             onEventClick={handleEventClick}
@@ -418,6 +428,9 @@ const Calendar = () => {
             isDark={store.isDark}
           />
         ) : null}
+
+        {selectedView === 'tasks' ? <TasksPage /> : null}
+
         {isNewEventOpen ? (
           calDavAccounts.length && calDavCalendars.length ? (
             <EditEvent
