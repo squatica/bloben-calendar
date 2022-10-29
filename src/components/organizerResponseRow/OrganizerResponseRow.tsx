@@ -1,5 +1,6 @@
-import { ATTENDEE_PARTSTAT, EVENT_TYPE } from '../../enums';
+import { ATTENDEE_PARTSTAT } from '../../enums';
 import { Button, Stack, useToast } from '@chakra-ui/react';
+import { SOURCE_TYPE } from 'bloben-interface/enums';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
 import { find } from 'lodash';
@@ -49,7 +50,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
     });
   };
 
-  const disabled = event.type === EVENT_TYPE.WEBCAL;
+  const disabled = event.sourceType === SOURCE_TYPE.WEBCAL;
 
   return organizer ? (
     <Stack

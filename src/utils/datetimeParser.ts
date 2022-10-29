@@ -54,11 +54,7 @@ export const parseToDateTime = (
 
   // Adjust date with timezone so when converted to UTC it represents correct value with fixed time
   if (isFloatingDatetime) {
-    const dateFloating: DateTime = DateTime.fromISO(dateString, {
-      zone: UTC_TIMEZONE,
-    });
-
-    return dateFloating.toUTC();
+    return DateTime.fromISO(dateString).setZone('utc');
   }
 
   const thisDate: DateTime = DateTime.fromISO(dateString);

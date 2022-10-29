@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import './TimePickerList.scss';
 import { DateTime } from 'luxon';
+import { FLOATING_DATETIME, UTC_TIMEZONE } from 'kalend/layout/constants';
 import TimePickerUnit from '../timePickerUnit/TimePickerUnit';
 
 const renderTimePickerUnits = (
@@ -54,7 +55,14 @@ const TimePickerList = (props: TimePickerViewProps) => {
   );
 
   useEffect(() => {
-    const dateRef: DateTime = DateTime.fromISO(selectedDate).setZone(timezone);
+    let dateRef = DateTime.fromISO(selectedDate);
+
+    if (timezone !== FLOATING_DATETIME) {
+      dateRef.setZone(timezone);
+    } else {
+      dateRef = DateTime.fromISO(selectedDate, { zone: UTC_TIMEZONE });
+    }
+
     const hourEl: any = document.getElementById(`${dateRef.hour}_00`);
     const minuteEl: any = document.getElementById(`minute_${dateRef.minute}`);
 

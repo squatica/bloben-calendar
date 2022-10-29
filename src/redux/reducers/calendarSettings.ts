@@ -12,6 +12,7 @@ export const defaultCalendarSettings = {
   showWeekNumbers: false,
   defaultAddressBookID: '',
   saveContactsAuto: true,
+  showTasks: true,
 };
 
 const calendarSettings = (

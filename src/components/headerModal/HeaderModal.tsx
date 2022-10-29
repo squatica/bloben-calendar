@@ -29,6 +29,8 @@ interface HeaderModalMobileProps {
   style?: any;
   showBack?: boolean;
   duplicateMultiple: any;
+  handleCheckTask?: any;
+  isTaskChecked?: boolean;
 }
 // tslint:disable-next-line:cyclomatic-complexity
 const HeaderModalMobile = (props: HeaderModalMobileProps) => {
@@ -46,6 +48,8 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
     style,
     showBack,
     duplicateMultiple,
+    handleCheckTask,
+    isTaskChecked,
   } = props;
 
   const handleDuplicate = () => {
@@ -84,6 +88,27 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
               />
             </ButtonIcon>
           ) : null}
+          {handleCheckTask ? (
+            <Tooltip label={isTaskChecked ? 'Uncheck task' : 'Check task'}>
+              <IconButton
+                aria-label={isTaskChecked ? 'Uncheck task' : 'Check task'}
+                icon={
+                  isTaskChecked ? (
+                    <EvaIcons.RadioOn
+                      className={parseCssDark('HeaderModal__icon', isDark)}
+                    />
+                  ) : (
+                    <EvaIcons.RadioOff
+                      className={parseCssDark('HeaderModal__icon', isDark)}
+                    />
+                  )
+                }
+                isRound
+                size={'sm'}
+                onClick={handleCheckTask}
+              />
+            </Tooltip>
+          ) : null}
           {onDelete ? (
             <Tooltip label="Delete event">
               <IconButton
@@ -99,7 +124,7 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
               />
             </Tooltip>
           ) : null}
-          {handleEdit ? (
+          {handleEdit && duplicateMultiple ? (
             <Tooltip label="Duplicate event">
               <IconButton
                 aria-label="Duplicate event"
@@ -129,7 +154,7 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
               />
             </Tooltip>
           ) : null}
-          {handleEdit ? (
+          {handleEdit && duplicateMultiple ? (
             <Menu isLazy={true}>
               <Tooltip label="More">
                 <MenuButton
@@ -144,6 +169,7 @@ const HeaderModalMobile = (props: HeaderModalMobileProps) => {
                   size={'sm'}
                 ></MenuButton>
               </Tooltip>
+
               <MenuList
                 style={{
                   maxHeight: 120,
@@ -191,6 +217,8 @@ interface HeaderModalProps {
   childrenStyle?: any;
   showBack?: boolean;
   duplicateMultiple: any;
+  handleCheckTask?: any;
+  isTaskChecked?: boolean;
 }
 const HeaderModal = (props: HeaderModalProps) => {
   const {
@@ -208,6 +236,8 @@ const HeaderModal = (props: HeaderModalProps) => {
     childrenStyle,
     showBack,
     duplicateMultiple,
+    handleCheckTask,
+    isTaskChecked,
   } = props;
 
   const [animation, setAnimation] = useState('');
@@ -240,6 +270,8 @@ const HeaderModal = (props: HeaderModalProps) => {
         style={childrenStyle}
         showBack={showBack}
         duplicateMultiple={duplicateMultiple}
+        handleCheckTask={handleCheckTask}
+        isTaskChecked={isTaskChecked}
       >
         {children}
       </HeaderModalMobile>

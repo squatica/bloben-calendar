@@ -124,6 +124,14 @@ const GeneralSettings = () => {
     await requestUpdate(newSettings);
   };
 
+  const handleShowTasksChange = async () => {
+    const newSettings: any = {};
+
+    newSettings['showTasks'] = !settings.showTasks;
+
+    await requestUpdate(newSettings);
+  };
+
   useEffect(() => {
     setThemeTimeSettings(themeSettings.value);
   }, []);
@@ -338,6 +346,20 @@ const GeneralSettings = () => {
             <Checkbox
               isChecked={settings.showWeekNumbers}
               onChange={handleShowWeekNumbersChange}
+              size={'lg'}
+            ></Checkbox>
+          </Button>
+        </SettingsRow>
+        <SettingsRow title={'Show tasks'}>
+          <Button
+            variant={'ghost'}
+            onClick={handleShowTasksChange}
+            _focus={{ boxShadow: 'none' }}
+            size={tableSize}
+          >
+            <Checkbox
+              isChecked={settings.showTasks}
+              onChange={handleShowTasksChange}
               size={'lg'}
             ></Checkbox>
           </Button>

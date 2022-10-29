@@ -11,9 +11,10 @@ interface EventDetailTitleProps {
   value: string;
   handleChange?: any;
   disabled?: boolean;
+  placeholder?: string;
 }
 const EventDetailTitle = (props: EventDetailTitleProps) => {
-  const { isNewEvent, value, handleChange, disabled } = props;
+  const { isNewEvent, value, handleChange, disabled, placeholder } = props;
 
   const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
@@ -31,7 +32,7 @@ const EventDetailTitle = (props: EventDetailTitleProps) => {
         <ChakraInput
           size={'md'}
           type="text"
-          placeholder="Event title"
+          placeholder={placeholder || 'Event title'}
           name={'summary'}
           value={value}
           variant={disabled ? 'unstyled' : 'outline'}

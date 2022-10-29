@@ -1,17 +1,18 @@
 import { AxiosResponse } from 'axios';
 import { DateTime } from 'luxon';
-import { EVENT_TYPE } from '../enums';
 import { GetEventResponse, SearchEventsResponse } from 'bloben-interface';
+import { SOURCE_TYPE } from 'bloben-interface/enums';
 import Axios from '../lib/Axios';
 
 export default {
   getEvents: async (
     rangeFrom: string,
     rangeTo: string,
-    isDark?: boolean
+    isDark?: boolean,
+    showTasks?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
     return Axios.get(
-      `/app/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
+      `/app/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&showTasks=${showTasks}&isDark=${
         isDark || false
       }`
     );
@@ -22,6 +23,7 @@ export default {
     return Axios.get(`/app/v1/events?isDark=${isDark || false}`);
   },
   getEventsOnInit: async (
+    showTasks: boolean,
     isDark?: boolean
   ): Promise<AxiosResponse<GetEventResponse[]>> => {
     const dateNow = DateTime.now();
@@ -31,7 +33,7 @@ export default {
     const rangeTo = endOfMonth.plus({ week: 1 }).toUTC().toString();
 
     return Axios.get(
-      `/app/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&isDark=${
+      `/app/v1/events/range?rangeFrom=${rangeFrom}&rangeTo=${rangeTo}&showTasks=${showTasks}&isDark=${
         isDark || false
       }`
     );
@@ -43,7 +45,7 @@ export default {
   },
   getEvent: async (
     id: string,
-    type: EVENT_TYPE,
+    type: SOURCE_TYPE,
     isDark: boolean
   ): Promise<AxiosResponse<GetEventResponse>> => {
     return Axios.get(`/app/v1/events/${id}?type=${type}&isDark=${isDark}`);
