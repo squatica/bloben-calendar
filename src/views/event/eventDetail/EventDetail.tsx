@@ -39,6 +39,7 @@ interface EventDetailProps {
   handleChangeDateFrom: any;
   handleChangeDateTill: any;
   timezoneStartAt: string;
+  timezoneEndAt: string;
   selectCalendar: any;
   organizer: any;
   attendees: any[];
@@ -70,6 +71,7 @@ const EventDetail = (props: EventDetailProps) => {
     handleChangeDateFrom,
     handleChangeDateTill,
     timezoneStartAt,
+    timezoneEndAt,
     selectCalendar,
     addAttendee,
     removeAttendee,
@@ -106,7 +108,7 @@ const EventDetail = (props: EventDetailProps) => {
         setForm={setForm}
         timezoneStartAt={timezoneStartAt}
         endDate={endDate}
-        timezoneEndAt={timezoneStartAt}
+        timezoneEndAt={timezoneEndAt || timezoneStartAt}
         handleChangeDateFrom={handleChangeDateFrom}
         handleChangeDateTill={handleChangeDateTill}
         allDay={allDay}
