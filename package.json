@@ -82,7 +82,7 @@
     "@testing-library/user-event": "14.4.3",
     "@types/chai": "4.3.3",
     "@types/jest": "29.1.2",
-    "@types/lodash": "4.14.186",
+    "@types/lodash": "4.14.187",
     "@types/luxon": "3.0.2",
     "@types/mocha": "10.0.0",
     "@types/qrcode": "1.5.0",
