@@ -192,6 +192,7 @@ const EditEvent = (props: EditEventProps) => {
     isRepeated,
     alarms,
     timezoneStartAt,
+    timezoneEndAt,
     attendees,
     organizer,
     rRule,
@@ -334,8 +335,9 @@ const EditEvent = (props: EditEventProps) => {
     const name = target.name;
     const value: any = event.target.value;
 
-    if (name === 'timezoneStartAt' || name === 'timezoneEndAt') {
+    if (name === 'timezoneStartAt') {
       setForm('startAt', DatetimeParser(startAt, value));
+    } else if (name === 'timezoneEndAt') {
       setForm('endAt', DatetimeParser(endAt, value));
     }
 
@@ -520,6 +522,7 @@ const EditEvent = (props: EditEventProps) => {
                     removeAlarm={removeAlarmEvent}
                     updateAlarm={updateAlarmEvent}
                     timezoneStartAt={timezoneStartAt}
+                    timezoneEndAt={timezoneEndAt || timezoneStartAt}
                     selectCalendar={selectCalendar}
                     attendees={attendees}
                     addAttendee={addAttendee}
