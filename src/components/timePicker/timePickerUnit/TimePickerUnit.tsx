@@ -4,12 +4,11 @@ import React, { useContext } from 'react';
 import './TimePickerUnit.scss';
 
 import { Context, StoreContext } from '../../../context/store';
-import { FLOATING_DATETIME, UTC_TIMEZONE } from 'kalend/layout/constants';
 import { parseCssDark } from '../../../utils/common';
 import ButtonBase from '../../button/buttonBase/ButtonBase';
 
 interface TimePickerUnitProps {
-  selectedDate: string;
+  selectedDate: DateTime;
   selectValue: any;
   value: string;
   keyPrefix: string;
@@ -17,24 +16,24 @@ interface TimePickerUnitProps {
   timezone: string;
 }
 const TimePickerUnit = (props: TimePickerUnitProps) => {
-  const { selectedDate, selectValue, value, keyPrefix, id, timezone } = props;
+  const { selectedDate, selectValue, value, keyPrefix, id } = props;
 
   const [store]: [StoreContext] = useContext(Context);
   const { isDark } = store;
 
   const isSelected: boolean =
     // @ts-ignore
-    value === (DateTime.fromISO(selectedDate)[keyPrefix] as string);
+    value === (selectedDate[keyPrefix] as string);
 
   const onClick = () => {
     const timeValues: string[] = value.split(':');
-    let newDate: DateTime = DateTime.fromISO(selectedDate);
-
-    if (timezone !== FLOATING_DATETIME) {
-      newDate.setZone(timezone);
-    } else {
-      newDate = DateTime.fromISO(selectedDate, { zone: UTC_TIMEZONE });
-    }
+    let newDate: DateTime = selectedDate;
+    //
+    // if (timezone !== FLOATING_DATETIME) {
+    //   newDate.setZone(timezone);
+    // } else {
+    //   newDate = selectedDate.setZone(UTC_TIMEZONE);
+    // }
 
     newDate = newDate.set({
       hour: Number(timeValues[0]),

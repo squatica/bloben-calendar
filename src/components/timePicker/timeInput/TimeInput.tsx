@@ -4,7 +4,6 @@ import './TimeInput.scss';
 
 import { ChakraInput } from 'bloben-components';
 import { DateTime } from 'luxon';
-import { FLOATING_DATETIME, UTC_TIMEZONE } from 'kalend/layout/constants';
 import { validateHour, validateMinute } from './TimeInputUtils';
 
 const TIME_MAX_LENGTH = 2;
@@ -15,14 +14,15 @@ interface TimeValues {
   hour: string;
   minute: string;
 }
-const getTimeValues = (date: string, timezone: string): TimeValues => {
-  let dateTime = DateTime.fromISO(date);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getTimeValues = (date: DateTime, timezone: string): TimeValues => {
+  const dateTime = date;
 
-  if (timezone !== FLOATING_DATETIME) {
-    dateTime.setZone(timezone);
-  } else {
-    dateTime = DateTime.fromISO(date, { zone: UTC_TIMEZONE });
-  }
+  // if (timezone !== FLOATING_DATETIME) {
+  //   dateTime.setZone(timezone);
+  // } else {
+  //   dateTime = date.setZone(UTC_TIMEZONE);
+  // }
 
   return {
     hour: String(dateTime.hour),
@@ -31,7 +31,7 @@ const getTimeValues = (date: string, timezone: string): TimeValues => {
 };
 
 interface TimeInputProps {
-  selectedDate: string;
+  selectedDate: DateTime;
   selectDate: any;
   timezone: string;
 }
@@ -83,13 +83,13 @@ const TimeInput = (props: TimeInputProps) => {
   };
 
   const onBlur = () => {
-    let newDate: DateTime = DateTime.fromISO(selectedDate);
-
-    if (timezone !== FLOATING_DATETIME) {
-      newDate.setZone(timezone);
-    } else {
-      newDate = DateTime.fromISO(selectedDate, { zone: UTC_TIMEZONE });
-    }
+    let newDate = selectedDate;
+    //
+    // if (timezone !== FLOATING_DATETIME) {
+    //   newDate.setZone(timezone);
+    // } else {
+    //   newDate = DateTime.fromISO(selectedDate, { zone: UTC_TIMEZONE });
+    // }
 
     newDate = newDate.set({ hour, minute });
 

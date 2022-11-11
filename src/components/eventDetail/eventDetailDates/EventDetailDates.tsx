@@ -14,8 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
 import { EvaIcons } from 'bloben-components';
+import { ReduxState } from '../../../types/interface';
 import { getLocalTimezone } from '../../../utils/common';
+import { parseTimezone } from '../../../utils/dates';
 import { parseToDateTime } from '../../../utils/datetimeParser';
+import { useSelector } from 'react-redux';
 import { useWidth } from '../../../utils/layout';
 import DatePicker from '../../datePicker/DatePicker';
 import EventDetailTimezone from '../eventDetailTimezone/EventDetailTimezone';
@@ -25,10 +28,10 @@ import TimePicker from '../../timePicker/TimePicker';
 
 const SIDE_MARGIN = 24;
 
-const formatDate = (date: string, timezone: string): string =>
+const formatDate = (date: string, timezone?: string): string =>
   parseToDateTime(date, timezone).toFormat('d LLL yy');
 
-const formatTime = (date: string, timezone: string): string =>
+const formatTime = (date: string, timezone?: string): string =>
   parseToDateTime(date, timezone).toFormat('HH:mm');
 
 interface EventDetailDatesProps {
@@ -60,22 +63,28 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
 
   // Use actual date in timezone which is different from event view where
   // date is in local timezone
-  // const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const settings = useSelector((state: ReduxState) => state.calendarSettings);
+  const localTimezone = settings.timezone || getLocalTimezone();
   const timezoneStart = timezoneStartAt || getLocalTimezone(); // parseTimezone(timezoneStartAt,
   // settings.timezone);
-  const timezoneEnd = timezoneEndAt || getLocalTimezone(); //parseTimezone(timezoneEndAt,
+  const timezoneEnd = parseTimezone(timezoneEndAt, settings.timezone);
+  // timezoneEndAt || getLocalTimezone();
+  // parseTimezone(timezoneEndAt,
   // settings.timezone);
 
   const width: number = useWidth();
 
   const startDateFormatted: string = formatDate(startDate, timezoneStart);
   const startTimeFormatted: string = formatTime(startDate, timezoneStart);
-  const endDateFormatted = endDate ? formatDate(endDate, timezoneEnd) : null;
-  const endTimeFormatted = endDate ? formatTime(endDate, timezoneEnd) : null;
+  const endDateFormatted = endDate ? formatDate(endDate, timezoneEndAt) : null;
+  const endTimeFormatted = endDate ? formatTime(endDate, timezoneEndAt) : null;
+
+  const startDateTime = parseToDateTime(startDate, timezoneStart);
+  const endDateTime = endDate ? parseToDateTime(endDate, timezoneEndAt) : null;
 
   const startDateString = LuxonHelper.setTimezone(startDate, timezoneStart);
   const endDateString = endDate
-    ? LuxonHelper.setTimezone(endDate, timezoneEnd)
+    ? LuxonHelper.withZone(endDate, timezoneEnd)
     : null;
   const pickerWidth: number = isMobile ? width - 60 : 250;
 
@@ -133,9 +142,9 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                 <MenuList style={{ width: 150 }}>
                   <TimePicker
                     width={150}
-                    timezone={timezoneStart}
+                    timezone={timezoneStartAt || localTimezone}
                     selectTime={handleChangeDateFrom}
-                    selectedDate={startDateString}
+                    selectedDate={startDateTime}
                   />
                 </MenuList>
               </Menu>
@@ -159,7 +168,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                     width={pickerWidth}
                     sideMargin={SIDE_MARGIN}
                     selectDate={handleChangeDateTill}
-                    selectedDate={endDateString}
+                    selectedDate={startDate}
                     withInput
                   />
                 </MenuList>
@@ -178,9 +187,11 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                   <MenuList>
                     <TimePicker
                       width={pickerWidth}
-                      timezone={timezoneStart}
+                      timezone={
+                        timezoneEndAt || timezoneStartAt || localTimezone
+                      }
                       selectTime={handleChangeDateTill}
-                      selectedDate={endDateString}
+                      selectedDate={endDateTime}
                     />
                   </MenuList>
                 </Menu>

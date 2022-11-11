@@ -111,7 +111,10 @@ class ICalHelper {
     this.dtstart = {
       value: allDay
         ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
-        : formatIcalDate(startAt, timezone),
+        : formatIcalDate(
+            startAt,
+            timezoneStartAt || timezone || getLocalTimezone()
+          ),
       timezone: allDay
         ? undefined
         : timezoneStartAt || timezone || getLocalTimezone(),
@@ -119,7 +122,10 @@ class ICalHelper {
     this.dtend = {
       value: allDay
         ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
-        : formatIcalDate(endAt, timezone),
+        : formatIcalDate(
+            endAt,
+            timezoneEndAt || timezoneStartAt || timezone || getLocalTimezone()
+          ),
       timezone: allDay
         ? undefined
         : timezoneEndAt || timezoneStartAt || timezone || getLocalTimezone(),
