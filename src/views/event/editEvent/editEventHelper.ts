@@ -545,7 +545,6 @@ export const checkIfHasRepeatPreAction = (event: any) => {
 export const loadEvent = (event: any, setForm: any, setWasSimpleEvent: any) => {
   // Find event
   const eventItem: any = event;
-
   if (eventItem) {
     // Set state
     // Set previous event state to check for occurrences
@@ -557,7 +556,6 @@ export const loadEvent = (event: any, setForm: any, setWasSimpleEvent: any) => {
     } else {
       setWasSimpleEvent(true);
     }
-
     // Set event data
     for (const [key, value] of Object.entries(eventItem)) {
       if (isEventKnownProp(key)) {

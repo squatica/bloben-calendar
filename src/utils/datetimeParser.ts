@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { getLocalTimezone } from './common';
 
 //
 // Support for local datetime, timezones and floating times
@@ -45,6 +46,38 @@ export const DatetimeParser = (
 
 export const parseToDateTime = (
   date: DateTime | string,
+  zone?: string,
+  deviceTimezone?: string
+): DateTime => {
+  const dateString: string = typeof date === 'string' ? date : date.toString();
+
+  const isFloatingDatetime: boolean = zone === FLOATING_DATETIME;
+
+  // Adjust date with timezone so when converted to UTC it represents correct value with fixed time
+  if (isFloatingDatetime) {
+    return DateTime.fromISO(dateString).setZone('utc');
+  }
+
+  const thisDate: DateTime = DateTime.fromISO(dateString);
+
+  let result;
+
+  // Adjust datetime to device timezone
+  if (deviceTimezone) {
+    result = thisDate.setZone(zone).setZone(deviceTimezone);
+  } else {
+    if (zone) {
+      result = thisDate.setZone(zone);
+    } else {
+      result = thisDate.setZone(getLocalTimezone());
+    }
+  }
+
+  return result;
+};
+
+export const parseToDateTime2 = (
+  date: DateTime | string,
   zone: string,
   deviceTimezone?: string
 ): DateTime => {
@@ -65,7 +98,7 @@ export const parseToDateTime = (
   if (deviceTimezone) {
     result = thisDate.setZone(zone).setZone(deviceTimezone);
   } else {
-    result = thisDate.setZone(zone);
+    result = DateTime.fromISO(dateString, { zone });
   }
 
   return result;

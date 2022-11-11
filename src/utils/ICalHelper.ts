@@ -96,6 +96,7 @@ class ICalHelper {
       location,
       rRule,
       timezoneStartAt,
+      timezoneEndAt,
       organizer,
       attendees,
       props,
@@ -110,7 +111,10 @@ class ICalHelper {
     this.dtstart = {
       value: allDay
         ? DateTime.fromISO(startAt).toFormat('yyyyMMdd')
-        : formatIcalDate(startAt, timezone),
+        : formatIcalDate(
+            startAt,
+            timezoneStartAt || timezone || getLocalTimezone()
+          ),
       timezone: allDay
         ? undefined
         : timezoneStartAt || timezone || getLocalTimezone(),
@@ -118,10 +122,13 @@ class ICalHelper {
     this.dtend = {
       value: allDay
         ? DateTime.fromISO(endAt).plus({ day: 1 }).toFormat('yyyyMMdd')
-        : formatIcalDate(endAt, timezone),
+        : formatIcalDate(
+            endAt,
+            timezoneEndAt || timezoneStartAt || timezone || getLocalTimezone()
+          ),
       timezone: allDay
         ? undefined
-        : timezoneStartAt || timezone || getLocalTimezone(),
+        : timezoneEndAt || timezoneStartAt || timezone || getLocalTimezone(),
     };
     this.uid = externalID ? externalID : v4();
     if (attendees?.length) {
