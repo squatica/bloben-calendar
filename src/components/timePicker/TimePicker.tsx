@@ -8,7 +8,7 @@ import TimeInput from './timeInput/TimeInput';
 import TimePickerList from './timePickerList/TimePickerList';
 
 interface TimePickerViewProps {
-  selectedDate: any;
+  selectedDate: DateTime;
   selectTime: any;
   width: number;
   timezone: string;
@@ -43,7 +43,7 @@ const TimePickerView = (props: TimePickerViewProps) => {
 };
 
 interface TimePickerProps {
-  selectedDate: string;
+  selectedDate: DateTime;
   selectTime: any;
   width?: number;
   timezone: string;

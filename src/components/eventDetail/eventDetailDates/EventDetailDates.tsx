@@ -15,6 +15,7 @@ import {
 import { Context, StoreContext } from '../../../context/store';
 import { EvaIcons } from 'bloben-components';
 import { ReduxState } from '../../../types/interface';
+import { getLocalTimezone } from '../../../utils/common';
 import { parseTimezone } from '../../../utils/dates';
 import { parseToDateTime } from '../../../utils/datetimeParser';
 import { useSelector } from 'react-redux';
@@ -27,10 +28,10 @@ import TimePicker from '../../timePicker/TimePicker';
 
 const SIDE_MARGIN = 24;
 
-const formatDate = (date: string, timezone: string): string =>
+const formatDate = (date: string, timezone?: string): string =>
   parseToDateTime(date, timezone).toFormat('d LLL yy');
 
-const formatTime = (date: string, timezone: string): string =>
+const formatTime = (date: string, timezone?: string): string =>
   parseToDateTime(date, timezone).toFormat('HH:mm');
 
 interface EventDetailDatesProps {
@@ -48,6 +49,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
   const {
     startDate,
     timezoneStartAt,
+    timezoneEndAt,
     handleChangeDateFrom,
     handleChangeDateTill,
     endDate,
@@ -59,26 +61,37 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
   const [store]: [StoreContext] = useContext(Context);
   const { isDark, isMobile } = store;
 
+  // Use actual date in timezone which is different from event view where
+  // date is in local timezone
   const settings = useSelector((state: ReduxState) => state.calendarSettings);
-  const timezone = parseTimezone(timezoneStartAt, settings.timezone);
+  const localTimezone = settings.timezone || getLocalTimezone();
+  const timezoneStart = timezoneStartAt || getLocalTimezone(); // parseTimezone(timezoneStartAt,
+  // settings.timezone);
+  const timezoneEnd = parseTimezone(timezoneEndAt, settings.timezone);
+  // timezoneEndAt || getLocalTimezone();
+  // parseTimezone(timezoneEndAt,
+  // settings.timezone);
 
   const width: number = useWidth();
 
-  const startDateFormatted: string = formatDate(startDate, timezone);
-  const startTimeFormatted: string = formatTime(startDate, timezone);
-  const endDateFormatted = endDate ? formatDate(endDate, timezone) : null;
-  const endTimeFormatted = endDate ? formatTime(endDate, timezone) : null;
+  const startDateFormatted: string = formatDate(startDate, timezoneStart);
+  const startTimeFormatted: string = formatTime(startDate, timezoneStart);
+  const endDateFormatted = endDate ? formatDate(endDate, timezoneEndAt) : null;
+  const endTimeFormatted = endDate ? formatTime(endDate, timezoneEndAt) : null;
 
-  const startDateString = LuxonHelper.setTimezone(startDate, timezone);
+  const startDateTime = parseToDateTime(startDate, timezoneStart);
+  const endDateTime = endDate ? parseToDateTime(endDate, timezoneEndAt) : null;
+
+  const startDateString = LuxonHelper.setTimezone(startDate, timezoneStart);
   const endDateString = endDate
-    ? LuxonHelper.setTimezone(endDate, timezone)
+    ? LuxonHelper.withZone(endDate, timezoneEnd)
     : null;
   const pickerWidth: number = isMobile ? width - 60 : 250;
 
   const handleSetAllDay = () => {
     if (allDay) {
-      setForm('timezoneStartAt', timezone);
-      setForm('timezoneEndAt', timezone);
+      setForm('timezoneStartAt', timezoneStart);
+      setForm('timezoneEndAt', timezoneEnd);
     }
     setForm('allDay', !allDay);
   };
@@ -129,9 +142,9 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                 <MenuList style={{ width: 150 }}>
                   <TimePicker
                     width={150}
-                    timezone={timezone}
+                    timezone={timezoneStartAt || localTimezone}
                     selectTime={handleChangeDateFrom}
-                    selectedDate={startDateString}
+                    selectedDate={startDateTime}
                   />
                 </MenuList>
               </Menu>
@@ -155,7 +168,7 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                     width={pickerWidth}
                     sideMargin={SIDE_MARGIN}
                     selectDate={handleChangeDateTill}
-                    selectedDate={endDateString}
+                    selectedDate={startDate}
                     withInput
                   />
                 </MenuList>
@@ -174,9 +187,11 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                   <MenuList>
                     <TimePicker
                       width={pickerWidth}
-                      timezone={timezone}
+                      timezone={
+                        timezoneEndAt || timezoneStartAt || localTimezone
+                      }
                       selectTime={handleChangeDateTill}
-                      selectedDate={endDateString}
+                      selectedDate={endDateTime}
                     />
                   </MenuList>
                 </Menu>
@@ -185,15 +200,26 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
           ) : null}
         </Stack>
       </Stack>
-      {timezoneStartAt && !hideTimezone ? (
-        <EventDetailTimezone
-          timezone={timezoneStartAt}
-          selectTimezone={(item: { label: string; value: string }) => {
-            setForm('timezoneStartAt', item.value);
-            setForm('timezoneEndAt', item.value);
-          }}
-          isDisabled={allDay}
-        />
+      {timezoneStartAt && !hideTimezone && !allDay ? (
+        <Stack direction={'row'} align={'center'} style={{ width: '100%' }}>
+          <FormIcon allVisible hidden isDark={isDark}>
+            <div />
+          </FormIcon>
+          <EventDetailTimezone
+            timezone={timezoneStartAt}
+            selectTimezone={(item: { label: string; value: string }) => {
+              setForm('timezoneStartAt', item.value);
+            }}
+            isDisabled={allDay}
+          />
+          <EventDetailTimezone
+            timezone={timezoneEndAt || timezoneStartAt}
+            selectTimezone={(item: { label: string; value: string }) => {
+              setForm('timezoneEndAt', item.value);
+            }}
+            isDisabled={allDay}
+          />
+        </Stack>
       ) : null}
       <Stack direction={'row'} align={'center'} style={{ width: '100%' }}>
         <FormIcon allVisible hidden isDark={isDark}>
