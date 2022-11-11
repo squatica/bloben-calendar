@@ -184,16 +184,18 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
                       {endTimeFormatted}
                     </Text>
                   </MenuButton>
-                  <MenuList>
-                    <TimePicker
-                      width={pickerWidth}
-                      timezone={
-                        timezoneEndAt || timezoneStartAt || localTimezone
-                      }
-                      selectTime={handleChangeDateTill}
-                      selectedDate={endDateTime}
-                    />
-                  </MenuList>
+                  {endDateTime ? (
+                    <MenuList>
+                      <TimePicker
+                        width={pickerWidth}
+                        timezone={
+                          timezoneEndAt || timezoneStartAt || localTimezone
+                        }
+                        selectTime={handleChangeDateTill}
+                        selectedDate={endDateTime}
+                      />
+                    </MenuList>
+                  ) : null}
                 </Menu>
               )}
             </Stack>
