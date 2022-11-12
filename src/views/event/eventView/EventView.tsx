@@ -420,7 +420,12 @@ const EventView = (props: EventViewProps) => {
       !emailInviteModalVisible &&
       event &&
       event.id ? (
-        <Modal e={currentE} handleClose={handleClose} maxHeight={'42%'}>
+        <Modal
+          e={currentE}
+          handleClose={handleClose}
+          maxHeight={'42%'}
+          stretchMobile={isMobile}
+        >
           <div style={{ padding: isMobile ? 8 : 0 }}>
             {event.sourceType === SOURCE_TYPE.CALDAV && !disabledEdit ? (
               <HeaderModal
@@ -428,7 +433,7 @@ const EventView = (props: EventViewProps) => {
                 isDark={isDark}
                 hasHeaderShadow={false}
                 onClose={handleClose}
-                goBack={isMobile ? undefined : handleClose}
+                goBack={handleClose}
                 handleEdit={
                   event.sourceType === SOURCE_TYPE.CALDAV ? handleEdit : null
                 }

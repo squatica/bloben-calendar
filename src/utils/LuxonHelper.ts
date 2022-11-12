@@ -75,6 +75,10 @@ const LuxonHelper = {
     const dateAParsed: DateTime = LuxonHelper.parseToDateTime(dateA);
     const dateBParsed: DateTime = LuxonHelper.parseToDateTime(dateB);
 
+    if (!dateAParsed || !dateBParsed) {
+      return false;
+    }
+
     return (
       dateAParsed.year === dateBParsed.year &&
       dateAParsed.month === dateBParsed.month &&

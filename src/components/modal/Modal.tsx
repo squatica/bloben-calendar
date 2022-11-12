@@ -10,24 +10,37 @@ interface ModalProps {
   maxHeight?: string;
   width?: number;
   noOverflow?: boolean;
+  stretchMobile?: boolean;
 }
 const Modal = (props: ModalProps) => {
   const [store]: [StoreContext] = useContext(Context);
 
-  const { e, handleClose, noOverflow } = props;
+  const { e, handleClose, noOverflow, stretchMobile } = props;
   const [isVisible, setVisible] = useState(false);
   const [layout, setLayout] = useState<any>({ x: null, y: null });
 
   useEffect(() => {
-    const x = e?.nativeEvent?.x;
-    const y = e?.nativeEvent?.y;
+    if (!stretchMobile) {
+      const x = e?.nativeEvent?.x;
+      const y = e?.nativeEvent?.y;
 
-    setLayout({ x, y });
+      setLayout({ x, y });
+    }
+
     setVisible(true);
   }, []);
 
   const getStyle = () => {
-    if (layout.x) {
+    if (stretchMobile) {
+      return {
+        top: 0,
+        left: 0,
+        height: '100%',
+        width: '100%',
+        overflowX: 'hidden',
+        overflowY: noOverflow ? 'hidden' : 'auto',
+      };
+    } else if (layout.x) {
       return {
         left: layout.x || '40%',
         top: layout.y || '30%',
@@ -44,7 +57,7 @@ const Modal = (props: ModalProps) => {
 
   // Correct layout
   useLayoutEffect(() => {
-    if (isVisible) {
+    if (isVisible && !stretchMobile) {
       const element: any = document.getElementById('Modal__container');
       if (element) {
         let newX = layout.x;
@@ -80,7 +93,7 @@ const Modal = (props: ModalProps) => {
 
   return (
     <div className={'Modal__backdrop'} onClick={handleClose}>
-      {layout.x && layout.y ? (
+      {(layout.x && layout.y) || stretchMobile ? (
         <div
           className={parseCssDark('Modal__container', store.isDark)}
           onClick={preventDefault}
