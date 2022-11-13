@@ -79,3 +79,15 @@ export enum LOCATION_PROVIDER {
   OPEN_STREET_MAPS = 'OpenStreetMap',
   GOOGLE_MAPS = 'Google Maps',
 }
+
+export enum ALERT_BOX_TYPE {
+  ERROR = 'error',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  INFO = 'info',
+}
+
+export enum BLOBEN_EVENT_KEY {
+  INVITE_FROM = 'xBlobenInviteTo',
+  INVITE_TO = 'xBlobenInviteFrom',
+}

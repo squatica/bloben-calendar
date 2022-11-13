@@ -16,6 +16,7 @@ import {
 } from '../../../utils/common';
 
 import { AxiosResponse } from 'axios';
+import { BLOBEN_EVENT_KEY, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { CalendarEvent } from 'kalend';
 import {
   CommonResponse,
@@ -24,7 +25,6 @@ import {
 import { Context, StoreContext } from '../../../context/store';
 import { EVENT_TYPE, SOURCE_TYPE, TASK_STATUS } from 'bloben-interface/enums';
 import { EvaIcons, createToastError } from 'bloben-components';
-import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { Stack, Text, useToast } from '@chakra-ui/react';
 import { WebcalCalendar } from '../../../redux/reducers/webcalCalendars';
 import { calendarByEvent } from '../../../utils/tsdavHelper';
@@ -399,6 +399,9 @@ const EventView = (props: EventViewProps) => {
   };
 
   const isTask = event?.type === EVENT_TYPE.TASK;
+  const isEmailInvite =
+    event?.props?.[BLOBEN_EVENT_KEY.INVITE_TO] &&
+    event?.props?.[BLOBEN_EVENT_KEY.INVITE_FROM];
 
   return (
     <>
@@ -435,7 +438,9 @@ const EventView = (props: EventViewProps) => {
                 onClose={handleClose}
                 goBack={handleClose}
                 handleEdit={
-                  event.sourceType === SOURCE_TYPE.CALDAV ? handleEdit : null
+                  event.sourceType === SOURCE_TYPE.CALDAV && !isEmailInvite
+                    ? handleEdit
+                    : null
                 }
                 handleDelete={
                   event.sourceType === SOURCE_TYPE.CALDAV ? deleteEvent : null

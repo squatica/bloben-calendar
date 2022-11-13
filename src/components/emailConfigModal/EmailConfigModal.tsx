@@ -121,7 +121,6 @@ const EmailConfigModal = (props: EmailConfigModalProps) => {
       }
       if (store.emailConfig.imap) {
         setLocalState('imapHost', store.emailConfig.imap.imapHost);
-        setLocalState('imapEmail', store.emailConfig.imap.imapEmail);
         setLocalState('imapPort', store.emailConfig.imap.imapPort);
         setLocalState('imapUsername', store.emailConfig.imap.imapUsername);
         setLocalState('imapPassword', store.emailConfig.imap.imapPassword);
