@@ -1,5 +1,6 @@
 import ICalParser from 'ical-js-parser';
 
+import { BLOBEN_EVENT_KEY } from '../enums';
 import { DateTime } from 'luxon';
 import { InitialForm } from '../views/event/editEvent/editEventHelper';
 import { forEach, map } from 'lodash';
@@ -104,6 +105,13 @@ class ICalHelper {
             this.sequence = String(Number(propItem[1]));
           } else {
             this[propItem[0]] = String(Number(propItem[1]) + 1);
+          }
+        } else {
+          if (
+            propItem[0] === BLOBEN_EVENT_KEY.INVITE_FROM ||
+            propItem[0] === BLOBEN_EVENT_KEY.INVITE_TO
+          ) {
+            this[propItem[0]] = propItem[1];
           }
         }
       });

@@ -1,5 +1,9 @@
 import { BlobenComponentsProvider } from 'bloben-components';
-import { GetServerSettingsUser, GetVersion } from 'bloben-interface';
+import {
+  GetServerSettingsUser,
+  GetUserEmailConfigResponse,
+  GetVersion,
+} from 'bloben-interface';
 import { LOCATION_PROVIDER } from '../enums';
 import React, { createContext, useEffect, useReducer } from 'react';
 import Reducer from './reducer';
@@ -17,13 +21,7 @@ export interface StoreContext {
   syncSequence: number;
   isSyncing: boolean;
   version: GetVersion;
-  emailConfig: {
-    hasSystemConfig: boolean;
-    hasCustomConfig: boolean;
-    mailto: string | null;
-    imap: any;
-    smtp: any;
-  };
+  emailConfig: GetUserEmailConfigResponse;
   isSyncingServer: boolean;
   serverSettings: GetServerSettingsUser;
 }
@@ -51,6 +49,7 @@ const initialContext: StoreContext = {
     mailto: null,
     imap: null,
     smtp: null,
+    calendarForImportID: null,
   },
   isSyncingServer: false,
   serverSettings: {
