@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import {
   CommonResponse,
   GetUserEmailConfigResponse,
+  PatchUserEmailConfigRequest,
   UpdateUserEmailConfigRequest,
 } from 'bloben-interface';
 import Axios from '../lib/Axios';
@@ -9,6 +10,11 @@ import Axios from '../lib/Axios';
 export default {
   update: async (
     data: UpdateUserEmailConfigRequest
+  ): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.put('/app/v1/users/email-config', data);
+  },
+  patch: async (
+    data: PatchUserEmailConfigRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.patch('/app/v1/users/email-config', data);
   },

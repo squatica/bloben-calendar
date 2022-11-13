@@ -1,11 +1,12 @@
 import { ATTENDEE_PARTSTAT } from '../../enums';
 import { Button, Stack, useToast } from '@chakra-ui/react';
+import { Context, StoreContext } from '../../context/store';
 import { SOURCE_TYPE } from 'bloben-interface/enums';
 import { TOAST_STATUS } from '../../types/enums';
 import { createToast } from '../../utils/common';
 import { find } from 'lodash';
 import CalDavEventsApi from '../../api/CalDavEventsApi';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import SendInviteModal from '../sendInviteModalModal/SendInviteModal';
 
 interface OrganizerResponseRowProps {
@@ -13,16 +14,26 @@ interface OrganizerResponseRowProps {
   handleClose: any;
 }
 const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
+  const [store]: [StoreContext] = useContext(Context);
+
+  const { emailConfig } = store;
+
   const { event, handleClose } = props;
   const toast = useToast();
   const [emailInviteModalVisible, openEmailInviteModal] = useState<any>(null);
 
-  const organizer = find(
+  const emailInviteGuest = find(
     event?.attendees,
-    (item) => item?.mailto === event?.organizer?.mailto
+    (item) => item?.mailto === emailConfig?.mailto
   );
 
-  const partStat: ATTENDEE_PARTSTAT | undefined = organizer?.PARTSTAT;
+  const organizer = find(
+    event?.attendees,
+    (item) => item?.mailto === event?.organizer?.mailto && !emailInviteGuest
+  );
+
+  const partStat: ATTENDEE_PARTSTAT | undefined =
+    emailInviteGuest?.PARTSTAT || organizer?.PARTSTAT;
 
   const updateStatus = async (eventID: string, data: any) => {
     if (partStat === data.status) {
@@ -52,7 +63,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
 
   const disabled = event.sourceType === SOURCE_TYPE.WEBCAL;
 
-  return organizer ? (
+  return organizer || emailInviteGuest ? (
     <Stack
       direction={'row'}
       spacing={3}
