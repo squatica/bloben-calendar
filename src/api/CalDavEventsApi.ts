@@ -7,6 +7,7 @@ import {
   DuplicateMultipleCalDavEventsBody,
   GetCaldavEventResponse,
   UpdateCalDavEventRequest,
+  UpdatePartstatStatusRepeatedEventRequest,
   UpdatePartstatStatusRequest,
   UpdateRepeatedCalDavEventRequest,
 } from 'bloben-interface';
@@ -51,6 +52,12 @@ export default {
     data: UpdatePartstatStatusRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
     return Axios.patch(`/app/v1/caldav-events/${id}`, data);
+  },
+  updateStatusForRepeatedEvent: async (
+    id: string,
+    data: UpdatePartstatStatusRepeatedEventRequest
+  ): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.patch(`/app/v1/caldav-events/${id}/repeated`, data);
   },
   duplicateMultiple: async (
     id: string,

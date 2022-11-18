@@ -8,6 +8,7 @@ import React, { useContext, useState } from 'react';
 export enum REPEAT_MODAL_TYPE {
   DELETE = 'DELETE',
   UPDATE = 'UPDATE',
+  PARTSTAT = 'PARTSTAT',
 }
 
 const parseToText = (
@@ -19,6 +20,12 @@ const parseToText = (
       return 'Update this event';
     } else if (value === REPEATED_EVENT_CHANGE_TYPE.THIS_AND_FUTURE) {
       return 'Update this and next events';
+    } else if (value === REPEATED_EVENT_CHANGE_TYPE.ALL) {
+      return 'Update all events';
+    }
+  } else if (type === REPEAT_MODAL_TYPE.PARTSTAT) {
+    if (value === REPEATED_EVENT_CHANGE_TYPE.SINGLE) {
+      return 'Update this event';
     } else if (value === REPEATED_EVENT_CHANGE_TYPE.ALL) {
       return 'Update all events';
     }
