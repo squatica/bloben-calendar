@@ -21,6 +21,7 @@ export const handleLogin = async (
     const response = await UserApi.login(apiUrl, {
       username,
       password,
+      browserID: null,
     });
 
     setIsLoading(false);

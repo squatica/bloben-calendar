@@ -45,6 +45,7 @@ const TwoFactorLogin = (props: TwoFactorLoginProps) => {
         username,
         password,
         otpCode,
+        browserID: null,
       });
 
       if (response.data.isLogged && response.data.isTwoFactorEnabled) {
