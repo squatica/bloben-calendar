@@ -41,6 +41,7 @@ const Login = () => {
         username,
         password,
         otpCode,
+        browserID: null,
       });
 
       setIsLoading(false);
