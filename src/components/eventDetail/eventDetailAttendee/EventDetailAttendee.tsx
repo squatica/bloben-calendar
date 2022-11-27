@@ -338,6 +338,29 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
         width: '100%',
       }}
     >
+      {disabled ? (
+        <Stack
+          direction={'row'}
+          align={disabled || disabledAttendeeChange ? 'flex-start' : 'center'}
+        >
+          <FormIcon
+            isDark={isDark}
+            allVisible
+            style={{ paddingTop: disabled || disabledAttendeeChange ? 4 : 0 }}
+          >
+            <EvaIcons.Email className={'EventDetail-icon'} />
+          </FormIcon>
+          <Flex
+            alignSelf={'center'}
+            style={{ height: '100%' }}
+            justifyContent={'center'}
+          >
+            <Text>
+              Organizer: {event.organizer?.CN || event.organizer?.mailto}
+            </Text>
+          </Flex>
+        </Stack>
+      ) : null}
       <Stack
         direction={'row'}
         align={disabled || disabledAttendeeChange ? 'flex-start' : 'center'}
