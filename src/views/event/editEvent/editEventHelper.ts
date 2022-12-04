@@ -685,6 +685,7 @@ export const handleSelectCalendar = (
  * @param calendar
  * @param handleClose
  * @param event
+ * @param timezone
  * @param isDuplicatingEvent
  * @param setContext
  * @param store
@@ -692,6 +693,7 @@ export const handleSelectCalendar = (
  * @param setIsSaving
  * @param handleUpdateRepeatedEvent
  * @param toast
+ * @param repeatChangeValue
  */
 export const handleSaveEvent = async (
   showEmailInviteModal: any,
@@ -708,23 +710,41 @@ export const handleSaveEvent = async (
   wasSimpleEvent: boolean,
   setIsSaving: any,
   handleUpdateRepeatedEvent: any,
-  toast: any
+  toast: any,
+  repeatChangeValue?: REPEATED_EVENT_CHANGE_TYPE
 ) => {
+  const updateRepeatedAction =
+    !isNewEvent &&
+    !isDuplicatingEvent &&
+    checkIfHasRepeatPreAction(form) &&
+    !wasSimpleEvent;
   try {
     if (showEmailInviteModal) {
       openEmailInviteModal({
         call: async (sendInvite?: boolean, inviteMessage?: string) => {
-          await createCalDavEvent(
-            form,
-            isNewEvent,
-            timezone,
-            calendar,
-            handleClose,
-            event,
-            sendInvite,
-            inviteMessage,
-            isDuplicatingEvent
-          );
+          if (updateRepeatedAction && repeatChangeValue) {
+            await updateRepeatedEvent(
+              form,
+              repeatChangeValue,
+              calendar,
+              undefined,
+              event,
+              sendInvite,
+              inviteMessage
+            );
+          } else {
+            await createCalDavEvent(
+              form,
+              isNewEvent,
+              timezone,
+              calendar,
+              handleClose,
+              event,
+              sendInvite,
+              inviteMessage,
+              isDuplicatingEvent
+            );
+          }
           setContext('syncSequence', store.syncSequence + 1);
         },
       });
@@ -732,12 +752,7 @@ export const handleSaveEvent = async (
       return;
     }
 
-    if (
-      !isNewEvent &&
-      !isDuplicatingEvent &&
-      checkIfHasRepeatPreAction(form) &&
-      !wasSimpleEvent
-    ) {
+    if (updateRepeatedAction) {
       setIsSaving(true);
       await handleUpdateRepeatedEvent();
 

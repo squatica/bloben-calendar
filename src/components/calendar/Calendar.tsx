@@ -408,10 +408,10 @@ const Calendar = () => {
             onEventDragFinish={onDraggingFinish}
             // disabledViews={settings.disabledViews}
             draggingDisabledConditions={{
-              type: SOURCE_TYPE.WEBCAL,
+              updateDisabled: true,
             }}
             resizeDisabledConditions={{
-              sourceType: SOURCE_TYPE.WEBCAL,
+              updateDisabled: true,
               type: EVENT_TYPE.TASK,
             }}
             // onSelectView={() => {}}

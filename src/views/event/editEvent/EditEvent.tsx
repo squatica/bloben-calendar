@@ -372,7 +372,8 @@ const EditEvent = (props: EditEventProps) => {
         wasSimpleEvent,
         setIsSaving,
         handleUpdateRepeatedEvent,
-        toast
+        toast,
+        repeatChangeValue
       );
     } else {
       await handleSaveTask(
@@ -532,6 +533,7 @@ const EditEvent = (props: EditEventProps) => {
                     // makeOptional={makeOptional}
                     organizer={organizer}
                     form={form}
+                    event={event}
                   />
                 ) : (
                   <div />

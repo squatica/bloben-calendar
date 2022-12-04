@@ -27,6 +27,7 @@ import { refreshUserData } from '../../../redux/functions/user';
 import { useSelector } from 'react-redux';
 import AlertBox from '../../../components/chakraCustom/AlertBox';
 import EmailConfigModal from '../../../components/emailConfigModal/EmailConfigModal';
+import GeneralApi from '../../../api/GeneralApi';
 import MobilePageHeader from '../../../components/mobilePageHeader/MobilePageHeader';
 import React, { useContext, useEffect, useState } from 'react';
 import UserEmailConfigApi from '../../../api/UserEmailConfigApi';
@@ -104,6 +105,16 @@ const CustomEmailConfig = () => {
     }
   };
 
+  const syncEmails = async () => {
+    try {
+      const response = await GeneralApi.syncEmails();
+
+      toast(createToast(response?.data?.message));
+    } catch (e: any) {
+      toast(createToastError(e));
+    }
+  };
+
   return (
     <>
       {emailConfig?.hasCustomConfig ? (
@@ -159,6 +170,19 @@ const CustomEmailConfig = () => {
             onClick={handleDelete}
           >
             Delete config
+          </ButtonBase>
+        </>
+      ) : null}
+
+      {emailConfig?.hasCustomConfig ? (
+        <>
+          <Separator width={16} height={16} />
+          <ButtonBase
+            size={tableSize}
+            isLoading={isLoading}
+            onClick={syncEmails}
+          >
+            Sync emails
           </ButtonBase>
         </>
       ) : null}

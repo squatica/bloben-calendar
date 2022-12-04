@@ -38,7 +38,6 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
     event?.attendees,
     (item) => item?.mailto === event?.organizer?.mailto && !emailInviteGuest
   );
-
   const partStat: ATTENDEE_PARTSTAT | undefined =
     emailInviteGuest?.PARTSTAT || organizer?.PARTSTAT;
 
@@ -103,7 +102,7 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
         await updateRepeatedEventStatus(event.id, {
           status: repeatEventStatus,
           type,
-          recurrenceID: {
+          recurrenceID: event.recurrenceID || {
             value: event.startAt,
             timezone: event.timezoneStartAt || null,
           },
