@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { CalDavEvent } from '../../../types/interface';
 import { ChakraModal, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
 import { RRule } from 'rrule';
@@ -29,8 +30,15 @@ export const RepeatSelectedValue = (props: RepeatSelectedValueProps) => {
   );
 };
 
-export const renderRepeatOptions = (select: any) => {
+export const renderRepeatOptions = (select: any, event?: CalDavEvent) => {
   return repeatOptions.map((item: any) => {
+    if (item.value === 'none' && event?.rRule) {
+      return (
+        <MenuItem key={item.value} isDisabled={true}>
+          {item.label}
+        </MenuItem>
+      );
+    }
     return (
       <MenuItem key={item.value} onClick={() => select(item)}>
         {item.label}
@@ -44,9 +52,10 @@ interface EventDetailRepeatProps {
   isRepeated: boolean;
   form?: any;
   disabledRRule?: boolean;
+  event?: CalDavEvent;
 }
 const EventDetailRepeat = (props: EventDetailRepeatProps) => {
-  const { setForm, form, disabledRRule } = props;
+  const { setForm, form, disabledRRule, event } = props;
 
   const [isCustomOpen, openCustomMenu] = useState(false);
 
@@ -81,7 +90,7 @@ const EventDetailRepeat = (props: EventDetailRepeatProps) => {
     />
   );
 
-  const renderedRepeatOptions = renderRepeatOptions(selectOption);
+  const renderedRepeatOptions = renderRepeatOptions(selectOption, event);
 
   return disabledRRule ? null : (
     <Stack direction={'row'} align={'center'}>

@@ -121,7 +121,6 @@ const EventView = (props: EventViewProps) => {
     handleClose,
     openEditEventModal,
     currentE,
-    disabledEdit,
     openDuplicateModal,
     refreshData,
   } = props;
@@ -430,7 +429,8 @@ const EventView = (props: EventViewProps) => {
           stretchMobile={isMobile}
         >
           <div style={{ padding: isMobile ? 8 : 0 }}>
-            {event.sourceType === SOURCE_TYPE.CALDAV && !disabledEdit ? (
+            {event.sourceType === SOURCE_TYPE.CALDAV ||
+            event.sourceType === SOURCE_TYPE.EMAIL_INVITE ? (
               <HeaderModal
                 isMobile={isMobile}
                 isDark={isDark}
@@ -438,12 +438,17 @@ const EventView = (props: EventViewProps) => {
                 onClose={handleClose}
                 goBack={handleClose}
                 handleEdit={
-                  event.sourceType === SOURCE_TYPE.CALDAV && !isEmailInvite
+                  event.sourceType === SOURCE_TYPE.CALDAV &&
+                  !event.updateDisabled
                     ? handleEdit
                     : null
                 }
                 handleDelete={
-                  event.sourceType === SOURCE_TYPE.CALDAV ? deleteEvent : null
+                  event.sourceType === SOURCE_TYPE.CALDAV ||
+                  event.sourceType === SOURCE_TYPE.EMAIL_INVITE ||
+                  isEmailInvite
+                    ? deleteEvent
+                    : null
                 }
                 duplicateMultiple={
                   !isTask ? () => openDuplicateModal(event) : undefined

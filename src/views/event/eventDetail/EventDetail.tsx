@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 
 import './EventDetail.scss';
 
-import { CalDavCalendar } from '../../../types/interface';
+import { CalDavCalendar, CalDavEvent } from '../../../types/interface';
 import { Context, StoreContext } from '../../../context/store';
 import { EVENT_TYPE } from 'bloben-interface/enums';
 import { REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
@@ -52,6 +52,7 @@ interface EventDetailProps {
   repeatChangeValue?: REPEATED_EVENT_CHANGE_TYPE;
   disabledRRule?: boolean;
   disabledAttendeeChange?: boolean;
+  event?: CalDavEvent;
 }
 const EventDetail = (props: EventDetailProps) => {
   const [store]: [StoreContext] = useContext(Context);
@@ -83,6 +84,7 @@ const EventDetail = (props: EventDetailProps) => {
     repeatChangeValue,
     disabledRRule,
     disabledAttendeeChange,
+    event,
   } = props;
 
   return (
@@ -118,6 +120,7 @@ const EventDetail = (props: EventDetailProps) => {
         setForm={setForm}
         form={form}
         disabledRRule={disabledRRule}
+        event={event}
       />
       {store?.emailConfig?.hasSystemConfig ||
       store?.emailConfig?.hasCustomConfig ? (
