@@ -1,5 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { GetServerSettingsUser, GetVersion } from 'bloben-interface';
+import {
+  CommonResponse,
+  GetServerSettingsUser,
+  GetVersion,
+} from 'bloben-interface';
 import Axios from '../lib/Axios';
 
 export default {
@@ -13,5 +17,8 @@ export default {
     AxiosResponse<GetServerSettingsUser>
   > => {
     return Axios.get('/app/v1/server-settings/user');
+  },
+  syncEmails: async (): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.get('/app/v1/sync/emails');
   },
 };
