@@ -12,6 +12,7 @@ import LuxonHelper from './LuxonHelper';
 import { CalendarSettingsResponse } from 'bloben-interface';
 import { THEME_SETTINGS, ThemeSettings } from '../redux/reducers/themeSettings';
 import { parseToAlarmTrigger } from './caldavAlarmHelper';
+import Datez from 'datez';
 import _, { forEach } from 'lodash';
 
 export const STATUS_CODE_OK = 200;
@@ -660,10 +661,10 @@ export const checkEventInRange = (
   timezone: string
 ) => {
   const dateTimeRangeFrom = normalizeDateStart(
-    DateTime.fromISO(event.startAt).setZone(event.timezone || timezone)
+    Datez.setZone(DateTime.fromISO(event.startAt), event.timezone || timezone)
   ).toMillis();
   const dateTimeRangeTo = normalizeDateEnd(
-    DateTime.fromISO(event.endAt).setZone(event.timezone || timezone)
+    Datez.setZone(DateTime.fromISO(event.endAt), event.timezone || timezone)
   ).toMillis();
 
   const currentRange = getMillisRange(range);
