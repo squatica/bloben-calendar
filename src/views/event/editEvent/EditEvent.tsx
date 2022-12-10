@@ -231,7 +231,7 @@ const EditEvent = (props: EditEventProps) => {
     loadCalendar(
       calendarID,
       props.event,
-      calDavCalendars,
+      calDavCalendarsRedux,
       settings,
       isNewEvent,
       setForm,

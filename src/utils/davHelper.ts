@@ -4,7 +4,9 @@ import { DAVCalendarObject } from 'tsdav';
 import { DateTime } from 'luxon';
 import { RRule } from 'rrule';
 import { cloneDeep, forEach } from 'lodash';
+import { getLocalTimezone } from './common';
 import { v4 } from 'uuid';
+import Datez from 'datez';
 import ICalParser, { EventJSON } from 'ical-js-parser';
 import LuxonHelper from './LuxonHelper';
 
@@ -126,8 +128,9 @@ export const getRepeatedEvents = (event: any, range: any) => {
   );
 
   // check if event starts in DST
-  const eventStartsInDST: boolean = DateTime.fromISO(event.startAt).setZone(
-    event.timezone || 'Europe/Berlin'
+  const eventStartsInDST: boolean = Datez.setZone(
+    DateTime.fromISO(event.startAt),
+    event.timezone || getLocalTimezone()
   ).isInDST;
 
   const rRuleResults: Date[] = rRule.between(
@@ -153,8 +156,9 @@ export const getRepeatedEvents = (event: any, range: any) => {
     let startAtDateTime: DateTime = DateTime.fromISO(rRuleResult.toISOString());
 
     // check if start of repeated event is in DST
-    const repeatedEventStartsInDST: boolean = startAtDateTime.setZone(
-      event.timezone || 'Europe/Berlin'
+    const repeatedEventStartsInDST: boolean = Datez.setZone(
+      startAtDateTime,
+      event.timezone || getLocalTimezone()
     ).isInDST;
 
     // set proper "wall" time for repeated dates across DST changes
