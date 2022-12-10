@@ -1,9 +1,13 @@
+import {
+  CALDAV_COMPONENTS,
+  EVENT_TYPE,
+  REPEATED_EVENT_CHANGE_TYPE,
+} from '../../../enums';
 import { CALENDAR_EVENT_TYPE } from 'kalend/common/interface';
 import { CalDavCalendar } from '../../../types/interface';
 import { CalendarSettingsResponse, GetProfileResponse } from 'bloben-interface';
 import { DateTime } from 'luxon';
 import { DatetimeParser, parseToDateTime } from '../../../utils/datetimeParser';
-import { EVENT_TYPE, REPEATED_EVENT_CHANGE_TYPE } from '../../../enums';
 import { OnNewEventClickData } from 'kalend';
 import {
   PARTSTAT_ACCEPTED,
@@ -604,8 +608,18 @@ export const loadCalendar = (
   } else {
     const defaultCalendarID = settings.defaultCalendarID;
     thisCalendar = defaultCalendarID
-      ? calDavCalendars.find((item) => item.id === defaultCalendarID)
+      ? calDavCalendars.find(
+          (item) =>
+            item.id === defaultCalendarID &&
+            item.components.includes(CALDAV_COMPONENTS.VEVENT)
+        )
       : undefined;
+
+    if (!thisCalendar) {
+      thisCalendar = calDavCalendars.find((item) =>
+        item.components.includes(CALDAV_COMPONENTS.VEVENT)
+      );
+    }
   }
 
   if (!thisCalendar) {
