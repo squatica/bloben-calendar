@@ -5,6 +5,7 @@ import { RRule } from 'rrule';
 import { cloneDeep, forEach } from 'lodash';
 import { getLocalTimezone } from './common';
 import { v4 } from 'uuid';
+import Datez from 'datez';
 import LuxonHelper from './LuxonHelper';
 
 const formatIsoDateToRRuleDate = (date: string) => {
@@ -85,7 +86,8 @@ export const getRepeatedEvents = (
   );
 
   // check if event starts in DST
-  const eventStartsInDST: boolean = DateTime.fromISO(event.startAt).setZone(
+  const eventStartsInDST: boolean = Datez.setZone(
+    DateTime.fromISO(event.startAt),
     event.timezone || getLocalTimezone()
   ).isInDST;
 
@@ -112,7 +114,8 @@ export const getRepeatedEvents = (
     let startAtDateTime: DateTime = DateTime.fromISO(rRuleResult.toISOString());
 
     // check if start of repeated event is in DST
-    const repeatedEventStartsInDST: boolean = startAtDateTime.setZone(
+    const repeatedEventStartsInDST: boolean = Datez.setZone(
+      startAtDateTime,
       event.timezone || getLocalTimezone()
     ).isInDST;
 

@@ -6,6 +6,7 @@ import { InitialForm } from '../views/event/editEvent/editEventHelper';
 import { forEach, map } from 'lodash';
 import { formatAppAlarm, getLocalTimezone } from './common';
 import { v4 } from 'uuid';
+import Datez from 'datez';
 import LuxonHelper, { ICAL_FORMAT } from './LuxonHelper';
 
 export type CalendarMethod = 'REQUEST' | 'REPLY';
@@ -57,7 +58,7 @@ export const formatIcalDate = (date: string, timezone?: string | null) => {
   }
 
   if (timezone) {
-    return DateTime.fromISO(date, { zone: timezone }).toFormat(ICAL_FORMAT);
+    return Datez.fromISO(date, { zone: timezone }).toFormat(ICAL_FORMAT);
   }
 
   return date;
