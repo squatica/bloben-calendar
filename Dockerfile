@@ -4,7 +4,7 @@ WORKDIR /usr/app/tmp
 ENV NODE_ENV development
 
 COPY . ./
-RUN npm setup
+RUN npm run setup
 
 ENV NODE_ENV production
 RUN npm run build
