@@ -6,7 +6,7 @@ import { TOAST_STATUS } from '../../types/enums';
 
 import { UpdatePartstatStatusRepeatedEventRequest } from 'bloben-interface';
 import { createToast } from '../../utils/common';
-import { find } from 'lodash';
+import { find, forEach } from 'lodash';
 import CalDavEventsApi from '../../api/CalDavEventsApi';
 import React, { useContext, useState } from 'react';
 import RepeatEventModal, {
@@ -29,10 +29,19 @@ const OrganizerResponseRow = (props: OrganizerResponseRowProps) => {
   const [repeatEventStatus, setRepeatEventStatus] =
     useState<ATTENDEE_PARTSTAT | null>(null);
 
-  const emailInviteGuest = find(
-    event?.attendees,
-    (item) => item?.mailto === emailConfig?.mailto
-  );
+  const emailInviteGuest = find(event?.attendees, (item) => {
+    let mailto;
+
+    forEach(emailConfig?.configs, (config) => {
+      if (config.aliases.includes(item?.mailto)) {
+        mailto = item.mailto;
+      }
+    });
+
+    if (mailto === item.mailto) {
+      return item;
+    }
+  });
 
   const organizer = find(
     event?.attendees,

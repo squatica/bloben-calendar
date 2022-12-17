@@ -46,10 +46,7 @@ const initialContext: StoreContext = {
   emailConfig: {
     hasCustomConfig: false,
     hasSystemConfig: false,
-    mailto: null,
-    imap: null,
-    smtp: null,
-    calendarForImportID: null,
+    configs: [],
   },
   isSyncingServer: false,
   serverSettings: {

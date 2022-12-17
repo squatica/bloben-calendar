@@ -24,11 +24,13 @@ import {
 } from '@chakra-ui/react';
 import { ChakraInput, EvaIcons } from 'bloben-components';
 import { Context, StoreContext } from '../../../context/store';
+import { Organizer } from 'ical-js-parser';
 import { SearchCardDavContactResponse } from 'bloben-interface';
 import { TOAST_STATUS } from '../../../types/enums';
 import { createToast, parseCssDark } from '../../../utils/common';
 import { filter, map } from 'lodash';
 import CardDavContactApi from '../../../api/CardDavContactApi';
+import EventDetailOrganizer from './EventDetailOrganizer';
 import FormIcon from '../../formIcon/FormIcon';
 import OrganizerResponseRow from '../../organizerResponseRow/OrganizerResponseRow';
 import Validator from '../../../utils/Validator';
@@ -212,6 +214,8 @@ interface EventDetailAttendeeProps {
   disabledAttendeeChange?: boolean;
   event?: any;
   handleClose?: any;
+  setForm?: any;
+  organizer: Organizer;
 }
 const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
   const toast = useToast();
@@ -230,6 +234,8 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
     attendees,
     event,
     handleClose,
+    setForm,
+    organizer,
   } = props;
 
   const [store]: [StoreContext] = useContext(Context);
@@ -338,29 +344,12 @@ const EventDetailAttendee = (props: EventDetailAttendeeProps) => {
         width: '100%',
       }}
     >
-      {disabled ? (
-        <Stack
-          direction={'row'}
-          align={disabled || disabledAttendeeChange ? 'flex-start' : 'center'}
-        >
-          <FormIcon
-            isDark={isDark}
-            allVisible
-            style={{ paddingTop: disabled || disabledAttendeeChange ? 4 : 0 }}
-          >
-            <EvaIcons.Email className={'EventDetail-icon'} />
-          </FormIcon>
-          <Flex
-            alignSelf={'center'}
-            style={{ height: '100%' }}
-            justifyContent={'center'}
-          >
-            <Text>
-              Organizer: {event.organizer?.CN || event.organizer?.mailto}
-            </Text>
-          </Flex>
-        </Stack>
-      ) : null}
+      <EventDetailOrganizer
+        setForm={setForm}
+        organizer={organizer}
+        disabled={disabled || event?.id}
+        disabledAttendeeChange={disabledAttendeeChange}
+      />
       <Stack
         direction={'row'}
         align={disabled || disabledAttendeeChange ? 'flex-start' : 'center'}
