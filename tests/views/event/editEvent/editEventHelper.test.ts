@@ -585,28 +585,6 @@ describe(`[VIEWS] Edit event helper`, function () {
       assert.equal(form.alarms.length, 1);
     });
 
-    it('should set organizer', async () => {
-      initNewEventOnMount(
-        settings,
-        calDavCalendars,
-        setForm,
-        setCalendar,
-        {
-          ...store,
-          ...{
-            emailConfig: {
-              hasSystemConfig: true,
-              mailto: 'hello@bloben.com',
-            },
-          },
-        } as any,
-        user,
-        newEventTime
-      );
-
-      assert.equal(form.organizer.CN, user.username);
-    });
-
     it('should set all day for month', async () => {
       initNewEventOnMount(
         settings,

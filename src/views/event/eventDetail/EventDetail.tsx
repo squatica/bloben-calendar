@@ -85,6 +85,7 @@ const EventDetail = (props: EventDetailProps) => {
     disabledRRule,
     disabledAttendeeChange,
     event,
+    organizer,
   } = props;
 
   return (
@@ -133,6 +134,9 @@ const EventDetail = (props: EventDetailProps) => {
             (item) => item.mailto !== form.organizer?.mailto
           )}
           disabledAttendeeChange={disabledAttendeeChange}
+          setForm={setForm}
+          organizer={organizer || event?.organizer}
+          event={event}
         />
       ) : null}
       <EventDetailAlarm

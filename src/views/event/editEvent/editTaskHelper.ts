@@ -302,17 +302,6 @@ export const initNewEventOnMount = (
     );
   }
 
-  if (
-    (store?.emailConfig?.hasSystemConfig ||
-      store?.emailConfig?.hasCustomConfig) &&
-    store.emailConfig?.mailto
-  ) {
-    setForm('organizer', {
-      CN: user.username,
-      mailto: store.emailConfig?.mailto,
-    });
-  }
-
   if (!newEventTime) {
     return;
   }

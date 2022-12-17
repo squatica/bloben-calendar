@@ -486,6 +486,7 @@ const EventView = (props: EventViewProps) => {
                 disabled
                 event={event}
                 handleClose={handleClose}
+                organizer={event.organizer}
               />
             ) : null}
           </div>

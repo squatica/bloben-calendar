@@ -8,20 +8,27 @@ import {
 import Axios from '../lib/Axios';
 
 export default {
-  update: async (
+  create: async (
     data: UpdateUserEmailConfigRequest
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.put('/app/v1/users/email-config', data);
+    return Axios.post('/app/v1/users/email-config', data);
+  },
+  update: async (
+    data: UpdateUserEmailConfigRequest,
+    id: string
+  ): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.put(`/app/v1/users/email-config/${id}`, data);
   },
   patch: async (
-    data: PatchUserEmailConfigRequest
+    data: PatchUserEmailConfigRequest,
+    id: string
   ): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.patch('/app/v1/users/email-config', data);
+    return Axios.patch(`/app/v1/users/email-config/${id}`, data);
   },
   get: async (): Promise<AxiosResponse<GetUserEmailConfigResponse>> => {
     return Axios.get('/app/v1/users/email-config');
   },
-  delete: async (): Promise<AxiosResponse<CommonResponse>> => {
-    return Axios.delete('/app/v1/users/email-config');
+  delete: async (id: string): Promise<AxiosResponse<CommonResponse>> => {
+    return Axios.delete(`/app/v1/users/email-config/${id}`);
   },
 };

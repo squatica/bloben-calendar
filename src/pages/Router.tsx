@@ -7,7 +7,7 @@ import AccountSettings from './settings/settingsParts/AccountSettings';
 import AcknowledgmentSettings from './settings/settingsParts/AcknowledgmentSettings';
 import CalendarsSettings from './settings/settingsParts/CalendarsSettings';
 import ContactsSettings from './settings/settingsParts/ContactsSettings';
-import EmailConfigSettings from './settings/settingsParts/EmailConfigSettings';
+import EmailConfigSettings from './settings/settingsParts/emailConfigSettings/EmailConfigSettings';
 import GeneralSettings from './settings/settingsParts/GeneralSettings';
 import HelpSettings from './settings/settingsParts/HelpSettings';
 import Main from './main/Main';
