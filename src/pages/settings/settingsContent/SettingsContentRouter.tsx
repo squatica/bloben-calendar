@@ -6,7 +6,7 @@ import AccountSettings from '../settingsParts/AccountSettings';
 import AcknowledgmentSettings from '../settingsParts/AcknowledgmentSettings';
 import CalendarsSettings from '../settingsParts/CalendarsSettings';
 import ContactsSettings from '../settingsParts/ContactsSettings';
-import EmailConfigSettings from '../settingsParts/EmailConfigSettings';
+import EmailConfigSettings from '../settingsParts/emailConfigSettings/EmailConfigSettings';
 import GeneralSettings from '../settingsParts/GeneralSettings';
 import HelpSettings from '../settingsParts/HelpSettings';
 import React from 'react';
