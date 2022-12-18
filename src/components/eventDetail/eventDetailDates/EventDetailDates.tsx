@@ -25,6 +25,7 @@ import EventDetailTimezone from '../eventDetailTimezone/EventDetailTimezone';
 import FormIcon from '../../formIcon/FormIcon';
 import LuxonHelper from '../../../utils/LuxonHelper';
 import TimePicker from '../../timePicker/TimePicker';
+import TimezoneInfoBox from './TimezoneInfoBox';
 
 const SIDE_MARGIN = 24;
 
@@ -223,6 +224,12 @@ const EventDetailDates = (props: EventDetailDatesProps) => {
           />
         </Stack>
       ) : null}
+      <TimezoneInfoBox
+        startDate={startDate}
+        endDate={endDate}
+        timezoneStartAt={timezoneStartAt}
+        timezoneEndAt={timezoneEndAt}
+      />
       <Stack direction={'row'} align={'center'} style={{ width: '100%' }}>
         <FormIcon allVisible hidden isDark={isDark}>
           <div />

@@ -46,6 +46,7 @@ import RepeatEventModal, {
 } from '../../../components/repeatEventModal/RepeatEventModal';
 import SendInviteModal from '../../../components/sendInviteModalModal/SendInviteModal';
 import TasksApi from '../../../api/TasksApi';
+import TimezoneInfoBox from '../../../components/eventDetail/eventDetailDates/TimezoneInfoBox';
 
 export const checkIfHasRepeatPreAction = (event: any) => {
   return (
@@ -71,30 +72,41 @@ const EventDates = (props: EventDatesProps) => {
   const humanDate: any = formatEventDate(event, timezone);
   const { dates, time } = humanDate;
 
-  return !isMobile ? (
-    <Stack direction={'row'} align={'center'}>
-      <FormIcon desktopVisible isDark={isDark}>
-        <EvaIcons.Clock className={'EventDetail-icon'} />
-      </FormIcon>
-      <Text>{dates}</Text>
-      {event.allDay ? null : <Text>{time}</Text>}
-    </Stack>
-  ) : (
-    <Stack direction={'column'} align={'flex-start'}>
-      <Stack direction={'row'} align={'center'}>
-        <FormIcon allVisible isDark={isDark}>
-          <EvaIcons.Clock className={'EventDetail-icon'} />
-        </FormIcon>
-        <Text>{dates}</Text>
-      </Stack>
-      {!event.allDay ? (
+  return (
+    <Stack direction={'column'}>
+      {!isMobile ? (
         <Stack direction={'row'} align={'center'}>
-          <FormIcon hidden isDark={isDark}>
+          <FormIcon desktopVisible isDark={isDark}>
             <EvaIcons.Clock className={'EventDetail-icon'} />
           </FormIcon>
-          <Text>{time}</Text>
+          <Text>{dates}</Text>
+          {event.allDay ? null : <Text>{time}</Text>}
         </Stack>
-      ) : null}
+      ) : (
+        <Stack direction={'column'} align={'flex-start'}>
+          <Stack direction={'row'} align={'center'}>
+            <FormIcon allVisible isDark={isDark}>
+              <EvaIcons.Clock className={'EventDetail-icon'} />
+            </FormIcon>
+            <Text>{dates}</Text>
+          </Stack>
+          {!event.allDay ? (
+            <Stack direction={'row'} align={'center'}>
+              <FormIcon hidden isDark={isDark}>
+                <EvaIcons.Clock className={'EventDetail-icon'} />
+              </FormIcon>
+              <Text>{time}</Text>
+            </Stack>
+          ) : null}
+        </Stack>
+      )}
+      <TimezoneInfoBox
+        startDate={event.startAt}
+        endDate={event.endAt}
+        timezoneStartAt={event.timezoneStartAt}
+        timezoneEndAt={event.timezoneEndAt}
+        showInDifferentTimezone={true}
+      />
     </Stack>
   );
 };

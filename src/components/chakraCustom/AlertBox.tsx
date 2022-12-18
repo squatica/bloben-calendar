@@ -12,21 +12,24 @@ interface AlertBoxProps {
   title: string;
   type: ALERT_BOX_TYPE;
   description?: string;
+  hideIcon?: boolean;
 }
 
 const AlertBox = (props: AlertBoxProps) => {
-  const { title, type, description } = props;
+  const { title, type, description, hideIcon } = props;
 
   return (
     <Alert status={type} variant="subtle" style={{ borderRadius: 8 }}>
       <Flex direction={'column'}>
-        <Flex direction={'row'}>
-          <AlertIcon />
-          <AlertTitle>{title}</AlertTitle>
-        </Flex>
+        {title ? (
+          <Flex direction={'row'}>
+            <AlertIcon />
+            <AlertTitle>{title}</AlertTitle>
+          </Flex>
+        ) : null}
         {description ? (
           <Flex direction={'row'}>
-            <AlertIcon style={{ opacity: 0 }} />
+            {hideIcon ? null : <AlertIcon style={{ opacity: title ? 0 : 1 }} />}
             <AlertDescription>{description}</AlertDescription>
           </Flex>
         ) : null}
