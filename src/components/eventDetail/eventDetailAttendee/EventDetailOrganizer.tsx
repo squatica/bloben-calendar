@@ -9,13 +9,27 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../../context/store';
+import { EmailConfigData } from 'bloben-interface';
 import { EvaIcons } from 'bloben-components';
 import { Organizer } from 'ical-js-parser';
 import { ReduxState } from '../../../types/interface';
 import { createOrganizerAttendee } from '../../../utils/AttendeeUtils';
+import { forEach } from 'lodash';
 import { useSelector } from 'react-redux';
 import FormIcon from '../../formIcon/FormIcon';
 import React, { useContext, useEffect } from 'react';
+
+const getAllAliases = (configs: EmailConfigData[]) => {
+  const aliases: string[] = [];
+
+  forEach(configs, (config) => {
+    forEach(config.aliases, (alias) => {
+      aliases.push(alias);
+    });
+  });
+
+  return aliases;
+};
 
 interface EventDetailOrganizerProps {
   disabled?: boolean;
@@ -53,6 +67,8 @@ const EventDetailOrganizer = (props: EventDetailOrganizerProps) => {
     }
   }, []);
 
+  const aliases = getAllAliases(emailConfig.configs);
+
   return organizer ? (
     <Stack
       direction={'row'}
@@ -82,13 +98,10 @@ const EventDetailOrganizer = (props: EventDetailOrganizerProps) => {
             {organizer?.mailto}
           </MenuButton>
           <MenuList>
-            {emailConfig.configs.map((item) => {
+            {aliases.map((item) => {
               return (
-                <MenuItem
-                  key={item.id}
-                  onClick={() => handleClick(item.defaultAlias)}
-                >
-                  {item.defaultAlias}
+                <MenuItem key={item} onClick={() => handleClick(item)}>
+                  {item}
                 </MenuItem>
               );
             })}
