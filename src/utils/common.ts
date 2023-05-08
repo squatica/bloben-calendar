@@ -687,7 +687,7 @@ export const getHostname = () => {
   if (isDev()) {
     return 'http://localhost:8080';
   } else {
-    return `${window.location.protocol}//${window.location.hostname}`;
+    return `${window.location.protocol}//${window.location.host}`;
   }
 };
 
